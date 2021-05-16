@@ -1,0 +1,67 @@
+{% extends "app/base.html" %}
+{% load widget_tweaks %}
+{% load result_values %}
+{% load result_convert %}
+
+{% block content %}
+<h4 class="ml-2 mb-3">ランキング</h4>
+
+<div class="card mb-3">
+  <div class="card-body">
+    {{ form.non_field_errors }}
+    <form action="" method="GET">
+      <div class="row">
+        <div class="col-md mb-3 btn-group" role="group">
+          <button type="button" class="ranking_search btn {% if type == 'best' %}btn-primary active{% else %}btn-secondary{% endif %}" name="type" value="best">単発</button>
+          <button type="button" class="ranking_search btn {% if type == 'average' %}btn-primary active{% else %}btn-secondary{% endif %}" name="type" value="average">平均</button>
+        </div>
+        <label for="{{ form.event_id.id_for_label }}" class="col-form-label ml-2">種目</label>
+        <div class="col-md">
+          {{ form.event_id | add_class:'form-control ranking_search_item'}}
+        </div>
+        <label for="{{ form.prefecture_id.id_for_label }}" class="col-form-label ml-2">性別</label>
+        <div class="col-md">
+          {{ form.gender_id | add_class:'form-control ranking_search_item'}}
+        </div>
+        <label for="{{ form.year.id_for_label }}" class="col-form-label ml-2">世代</label>
+        <div class="col-md">
+          {{ form.generation_id | add_class:'form-control ranking_search_item'}}
+        </div>
+        <label for="{{ form.prefecture_id.id_for_label }}" class="col-form-label ml-2">都道府県</label>
+        <div class="col-md">
+          {{ form.prefecture_id | add_class:'form-control ranking_search_item'}}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="text-nowrap table-responsive">
+  <table class="table table-hover table-striped table-sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col-sm">氏名</th>
+        <th scope="col-sm">都道府県</th>
+        <th scope="col">記録</th>
+        <th scope="col">大会</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for rank in ranks %}
+        {% if type == 'best' %}
+          <tr>
+        {% elif type == 'average' %}
+          <tr data-toggle="tooltip" data-placement="top" title="{{ rank | result_values }}">
+        {% endif %}
+          <th scope="row">{{ rank.rank }}</th>
+          <td>{{ rank.person.get_full_name }}</td>
+          <td>{{ rank.person.get_prefecture_id_display }}</td>
+          <td class="text-monospace">{{ rank.best | result_convert:form.event_id }}</td>
+          <td><a href="{% url 'competition_detail' rank.competition_name_id %}">{{ rank.competition_name }}</a></td>
+        </tr>
+      {% endfor%}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

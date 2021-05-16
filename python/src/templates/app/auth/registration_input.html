@@ -1,0 +1,56 @@
+{% extends "app/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<h4 class="ml-2 mb-3">ユーザー新規登録</h4>
+
+<div class="card">
+  <div class="card-body">
+    <form action="" method="POST">
+      {{ user_form.non_field_errors }}
+      {{ person_form.non_field_errors }}
+      {% csrf_token %}
+      {% if recaptcha %}
+        <div class="ml-4">
+          <div class="text-danger form-group row offset-md-3">
+            <strong>{{ recaptcha }}</strong>
+          </div>
+        </div>
+      {% endif %}
+      {% bootstrap_form user_form layout='horizontal' %}
+      {% bootstrap_form person_form layout='horizontal' %}
+
+      <div class="ml-3">
+        <div class="form-group row offset-md-3">
+          <a href="{% url 'terms' %}" target="_blank"><button type="button" class="btn btn-dark mr-3 mb-2"><i class="fas fa-link"></i>&nbsp;利用規約</button></a>
+          <a href="{% url 'privacy_policy' %}" target="_blank"><button type="button" class="btn btn-dark"><i class="fas fa-link"></i>&nbsp;プライバシーポリシー</button></a>
+        </div>
+        <div class="form-group row offset-md-3 col-md-9">
+          <label class="form-check-label" for="registration_terms">
+            利用規約に同意します
+          </label>
+          <input class="form-check-input registration_terms" type="checkbox" value="" id="registration_terms">
+        </div>
+        <div class="form-group row offset-md-3 col-md-9">
+          <label class="form-check-label" for="registration_privacy_policy">
+            プライバシーポリシーに同意します
+          </label>
+          <input class="form-check-input registration_privacy_policy" type="checkbox" value="" id="registration_privacy_policy">
+        </div>
+        <div class="form-group row offset-md-3 text-danger">
+          <strong>アカウント登録後にSCJ大会に参加した場合、登録した生年月日に基づいて年代別ランキングが作成され、あなたの記録とその時点での年齢が使用されます。</strong>
+        </div>
+        <div class="form-group row offset-md-3 text-danger">
+          <strong>一旦掲載された大会記録は、後から削除することはできません。利用規約とプライバシーポリシーを必ず確認してください。</strong>
+        </div>
+      </div>
+      <div class="form-group row offset-md-3 col-md-9">
+        <div class="g-recaptcha" data-sitekey="6Ld1bcoZAAAAAG-zIHwTHntkvgC-bXP8faDRBHMT"></div>
+      </div>
+      <div class="form-group row offset-md-3 col-md-9">
+        <input class="btn btn-dark registration_submit" type="submit" value="登録" disabled>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

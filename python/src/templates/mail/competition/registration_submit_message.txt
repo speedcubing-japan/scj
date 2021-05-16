@@ -1,0 +1,13 @@
+{{ user.last_name }} {{ user.first_name }} 様
+
+{{ competition.name }}
+{{ protocol}}://{{ domain }}{% url 'competition_detail' competition.name_id %}
+への参加申請を受理しました。
+
+申請が承認されるとメールを送信致します。
+登録は自動では承認されませんので、一定時間お待ち下さい。
+各大会には参加要件がある場合があります。
+参加要件に関しては上記リンクをご確認ください。
+なにかご不明な点があれば、大会運営にお問い合わせください。
+
+Speedcubing Japan

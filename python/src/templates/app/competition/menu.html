@@ -1,0 +1,19 @@
+<div class="list-group mb-3">
+  <a href="{% url 'competition_detail' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'detail' %}active{% endif %}"><i class="fas fa-info-circle fa-fw mr-2"></i>大会詳細</button></a>
+  {% if not competition.is_cancel %}
+    {% if has_results %}
+      <a href="{% url 'competition_result' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'result' %}active{% endif %}"><i class="fas fa-list-ol fa-fw mr-2"></i>結果</button></a>
+    {% else %}
+      <a href="{% url 'competition_fee' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'fee' %}active{% endif %}"><i class="fas fa-yen-sign fa-fw mr-2"></i>参加費</button></a>
+      <a href="{% url 'competition_round' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'round' %}active{% endif %}"><i class="fas fa-list fa-fw mr-2"></i>ラウンド</button></a>
+      <a href="{% url 'competition_registration' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'registration' %}active{% endif %}"><i class="fas fa-sign-in-alt fa-fw mr-2"></i>申し込み</button></a>
+      <a href="{% url 'competition_competitor' competition.name_id 'list' %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'competitor' %}active{% endif %}"><i class="fas fa-users fa-fw mr-2"></i>競技者一覧</button></a>
+    {% endif %}
+  {% endif %}
+  {% if is_superuser %}
+    <a href="{% url 'competition_admin' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'admin' %}active{% endif %}"><i class="fas fa-cog fa-fw mr-2"></i>管理</button></a>
+  {% endif %}
+  {% if is_refunder %}
+    <a href="{% url 'competition_admin_refund' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'refund' %}active{% endif %}"><i class="fas fa-undo-alt fa-fw mr-2"></i>返金</button></a>
+  {% endif %}
+</div>

@@ -1,0 +1,57 @@
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx:1.17
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - ./static:/static
+    depends_on:
+      - python
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  db: 
+    build: ./mysql
+    restart: always
+    expose:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: 'Asia/Tokyo'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    volumes:
+      - scj.db.volume:/var/lib/mysql
+      - ./env/mysql/init.d:/etc/mysql/init.d
+      - ./mysql/conf.d:/etc/mysql/conf.d
+      - ./python/src/app/fixtures/sql:/etc/mysql/fixtures/sql
+
+  python:
+    build: ./python
+    command: uwsgi --socket :8001 --module scj.wsgi --wsgi-file code/scj/wsgi.py
+    volumes:
+      - ./python/src:/code
+      - ./static:/static
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    expose:
+      - "8001"
+    depends_on:
+      - db
+
+volumes:
+ scj.db.volume:
+   name: scj.db.volume

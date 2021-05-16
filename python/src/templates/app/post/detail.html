@@ -1,0 +1,19 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+  <strong>申請された内容は下記です。承認されるまでお待ち下さい。</strong>
+</div>
+
+<div class="card mb">
+  <div class="card-header lead">
+    {{ post.title }}&nbsp;{% include "app/information_type_badge.html" with type_display_name=post.get_type_display %}
+  </div>
+  <div class="card-body">
+    {{ post.text | safe }}
+  </div>
+  <div class="card-footer small text-right">
+    {{ post.created_at | date:"Y年m月d日" }}&nbsp;投稿者:&nbsp{{ post.person.get_full_name }}
+  </div>
+</div>
+{% endblock content %}

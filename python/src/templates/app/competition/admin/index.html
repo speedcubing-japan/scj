@@ -1,0 +1,167 @@
+{% extends "app/base.html" %}
+{% load bootstrap4 %}
+{% load competition_logo %}
+{% load static %}
+
+{% block content %}
+{% with path=competition|competition_logo %}
+  <h4 class="ml-2 mb-3"><img class="mr-2" width="30" src="{% static path %}">{{ competition.name }}</h4>
+{% endwith %}
+
+<div class="row">
+  <div class="col-sm-3 mb-3">
+    {% include "app/competition/menu.html" with active='admin' %}
+  </div>
+  <div class="col-sm-9 mb-3">
+    {% include "app/notification.html" %}
+    <form action="" method="POST">
+      {% csrf_token %}
+      {% if pending_competitors %}
+        <div class="card mb-3">
+          <div class="card-header bg-warning text-white lead">
+            未承認
+          </div>
+          <div class="text-nowrap table-responsive">
+            <table class="table table-striped small">
+              <thead>
+                <tr>
+                  <th scope="col"><input type="checkbox" class="competition_admin_all_pending" /></th>
+                  <th scope="col"></th>
+                  <th scope="col">氏名</th>
+                  <th scope="col">都道府県</th>
+                  {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+                    <th scope="col">WCA ID</th>
+                  {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+                    <th scope="col">SCJ ID</th>
+                  {% endif %}
+                  <th scope="col">見学者人数</th>
+                  <th scope="col">支払い</th>
+                  <th scope="col">申し込み日時</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for competitor in pending_competitors %}
+                  <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
+                    <td><input type="checkbox" class="competition_admin_pending" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}">
+                    <td><a href="{% url 'competition_admin_competitor_edit' competition.name_id competitor.id %}">編集</a></td>
+                    <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                    <td>{{ competitor.person.get_prefecture_id_display }}</td>
+                    {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+                      <td>{{ competitor.person.wca_id }}</td>
+                    {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+                      <td>{{ competitor.person.id }}</td>
+                    {% endif %}
+                    <td>{{ competitor.guest_count }}</td>
+                    <td>{% if competitor.stripe_id %}<i class="fas fa-check fa-fw"></i>{% endif %}</td>
+                    <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% endif %}
+      {% if registration_competitors %}
+        <div class="card mb-3">
+          <div class="card-header bg-success text-white lead">
+            承認
+          </div>
+          <div class="text-nowrap table-responsive">
+            <table class="table table-striped small">
+              <thead>
+                <tr>
+                  <th scope="col"><input type="checkbox" class="competition_admin_all_admit" /></th>
+                  <th scope="col"></th>
+                  <th scope="col">氏名</th>
+                  <th scope="col">都道府県</th>
+                  {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+                    <th scope="col">WCA ID</th>
+                  {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+                    <th scope="col">SCJ ID</th>
+                  {% endif %}
+                  <th scope="col">見学者人数</th>
+                  <th scope="col">支払い</th>
+                  <th scope="col">申し込み日時</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for competitor in registration_competitors %}
+                  <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
+                    <td><input type="checkbox" class="competition_admin_admit" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}">
+                    <td><a href="{% url 'competition_admin_competitor_edit' competition.name_id competitor.id %}">編集</a></td>
+                    <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                    <td>{{ competitor.person.get_prefecture_id_display }}</td>
+                    {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+                      <td>{{ competitor.person.wca_id }}</td>
+                    {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+                      <td>{{ competitor.person.id }}</td>
+                    {% endif %}
+                    <td>{{ competitor.guest_count }}</td>
+                    <td>{% if competitor.stripe_id %}<i class="fas fa-check fa-fw"></i>{% endif %}</td>
+                    <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% endif %}
+      {% if cancel_competitors %}
+        <div class="card mb-3">
+          <div class="card-header bg-danger text-white lead">
+            キャンセル済み
+          </div>
+          <div class="text-nowrap table-responsive">
+            <table class="table table-striped small">
+              <thead>
+                <tr>
+                  <th scope="col"><input type="checkbox" class="competition_admin_all_cancel" /></th>
+                  <th scope="col">氏名</th>
+                  <th scope="col">都道府県</th>
+                  {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+                    <th scope="col">WCA ID</th>
+                  {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+                    <th scope="col">SCJ ID</th>
+                  {% endif %}
+                  <th scope="col">見学者人数</th>
+                  <th scope="col">支払い</th>
+                  <th scope="col">申し込み日時</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for competitor in cancel_competitors %}
+                  <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
+                    <td><input type="checkbox" class="competition_admin_cancel" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}">
+                    <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                    <td>{{ competitor.person.get_prefecture_id_display }}</td>
+                    {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+                      <td>{{ competitor.person.wca_id }}</td>
+                    {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+                      <td>{{ competitor.person.id }}</td>
+                    {% endif %}
+                    <td>{{ competitor.guest_count }}</td>
+                    <td>{% if competitor.stripe_id %}<i class="fas fa-check fa-fw"></i>{% endif %}</td>
+                    <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% endif %}
+      <input type="hidden" name="name_id" value="{{ competition.name_id }}">
+      {% if pending_competitors or registration_competitors or cancel_competitors %}
+        <div class="float-right">
+          <button type="button" class="mt-2 competition_admin_submit btn btn-success" name="type" value="admit"><i class="fas fa-check fa-fw mr-2"></i>承認</button>
+          <button type="button" class="mt-2 competition_admin_submit btn btn-danger" name="type" value="cancel"><i class="fas fa-trash fa-fw mr-2"></i>否認</button>
+        </div>
+      {% endif %}
+    </form>
+    {% if pending_competitors or registration_competitors %}
+      <div class="float-right">
+        <a class="btn btn-dark mt-2 mb-2 mr-1" href="{% url 'competition_admin_competitor_csv' competition.name_id %}"><i class="fas fa-check fa-file-csv mr-2"></i>CSV Download</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

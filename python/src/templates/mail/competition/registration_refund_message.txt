@@ -1,0 +1,11 @@
+{{ user.last_name }} {{ user.first_name }} 様
+
+{{ competition.name }}
+{{ protocol}}://{{ domain }}{% url 'competition_detail' competition.name_id %}
+
+返金額 {{ price }}円
+返金が完了しました。
+
+なにかご不明な点があれば、大会運営にお問い合わせください。
+
+Speedcubing Japan

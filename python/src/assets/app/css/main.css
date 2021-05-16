@@ -1,0 +1,87 @@
+html {
+    font-size: 14px; /* ルート要素のフォントサイズを1rem=14pxと定義する */
+}
+
+.w-4rem {
+    width: 4rem !important;
+}
+
+.competition-list li:nth-child(odd){
+    background-color: rgb(230, 228, 228);
+}
+
+.post-list li:nth-child(odd){
+    background-color: rgb(230, 228, 228);
+}
+
+.wca-avator-thumb {
+    width:2rem;
+}
+
+.type-badge {
+    width:4.5rem;
+}
+
+.title-logo {
+    width: 10rem;
+}
+
+@media (max-width: 768px) {
+    .title-logo {
+        width: 5rem;
+    }
+}
+
+.title {
+    display: block;
+    text-align: left;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .title {
+        display: block;
+        text-align: left;
+        font-size: 0.6rem;
+    }
+}
+
+.information-type {
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.information-title, .post-title {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .information-title, .post-title {
+        display: block;
+        font-size: 0.8rem;
+    }
+}
+
+.date {
+    float: right;
+    font-weight: bold;
+}
+
+.location {
+    display: inline;
+    white-space: nowrap;
+}
+
+.competition-name, .post-type {
+    display: inline-block;
+}
+
+.tooltip-inner {
+    max-width: 100%;
+}
+
+button.stripe-button-el,
+button.stripe-button-el>span {
+  background-color: #000000 !important;
+  background-image: none;
+}

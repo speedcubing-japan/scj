@@ -1,0 +1,12 @@
+python/src/__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+
+scj.code-workspace
+static
+
+env/
+python/src/secrets.json
+.env
+mysql/init.d/init.sql

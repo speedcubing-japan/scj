@@ -1,0 +1,25 @@
+{% extends "app/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<h4 class="ml-2 mb-3">ログイン</h4>
+<div class="card">
+  <div class="card-body">
+    <form action="" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form form layout='horizontal' %}
+      <div class="form-group row">
+        <div class="offset-md-3 col-md-9">
+          <button class="btn btn-primary" type="submit" value="ログイン"><i class="fas fa-sign-in-alt mr-2"></i>ログイン</button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="offset-md-3 col-md-9">
+          <div>アカウントをお持ちでない方は<a href="{% url 'registration_input' %}">こちら</a>から</div>
+          <div>パスワードを忘れた方は<a href="{% url 'password_reset' %}">こちら</a>から</div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

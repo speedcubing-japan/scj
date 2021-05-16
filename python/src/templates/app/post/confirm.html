@@ -1,0 +1,28 @@
+{% extends "app/base.html" %}
+{% load bootstrap4 %
+
+{% block content %}
+<h4 class="ml-2 mb-3">確認</h4>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="mb-3">
+      下記内容で{% if user.person.is_community_posting_offer %}申請{% elif user.is_superuser or user.is_staff %}{% if form.is_public.value %}公開{% else %}登録{% endif %}{% endif %}しますか？
+    </div>
+    <form action="{% url 'post_complete' %}" method="POST">
+      <button type="submit" class="btn btn-danger mr-3">{% if user.person.is_community_posting_offer %}申請{% elif user.is_superuser or user.is_staff %}{% if form.is_public.value %}公開{% else %}登録{% endif %}{% endif %}</button>
+      {% csrf_token %}
+      <a href="{% url 'post_input' format %}" class="btn btn-dark">戻る</a>
+    </form>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header lead">
+    <div>{{ form.title.value }}{% include "app/information_type_badge.html" with type_display_name=type_display_name %}</div>
+  </div>
+  <div class="card-body">
+    <div>{{ text | safe }}</div>
+  </div>
+</div>
+{% endblock content %}

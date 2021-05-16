@@ -1,0 +1,140 @@
+{% extends "app/base.html" %}
+{% load bootstrap4 %}
+{% load rest_time %}
+{% load competition_logo %}
+{% load static %}
+
+{% block content %}
+{% with path=competition|competition_logo %}
+  <h4 class="ml-2 mb-3"><img class="mr-2" width="30" src="{% static path %}">{{ competition.name }}</h4>
+{% endwith %}
+
+<div class="row">
+  <div class="col-sm-3 mb-3">
+    {% include "app/competition/menu.html" with active='registration' %}
+  </div>
+  <div class="col-sm-9 mb-3">
+    <div class="card mb-3">
+      <div class="card-header lead">
+        前提要件
+      </div>
+      <div class="card-body">
+        {% if not user.is_authenticated %}
+          <div>
+            SCJ アカウントをお持ちでない方は<a href="{% url 'registration_input' %}"><i class="fas fa-link"></i>ユーザー新規登録</a>より作成してください。
+          </div>
+        {% endif %}
+        <div>
+          申し込みを完了し定員に達していない場合かつ主催者に認められた場合に限り申し込みが承認されます。
+        </div>
+        <div>
+          承認された場合、<a href="{% url 'competition_competitor' competition.name_id 'list' %}">競技者一覧</a>に追加されます。
+        </div>
+      </div>
+    </div>
+    {% if competition.requirement_ja %}
+      <div class="card mb-3">
+        <div class="card-header lead">
+          参加要件
+        </div>
+        <div class="card-body">
+          {{ competition.requirement_ja | safe }}
+        </div>
+      </div>
+    {% endif %}
+    <div class="card mb-3">
+      <div class="card-header lead">
+        免責事項
+      </div>
+      <div class="card-body">
+        <div class="mb-3">大会に申込みをする前に、以下をご了承ください。</div>
+        <ul>
+          <li>18歳未満の方の参加には、保護者の同意が必要です。</li>
+          <li>
+            {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+              個人情報の取扱は、<a href="https://www.worldcubeassociation.org/privacy" target="_blank">WCAプライバシーポリシー</a>に準じます。
+            {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+              個人情報の取扱は、<a href="https://speedcubing.or.jp/privacy_policy/" target="_blank">SCJプライバシーポリシー</a>に準じます。
+            {% endif %}
+          </li>
+          {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+            <li>参加者の計測結果、名前、国籍、性別はインターネット上に公開されます。</li>
+          {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+            <li>参加者の計測結果、名前、都道府県、その他ランキングで必要となる情報はインターネット上に公開されます。</li>
+          {% endif %}
+          {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+            <li>生年月日および連絡先は、本人の同意なく公開されません。</li>
+          {% endif %}
+          <li>広報活動や記録を目的に、撮影した写真や映像を大会運営者のHPなどで使用することがあります。</li>
+          <li>各種メディアにより、大会の様子が撮影されたり、大会参加者が取材を受けることがあります。</li>
+          <li>COVID-19感染予防対策により、大会の中止がイベント直前に告知される場合があります。</li>
+        </ul>
+      </div>
+    </div>
+    {% if not user.is_authenticated %}
+      <div class="alert alert-light" role="alert">
+        {{ competition.name }}に申し込むには<a href="{% url 'login' %}?next={{ request.path }}"><i class="fas fa-sign-in-alt"></i>ログイン</a>が必要です。
+      </div>
+    {% elif competition.type == consts.COMPETITION_TYPE_WCA and not user.person.is_wca_authenticated %}
+      <div class="alert alert-light" role="alert">
+        {{ competition.name }}に申し込むには<a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope="><i class="fas fa-sign-in-alt"></i>WCA認証</a>が必要です。
+      </div>
+    {% elif is_just_offer %}
+      {% if not is_prepaid %}
+        {% include "app/competition/fee_alert.html" %}
+      {% endif %}
+      <div class="alert alert-success" role="alert">
+        申し込み完了しました。承認されるまでお待ち下さい。
+      </div>
+    {% elif is_offer %}
+      {% if not is_prepaid %}
+        {% include "app/competition/fee_alert.html" %}
+      {% endif %}
+      <div class="alert alert-info" role="alert">
+        既に申し込み済みです。キャンセルされる方は主催者までご連絡ください。
+      </div>
+    {% elif competition.registration_open_at > now %}
+      <div class="alert alert-info" role="alert">
+        申し込みは{{ registration_open_timedelta|rest_time:"後" }}&nbsp;{{ competition.registration_open_at | date:"Y年m月d日 H:i:s" }}に開始します。
+      </div>  
+    {% elif competition.registration_close_at <= now %}
+      <div class="alert alert-danger" role="alert">
+        申し込みは{{ registration_close_after_timedelta|rest_time:"前" }}&nbsp;{{ competition.registration_close_at | date:"Y年m月d日 H:i:s" }}に終了しました。
+      </div>  
+    {% else %}
+      {% if is_limit %}
+        <div class="alert alert-warning" role="alert">
+          本大会の定員は {{ competition.limit }} 人であり、すでに定員に達しています。今参加申し込みされると、キャンセル待ちとして扱われます。
+        </div>  
+      {% endif %}
+      <div class="card border-dark">
+        <div class="card-header text-white bg-dark lead">
+          申し込み
+        </div>
+        <div class="card-body">
+          <form action="" method="POST">
+            {% csrf_token %}
+            {% bootstrap_form form layout='horizontal' %}
+            <div class="ml-3">
+              <div class="form-group row offset-md-3 col-md-9">
+                <label class="form-check-label" for="competition_registration_confirm">
+                  免責事項{% if competition.requirement_ja %}と参加要件{% endif %}に同意します
+                </label>
+                <input class="form-check-input competition_registration_confirm" type="checkbox" value="">
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="offset-md-3 col-md-9">
+                <input class="btn btn-dark competition_registration" type="submit" value="送信" disabled>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          申し込みは{{ registration_close_before_timedelta|rest_time:"後" }}&nbsp;{{ competition.registration_close_at | date:"Y年m月d日 H:i:s" }}に終了します。
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

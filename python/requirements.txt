@@ -1,0 +1,11 @@
+Django==2.2.12
+uwsgi==2.0.18
+mysqlclient==1.4.6
+django-bootstrap4
+django-widget-tweaks
+django-mysql==3.8.1
+pyjq
+requests
+six
+stripe
+python-dateutil==2.8.1

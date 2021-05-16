@@ -1,0 +1,65 @@
+{% extends "app/base.html" %}
+{% load bootstrap4 %}
+{% load competition_logo %}
+{% load static %}
+
+{% block content %}
+{% with path=competition|competition_logo %}
+  <h4 class="ml-2 mb-3"><img class="mr-2" width="30" src="{% static path %}">{{ competition.name }}</h4>
+{% endwith %}
+
+<div class="row">
+  <div class="col-sm-3 mb-3">
+    {% include "app/competition/menu.html" with active='admin' %}
+  </div>
+  <div class="col-sm-9 mb-3">
+    {% include "app/notification.html" %}
+    <h4 class="mb-3">{{ competitor.person.get_full_name }}さんの情報を編集します</h4>
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="card mb-3">
+        <div class="card-header lead">
+          種目
+        </div>
+        <div class="text-nowrap table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">変更</th>
+                <th scope="col">種目</th>
+                <th scope="col">参加</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for event_id, event_name in events.items %}
+                <tr>
+                  <td><input type="checkbox" name="event_id_{{ event_id }}" {% if event_id in competitor.event_ids %}checked{% endif %}>
+                  <td>{{ event_name }}</td>
+                  <td>{% if event_id in competitor.event_ids %}<i class="fas fa-check fa-fw mr-2"></i>{% endif %}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card mb-3">
+        <div class="card-header lead">
+          見学者数
+        </div>
+        <div>
+          <select name="guest_count">
+            {% for count in guest_counts %}
+              <option value="{{ count }}"{% if competitor.guest_count == count %} selected{% endif %}>{{ count }}人</option>
+            {% endfor %}
+          </select>            
+        </div>
+      </div>
+      <div class="float-right">
+        <button type="button" class="mt-2 submit btn btn-success"><i class="fas fa-pencil-alt fa-fw mr-2"></i>修正</button>
+      </div>
+      <input type="hidden" name="name_id" value="{{ competition.name_id }}">
+      <input type="hidden" name="competitor_id" value="{{ competitor.id }}">
+    </form>
+  </div>
+</div>
+{% endblock %}

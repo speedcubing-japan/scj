@@ -1,0 +1,7 @@
+{{ user.last_name }} {{ user.first_name }} 様
+
+下記URLよりサイトにアクセスすると、メールアドレスの変更が完了します。
+
+{{ protocol }}://{{ domain }}{% url 'mail_change_complete' token %}
+
+Speedcubing Japan

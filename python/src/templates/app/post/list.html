@@ -1,0 +1,57 @@
+{% extends "app/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<h4 class="ml-2 mb-3">お知らせ投稿一覧</h4>
+
+{% include "app/notification.html" %}
+<ul class="list-group post-list mb-3">
+  <li class="list-group-item bg-dark text-white">未承認</li>
+  {% if posts %}
+    {% for post in posts %}
+      <li class="list-group-item">
+        <a class="stretched-link" href="{% if user.person.is_community_posting_offer %}{% url 'post_detail' post.id %}{% elif user.is_superuser %}{% url 'post_edit' post.id %}{% endif %}"></a>
+          <span class="date text-muted">{{ post.created_at | date:"Y年m月d日" }}</span>
+          <span class="post-type">{% include "app/information_type_badge.html" with type_display_name=post.get_type_display %}</span>
+          <span class="post-title">{{ post.title }}</span>
+           </span>
+        </a>
+      </li>
+    {% endfor %}
+  {% else %}
+    <li class="list-group-item">未承認のお知らせはありません。</li>
+  {% endif %}
+</ul>
+<ul class="list-group post-list mb-3">
+  <li class="list-group-item bg-dark text-white">追加済み</li>
+  {% if close_informations %}
+    {% for information in close_informations %}
+      <li class="list-group-item">
+        <a class="stretched-link" href="{% if user.person.is_community_posting_offer %}{% url 'information' information.id %}{% elif user.is_superuser or user.is_staff %}{% url 'information_edit' information.id %}{% endif %}"></a>
+          <span class="date text-muted">{{ information.created_at | date:"Y年m月d日" }}</span>
+          <span class="post-type">{% include "app/information_type_badge.html" with type_display_name=information.get_type_display %}</span>
+          <span class="post-title">{{ information.title }}</span>
+        </a>
+      </li>
+    {% endfor %}  
+  {% else %}
+    <li class="list-group-item">公開待ちのお知らせはありません。</li>
+  {% endif %}
+</ul>
+<ul class="list-group post-list mb-3">
+  <li class="list-group-item bg-dark text-white">公開済み</li>
+  {% if open_informations %}
+    {% for information in open_informations %}
+      <li class="list-group-item">
+        <a class="stretched-link" href="{% if user.person.is_community_posting_offer %}{% url 'information' information.id %}{% elif user.is_superuser or user.is_staff %}{% url 'information_edit' information.id %}{% endif %}"></a>
+          <span class="date text-muted">{{ information.created_at | date:"Y年m月d日" }}</span>
+          <span class="post-type">{% include "app/information_type_badge.html" with type_display_name=information.get_type_display %}</span>
+          <span class="post-title">{{ information.title }}</span>
+        </a>
+      </li>
+    {% endfor %}
+  {% else %}
+    <li class="list-group-item">公開済みのお知らせはありません。</li>
+  {% endif %}
+</ul>
+{% endblock %}

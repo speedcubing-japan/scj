@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    restart: always
+    environment:
+      CLIENT_MAX_BODY_SIZE: 1M
+      HSTS_MAX_AGE: 60
+      DOMAINS: 'www.speedcubing.or.jp => speedcubing.or.jp, speedcubing.or.jp -> http://nginx:8000'
+      STAGE: 'production' # Don't use production until staging works
+      # FORCE_RENEW: 'true'

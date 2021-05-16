@@ -1,0 +1,134 @@
+{% extends "app/base.html" %}
+{% load strip %}
+{% load static %}
+{% load competition_logo %}
+
+{% block content %}
+
+{% with path=competition|competition_logo %}
+  <h4 class="ml-2 mb-3"><img class="mr-2" width="30" src="{% static path %}">{{ competition.name }}</h4>
+{% endwith %}
+
+{% include "app/notification.html" %}
+<div class="row">
+  <div class="col-sm-3 mb-3">
+    {% include "app/competition/menu.html" with active='detail' %}
+    <div class="card">
+      <div class="card-header lead">
+        地図
+      </div>
+      <div class="card-body embed-responsive iframe embed-responsive-16by9">
+        <iframe src="https://maps.google.co.jp/maps?output=embed&q={{ competition.latitude }},{{ competition.longitude }}"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 mb-3">
+    <div class="card">
+      <div class="card-header lead">
+        詳細
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <h6>日付</h6>
+          <div>
+            {% if competition_day_count == 0 %}
+              {{ competition.open_at | date:'Y年m月d日' }}&nbsp;({{ competition.open_at | date:"l" }})
+            {% else %}
+              {{ competition.open_at | date:'Y年m月d日' }}&nbsp;({{ competition.open_at | date:"l" }}) - {{ competition.close_at | date:'Y年m月d日' }}&nbsp;({{ competition.close_at | date:"l" }})
+            {% endif %}
+          </div>
+        </li>
+        <li class="list-group-item">
+          <h6>会場</h6>
+          <div>
+            {{ competition.venue_name }}
+          </div>
+        </li>
+        <li class="list-group-item">
+          <h6>会場住所</h6>
+          <div>
+            {{ competition.venue_address }}
+          </div>
+        </li>
+        <li class="list-group-item">
+        <h6>開催イベント</h6>
+          <div>
+            {% for event_name in event_names %}
+              <div>
+                {{ event_name }}
+              </div>
+            {% endfor %}
+          </div>
+        </li>
+        <li class="list-group-item">
+          <h6>定員</h6>
+          <div>
+            {{ competition.limit }}名
+          </div>
+        </li>
+        <li class="list-group-item">
+          <h6>参加費支払い方法</h6>
+          <div>
+            {{ fee_pay_type_text }}
+          </div>
+        </li>
+        <li class="list-group-item">
+          <h6>参加費計算</h6>
+          <div>
+            {{ fee_calc_type_text }}
+          </div>
+        </li>
+        <li class="list-group-item">
+          <h6>    
+            {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+              WCA Delegate
+            {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+              SCJ 審判員
+            {% endif %}
+          </h6>
+          <div>
+            {% for judge in judges %}
+              <a href="mailto:{{ judge.user.email }}"><button type="button" class="btn btn-dark"><i class="far fa-envelope mr-2"></i>{{ judge.get_full_name }}</button></a>
+            {% endfor %}
+          </div>
+        </li>
+        <li class="list-group-item">
+          <h6>主催者</h6>
+          <div class="mb-2">
+            {% for organizer in organizers %}
+              <a href="mailto:{{ organizer.user.email }}"><button type="button" class="btn btn-dark"><i class="far fa-envelope mr-2"></i>{{ organizer.get_full_name }}</button></a>
+            {% endfor %}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-sm-5 mb-3">
+    <div class="card">
+      <div class="card-header lead">
+        その他
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <h6>申し込み日時</h6>
+          <div>
+            {{ competition.registration_open_at | date:'Y年m月d日 H:i' }}&nbsp;-&nbsp;{{ competition.registration_close_at | date:'Y年m月d日 H:i' }}
+          </div>
+        </li>
+        <li class="list-group-item">
+          <h6>お知らせ</h6>
+          <div>
+            {{ competition.description_ja | strip | safe }}
+          </div>
+        </li>
+        <li class="list-group-item">
+          <h6>参加要件</h6>
+          <div>
+            {{ competition.requirement_ja | strip | safe }}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

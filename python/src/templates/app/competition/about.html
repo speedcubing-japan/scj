@@ -1,0 +1,69 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+<h4 class="ml-2 mb-3">SCJ大会について</h4>
+
+<div class="card mb">
+  <div class="card-body">
+    <div class="mb-5">
+      <h5>目的</h5>
+      <hr>
+      <div>幅広い競技者層のニーズに応える競技大会を開催し、スピードキュービングの普及と発展を図る。</div>
+    </div>
+    <div class="mb-5">
+      <h5>開催ポリシー</h5>
+      <hr>
+      <div>SCJ大会では、SCJ公認記録を計測する機会を提供します。​ ​</div>
+      <div>参加人数が10名~30名程度の各地域サークルなどを母体とした活動の中で開催されることを想定しており、地域在住/在勤、または年齢を用いた区別など、各コミュニティの実情に応じた属性による参加資格の限定が可能です。 </div>
+      <div>これにより、日本各地にスピードキュービングを振興する拠点を広く設けることを狙います。</div>
+    </div>
+    <div class="mb-5">
+      <h5>ロードマップ</h5>
+      <hr>
+      <div>本事業年度の方針(2020年10月から2021年7月末まで)はのべ500人の参加を目指し、記録管理などシステム構築の試用期間として運用します。</div>
+      <div>翌事業年度より正式運用を開始し、のべ1000人の参加を目標とします。​</div>
+    </div>
+    <div class="mb-5">
+      <h5>規則</h5>
+      <hr>
+      <div><a href="{% url 'competition_regulation' %}">こちら</a>を御覧ください。</div>
+    </div>
+    <div class="mb-5">
+      <h5>公認審判員</h5>
+      <hr>
+      <div>SCJ大会の結果を認定する役割です。</div>
+      <div class="mb-4">公認審判員の監督下で開催されたSCJ大会の記録のみが公認記録になります。​</div>
+      <div class="mb-4">公認審判員となるには、下記要項を満たす必要があります。​</div>
+      <ul class="mb-4">
+        <li>SCJの理念に共感し、その達成に貢献できること。​</li>
+        <li>所定の「SCJ公認審判員宣誓書」に署名すること。​</li>
+        <li>年間登録料として5000円を納めること。​</li>
+        <li>World Cube Associationの公式大会及び／又はSCJ公認大会に合計10回以上出場した経験があること。[<a href="#annotation1">1</a>​]</li>
+        <li>スピードキュービングに関わる組織を半年以上運営し、のべ50人以上参加していること。</li>
+      </ul>
+      <div class="mb-3">
+        <a href="https://forms.office.com/r/V6K4NAfXA5"><button type="button" class="btn btn-dark"><i class="fas fa-link mr-2"></i>SCJ審判員 審査申請フォーム</button></a>
+      </div>
+      <div>審査期間3週間以内に回答します。</div>
+    </div>
+    <div class="mb-5">
+      <h5>ランキング</h5>
+      <hr>
+      <div class="mb-4">SCJでは、以下に基づくランキングを作成し、当サイト内にて公開します。​</div>
+      <ul>
+        <li>住所登録地域</li>
+        <li>年齢</li>
+        <li>性別</li>
+      </ul>
+    </div>
+    <div>
+      <h5>注釈</h5>
+      <hr>
+      <div id="annotation1">1.&nbsp;ただし、SCJ役員による厳正な審査の下、キューブ文化の普及に著しく貢献し、かつSCJ公認審判員の素養が認められる者についてはこの限りではありません。​</div>
+    </div>
+  </div>
+  <div class="card-footer small text-right">
+    2020年11月14日&nbsp;作成
+  </div>
+</div>
+{% endblock content %}

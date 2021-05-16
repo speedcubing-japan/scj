@@ -1,0 +1,10 @@
+{{ user.last_name }} {{ user.first_name }} 様 
+ユーザー登録手続きを行っていただき、ありがとうございます。
+
+下記URLよりサイトにアクセスの上、引き続きユーザー登録をお願いいたします。
+まだユーザー登録手続きは完了しておりませんので、ご注意ください。
+
+本登録用URL
+{{ protocol }}://{{ domain }}{% url 'registration_complete' token %}
+
+Speedcubing Japan

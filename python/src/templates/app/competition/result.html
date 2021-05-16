@@ -1,0 +1,70 @@
+{% extends "app/base.html" %}
+{% load key %}
+{% load result_values %}
+{% load result_convert %}
+{% load regional_record %}
+{% load competition_logo %}
+{% load static %}
+
+{% block content %}
+{% with path=competition|competition_logo %}
+  <h4 class="ml-2 mb-3"><img class="mr-2" width="30" src="{% static path %}">{{ competition.name }}</h4>
+{% endwith %}
+
+<div class="row">
+  <div class="col-sm-3 mb-3">
+    {% include "app/competition/menu.html" with active='result' %}
+  </div>
+  <div class="col-sm-9 mb-3">
+    {% for event in events %}
+      {% for event_id, round_names in rounds.items %}
+        {% if event_id == event.event_id %}
+          {% for round_name in round_names %} 
+            <div class="card mb-3">
+              <div class="card-header lead">
+                  {{ event.event_name}}&nbsp;{{ round_name }}
+              </div>
+              <table class="table table-hover table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col" class="col-xs-1">#</th>
+                    <th scope="col" class="col-xs-7">氏名</th>
+                    {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                      <th scope="col" class="col-xs-4">都道府県</th>
+                    {% endif %}
+                    <th scope="col" class="col-xs-4">ベスト</th>
+                    {% if not event_id in consts.EVENT_ONLY_BEST_IDS %}
+                      <th scope="col" class="col-xs-4">平均</th>
+                    {% endif %}
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for result in results %}
+                    {% if result.event_id == event.event_id and result.round.get_type_display == round_name %}
+                      <tr data-toggle="tooltip" data-placement="top" title="{{ result | result_values }}">
+                        <th scope="row">{{ result.rank }}</th>
+                        {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                          <td>{{ competitor_names | key:result.person_id }}</td>
+                        {% elif competition.type == consts.COMPETITION_TYPE_WCA %}
+                          <td>{{ competitor_wca_names | key:result.person_id }}</td>
+                        {% endif %}
+                        {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                          <td>{{ competitor_prefectures | key:result.person_id }}</td>
+                        {% endif %}
+                        <td class="text-monospace">{{ result.best | result_convert:result.event_id }}</td>
+                        {% if not event_id in consts.EVENT_ONLY_BEST_IDS %}
+                          <td class="text-monospace">{{ result.average | result_convert:result.event_id }}</td>
+                        {% endif %}
+                      </tr>
+                    {% endif %}
+                  {% endfor%}
+                </tbody>
+              </table>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

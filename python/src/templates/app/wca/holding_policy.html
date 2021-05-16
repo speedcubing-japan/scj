@@ -1,0 +1,52 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block content %}
+<h4 class="ml-2 mb-3">WCA大会 開催方針​</h4>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="mb-5">
+      <h5>本事業年度の方針(2020年10月から2021年7月末まで)​</h5>
+      <hr>
+      <div><a target="_blank" href="{% static 'app/pdf/wca_competition_resume_policy.pdf' %}">WCA大会 開催方針</a></div>
+    </div>
+    <div class="mb-5">
+      <h5>COVID-19対策</h5>
+      <hr>
+      <div><a target="_blank" href="https://www.worldcubeassociation.org/documents/policies/external/Competition%20Safety.pdf">WCA competition safety policy</a>と、その<a target="_blank" href="https://kawam1123.github.io/competition-safety-policy">日本語訳(非公式)</a></div>
+      <div>安全対策を含んだ最新版のWCA規約日本語訳は現在準備中です。</div>
+    </div>
+    <div class="mb-5">
+      <h5>大会運営に関連する資料</h5>
+      <hr>
+      <ul>
+        <li><a target="_blank" href="{% static 'app/pdf/wca_organizer_must_to_know.pdf' %}">WCA大会 企画運営に興味がある人に知っておいてほしいこと</a></li>
+        <li><a target="_blank" href="https://forms.office.com/Pages/ResponsePage.aspx?id=z6bglu3Cm0W6bDY3eqWBiYwhS1Ybx7tCrFPI0fuvgJdUMFZNNDFPOTczMVROWFNPUk1TVVUxWFNETCQlQCN0PWcu">WCA大会企画 起案申請フォーム</a></li>
+      </ul>
+      <div>ご相談は<a href="{% url 'contact' %}">こちら</a>からお願いします。</div>
+    </div>
+    <div>
+      <h5>大会企画の公募</h5>
+      <hr>
+      <div class="mb-4">WCA大会 開催方針に記載したように、WCA大会企画の公募を随時受け付けています。</div>
+      <div>※会場費の前払いなど、起案段階での経費が発生する場合は必ず前もってSCJにご相談ください。</div>
+      <div class="mb-4">事前合意のなかった事項による実行委員会の損害について、SCJは一切の責任を負いません。</div>
+      <div><strong>大会日程と企画スケジュールの目安</strong></div>
+      <div>起案フォームや相談窓口を介したファーストコンタクトの目安は、大会当日の3~4ヶ月前です。</div>
+      <div class="mb-4">十分な準備期間が確保できない場合、起案をお断りする場合があります。</div>
+      <div><strong>大会形式</strong></div>
+      <div class="mb-4">WCA公式記録会</div>
+      <div><strong>開催地域</strong></div>
+      <div class="mb-4">不問</div>
+      <div><strong>開催種目</strong></div>
+      <div class="mb-4">3x3x3&nbsp;キューブに加え、実行委員会の意向を最大限反映</div>
+      <div><strong>申込手続き</strong></div>
+      <div>上記の相談などをご活用の上、<a target="_blank" href="https://forms.office.com/Pages/ResponsePage.aspx?id=z6bglu3Cm0W6bDY3eqWBiYwhS1Ybx7tCrFPI0fuvgJdUMFZNNDFPOTczMVROWFNPUk1TVVUxWFNETCQlQCN0PWcu">WCA大会企画 起案申請フォーム</a>より申請してください。</div>
+    </div>
+  </div>
+  <div class="card-footer small text-right">
+      2020年11月12日&nbsp;作成
+  </div>
+</div>
+{% endblock content %}

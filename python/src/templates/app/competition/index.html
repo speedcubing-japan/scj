@@ -1,0 +1,68 @@
+{% extends "app/base.html" %}
+{% load widget_tweaks %}
+{% load competition_logo %}
+{% load static %}
+
+{% block content %}
+<h4 class="ml-2 mb-3">大会一覧</h4>
+
+<div class="card mb-3">
+  <div class="card-body">
+    {{ form.non_field_errors }}
+    <form action="" method="GET">
+      <div class="row">
+        <label for="{{ form.event_id.id_for_label }}" class="col-form-label ml-2">種目</label>
+        <div class="col-md">
+          {{ form.event_id | add_class:'form-control competition_search' }}
+        </div>
+        <label for="{{ form.year.id_for_label }}" class="col-form-label ml-2">開催年</label>
+        <div class="col-md">
+          {{ form.year | add_class:'form-control competition_search' }}
+        </div>
+        <label for="{{ form.prefecture_id.id_for_label }}" class="col-form-label ml-2">開催都道府県</label>
+        <div class="col-md">
+          {{ form.prefecture_id | add_class:'form-control competition_search' }}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% if competitions %}
+  <ul class="list-group mb-3">
+    <li class="list-group-item font-weight-bold bg-light lead">大会一覧({{ competitions | length }})</li>
+    {% for competition in competitions %}
+      <li class="list-group-item">
+        <a class="stretched-link" href="{% url 'competition_detail' competition.name_id %}"></a>
+          <span class="date">{{ competition.open_at | date:"Y年m月d日" }}</span>
+          {% with path=competition|competition_logo %}
+            <span class="competition-name text-primary mr-4"><img class="mr-2" width="20" src="{% static path %}">{{ competition.name }}</span>
+          {% endwith %}
+          <span class="location">
+            <span class="mr-2">{{ competition.get_prefecture_id_display }}</span> 
+            <span>{{ competition.venue_name }}</span>
+          </span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if finish_competitions %}
+  <ul class="list-group">
+    <li class="list-group-item font-weight-bold bg-light lead">終了した大会({{ finish_competitions | length }})</li>
+    {% for competition in finish_competitions %}
+      <li class="list-group-item">
+        <a class="stretched-link" href="{% url 'competition_detail' competition.name_id %}"></a>
+          <span class="date">{{ competition.open_at | date:"Y年m月d日" }}</span>
+          {% with path=competition|competition_logo %}
+            <span class="competition-name text-primary mr-4"><img class="mr-2" width="20" src="{% static path %}">{{ competition.name }}</span>
+          {% endwith %}
+          <span class="location">
+            <span class="mr-2">{{ competition.get_prefecture_id_display }}</span> 
+            <span>{{ competition.venue_name }}</span>
+          </span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}

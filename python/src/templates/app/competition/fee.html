@@ -1,0 +1,72 @@
+{% extends "app/base.html" %}
+{% load competition_logo %}
+{% load static %}
+
+{% block content %}
+{% with path=competition|competition_logo %}
+  <h4 class="ml-2 mb-3"><img class="mr-2" width="30" src="{% static path %}">{{ competition.name }}</h4>
+{% endwith %}
+{% include "app/notification.html" %}
+
+<div class="row mb-3">
+  <div class="col-sm-3 mb-3">
+    {% include "app/competition/menu.html" with active='fee' %}
+  </div>
+  <div class="col-sm-9">
+    <div class="card mb-3">
+      <div class="card-header lead">
+        参加費支払い方法
+      </div>
+      <div class="card-body">
+        {% if competition.fee_pay_type == consts.FEE_PAY_TYPE_LOCAL_ONLY %}
+          現地支払いにのみ対応しております。なるべくお釣りのでないよう事前にご準備下さい。
+        {% elif competition.fee_pay_type == consts.FEE_PAY_TYPE_LOCAL_AND_REMOTE %}
+          現地支払いならびに事前支払いに対応しております。事前支払いを推奨します。
+        {% elif competition.fee_pay_type == consts.FEE_PAY_TYPE_REMOTE_ONLY %}
+          事前支払いにのみ対応しております。事前にお支払いいただけないと大会参加が承認されません。
+        {% endif %}
+      </div>
+    </div>
+    {% if competitor and competition.fee_pay_type != consts.FEE_PAY_TYPE_LOCAL_ONLY %}
+      <div class="card mb-3">
+        <div class="card-header text-white bg-dark lead">
+          参加費支払い
+        </div>
+        <div class="card-body">
+          {% if not competitor.stripe_id %}
+          <h5 class="mb-2">計&nbsp;{{ price }}円</h5>
+          <form action="" method="POST">
+            <script
+              src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="{{ stripe_public_key }}"
+              data-amount="{{ price }}"
+              data-name="{{ competition.name }} 大会参加費"
+              data-description="{{ user.person.get_full_name }}"
+              {% with path=competition|competition_logo %}
+                data-image="{% static path %}"
+              {% endwith %}
+              data-locale="ja"
+              data-currency="jpy"
+              data-email="{{ user.email }}">
+            </script>
+            {% csrf_token %}
+          </form>
+          {% else %}
+            <h5 class="mb-2"><i class="fas fa-check fa-fw mr-2"></i>支払い済み</h5>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+    <div class="card">
+      <ul class="list-group">
+        {% for item, price in fees.items %}
+            <li class="{% if item == '基本料金' %}card-header lead{% endif %} list-group-item">
+              <span>{{ item }}{% if competition.fee_calc_type == consts.FEE_CALC_TYPE_EVENT_COUNT and item != '基本料金' %}種目{% endif %}
+              </span>
+              <span class="float-right">{% if item != '基本料金' %}+{% endif %}{{ price }}円</span>
+            </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

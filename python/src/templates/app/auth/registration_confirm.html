@@ -1,0 +1,45 @@
+{% extends "app/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<h4 class="ml-2 mb-3">確認</h4>
+
+<div class="card">
+  <div class="card-body">
+    <table class="table">
+      <tbody>
+        {% for field in user_form %}
+          {% if field.name == 'email' %}
+            <tr>
+              <td class="table-dark">{{ field.label_tag }}</td>
+              <td>{{ field.value }}</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+        {% for field in person_form %}
+          <tr>
+            <td class="table-dark">{{ field.label_tag }}</td>
+            {% if field.name == 'gender' %}
+              <td>{{ gender }}</td>
+            {% elif field.name == 'prefecture_id' %}
+              <td>{{ prefecture }}</td>
+            {% else %}
+              <td>{{ field.value }}</td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="form-inline row">
+      <form action="{% url 'registration' %}" method="POST">
+        <button type="submit" class="btn btn-success btn-lg mr-3 ml-3">送信</button>
+        {% csrf_token %}
+      </form>
+      <div>
+        <a href="{% url 'registration_input' %}" class="btn btn-dark btn-lg">戻る</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

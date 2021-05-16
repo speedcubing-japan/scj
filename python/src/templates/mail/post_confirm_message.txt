@@ -1,0 +1,7 @@
+{{ post.person.last_name }} {{ post.person.first_name }} さんがイベント投稿されました。
+確認してください。
+
+イベント確認URL
+{{ protocol }}://{{ domain }}{% url 'post_detail' post.pk %}
+
+Speedcubing Japan

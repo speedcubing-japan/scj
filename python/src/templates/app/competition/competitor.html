@@ -1,0 +1,52 @@
+{% extends "app/base.html" %}
+{% load bootstrap4 %}
+{% load competition_logo %}
+{% load static %}
+
+{% block content %}
+{% with path=competition|competition_logo %}
+  <h4 class="ml-2 mb-3"><img class="mr-2" width="30" src="{% static path %}">{{ competition.name }}</h4>
+{% endwith %}
+
+<div class="row">
+  <div class="col-sm-3 mb-3">
+    {% include "app/competition/menu.html" with active='competitor' %}
+  </div>
+  <div class="col-sm-9 mb-3">
+    <select class="competition_competitor">
+      <option value="{% url 'competition_competitor' competition.name_id 'list' %}" {% if event_name == 'list' %}selected{% endif %}>全参加者</option>
+      {% for name in event_names %}
+        <option value="{% url 'competition_competitor' competition.name_id name %}" {% if event_name == name %}selected{% endif %}>{{ name }}</option>
+      {% endfor %}
+    </select>
+    {% if competitors %}
+      <table class="table table-hover table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col" class="col-xs-1">#</th>
+            <th scope="col" class="col-xs-7">氏名</th>
+            {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+              <th scope="col" class="col-xs-4">都道府県</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for competitor in competitors %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                <td>{{ competitor.person.get_full_name }}</td>
+              {% elif competition.type == consts.COMPETITION_TYPE_WCA %}
+                <td>{{ competitor.person.wca_name }}</td>
+              {% endif %}
+              {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                <td>{{ competitor.person.get_prefecture_id_display }}</td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

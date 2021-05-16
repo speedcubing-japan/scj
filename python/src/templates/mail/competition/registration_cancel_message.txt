@@ -1,0 +1,9 @@
+{{ user.last_name }} {{ user.first_name }} 様
+
+{{ competition.name }}
+{{ protocol}}://{{ domain }}{% url 'competition_detail' competition.name_id %}
+への参加承認を取消しました。
+
+取消しの詳しい詳細につきましては、大会運営にお問い合わせください。
+
+Speedcubing Japan
