@@ -455,7 +455,9 @@ class CompetitionResult(TemplateView):
             'events': events,
             'rounds': competition_rounds,
             'results': results,
-            'has_results': True
+            'has_results': True,
+            'is_superuser': is_superuser(self, request, competition),
+            'is_refunder': is_refunder(self, request, competition)
         }
 
         return render(request, 'app/competition/result.html', context)
@@ -695,8 +697,11 @@ class CompetitionAdmin(LoginRequiredMixin, TemplateView):
             if competitor.status == app.consts.COMPETITOR_STATUS_CANCEL:
                 cancel_competitors.append(competitor)
 
+        has_results = Result.objects.filter(competition_id=competition.id).count() > 0
+
         context = {
             'competition': competition,
+            'has_results': has_results,
             'pending_competitors': pending_competitors,
             'registration_competitors': registration_competitors,
             'cancel_competitors': cancel_competitors,
@@ -723,8 +728,11 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
         competitors = Competitor.objects.filter(competition_id=competition.id)
         competitors = competitors.exclude(stripe_id='')
 
+        has_results = Result.objects.filter(competition_id=competition.id).count() > 0
+
         context = {
             'competition': competition,
+            'has_results': has_results,
             'competitors': competitors,
             'is_superuser': is_superuser(self, request, competition),
             'is_refunder': is_refunder(self, request, competition)
@@ -784,8 +792,11 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
             if competitor.stripe_id != '':
                 current_prepaid_competitors.append(competitor)
 
+        has_results = Result.objects.filter(competition_id=competition.id).count() > 0
+
         context = {
             'competition': competition,
+            'has_results': has_results,
             'competitors': current_prepaid_competitors,
             'is_superuser': is_superuser(self, request, competition),
             'is_refunder': is_refunder(self, request, competition)
