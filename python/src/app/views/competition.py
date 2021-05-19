@@ -194,6 +194,14 @@ class CompetitionDetail(TemplateView):
         if competition.is_cancel:
             notification = 'is_canceled_competition'
 
+        competitor = None
+        if request.user.is_authenticated:
+            competitor = Competitor.objects.filter(
+                competition_id=competition.id,
+                person_id=request.user.person.id
+            )
+            competitor = competitor.first()
+
         # 結果があるか
         has_results = Result.objects.filter(competition_id=competition.id).count() > 0
 
@@ -204,6 +212,7 @@ class CompetitionDetail(TemplateView):
             'judges': judges,
             'organizers': organizers,
             'event_names': event_names,
+            'competitor': competitor,
             'fee_pay_type_text': fee_pay_type_text,
             'fee_calc_type_text': fee_calc_type_text,
             'is_superuser': is_superuser(self, request, competition),
