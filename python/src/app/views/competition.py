@@ -115,16 +115,16 @@ class CompetitionIndex(TemplateView):
         })
 
         event = list(app.consts.EVENT)
-        event.insert(0, (0, "全種目"))
+        event.insert(0, (0, '全種目'))
         form.fields['event_id'].choices = tuple(event)
 
-        years = [(0, "最新")]
+        years = [(0, '最新')]
         current_year = datetime.date.today().year
         for target_year in range(app.consts.SCJ_COMPETITON_FIRST_YEAR, current_year + 1):
-            years.append((target_year, str(target_year) + "年"))
+            years.append((target_year, str(target_year) + '年'))
         form.fields['year'].choices = tuple(years)
 
-        prefectures = [(0, "全都道府県")]
+        prefectures = [(0, '全都道府県')]
         for prefecture in app.consts.PREFECTURE:
             if prefecture[0] <= app.consts.PREFECTURE_COUNT:
                 prefectures.append(prefecture)
@@ -900,7 +900,7 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
         competitors = Competitor.objects.filter(competition_id=competition.id)
 
         response = HttpResponse(content_type='text/csv; charset=Shift-JIS')
-        filename = urllib.parse.quote((name_id + '_competitor.csv').encode("utf8"))
+        filename = urllib.parse.quote((name_id + '_competitor.csv').encode('utf8'))
         response['Content-Disposition'] = 'attachment; filename*=UTF-8\'\'{}'.format(filename)
         writer = csv.writer(response)
 
