@@ -204,6 +204,8 @@ class CompetitionDetail(TemplateView):
 
         # 結果があるか
         has_results = Result.objects.filter(competition_id=competition.id).count() > 0
+        # 現在時刻
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
 
         context = {
             'title': competition.name,
@@ -217,6 +219,7 @@ class CompetitionDetail(TemplateView):
             'fee_calc_type_text': fee_calc_type_text,
             'is_superuser': is_superuser(self, request, competition),
             'is_refunder': is_refunder(self, request, competition),
+            'now': now,
             'has_results': has_results,
             'notification': notification
         }
