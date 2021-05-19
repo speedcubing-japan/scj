@@ -74,6 +74,7 @@ $(function(){
       .attr("type", "hidden")
       .attr("name", "type").val(value);
     $('form').append(input);
+    $('form').attr('action', '');
     $('form').submit();
   });
 
