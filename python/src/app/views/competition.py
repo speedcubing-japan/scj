@@ -761,7 +761,7 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
         competitors = competitors.exclude(stripe_id='')
 
         for competitor in competitors:
-            if request.POST.get('refund_' + str(competitor.person.id)):
+            if request.POST.get('competitor_id_' + str(competitor.id)):
                 if stripe_user_person:
                     stripe.Refund.create(
                         charge=competitor.stripe_id,
@@ -884,7 +884,7 @@ class CompetitionAdminCompetitorEdit(LoginRequiredMixin, TemplateView):
         return context
         
 class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
-    def get(self, request, **kwargs):
+    def post(self, request, **kwargs):
         if 'name_id' not in kwargs:
             return redirect('competition_index')
         name_id = kwargs.get('name_id')
@@ -897,7 +897,7 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
         if not is_superuser(self, request, competition):
             return redirect('competition_index')
     
-        competitors = Competitor.objects.filter(competition_id=competition.id, status=app.consts.COMPETITOR_STATUS_REGISTRATION)
+        competitors = Competitor.objects.filter(competition_id=competition.id)
 
         response = HttpResponse(content_type='text/csv; charset=Shift-JIS')
         filename = urllib.parse.quote((name_id + '_competitor.csv').encode("utf8"))
@@ -943,47 +943,47 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
             writer.writerow(row)
 
         for index, competitor in enumerate(competitors):
+            if request.POST.get('competitor_id_' + str(competitor.id)):
+                event_join_list = []
+                for event_id in event_name_dict.keys():
+                    if event_id in competitor.event_ids:
+                        event_join_list.append(1)
+                    else:
+                        event_join_list.append(0)
 
-            event_join_list = []
-            for event_id in event_name_dict.keys():
-                if event_id in competitor.event_ids:
-                    event_join_list.append(1)
-                else:
-                    event_join_list.append(0)
+                if competition.type == app.consts.COMPETITION_TYPE_WCA:
+                    row = [
+                        competitor.person.wca_id,
+                        competitor.person.wca_user_id,
+                        competitor.person.get_full_name(),
+                        competitor.person.get_full_name_kana(),
+                        competitor.person.get_full_name_roma(),
+                        competitor.person.user.email,
+                    ]
+                    row.extend(event_join_list)
+                    row.extend([
+                        competitor.guest_count,
+                        competitor.stripe_id,
+                        competitor.comment,
+                        competitor.created_at,
+                    ])
+                elif competition.type == app.consts.COMPETITION_TYPE_SCJ:
+                    id = competitor.person.id
+                    row = [
+                        id,
+                        competitor.person.get_full_name(),
+                        competitor.person.get_full_name_kana(),
+                        competitor.person.get_full_name_roma(),
+                        competitor.person.user.email
+                    ]
+                    row.extend(event_join_list)
+                    row.extend([
+                        competitor.guest_count,
+                        competitor.stripe_id,
+                        competitor.comment,
+                        competitor.created_at
+                    ])
 
-            if competition.type == app.consts.COMPETITION_TYPE_WCA:
-                row = [
-                    competitor.person.wca_id,
-                    competitor.person.wca_user_id,
-                    competitor.person.get_full_name(),
-                    competitor.person.get_full_name_kana(),
-                    competitor.person.get_full_name_roma(),
-                    competitor.person.user.email,
-                ]
-                row.extend(event_join_list)
-                row.extend([
-                    competitor.guest_count,
-                    competitor.stripe_id,
-                    competitor.comment,
-                    competitor.created_at,
-                ])
-            elif competition.type == app.consts.COMPETITION_TYPE_SCJ:
-                id = competitor.person.id
-                row = [
-                    id,
-                    competitor.person.get_full_name(),
-                    competitor.person.get_full_name_kana(),
-                    competitor.person.get_full_name_roma(),
-                    competitor.person.user.email
-                ]
-                row.extend(event_join_list)
-                row.extend([
-                    competitor.guest_count,
-                    competitor.stripe_id,
-                    competitor.comment,
-                    competitor.created_at
-                ])
-
-            writer.writerow(row)
+                writer.writerow(row)
 
         return response

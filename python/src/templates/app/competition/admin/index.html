@@ -157,9 +157,9 @@
         </div>
       {% endif %}
     </form>
-    {% if pending_competitors or registration_competitors %}
+    {% if pending_competitors or registration_competitors or cancel_competitors %}
       <div class="float-right">
-        <a class="btn btn-dark mt-2 mb-2 mr-1" href="{% url 'competition_admin_competitor_csv' competition.name_id %}"><i class="fas fa-check fa-file-csv mr-2"></i>CSV Download</a>
+        <button type="button" class="btn btn-dark mt-2 mb-2 mr-1 submit_change_action" value="{% url 'competition_admin_competitor_csv' competition.name_id %}"><i class="fas fa-check fa-file-csv mr-2"></i>CSV Download</button>
       </div>
     {% endif %}
   </div>

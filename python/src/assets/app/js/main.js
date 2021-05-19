@@ -88,6 +88,13 @@ $(function(){
     $('.competition_admin_cancel').prop("checked", $(this).prop("checked"));
   });
 
+  // ボタン用Submit(action変更)
+  $('.submit_change_action').click(function() {
+    var value = $(this).val();
+    $('form').attr('action', value);
+    $('form').submit();
+  });
+
   // ボタン用Submit
   $('.submit').click(function() {
     $('form').submit();

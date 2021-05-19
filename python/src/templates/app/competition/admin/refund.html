@@ -39,7 +39,7 @@
               <tbody>
                 {% for competitor in competitors %}
                   <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
-                    <td><input type="checkbox" name="refund_{{ competitor.person.id }}">
+                    <td><input type="checkbox" name="competitor_id_{{ competitor.id }}">
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     <td>{{ competitor.person.get_prefecture_id_display }}</td>
                     {% if competition.type == consts.COMPETITION_TYPE_WCA %}
