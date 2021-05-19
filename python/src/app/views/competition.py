@@ -658,7 +658,8 @@ class CompetitionAdmin(LoginRequiredMixin, TemplateView):
         if registration_count > competition.limit:
             context['notification'] = 'is_just_admin_competition_limit'
             return render(request, 'app/competition/admin/index.html', context)
-
+        
+        is_updated = False
         for competitor in competitors:
             if request.POST.get('competitor_id_' + str(competitor.id)):
                 if type == 'admit':
@@ -688,9 +689,15 @@ class CompetitionAdmin(LoginRequiredMixin, TemplateView):
                         competition,
                         'mail/competition/registration_cancel_subject.txt',
                         'mail/competition/registration_cancel_message.txt')
+                
+                is_updated = True
         
         context = self.create_context(request, competition, competitors)
-        context['notification'] = 'is_just_update'
+        
+        if is_updated:
+            context['notification'] = 'is_just_update'
+        else:
+            context['notification'] = 'is_just_not_selected'
         
         return render(request, 'app/competition/admin/index.html', context)
         
