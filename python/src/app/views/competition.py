@@ -317,8 +317,10 @@ class CompetitionRegistration(TemplateView):
                 if competitor.stripe_id:
                     is_prepaid = True
         
-        registration_competitor_count = Competitor.objects.filter(status=app.consts.COMPETITOR_STATUS_REGISTRATION).count()
-        is_limit = registration_competitor_count == competition.limit
+        registration_competitor_count = Competitor.objects.filter(
+            competition_id=competition.id,
+            status=app.consts.COMPETITOR_STATUS_REGISTRATION).count()
+        is_limit = registration_competitor_count >= competition.limit
 
         now = datetime.datetime.now(tz=datetime.timezone.utc)
         registration_open_at = competition.registration_open_at
