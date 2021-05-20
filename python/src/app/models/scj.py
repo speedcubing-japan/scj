@@ -53,7 +53,7 @@ class Competition(models.Model):
     id = models.IntegerField('大会ID', primary_key=True)
     type = models.SmallIntegerField('大会タイプ', default=0, choices=COMPETITION_TYPE)
     name = models.CharField('大会名', max_length=64)
-    name_id = models.CharField('大会名ID', max_length=64, db_index=True)
+    name_id = models.CharField('大会名ID', max_length=64)
     open_at = models.DateTimeField('開始日', default=timezone.now)
     close_at = models.DateTimeField('終了日', default=timezone.now)
     registration_open_at = models.DateTimeField('申し込み開始日時', default=timezone.now)
@@ -77,6 +77,11 @@ class Competition(models.Model):
     requirement_en = models.TextField('参加要件(英語)')
     is_cancel = models.BooleanField('キャンセル可否', default=False)
 
+    class Meta:
+        indexes = [
+            models.Index(name='idx_name_id', fields=['name_id'])
+        ]
+
     def __str__(self):
         return self.name
     
@@ -91,6 +96,11 @@ class Competitor(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     created_at = models.DateTimeField('作成日時', auto_now_add=True)
     updated_at = models.DateTimeField('更新日時', auto_now=True)
+
+    class Meta:
+        indexes = [
+            models.Index(name='idx_competition_id_person', fields=['competition_id', 'person'])
+        ]
 
     def __str__(self):
         return self.competition.name + ' [' + self.person.get_full_name() + ']'
@@ -114,7 +124,7 @@ class Round(models.Model):
 
 class Result(models.Model):
 
-    competition_id = models.IntegerField('大会ID', db_index=True)
+    competition_id = models.IntegerField('大会ID')
     event_id = models.SmallIntegerField('イベントID', choices=EVENT)
     person_id = models.IntegerField('競技者ID')
     round = models.ForeignKey(Round, on_delete=models.CASCADE)
@@ -126,6 +136,11 @@ class Result(models.Model):
     value3 = models.FloatField('値3')
     value4 = models.FloatField('値4')
     value5 = models.FloatField('値5')
+
+    class Meta:
+        indexes = [
+            models.Index(name='idx_competition_id', fields=['competition_id'])
+        ]
 
     def __str__(self):
         return str(self.competition_id) + '_' + str(self.event_id) + '_' + str(self.round_id) + '_' + str(self.person_id)
