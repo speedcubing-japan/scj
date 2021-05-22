@@ -282,6 +282,7 @@ class CompetitionRegistration(TemplateView):
             competitor.comment = comment
             competitor.competition = competition
             competitor.person = request.user.person
+            competitor.pay_at = None
             competitor.save()
 
             send_mail(self,

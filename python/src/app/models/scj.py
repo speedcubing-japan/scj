@@ -95,7 +95,7 @@ class Competitor(models.Model):
     comment = models.TextField('コメント')
     stripe_id = models.CharField('Stripe決済ID', max_length=256, default='')
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    pay_at = models.DateTimeField('支払日時', default=timezone.now)
+    pay_at = models.DateTimeField('支払日時', default=None, null=True)
     created_at = models.DateTimeField('作成日時', auto_now_add=True)
     updated_at = models.DateTimeField('更新日時', auto_now=True)
 
