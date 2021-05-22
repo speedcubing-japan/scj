@@ -998,6 +998,7 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
             row.extend([
                 'guest_count'
                 'stripe_id',
+                'pay_at',
                 'created_at'
             ])
             writer.writerow(row)
@@ -1014,6 +1015,7 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
                 'guest_count',
                 'stripe_id',
                 'comment',
+                'pay_at',
                 'created_at'
             ])
             writer.writerow(row)
@@ -1041,7 +1043,8 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
                         competitor.guest_count,
                         competitor.stripe_id,
                         competitor.comment,
-                        competitor.created_at,
+                        localtime(competitor.pay_at),
+                        localtime(competitor.created_at),
                     ])
                 elif competition.type == app.consts.COMPETITION_TYPE_SCJ:
                     id = competitor.person.id
@@ -1057,7 +1060,8 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
                         competitor.guest_count,
                         competitor.stripe_id,
                         competitor.comment,
-                        competitor.created_at
+                        localtime(competitor.pay_at),
+                        localtime(competitor.created_at)
                     ])
 
                 writer.writerow(row)
