@@ -642,7 +642,8 @@ class CompetitionFee(TemplateView):
             else:
                 # 上手く購入できた。Django側にも購入履歴を入れておく
                 competitor.stripe_id = charge.id
-                competitor.save(update_fields=['stripe_id', 'updated_at'])
+                competitor.pay_at = datetime.datetime.now(tz=datetime.timezone.utc)
+                competitor.save(update_fields=['stripe_id', 'pay_at', 'updated_at'])
 
                 send_mail(self,
                     request,
