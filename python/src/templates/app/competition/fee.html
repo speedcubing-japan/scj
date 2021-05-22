@@ -28,33 +28,35 @@
       </div>
     </div>
     {% if competitor and competition.fee_pay_type != consts.FEE_PAY_TYPE_LOCAL_ONLY %}
-      <div class="card mb-3">
-        <div class="card-header text-white bg-dark lead">
-          参加費支払い
+      {% if competitor and competitor.status != consts.COMPETITOR_STATUS_CANCEL %}
+        <div class="card mb-3">
+          <div class="card-header text-white bg-dark lead">
+            参加費支払い
+          </div>
+          <div class="card-body">
+            {% if not competitor.stripe_id %}
+            <h5 class="mb-2">計&nbsp;{{ price }}円</h5>
+            <form action="" method="POST">
+              <script
+                src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="{{ stripe_public_key }}"
+                data-amount="{{ price }}"
+                data-name="{{ competition.name }} 大会参加費"
+                data-description="{{ user.person.get_full_name }}"
+                {% with path=competition|competition_logo %}
+                  data-image="{% static path %}"
+                {% endwith %}
+                data-locale="ja"
+                data-currency="jpy"
+                data-email="{{ user.email }}">
+              </script>
+              {% csrf_token %}
+            </form>
+            {% else %}
+              <h5 class="mb-2"><i class="fas fa-check fa-fw mr-2"></i>支払い済み</h5>
+            {% endif %}
+          </div>
         </div>
-        <div class="card-body">
-          {% if not competitor.stripe_id %}
-          <h5 class="mb-2">計&nbsp;{{ price }}円</h5>
-          <form action="" method="POST">
-            <script
-              src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="{{ stripe_public_key }}"
-              data-amount="{{ price }}"
-              data-name="{{ competition.name }} 大会参加費"
-              data-description="{{ user.person.get_full_name }}"
-              {% with path=competition|competition_logo %}
-                data-image="{% static path %}"
-              {% endwith %}
-              data-locale="ja"
-              data-currency="jpy"
-              data-email="{{ user.email }}">
-            </script>
-            {% csrf_token %}
-          </form>
-          {% else %}
-            <h5 class="mb-2"><i class="fas fa-check fa-fw mr-2"></i>支払い済み</h5>
-          {% endif %}
-        </div>
-      </div>
+      {% endif %}
     {% endif %}
     <div class="card">
       <ul class="list-group">

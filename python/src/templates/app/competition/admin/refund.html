@@ -26,27 +26,25 @@
                 <thead>
                   <tr>
                     <th scope="col"></th>
-                    <th scope="col">氏名</th>
-                    <th scope="col">都道府県</th>
+                    <th scope="col">返金額</th>
                     {% if competition.type == consts.COMPETITION_TYPE_WCA %}
                       <th scope="col">WCA ID</th>
                     {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
                       <th scope="col">SCJ ID</th>
                     {% endif %}
-                    <th scope="col">申し込み日時</th>
+                    <th scope="col">氏名</th>
+                    <th scope="col">支払日時</th>
+                    <th scope="col">申込日時</th>
                   </tr>
               </thead>
               <tbody>
                 {% for competitor in competitors %}
                   <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
-                    <td><input type="checkbox" name="competitor_id_{{ competitor.id }}">
-                    <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
-                    <td>{{ competitor.person.get_prefecture_id_display }}</td>
-                    {% if competition.type == consts.COMPETITION_TYPE_WCA %}
-                      <td>{{ competitor.person.wca_id }}</td>
-                    {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
-                      <td>{{ competitor.person.id }}</td>
-                    {% endif %}
+                    <td><input type="checkbox" name="competitor_id_{{ competitor.id }}"></td>
+                    <td><input type="number" name="competitor_refund_{{ competitor.id }}">&nbsp;/&nbsp;{{ competitor.price }}円</td>
+                    <td>{{ competitor.specific_id }}</td>
+                    <td><a href="mailto:{{ competitor.email }}">{{ competitor.name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                    <td>{{ competitor.pay_at | date:"Y年m月d日 H:i:s" }}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
                   </tr>
                 {% endfor %}

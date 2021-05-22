@@ -596,6 +596,9 @@ class CompetitionFee(TemplateView):
                 return redirect('competition_index')
             if competitor.exists():
                 competitor = competitor.first()
+
+        if not competitor or competitor.status == app.consts.COMPETITOR_STATUS_CANCEL:
+            return None
         
         amount = calc_fee(self, competition, competitor)
         
@@ -804,12 +807,49 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
         competitors = Competitor.objects.filter(competition_id=competition.id)
         competitors = competitors.exclude(stripe_id='')
 
+        competitor_list = []
+        for competitor in competitors:
+            if competition.type == app.consts.COMPETITION_TYPE_SCJ:
+                id = competitor.id
+                specific_id = competitor.person.id
+                name = competitor.person.get_full_name()
+                email = competitor.person.user.email
+                comment = competitor.comment
+                pay_at = competitor.pay_at
+                created_at = competitor.created_at
+            elif competition.type == app.consts.COMPETITION_TYPE_WCA:
+                id = competitor.id
+                specific_id = competitor.person.wca_id
+                name = competitor.person.wca_name()
+                email = competitor.person.user.email
+                comment = competitor.comment
+                pay_at = competitor.pay_at
+                created_at = competitor.created_at
+
+            amount = calc_fee(self, competition, competitor)
+
+            competitor_list.append({
+                'id': id,
+                'specific_id': specific_id,
+                'name': name,
+                'email': email,
+                'price': amount['price'],
+                'comment': comment,
+                'pay_at': pay_at,
+                'created_at': created_at
+            })
+
         has_results = Result.objects.filter(competition_id=competition.id).count() > 0
+
+        notification = self.request.session.get('notification')
+        if self.request.session.get('notification') is not None:
+            del self.request.session['notification']
 
         context = {
             'competition': competition,
             'has_results': has_results,
-            'competitors': competitors,
+            'competitors': competitor_list,
+            'notification': notification,
             'is_superuser': is_superuser(self, request, competition),
             'is_refunder': is_refunder(self, request, competition)
         }
@@ -838,19 +878,35 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
 
         for competitor in competitors:
             if request.POST.get('competitor_id_' + str(competitor.id)):
+
+                fee = calc_fee(self, competition, competitor)
+                amount = int(fee['price'])
+                if request.POST.get('competitor_refund_' + str(competitor.id)):
+                    part_amount = int(request.POST.get('competitor_refund_' + str(competitor.id)))
+                    if amount < part_amount:
+                        request.session['notification'] = 'is_just_over_refund_amount'
+                        return redirect('competition_admin_refund', name_id=name_id)
+                    amount = part_amount
+
                 if stripe_user_person:
                     stripe.Refund.create(
+                        amount=int(amount),
                         charge=competitor.stripe_id,
                         stripe_account=stripe_user_person.stripe_user_id
                     )
                 else:
                     stripe.Refund.create(
+                        amount=int(amount),
                         charge=competitor.stripe_id
                     )
 
+                competitor.status = app.consts.COMPETITOR_STATUS_CANCEL
                 competitor.stripe_id = ''
+                competitor.pay_at = None
                 competitor.save(update_fields=[
+                    'status',
                     'stripe_id',
+                    'pay_at',
                     'updated_at'
                 ])
 
@@ -863,17 +919,45 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
                     'mail/competition/registration_refund_message.txt',
                     price=amount['price'])
 
-        current_prepaid_competitors = []
+        competitor_list = []
         for competitor in competitors:
             if competitor.stripe_id != '':
-                current_prepaid_competitors.append(competitor)
+                if competition.type == app.consts.COMPETITION_TYPE_SCJ:
+                    id = competitor.id
+                    specific_id = competitor.person.id
+                    name = competitor.person.get_full_name()
+                    email = competitor.person.user.email
+                    comment = competitor.comment
+                    pay_at = competitor.pay_at
+                    created_at = competitor.created_at
+                elif competition.type == app.consts.COMPETITION_TYPE_WCA:
+                    id = competitor.id
+                    specific_id = competitor.person.wca_id
+                    name = competitor.person.wca_name()
+                    email = competitor.person.user.email
+                    comment = competitor.comment
+                    pay_at = competitor.pay_at
+                    created_at = competitor.created_at
+
+                amount = calc_fee(self, competition, competitor)
+
+                competitor_list.append({
+                    'id': id,
+                    'specific_id': specific_id,
+                    'name': name,
+                    'email': email,
+                    'price': amount['price'],
+                    'comment': comment,
+                    'pay_at': pay_at,
+                    'created_at': created_at
+                })
 
         has_results = Result.objects.filter(competition_id=competition.id).count() > 0
 
         context = {
             'competition': competition,
             'has_results': has_results,
-            'competitors': current_prepaid_competitors,
+            'competitors': competitor_list,
             'is_superuser': is_superuser(self, request, competition),
             'is_refunder': is_refunder(self, request, competition)
         }
