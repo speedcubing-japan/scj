@@ -1,4 +1,7 @@
 $(function(){
+  // TableSorter
+  $('#competitor, #pending, #registration, #cancel').tablesorter();
+
   $("select").addClass("custom-select");
 
   if ($('.registration_terms').prop('checked') && $('.registration_privacy_policy').prop('checked')) {
@@ -101,7 +104,6 @@ $(function(){
     $('form').submit();
   });
 
-  $('#competitor').tablesorter();
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="popover"]').popover();
 });
