@@ -101,7 +101,7 @@ $(function(){
     $('form').submit();
   });
 
-  $('#fav-table').tablesorter();
+  $('#competitor').tablesorter();
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="popover"]').popover();
 });
