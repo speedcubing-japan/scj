@@ -1043,7 +1043,7 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
                         competitor.guest_count,
                         competitor.stripe_id,
                         competitor.comment,
-                        localtime(competitor.pay_at),
+                        localtime(competitor.pay_at) if competitor.pay_at != None else '',
                         localtime(competitor.created_at),
                     ])
                 elif competition.type == app.consts.COMPETITION_TYPE_SCJ:
@@ -1060,10 +1060,10 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
                         competitor.guest_count,
                         competitor.stripe_id,
                         competitor.comment,
-                        localtime(competitor.pay_at),
+                        localtime(competitor.pay_at) if competitor.pay_at != None else '',
                         localtime(competitor.created_at)
                     ])
-
+                    pprint.pprint(competitor.pay_at)
                 writer.writerow(row)
 
         return response
