@@ -149,7 +149,7 @@ class Result(models.Model):
 class AverageRank(models.Model):
 
     person = models.ForeignKey(Person, on_delete=models.CASCADE, default=None) 
-    event_id = models.SmallIntegerField('イベントID', db_index=True, choices=EVENT)
+    event_id = models.SmallIntegerField('イベントID', choices=EVENT)
     competition_id = models.IntegerField('大会ID')
     competition_name_id = models.CharField('大会名ID', max_length=64, default='')
     competition_name = models.CharField('大会名', max_length=64, default='')
@@ -160,13 +160,18 @@ class AverageRank(models.Model):
     value3 = models.FloatField('値3', default=0)
     value4 = models.FloatField('値4', default=0)
     value5 = models.FloatField('値5', default=0)
-    gender = models.SmallIntegerField("性別", default=0, db_index=True, choices=GENDER)
-    generation = models.SmallIntegerField("世代", db_index=True, default=0)
-    prefecture_id = models.SmallIntegerField("都道府県ID", default=0, db_index=True, choices=PREFECTURE)
+    gender = models.SmallIntegerField("性別", default=0, choices=GENDER)
+    generation = models.SmallIntegerField("世代", default=0)
+    prefecture_id = models.SmallIntegerField("都道府県ID", default=0, choices=PREFECTURE)
     rank = models.IntegerField('ランク', default=0)
     gender_rank = models.IntegerField('性別ランク', default=0)
     generation_rank = models.IntegerField('世代ランク', default=0)
     prefecture_rank = models.IntegerField('県ランク', default=0)
+
+    class Meta:
+        indexes = [
+            models.Index(name='idx_person', fields=['person'])
+        ]
 
     def __str__(self):
         return str(self.person_id)
@@ -174,19 +179,24 @@ class AverageRank(models.Model):
 class BestRank(models.Model):
 
     person = models.ForeignKey(Person, on_delete=models.CASCADE, default=None)
-    event_id = models.SmallIntegerField('イベントID', db_index=True, choices=EVENT)
+    event_id = models.SmallIntegerField('イベントID', choices=EVENT)
     competition_id = models.IntegerField('大会ID')
     competition_name_id = models.CharField('大会名ID', max_length=64, default='')
     competition_name = models.CharField('大会名', max_length=64, default='')
     year = models.SmallIntegerField('年', default=0)
     best = models.FloatField('ベスト')
-    gender = models.SmallIntegerField("性別", default=0, db_index=True, choices=GENDER)
-    generation = models.SmallIntegerField("世代", default=0, db_index=True)
-    prefecture_id = models.SmallIntegerField("都道府県ID", default=0, db_index=True, choices=PREFECTURE)
+    gender = models.SmallIntegerField("性別", default=0, choices=GENDER)
+    generation = models.SmallIntegerField("世代", default=0)
+    prefecture_id = models.SmallIntegerField("都道府県ID", default=0, choices=PREFECTURE)
     rank = models.IntegerField('ランク', default=0)
     gender_rank = models.IntegerField('性別ランク', default=0)
     generation_rank = models.IntegerField('世代ランク', default=0)
     prefecture_rank = models.IntegerField('県ランク', default=0)
+
+    class Meta:
+        indexes = [
+            models.Index(name='idx_person', fields=['person'])
+        ]
 
     def __str__(self):
         return str(self.person_id)

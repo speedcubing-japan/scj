@@ -16,7 +16,7 @@ from django.utils.timezone import localtime
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from app.forms import CompetitionForm, CompetitionRegistrationForm, CompetitionAdminCompetitorEditForm
-from app.models import Competition, Competitor, Person, Result, Round, FeePerEvent, FeePerEventCount
+from app.models import Competition, Competitor, Person, Result, Round, FeePerEvent, FeePerEventCount, BestRank, AverageRank, WcaBestRank, WcaAverageRank
 
 
 def is_superuser(self, request, competition):
@@ -402,6 +402,59 @@ class CompetitionCompetitor(TemplateView):
         else:
             competitors = competitors.filter(status=app.consts.COMPETITOR_STATUS_REGISTRATION).order_by('created_at')
 
+        bests = {}
+        averages = {}
+        if event_id:
+            if competition.type == app.consts.COMPETITION_TYPE_SCJ:
+                person_ids = []
+                for competitor in competitors:
+                    person_ids.append(competitor.person.id)
+
+                best_ranks = BestRank.objects.filter(event_id=event_id, person_id__in=person_ids)
+                for best_rank in best_ranks:
+                    bests[best_rank.person.id] = '{:.02f}'.format(best_rank.best)
+
+                average_ranks = AverageRank.objects.filter(event_id=event_id, person_id__in=person_ids)
+                for average_rank in average_ranks:
+                    averages[average_rank.person.id] = '{:.02f}'.format(average_rank.best)
+
+            elif competition.type == app.consts.COMPETITION_TYPE_WCA:
+                wca_ids = []
+                for competitor in competitors:
+                    wca_ids.append(competitor.person.wca_id)
+
+                wca_best_ranks = WcaBestRank.objects.filter(event_id=event_id, wca_id__in=wca_ids)
+                for wca_best_rank in wca_best_ranks:
+                    bests[wca_best_rank.wca_id] = '{:.02f}'.format(wca_best_ranks.best)
+
+                wca_average_ranks = WcaAverageRank.objects.filter(event_id=event_id, wca_id__in=wca_ids)
+                for wca_average_rank in wca_average_ranks:
+                    averages[wca_average_rank.wca_id] = '{:.02f}'.format(wca_average_rank.best)
+
+        competitor_list = []
+        name = ''
+        prefecture = ''
+        for competitor in competitors:
+            if competition.type == app.consts.COMPETITION_TYPE_SCJ:
+                name = competitor.person.get_full_name()
+                prefecture = competitor.person.get_prefecture_id_display()
+                best = bests[competitor.person.id] if competitor.person.id in bests else 'n/a'
+                average = averages[competitor.person.id] if competitor.person.id in averages else 'n/a'
+            elif competition.type == app.consts.COMPETITION_TYPE_WCA:
+                competitor.person.wca_name()
+                best = bests[competitor.person.wca_id] if competitor.person.wca_id in bests else 'n/a'
+                average = averages[competitor.person.wca_id] if competitor.person.wca_id in averages else 'n/a'
+
+            competitor_list.append({
+                'status': competitor.status,
+                'name': name,
+                'prefecture': prefecture,
+                'best': best,
+                'average': average,
+            })
+
+        competitor_list = sorted(competitor_list, key=lambda x: x['average'])
+
         event_names = []
         for event_id in competition.event_ids:
             if event_id in dict(app.consts.EVENT):
@@ -409,7 +462,7 @@ class CompetitionCompetitor(TemplateView):
 
         context = {
             'competition': competition,
-            'competitors': competitors,
+            'competitors': competitor_list,
             'event_name': event_name,
             'event_names': event_names,
             'name_id': name_id,

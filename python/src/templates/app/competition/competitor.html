@@ -2,6 +2,7 @@
 {% load bootstrap4 %}
 {% load competition_logo %}
 {% load static %}
+{% load key %}
 
 {% block content %}
 {% with path=competition|competition_logo %}
@@ -23,10 +24,14 @@
       <table id="fav-table" class="table table-hover table-sm small">
         <thead>
           <tr>
-            <th scope="col" class="col-xs-1">#</th>
-            <th scope="col" class="col-xs-7">氏名</th>
+            <th scope="col">#</th>
+            <th scope="col">氏名</th>
             {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
-              <th scope="col" class="col-xs-4">都道府県</th>
+              <th scope="col">都道府県</th>
+            {% endif %}
+            {% if event_name != 'list' %}
+              <th scope="col">ベスト</th>
+              <th scope="col">平均</th>
             {% endif %}
           </tr>
         </thead>
@@ -34,13 +39,13 @@
           {% for competitor in competitors %}
             <tr{% if competitor.status == consts.COMPETITOR_STATUS_PENDING %} class="bg-light"{% endif %}>
               <th scope="row">{% if competitor.status == consts.COMPETITOR_STATUS_PENDING %}未承認{% else %}{{ forloop.counter }}{% endif %}</th>
+              <td>{{ competitor.name }}</td>
               {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
-                <td>{{ competitor.person.get_full_name }}</td>
-              {% elif competition.type == consts.COMPETITION_TYPE_WCA %}
-                <td>{{ competitor.person.wca_name }}</td>
+                <td>{{ competitor.prefecture }}</td>
               {% endif %}
-              {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
-                <td>{{ competitor.person.get_prefecture_id_display }}</td>
+              {% if event_name != 'list' %}
+                <td>{{ competitor.best }}</td>
+                <td>{{ competitor.average }}</td>
               {% endif %}
             </tr>
           {% endfor %}
