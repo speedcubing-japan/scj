@@ -35,7 +35,7 @@
                     <th scope="col">SCJ ID</th>
                   {% endif %}
                   <th scope="col">見学者人数</th>
-                  <th scope="col">支払い</th>
+                  <th scope="col">支払額</th>
                   <th scope="col">支払日時</th>
                   <th scope="col">申込日時</th>
                 </tr>
@@ -53,7 +53,7 @@
                       <td>{{ competitor.person.id }}</td>
                     {% endif %}
                     <td>{{ competitor.guest_count }}</td>
-                    <td>{% if competitor.stripe_id %}<i class="fas fa-check fa-fw"></i>{% endif %}</td>
+                    <td>{% if competitor.stripe_id %}<i class="fas fa-check fa-fw"></i>{{ competitor.pay_price }}円{% endif %}</td>
                     <td>{{ competitor.pay_at | date:"Y年m月d日 H:i:s" }}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
                   </tr>
@@ -82,7 +82,7 @@
                     <th scope="col">SCJ ID</th>
                   {% endif %}
                   <th scope="col">見学者人数</th>
-                  <th scope="col">支払い</th>
+                  <th scope="col">支払額</th>
                   <th scope="col">支払日時</th>
                   <th scope="col">申込日時</th>
                 </tr>
@@ -100,7 +100,7 @@
                       <td>{{ competitor.person.id }}</td>
                     {% endif %}
                     <td>{{ competitor.guest_count }}</td>
-                    <td>{% if competitor.stripe_id %}<i class="fas fa-check fa-fw"></i>{% endif %}</td>
+                    <td>{% if competitor.stripe_id %}<i class="fas fa-check fa-fw"></i>{{ competitor.pay_price }}円{% endif %}</td>
                     <td>{{ competitor.pay_at | date:"Y年m月d日 H:i:s" }}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
                   </tr>
@@ -128,8 +128,10 @@
                     <th scope="col">SCJ ID</th>
                   {% endif %}
                   <th scope="col">見学者人数</th>
-                  <th scope="col">支払い</th>
+                  <th scope="col">支払額</th>
+                  <th scope="col">返金額</th>
                   <th scope="col">支払日時</th>
+                  <th scope="col">返金日時</th>
                   <th scope="col">申込日時</th>
                 </tr>
               </thead>
@@ -145,8 +147,10 @@
                       <td>{{ competitor.person.id }}</td>
                     {% endif %}
                     <td>{{ competitor.guest_count }}</td>
-                    <td>{% if competitor.stripe_id %}<i class="fas fa-check fa-fw"></i>{% endif %}</td>
+                    <td>{% if competitor.stripe_id %}<i class="fas fa-check fa-fw"></i>{{ competitor.pay_price }}円{% endif %}</td>
+                    <td>{{ competitor.refund_price }}円</td>
                     <td>{{ competitor.pay_at | date:"Y年m月d日 H:i:s" }}</td>
+                    <td>{{ competitor.refund_at | date:"Y年m月d日 H:i:s" }}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
                   </tr>
                 {% endfor %}

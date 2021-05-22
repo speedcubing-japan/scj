@@ -283,6 +283,7 @@ class CompetitionRegistration(TemplateView):
             competitor.competition = competition
             competitor.person = request.user.person
             competitor.pay_at = None
+            competitor.refund_at = None
             competitor.save()
 
             send_mail(self,
@@ -645,9 +646,15 @@ class CompetitionFee(TemplateView):
                 notification = 'is_just_payment_error'
             else:
                 # 上手く購入できた。Django側にも購入履歴を入れておく
+                competitor.pay_price = amount['price']
                 competitor.stripe_id = charge.id
                 competitor.pay_at = datetime.datetime.now(tz=datetime.timezone.utc)
-                competitor.save(update_fields=['stripe_id', 'pay_at', 'updated_at'])
+                competitor.save(update_fields=[
+                    'pay_price', 
+                    'stripe_id', 
+                    'pay_at', 
+                    'updated_at'
+                ])
 
                 send_mail(self,
                     request,
@@ -804,8 +811,8 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
         if not is_refunder(self, request, competition):
             return redirect('competition_index')
 
-        competitors = Competitor.objects.filter(competition_id=competition.id)
-        competitors = competitors.exclude(stripe_id='')
+        competitors = Competitor.objects.filter(competition_id=competition.id, refund_price=0)
+        competitors = competitors.exclude(pay_price=0)
 
         competitor_list = []
         for competitor in competitors:
@@ -873,8 +880,8 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
         if competition.stripe_user_person_id > 0:
             stripe_user_person = Person.objects.get(pk=competition.stripe_user_person_id)
 
-        competitors = Competitor.objects.filter(competition_id=competition.id)
-        competitors = competitors.exclude(stripe_id='')
+        competitors = Competitor.objects.filter(competition_id=competition.id, refund_price=0)
+        competitors = competitors.exclude(pay_price=0)
 
         for competitor in competitors:
             if request.POST.get('competitor_id_' + str(competitor.id)):
@@ -901,12 +908,12 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
                     )
 
                 competitor.status = app.consts.COMPETITOR_STATUS_CANCEL
-                competitor.stripe_id = ''
-                competitor.pay_at = None
+                competitor.refund_price = int(amount)
+                competitor.refund_at = datetime.datetime.now(tz=datetime.timezone.utc)
                 competitor.save(update_fields=[
                     'status',
-                    'stripe_id',
-                    'pay_at',
+                    'refund_price',
+                    'refund_at',
                     'updated_at'
                 ])
 
@@ -921,7 +928,7 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
 
         competitor_list = []
         for competitor in competitors:
-            if competitor.stripe_id != '':
+            if competitor.pay_price != 0 and competitor.refund_price == 0:
                 if competition.type == app.consts.COMPETITION_TYPE_SCJ:
                     id = competitor.id
                     specific_id = competitor.person.id

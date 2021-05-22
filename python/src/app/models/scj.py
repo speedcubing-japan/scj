@@ -93,9 +93,12 @@ class Competitor(models.Model):
     event_ids = JSONField('申し込み種目ID')
     guest_count = models.SmallIntegerField('見学者数')
     comment = models.TextField('コメント')
+    pay_price = models.IntegerField('支払額', default=0)
     stripe_id = models.CharField('Stripe決済ID', max_length=256, default='')
+    refund_price = models.IntegerField('返金額', default=0)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     pay_at = models.DateTimeField('支払日時', default=None, null=True)
+    refund_at = models.DateTimeField('返金日時', default=None, null=True)
     created_at = models.DateTimeField('作成日時', auto_now_add=True)
     updated_at = models.DateTimeField('更新日時', auto_now=True)
 
