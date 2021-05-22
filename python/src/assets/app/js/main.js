@@ -101,6 +101,7 @@ $(function(){
     $('form').submit();
   });
 
+  $('#fav-table').tablesorter();
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="popover"]').popover();
 });
