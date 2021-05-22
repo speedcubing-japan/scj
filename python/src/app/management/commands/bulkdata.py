@@ -168,6 +168,7 @@ class Command(BaseCommand):
                     longitude=record['fields']['longitude'],
                     limit=record['fields']['limit'],
                     guest_limit=record['fields']['guest_limit'],
+                    is_display_pending_competitor=record['fields']['is_display_pending_competitor'],
                     fee_pay_type=record['fields']['fee_pay_type'],
                     fee_calc_type=record['fields']['fee_calc_type'],
                     description_ja=record['fields']['description_ja'],

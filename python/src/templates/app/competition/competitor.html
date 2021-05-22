@@ -14,13 +14,13 @@
   </div>
   <div class="col-sm-9 mb-3">
     <select class="competition_competitor">
-      <option value="{% url 'competition_competitor' competition.name_id 'list' %}" {% if event_name == 'list' %}selected{% endif %}>全参加者</option>
+      <option value="{% url 'competition_competitor' competition.name_id 'list' %}" {% if event_name == 'list' %}selected{% endif %}>全競技者</option>
       {% for name in event_names %}
         <option value="{% url 'competition_competitor' competition.name_id name %}" {% if event_name == name %}selected{% endif %}>{{ name }}</option>
       {% endfor %}
     </select>
     {% if competitors %}
-      <table id="fav-table" class="table table-hover table-sm">
+      <table id="fav-table" class="table table-hover table-sm small">
         <thead>
           <tr>
             <th scope="col" class="col-xs-1">#</th>
@@ -32,8 +32,8 @@
         </thead>
         <tbody>
           {% for competitor in competitors %}
-            <tr>
-              <th scope="row">{{ forloop.counter }}</th>
+            <tr{% if competitor.status == consts.COMPETITOR_STATUS_PENDING %} class="bg-light"{% endif %}>
+              <th scope="row">{% if competitor.status == consts.COMPETITOR_STATUS_PENDING %}未承認{% else %}{{ forloop.counter }}{% endif %}</th>
               {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
                 <td>{{ competitor.person.get_full_name }}</td>
               {% elif competition.type == consts.COMPETITION_TYPE_WCA %}

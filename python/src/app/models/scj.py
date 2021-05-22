@@ -69,6 +69,7 @@ class Competition(models.Model):
     longitude = models.FloatField('開催地経度')
     limit = models.IntegerField('制限人数')
     guest_limit = models.SmallIntegerField('ゲスト最大人数')
+    is_display_pending_competitor = models.BooleanField('承認前の競技者の一覧表示フラグ', default=False)
     fee_pay_type = models.SmallIntegerField('参加費支払いタイプ', default=0, choices=FEE_PAY_TYPE)
     fee_calc_type = models.SmallIntegerField('参加費計算タイプ', default=0, choices=FEE_CALC_TYPE)
     description_ja = models.TextField('大会説明(日本語)')

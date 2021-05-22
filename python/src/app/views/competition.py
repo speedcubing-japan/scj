@@ -393,14 +393,14 @@ class CompetitionCompetitor(TemplateView):
             event_id = event_ids[0]
 
         if event_id:
-            competitors = Competitor.objects.filter(
-                competition_id=competition.id,
-                event_ids__contains=event_id, 
-                status=app.consts.COMPETITOR_STATUS_REGISTRATION).order_by('created_at')
+            competitors = Competitor.objects.filter(competition_id=competition.id, event_ids__contains=event_id)
         else:
-            competitors = Competitor.objects.filter(
-                competition_id=competition.id,
-                status=app.consts.COMPETITOR_STATUS_REGISTRATION).order_by('created_at')
+            competitors = Competitor.objects.filter(competition_id=competition.id)
+
+        if competition.is_display_pending_competitor:
+            competitors = competitors.exclude(status=app.consts.COMPETITOR_STATUS_CANCEL).order_by('created_at')
+        else:
+            competitors = competitors.filter(status=app.consts.COMPETITOR_STATUS_REGISTRATION).order_by('created_at')
 
         event_names = []
         for event_id in competition.event_ids:
