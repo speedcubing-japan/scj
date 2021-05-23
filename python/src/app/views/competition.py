@@ -598,14 +598,15 @@ class CompetitionFee(TemplateView):
             if competitor.exists():
                 competitor = competitor.first()
 
-        if not competitor or competitor.status == app.consts.COMPETITOR_STATUS_CANCEL:
-            return None
-        
         amount = calc_fee(self, competition, competitor)
         
         notification = ''
         
         if request.method == 'POST':
+
+            if not competitor or competitor.status == app.consts.COMPETITOR_STATUS_CANCEL:
+                return None
+
             stripe.api_key = settings.STRIPE_SECRET_KEY
             token = request.POST.get('stripeToken')
 
