@@ -1,17 +1,17 @@
-<div class="mb-5">
-  <h4>日時</h4>
+<div class="mb-4">
+  <h5>日時</h5>
   <hr>
   {{ period }}
 </div>
 
-<div class="mb-5">
-  <h4>申し込み期間</h4>
+<div class="mb-4">
+  <h5>申し込み期間</h5>
   <hr>
   {{ registration_period }}
 </div>
  
-<div class="mb-5">
-  <h4>場所</h4>
+<div class="mb-4">
+  <h5>場所</h5>
   <hr>
   <div>
     {{ venue_name }}
@@ -19,27 +19,27 @@
   <div class="mb-2">
    {{ venue_address }}
   </div>
-  <div class="embed-responsive iframe embed-responsive-16by9">
+  <div class="col-8 embed-responsive iframe embed-responsive-16by9">
     <iframe src="https://maps.google.co.jp/maps?output=embed&q={{ latitude }},{{ longitude }}" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
   </div>
 </div>
 
-<div class="mb-5">
-  <h4>参加費</h4>
+<div class="mb-4">
+  <h5>参加費</h5>
   <hr>
   <div>
     {{ fee }}円
   </div>
 </div>
 
-<div class="mb-5">
-  <h4>定員</h4>
+<div class="mb-4">
+  <h5>定員</h5>
   <hr>
   {{ limit }}名
 </div>
  
-<div class="mb-5">
-  <h4>申し込み</h4>
+<div class="mb-4">
+  <h5>申し込み</h5>
   <hr>
   <div class="mb-2">
     申し込みはこちらから
@@ -49,6 +49,6 @@
   </div>
 </div>
 
-<div class="mb-5">
+<div class="mb-4">
   {{ text | safe }}
 </div>
