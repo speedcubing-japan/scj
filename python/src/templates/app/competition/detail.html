@@ -91,7 +91,7 @@
           </h6>
           <div>
             {% for judge in judges %}
-              <a href="mailto:{{ judge.user.email }}"><button type="button" class="btn btn-dark"><i class="far fa-envelope mr-2"></i>{{ judge.get_full_name }}</button></a>
+              <a href="mailto:{{ judge.user.email }}"><button type="button" class="btn btn-dark mb-2"><i class="far fa-envelope mr-2"></i>{{ judge.get_full_name }}</button></a>
             {% endfor %}
           </div>
         </li>
@@ -99,7 +99,7 @@
           <h6>主催者</h6>
           <div class="mb-2">
             {% for organizer in organizers %}
-              <a href="mailto:{{ organizer.user.email }}"><button type="button" class="btn btn-dark"><i class="far fa-envelope mr-2"></i>{{ organizer.get_full_name }}</button></a>
+              <a href="mailto:{{ organizer.user.email }}"><button type="button" class="btn btn-dark mb-2"><i class="far fa-envelope mr-2"></i>{{ organizer.get_full_name }}</button></a>
             {% endfor %}
           </div>
         </li>
@@ -121,15 +121,17 @@
         <li class="list-group-item">
           <h6>お知らせ</h6>
           <div>
-            {{ competition.description_ja | strip | safe }}
+            {{ competition.description | strip | safe }}
           </div>
         </li>
-        <li class="list-group-item">
-          <h6>参加要件</h6>
-          <div>
-            {{ competition.requirement_ja | strip | safe }}
-          </div>
-        </li>
+        {% if competition.requirement %}
+          <li class="list-group-item">
+            <h6>参加要件</h6>
+            <div>
+              {{ competition.requirement | strip | safe }}
+            </div>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>

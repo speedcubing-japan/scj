@@ -32,13 +32,13 @@
         </div>
       </div>
     </div>
-    {% if competition.requirement_ja %}
+    {% if competition.requirement %}
       <div class="card mb-3">
         <div class="card-header lead">
           参加要件
         </div>
         <div class="card-body">
-          {{ competition.requirement_ja | safe }}
+          {{ competition.requirement | safe }}
         </div>
       </div>
     {% endif %}
@@ -119,7 +119,7 @@
             <div class="ml-3">
               <div class="form-group row offset-md-3 col-md-9">
                 <label class="form-check-label" for="competition_registration_confirm">
-                  免責事項{% if competition.requirement_ja %}と参加要件{% endif %}に同意します
+                  免責事項{% if competition.requirement %}と参加要件{% endif %}に同意します
                 </label>
                 <input class="form-check-input competition_registration_confirm" type="checkbox" value="">
               </div>

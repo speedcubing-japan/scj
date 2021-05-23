@@ -72,10 +72,8 @@ class Competition(models.Model):
     is_display_pending_competitor = models.BooleanField('承認前の競技者の一覧表示フラグ', default=False)
     fee_pay_type = models.SmallIntegerField('参加費支払いタイプ', default=0, choices=FEE_PAY_TYPE)
     fee_calc_type = models.SmallIntegerField('参加費計算タイプ', default=0, choices=FEE_CALC_TYPE)
-    description_ja = models.TextField('大会説明(日本語)')
-    description_en = models.TextField('大会説明(英語)')
-    requirement_ja = models.TextField('参加要件(日本語)')
-    requirement_en = models.TextField('参加要件(英語)')
+    description = models.TextField('大会説明', default='')
+    requirement = models.TextField('参加要件', default='')
     is_cancel = models.BooleanField('キャンセル可否', default=False)
 
     class Meta:

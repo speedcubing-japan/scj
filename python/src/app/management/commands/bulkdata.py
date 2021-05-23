@@ -171,10 +171,8 @@ class Command(BaseCommand):
                     is_display_pending_competitor=record['fields']['is_display_pending_competitor'],
                     fee_pay_type=record['fields']['fee_pay_type'],
                     fee_calc_type=record['fields']['fee_calc_type'],
-                    description_ja=record['fields']['description_ja'],
-                    description_en=record['fields']['description_en'],
-                    requirement_ja=record['fields']['requirement_ja'],
-                    requirement_en=record['fields']['requirement_en'],
+                    description=record['fields']['description'],
+                    requirement=record['fields']['requirement'],
                     is_cancel=record['fields']['is_cancel'],
                 )
                 competitions.append(competition)
