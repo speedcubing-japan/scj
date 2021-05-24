@@ -113,6 +113,7 @@ class Round(models.Model):
     id = models.IntegerField('ラウンドID', primary_key=True)
     competition_id = models.IntegerField('大会ID')
     event_id = models.SmallIntegerField('イベントID', choices=EVENT)
+    event_name = models.CharField('イベント名', max_length=64, default='')
     attempt_count = models.SmallIntegerField('挑戦回数', default=0)
     type = models.SmallIntegerField('ラウンドタイプ', choices=ROUND_TYPE)
     format_id = models.IntegerField('フォーマットID', choices=FORMAT)

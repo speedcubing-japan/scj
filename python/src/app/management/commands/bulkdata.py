@@ -31,6 +31,7 @@ class Command(BaseCommand):
                     id=record['fields']['id'],
                     competition_id=record['fields']['competition_id'],
                     event_id=record['fields']['event_id'],
+                    event_name=record['fields']['event_name'],
                     attempt_count=record['fields']['attempt_count'],
                     type=record['fields']['type'],
                     format_id=record['fields']['format_id'],
