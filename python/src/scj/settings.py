@@ -163,6 +163,8 @@ STATIC_URL = '/static/'
 # GAS
 GAS_URL = get_secret('GAS_URL')
 
+GOOGLE_CALENDAR_URL = 'https://www.google.com/calendar/event'
+
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_URL = '/logout'

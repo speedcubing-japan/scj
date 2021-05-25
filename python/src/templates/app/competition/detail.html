@@ -16,6 +16,18 @@
 <div class="row">
   <div class="col-sm-3 mb-3">
     {% include "app/competition/menu.html" with active='detail' %}
+
+    {% if not has_results and not competition.is_cancel %}
+      <div class="card">
+        <div class="card-header lead">
+          現在の承認者数
+        </div>
+        <div class="text-center mt-2 mr-2 ml-2 mb-3">
+          <div class="mb-2"><span class="h1">{{ competitor_registration_count }} / {{ competition.limit }}</span>人</div>
+          {% include "app/competition/progress.html" with rate=competitor_registration_rate %}
+        </div>
+      </div>
+    {% endif %}
   </div>
   <div class="col-sm-4 mb-3">
     <div class="card">
@@ -32,6 +44,7 @@
               {{ competition.open_at | date:'Y年m月d日' }}&nbsp;({{ competition.open_at | date:"l" }}) - {{ competition.close_at | date:'Y年m月d日' }}&nbsp;({{ competition.close_at | date:"l" }})
             {% endif %}
           </div>
+          <div><a href="{{ google_calendar_url }}?action=TEMPLATE&text={{ competition.name }}&dates={{ google_calendar_date_param }}&location={{ competition.venue_address }}&details={{ competition.description | strip }}" target="_blank"><i class="fas fa-calendar-alt mr-1"></i>Google Calendarに追加</a></div>
         </li>
         <li class="list-group-item">
           <h6>会場</h6>
@@ -43,6 +56,9 @@
           <h6>会場住所</h6>
           <div>
             {{ competition.venue_address }}
+          </div>
+          <div class="card-body embed-responsive iframe embed-responsive-16by9">
+            <iframe src="https://maps.google.co.jp/maps?output=embed&q={{ competition.venue_name }}&z=15&ll={{ competition.latitude }},{{ competition.longitude }}"></iframe>
           </div>
         </li>
         <li class="list-group-item">
@@ -71,28 +87,6 @@
           <h6>参加費計算</h6>
           <div>
             {{ fee_calc_type_text }}
-          </div>
-        </li>
-        <li class="list-group-item">
-          <h6>    
-            {% if competition.type == consts.COMPETITION_TYPE_WCA %}
-              WCA Delegate
-            {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
-              SCJ 審判員
-            {% endif %}
-          </h6>
-          <div>
-            {% for judge in judges %}
-              <a href="mailto:{{ judge.user.email }}"><button type="button" class="btn btn-dark mb-2"><i class="far fa-envelope mr-2"></i>{{ judge.get_full_name }}</button></a>
-            {% endfor %}
-          </div>
-        </li>
-        <li class="list-group-item">
-          <h6>主催者</h6>
-          <div class="mb-2">
-            {% for organizer in organizers %}
-              <a href="mailto:{{ organizer.user.email }}"><button type="button" class="btn btn-dark mb-2"><i class="far fa-envelope mr-2"></i>{{ organizer.get_full_name }}</button></a>
-            {% endfor %}
           </div>
         </li>
       </ul>
@@ -124,15 +118,29 @@
             </div>
           </li>
         {% endif %}
+        <li class="list-group-item">
+          <h6>
+            {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+              WCA Delegate
+            {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+              SCJ 審判員
+            {% endif %}
+          </h6>
+          <div>
+            {% for judge in judges %}
+              <a href="mailto:{{ judge.user.email }}"><button type="button" class="btn btn-dark mb-2"><i class="far fa-envelope mr-2"></i>{{ judge.get_full_name }}</button></a>
+            {% endfor %}
+          </div>
+        </li>
+        <li class="list-group-item">
+          <h6>主催者</h6>
+          <div class="mb-2">
+            {% for organizer in organizers %}
+              <a href="mailto:{{ organizer.user.email }}"><button type="button" class="btn btn-dark mb-2"><i class="far fa-envelope mr-2"></i>{{ organizer.get_full_name }}</button></a>
+            {% endfor %}
+          </div>
+        </li>
       </ul>
-    </div>
-    <div class="card">
-      <div class="card-header lead">
-        地図
-      </div>
-      <div class="card-body embed-responsive iframe embed-responsive-16by9">
-        <iframe src="https://maps.google.co.jp/maps?output=embed&q={{ competition.latitude }},{{ competition.longitude }}"></iframe>
-      </div>
     </div>
   </div>
 </div>

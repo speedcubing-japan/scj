@@ -202,6 +202,17 @@ class CompetitionDetail(TemplateView):
             )
             competitor = competitor.first()
 
+        # 承認者数
+        competitor_registration_count = Competitor.objects.filter(
+            competition_id=competition.id,
+            status=app.consts.COMPETITOR_STATUS_REGISTRATION).count()
+        competitor_registration_rate = competitor_registration_count * 100 / competition.limit
+
+        # google calendar date params
+        open_at = localtime(competition.open_at).strftime('%Y%m%d')
+        close_at = localtime(competition.close_at).strftime('%Y%m%d')
+        google_calendar_date_param = open_at + '/' + close_at
+
         # 結果があるか
         has_results = Result.objects.filter(competition_id=competition.id).count() > 0
         # 現在時刻
@@ -215,8 +226,12 @@ class CompetitionDetail(TemplateView):
             'organizers': organizers,
             'event_names': event_names,
             'competitor': competitor,
+            'competitor_registration_count': competitor_registration_count,
+            'competitor_registration_rate': competitor_registration_rate,
             'fee_pay_type_text': fee_pay_type_text,
             'fee_calc_type_text': fee_calc_type_text,
+            'google_calendar_url': settings.GOOGLE_CALENDAR_URL,
+            'google_calendar_date_param': google_calendar_date_param,
             'is_superuser': is_superuser(self, request, competition),
             'is_refunder': is_refunder(self, request, competition),
             'now': now,
@@ -245,8 +260,10 @@ class CompetitionRegistration(TemplateView):
         name_id = request.POST.get(key='name_id')
         if not name_id:
             return redirect('competition_index')
+
         # formを再生成しないとエラーになる。
         context = self.create_context(request, form, name_id)
+
         if not context:
             return redirect('competition_detail', name_id=name_id)
 
