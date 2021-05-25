@@ -49,6 +49,12 @@
                 n/a
               {% endif %}</span>
           </li>
+          {% if round.proceed_count > 0 %}
+            <li class="list-group-item">
+              <span>進出人数</span>
+              <span class="float-right">上位{{ round.proceed_count }}名が次のラウンドに進出</span>
+            </li> 
+          {% endif %}
         {% endif %}
       {% endfor %}
     </ul>
