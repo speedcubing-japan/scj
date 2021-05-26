@@ -10,7 +10,7 @@
 {% endwith %}
 
 {% include "app/notification.html" %}
-{% if competitor and competition.registration_close_at > now %}
+{% if competitor and competition.registration_close_at > now and not competition.is_cancel %}
   {% include "app/competition/status.html" %}
 {% endif %}
 <div class="row">
