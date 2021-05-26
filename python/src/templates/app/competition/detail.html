@@ -57,6 +57,9 @@
           <div>
             {{ competition.venue_address }}
           </div>
+          <div class="card-body embed-responsive iframe embed-responsive-16by9">
+            <iframe src="{{ google_map_url }}?key={{ google_api_key }}&q={{ competition.venue_address }}&center={{ competition.latitude }},{{ competition.longitude }}"></iframe>
+          </div>
         </li>
         <li class="list-group-item">
         <h6>開催イベント</h6>

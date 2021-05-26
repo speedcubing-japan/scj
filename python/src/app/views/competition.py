@@ -230,6 +230,8 @@ class CompetitionDetail(TemplateView):
             'competitor_registration_rate': competitor_registration_rate,
             'fee_pay_type_text': fee_pay_type_text,
             'fee_calc_type_text': fee_calc_type_text,
+            'google_api_key': settings.GOOGLE_API_KEY,
+            'google_map_url': settings.GOOGLE_MAP_URL,
             'google_calendar_url': settings.GOOGLE_CALENDAR_URL,
             'google_calendar_date_param': google_calendar_date_param,
             'is_superuser': is_superuser(self, request, competition),

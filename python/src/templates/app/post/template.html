@@ -20,7 +20,7 @@
    {{ venue_address }}
   </div>
   <div class="col-8 embed-responsive iframe embed-responsive-16by9">
-    <iframe src="https://maps.google.co.jp/maps?output=embed&q={{ latitude }},{{ longitude }}" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    <iframe src="{{ google_map_url }}?key={{ google_api_key }}&q={{ venue_address }}&center={{ latitude }},{{ longitude }}" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
   </div>
 </div>
 

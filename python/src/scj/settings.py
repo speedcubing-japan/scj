@@ -160,10 +160,14 @@ STATIC_ROOT = '/static/'
 # 静的ファイルのパス
 STATIC_URL = '/static/'
 
+# Google API Key
+GOOGLE_API_KEY = get_secret('GOOGLE_API_KEY')
+
 # GAS
 GAS_URL = get_secret('GAS_URL')
 
 GOOGLE_CALENDAR_URL = 'https://www.google.com/calendar/event'
+GOOGLE_MAP_URL = 'https://www.google.com/maps/embed/v1/place'
 
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'

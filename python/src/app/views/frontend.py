@@ -55,6 +55,8 @@ def make_post_text(self, data):
         'fee': data['fee'],
         'url': data['url'],
         'text': data['text'],
+        'google_api_key': settings.GOOGLE_API_KEY,
+        'google_map_url': settings.GOOGLE_MAP_URL
     }
 
     return render_to_string('app/post/template.html', context).strip()
