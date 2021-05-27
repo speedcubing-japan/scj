@@ -2,6 +2,8 @@
 {% load strip %}
 {% load static %}
 {% load competition_logo %}
+{% load event_name %}
+{% load event_id_name %}
 
 {% block content %}
 
@@ -64,9 +66,9 @@
         <li class="list-group-item">
         <h6>開催イベント</h6>
           <div>
-            {% for event_name in event_names %}
+            {% for event_id in competition.event_ids %}
               <div>
-                {{ event_name }}
+                <span class="cubing-icon event-{{ event_id | event_id_name }} mr-2 md-2 h5"></span>{{ event_id | event_name }}
               </div>
             {% endfor %}
           </div>

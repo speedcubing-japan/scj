@@ -65,10 +65,7 @@ def calc_fee(self, competition, competitor):
         events = dict(app.consts.EVENT)
         results = FeePerEvent.objects.filter(competition_id=competition.id)
         for result in results:
-            if result.event_id == 0:
-                fees['基本料金'] = result.price
-            else:
-                fees[events[result.event_id]] = result.price
+            fees[result.event_id] = result.price
             
         if competitor:
             for result in results:
@@ -80,10 +77,7 @@ def calc_fee(self, competition, competitor):
     elif competition.fee_calc_type == app.consts.FEE_CALC_TYPE_EVENT_COUNT:
         results = FeePerEventCount.objects.filter(competition_id=competition.id)
         for result in results:
-            if result.event_count == 0:
-                fees['基本料金'] = result.price
-            else:
-                fees[result.event_count] = result.price
+            fees[result.event_count] = result.price
             
         if competitor:
             event_count = len(competitor.event_ids)
@@ -178,11 +172,6 @@ class CompetitionDetail(TemplateView):
         judges = Person.objects.filter(id__in=competition.judge_person_ids)
         # 主催者
         organizers = Person.objects.filter(id__in=competition.organizer_person_ids)
-        # イベント
-        event_names = []
-        events = dict(app.consts.EVENT)
-        for event_id in competition.event_ids:
-            event_names.append(events[event_id])
 
         fee_pay_types = dict(app.consts.FEE_PAY_TYPE)
         fee_pay_type_text = fee_pay_types[competition.fee_pay_type]
@@ -206,7 +195,7 @@ class CompetitionDetail(TemplateView):
         competitor_registration_count = Competitor.objects.filter(
             competition_id=competition.id,
             status=app.consts.COMPETITOR_STATUS_REGISTRATION).count()
-        competitor_registration_rate = competitor_registration_count * 100 / competition.limit
+        competitor_registration_rate = int(competitor_registration_count * 100 / competition.limit)
 
         # google calendar date params
         open_at = localtime(competition.open_at).strftime('%Y%m%d')
@@ -224,7 +213,6 @@ class CompetitionDetail(TemplateView):
             'competition_day_count': competition_day_count,
             'judges': judges,
             'organizers': organizers,
-            'event_names': event_names,
             'competitor': competitor,
             'competitor_registration_count': competitor_registration_count,
             'competitor_registration_rate': competitor_registration_rate,
@@ -550,7 +538,7 @@ class CompetitionResult(TemplateView):
 
         return render(request, 'app/competition/result.html', context)
 
-class CompetitionRound(TemplateView):
+class CompetitionSchedule(TemplateView):
     def get(self, request, **kwargs):
         if 'name_id' not in kwargs:
             return redirect('competition_index')
@@ -567,14 +555,37 @@ class CompetitionRound(TemplateView):
 
         rounds = Round.objects.filter(competition_id=competition.id)
 
+        # 日付 -> 会場 -> record
+        round_dict = {}
+        for round in rounds:
+            date = localtime(round.begin_at).strftime('%Y年%m月%d日')
+            if date in round_dict and round.room_name in round_dict[date]:
+                round_dict[date][round.room_name].append(round)
+            else:
+                round_dict[date] = {round.room_name: [round]}
+
+        # 種目ごとにラウンドを分ける(FMCが複数レコードある)
+        event_round_types = {}
+        for round in rounds:
+            if round.event_id > 0:
+                if round.event_id in event_round_types:
+                    event_round_types[round.event_id].add(round.type)
+                else:
+                    event_round_types[round.event_id] = set([round.type])
+
+        event_round_count_dict = {}
+        for event_id, round_types in event_round_types.items():
+            event_round_count_dict[event_id] = len(round_types)
+
         context = {
             'competition': competition,
-            'rounds': rounds,
+            'round_dict': round_dict,
+            'event_round_count_dict': event_round_count_dict,
             'is_superuser': is_superuser(self, request, competition),
             'is_refunder': is_refunder(self, request, competition)
         }
 
-        return render(request, 'app/competition/round.html', context)
+        return render(request, 'app/competition/schedule.html', context)
 
 class CompetitionFee(TemplateView):
     def get(self, request, **kwargs):

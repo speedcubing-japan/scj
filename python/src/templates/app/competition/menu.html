@@ -5,7 +5,7 @@
       <a href="{% url 'competition_result' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'result' %}active{% endif %}"><i class="fas fa-list-ol fa-fw mr-2"></i>結果</button></a>
     {% else %}
       <a href="{% url 'competition_fee' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'fee' %}active{% endif %}"><i class="fas fa-yen-sign fa-fw mr-2"></i>参加費</button></a>
-      <a href="{% url 'competition_round' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'round' %}active{% endif %}"><i class="far fa-clock fa-fw mr-2"></i>スケジュール </button></a>
+      <a href="{% url 'competition_schedule' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'round' %}active{% endif %}"><i class="far fa-clock fa-fw mr-2"></i>スケジュール </button></a>
       <a href="{% url 'competition_registration' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'registration' %}active{% endif %}"><i class="fas fa-sign-in-alt fa-fw mr-2"></i>申し込み</button></a>
       <a href="{% url 'competition_competitor' competition.name_id 'list' %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'competitor' %}active{% endif %}"><i class="fas fa-users fa-fw mr-2"></i>競技者一覧</button></a>
     {% endif %}

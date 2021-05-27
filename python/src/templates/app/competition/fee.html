@@ -1,5 +1,7 @@
 {% extends "app/base.html" %}
 {% load competition_logo %}
+{% load event_name %}
+{% load event_id_name %}
 {% load static %}
 
 {% block content %}
@@ -61,11 +63,11 @@
     <div class="card">
       <ul class="list-group">
         {% for item, price in fees.items %}
-            <li class="{% if item == '基本料金' %}card-header lead{% endif %} list-group-item">
-              <span>{{ item }}{% if competition.fee_calc_type == consts.FEE_CALC_TYPE_EVENT_COUNT and item != '基本料金' %}種目{% endif %}
-              </span>
-              <span class="float-right">{% if item != '基本料金' %}+{% endif %}{{ price }}円</span>
-            </li>
+          <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
+            <span>{% if item == 0 %}基本料金{% else %}<span class="cubing-icon event-{{ item | event_id_name }} mr-2 md-2 h5"></span>{{ item | event_name }}{% endif %}{% if competition.fee_calc_type == consts.FEE_CALC_TYPE_EVENT_COUNT and item != 0 %}種目{% endif %}
+            </span>
+            <span class="float-right">{% if item != 0 %}+{% endif %}{{ price }}円</span>
+          </li>
         {% endfor %}
       </ul>
     </div>

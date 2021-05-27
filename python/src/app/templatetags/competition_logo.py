@@ -1,6 +1,7 @@
 from django import template
 import app.consts
 
+
 register = template.Library()
 
 @register.filter

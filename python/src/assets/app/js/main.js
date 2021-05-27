@@ -2,7 +2,7 @@ $(function(){
   // TableSorter
   $('#competitor, #pending, #registration, #cancel').tablesorter();
 
-  $("select").addClass("custom-select");
+  $('select').addClass('custom-select');
 
   if ($('.registration_terms').prop('checked') && $('.registration_privacy_policy').prop('checked')) {
     $('.registration_submit').prop('disabled', true);
@@ -46,9 +46,9 @@ $(function(){
   // Ranking検索
   $('.ranking_search').click(function() {
     var value = $(this).val();
-    var input = $("<input>")
-      .attr("type", "hidden")
-      .attr("name", "type").val(value);
+    var input = $('<input>')
+      .attr('type', 'hidden')
+      .attr('name', 'type').val(value);
     $('form').append(input);
     $('form').submit();
   });
@@ -56,9 +56,9 @@ $(function(){
   // Ranking検索
   $('.ranking_search_item').change(function() {
     var value = $('.ranking_search.active').val();
-    var input = $("<input>")
-      .attr("type", "hidden")
-      .attr("name", "type").val(value);
+    var input = $('<input>')
+      .attr('type', 'hidden')
+      .attr('name', 'type').val(value);
     $('form').append(input);
     $('form').submit();
   });
@@ -73,9 +73,9 @@ $(function(){
   // 大会管理更新
   $('.competition_admin_submit').click(function() {
     var value = $(this).val();
-    var input = $("<input>")
-      .attr("type", "hidden")
-      .attr("name", "type").val(value);
+    var input = $('<input>')
+      .attr('type', 'hidden')
+      .attr('name', 'type').val(value);
     $('form').append(input);
     $('form').attr('action', '');
     $('form').submit();
@@ -91,6 +91,36 @@ $(function(){
   $('.competition_admin_all_cancel').on("click",function(){
     $('.competition_admin_cancel').prop("checked", $(this).prop("checked"));
   });
+
+  // スケジュールラウンド表示
+  $('.competition_schedule_event').on("click",function(){
+    var isChecked = $(this).prop('checked');
+    var eventId = $(this).val();
+
+    $('#' + eventId + '_round').each(function() {
+      roundType = $(this).attr('round_type')
+      var value = ''
+      if (roundType == 4) {
+          value = 'table-danger';
+      }
+      else if (roundType == 3) {
+          value = 'table-warning';
+      }
+      else if (roundType == 2) {
+        value = 'table-primary';
+      }
+      else if (roundType == 1) {
+        value = 'table-success';
+      }
+
+      if (isChecked) {
+        $(this).addClass(value);
+      } else {
+        $(this).removeClass(value);
+      }
+    })
+
+  })
 
   // ボタン用Submit(action変更)
   $('.submit_change_action').click(function() {
