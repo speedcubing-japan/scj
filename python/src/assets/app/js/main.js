@@ -97,20 +97,21 @@ $(function(){
     var isChecked = $(this).prop('checked');
     var eventId = $(this).val();
 
-    $('#' + eventId + '_round').each(function() {
+    $('[id=' + eventId + '_round]').each(function() {
       roundType = $(this).attr('round_type')
+      console.error(roundType);
       var value = ''
       if (roundType == 4) {
-          value = 'table-danger';
+        value = 'table-danger';
       }
       else if (roundType == 3) {
-          value = 'table-warning';
+        value = 'table-warning';
       }
       else if (roundType == 2) {
-        value = 'table-primary';
+        value = 'table-success';
       }
       else if (roundType == 1) {
-        value = 'table-success';
+        value = 'table-primary';
       }
 
       if (isChecked) {

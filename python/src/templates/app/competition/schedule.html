@@ -16,9 +16,9 @@
   <div class="col-sm-9">
     <div class="row ml-3 mb-3">
       {% for event_id, round_count in event_round_count_dict.items %}
-        <div class="col small">
-          <input class="mt-2 competition_schedule_event" type="checkbox" value="{{ event_id }}">
-          <span class="cubing-icon event-{{ event_id | event_id_name }} h3"></span>&nbsp;{{ round_count}}ラウンド 
+        <div class="col-lg-3 col-md-5 col-xs-6">
+          <input class="pt-3 competition_schedule_event" type="checkbox" value="{{ event_id }}">
+          <span class="cubing-icon event-{{ event_id | event_id_name }} h1"></span>&nbsp;{{ round_count}}ラウンド
         </div>
       {% endfor %}
     </div>
