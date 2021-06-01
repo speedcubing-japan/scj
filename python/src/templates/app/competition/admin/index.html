@@ -169,7 +169,12 @@
     </form>
     {% if pending_competitors or registration_competitors or cancel_competitors %}
       <div class="float-right">
-        <button type="button" class="btn btn-dark mt-2 mb-2 mr-1 submit_change_action" value="{% url 'competition_admin_competitor_csv' competition.name_id %}"><i class="fas fa-check fa-file-csv mr-2"></i>CSV Download</button>
+        {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+          {% with path=competition|competition_logo %}
+            <button type="button" class="btn btn-secondary mt-2 mb-2 submit_change_action" value="{% url 'competition_admin_competitor_csv_wca_import' competition.name_id %}"><img class="mr-2" width="18" src="{% static path %}">WCA Import CSV</button>
+          {% endwith %}
+        {% endif %}
+        <button type="button" class="btn btn-dark mt-2 mb-2 mr-1 submit_change_action" value="{% url 'competition_admin_competitor_csv' competition.name_id %}"><i class="fas fa-check fa-file-csv mr-2"></i>CSV</button>
       </div>
     {% endif %}
   </div>

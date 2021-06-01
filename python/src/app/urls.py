@@ -68,6 +68,7 @@ urlpatterns = [
     path('competition/<str:name_id>/admin/', competition.CompetitionAdmin.as_view(), name="competition_admin"),
     path('competition/<str:name_id>/admin/refund/', competition.CompetitionAdminRefund.as_view(), name="competition_admin_refund"),
     path('competition/<str:name_id>/admin/competitor/csv/', competition.CompetitionAdminCompetitorCsv.as_view(), name="competition_admin_competitor_csv"),
+    path('competition/<str:name_id>/admin/competitor/csv/wca_import/', competition.CompetitionAdminCompetitorCsvWcaImport.as_view(), name="competition_admin_competitor_csv_wca_import"),
     path('competition/<str:name_id>/admin/competitor/edit/<int:competitor_id>/', competition.CompetitionAdminCompetitorEdit.as_view(), name="competition_admin_competitor_edit"),
 
     path('ranking/', ranking.RankingIndex.as_view(), name="ranking_index"),

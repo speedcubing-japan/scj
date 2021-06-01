@@ -1189,7 +1189,67 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
                         localtime(competitor.pay_at) if competitor.pay_at != None else '',
                         localtime(competitor.created_at)
                     ])
-                    pprint.pprint(competitor.pay_at)
+                writer.writerow(row)
+
+        return response
+
+class CompetitionAdminCompetitorCsvWcaImport(LoginRequiredMixin, TemplateView):
+    def post(self, request, **kwargs):
+        if 'name_id' not in kwargs:
+            return redirect('competition_index')
+        name_id = kwargs.get('name_id')
+
+        competition = Competition.objects.filter(name_id=name_id)
+        if not competition.exists():
+            return redirect('competition_index')
+        competition = competition.first()
+
+        if competition.type != app.consts.COMPETITION_TYPE_WCA:
+            return redirect('competition_index')
+
+        if not is_superuser(self, request, competition):
+            return redirect('competition_index')
+
+        competitors = Competitor.objects.filter(competition_id=competition.id)
+
+        response = HttpResponse(content_type='text/csv; charset=Shift-JIS')
+        filename = urllib.parse.quote((name_id + '_competitor.csv').encode('utf8'))
+        response['Content-Disposition'] = 'attachment; filename*=UTF-8\'\'{}'.format(filename)
+        writer = csv.writer(response)
+
+        event_name_dict = {}
+        event_id_names = dict(app.consts.EVENT_ID_NAME)
+        for event_id in competition.event_ids:
+            event_name_dict[event_id] = event_id_names[event_id]
+
+        country_names = dict(app.consts.COUNTRY)
+        gender = dict(app.consts.GENDER_EN)
+
+        for competitor in competitors:
+            if request.POST.get('competitor_id_' + str(competitor.id)):
+
+                status = 'null'
+                if competitor.status == app.consts.COMPETITOR_STATUS_REGISTRATION:
+                    status = 'accepted'
+                elif competitor.status == app.consts.COMPETITOR_STATUS_CANCEL:
+                    status = 'deleted'
+
+                event_join_list = []
+                for event_id, event_id_name in event_name_dict.items():
+                    if event_id in competitor.event_ids:
+                        event_join_list.append(event_id_name)
+
+                row = [
+                    status,
+                    competitor.person.wca_name,
+                    country_names[competitor.person.wca_country_iso2],
+                    competitor.person.wca_id,
+                    competitor.person.birth_at,
+                    gender[competitor.person.gender],
+                    competitor.person.wca_email
+                ]
+                row.extend(event_join_list)
+
                 writer.writerow(row)
 
         return response
