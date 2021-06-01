@@ -55,6 +55,10 @@
             <td>{{ user.person.wca_name }}</td>
           </tr>
           <tr>
+            <td class="table-dark">WCA 所属国</td>
+            <td>{{ user.person.wca_country_iso2 }}</td>
+          </tr>
+          <tr>
             <td class="table-dark">Stripe 認証</td>
             <td>{% if user.person.stripe_user_id %}認証済み{% else %}未認証{% endif %}</td>
           </tr>

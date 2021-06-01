@@ -67,6 +67,7 @@ class WcaAuthorization(TemplateView):
                     person.wca_user_id = response.json()['me']['id']
                     person.wca_email = response.json()['me']['email']
                     person.wca_name = response.json()['me']['name']
+                    person.wca_country_iso2 = response.json()['me']['country_iso2']
                     person.wca_access_token = access_token
                     person.wca_refresh_token = refresh_token
                     person.wca_avatar_url = response.json()['me']['avatar']['url']
@@ -76,6 +77,7 @@ class WcaAuthorization(TemplateView):
                         'wca_user_id',
                         'wca_email',
                         'wca_name',
+                        'wca_country_iso2',
                         'wca_access_token',
                         'wca_refresh_token',
                         'wca_avatar_url',
