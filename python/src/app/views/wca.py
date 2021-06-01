@@ -52,7 +52,6 @@ class WcaAuthorization(TemplateView):
         if response.status_code == requests.codes.ok:
             access_token = response.json()['access_token']
             refresh_token = response.json()['refresh_token']
-
             headers = {'Authorization': 'Bearer ' + access_token}
             response = requests.get(settings.WCA_API_URL, headers=headers)
 
@@ -66,6 +65,7 @@ class WcaAuthorization(TemplateView):
                     person = request.user.person
                     person.wca_id = wca_id
                     person.wca_user_id = response.json()['me']['id']
+                    person.wca_email = response.json()['me']['email']
                     person.wca_name = response.json()['me']['name']
                     person.wca_access_token = access_token
                     person.wca_refresh_token = refresh_token
@@ -74,6 +74,7 @@ class WcaAuthorization(TemplateView):
                     person.save(update_fields=[
                         'wca_id',
                         'wca_user_id',
+                        'wca_email',
                         'wca_name',
                         'wca_access_token',
                         'wca_refresh_token',

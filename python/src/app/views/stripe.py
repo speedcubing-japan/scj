@@ -37,4 +37,4 @@ class StripeAuthorization(TemplateView):
 
             request.session['notification'] = 'is_just_stripe_authorization_complete'   
 
-        return redirect('index')
+        return redirect('profile')

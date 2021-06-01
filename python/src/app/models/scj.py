@@ -18,6 +18,7 @@ class Person(models.Model):
     prefecture_id = models.SmallIntegerField('都道府県', choices=PREFECTURE)
     wca_id = models.CharField('WCA_ID', max_length=10)
     wca_user_id = models.IntegerField('WCA_USER_ID', default=0)
+    wca_email = models.EmailField('WCA EMAIL', default='')
     wca_name = models.CharField('WCA氏名', max_length=256, default='')
     wca_access_token = models.CharField('WCAアクセストークン', max_length=256)
     wca_refresh_token = models.CharField('WCAリフレッシュトークン', max_length=256)
@@ -32,6 +33,9 @@ class Person(models.Model):
 
     def is_wca_authenticated(self):
         return self.wca_id != '' or self.wca_user_id != 0
+
+    def is_wca_email_authenticated(self):
+        return self.wca_email != ''
 
     def is_avater_exist(self):
         return self.wca_avatar_url != '' and self.wca_avatar_thumb_url != ''

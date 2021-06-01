@@ -47,6 +47,10 @@
             <td>{{ user.person.wca_user_id }}</td>
           </tr>
           <tr>
+            <td class="table-dark">WCA EMAIL</td>
+            <td>{{ user.person.wca_email }}</td>
+          </tr>
+          <tr>
             <td class="table-dark">WCA 氏名</td>
             <td>{{ user.person.wca_name }}</td>
           </tr>
@@ -70,7 +74,7 @@
       <h4>WCA認証</h4>
       <hr>
       <div>
-        <a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope="><button type="button" class="btn btn-dark"><i class="fas fa-sign-in-alt mr-2"></i>WCA認証</button></a>
+        <a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email"><button type="button" class="btn btn-dark"><i class="fas fa-sign-in-alt mr-2"></i>WCA認証</button></a>
       </div>
     </div>
     {% if user.person.is_judge %}

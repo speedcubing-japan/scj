@@ -76,9 +76,9 @@
       <div class="alert alert-light" role="alert">
         {{ competition.name }}に申し込むには<a href="{% url 'login' %}?next={{ request.path }}">ログイン</a>が必要です。
       </div>
-    {% elif competition.type == consts.COMPETITION_TYPE_WCA and not user.person.is_wca_authenticated %}
+    {% elif competition.type == consts.COMPETITION_TYPE_WCA and not is_wca_authenticated %}
       <div class="alert alert-light" role="alert">
-        {{ competition.name }}に申し込むには<a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope="><i class="fas fa-sign-in-alt"></i>WCA認証</a>が必要です。
+        {{ competition.name }}に申し込むには<a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email"><i class="fas fa-sign-in-alt"></i>WCA認証</a>が必要です。
       </div>
     {% elif is_just_offer %}
       {% if not is_prepaid %}

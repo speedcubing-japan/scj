@@ -316,6 +316,7 @@ class CompetitionRegistration(TemplateView):
 
         is_offer = False
         is_prepaid = False
+        is_wca_authenticated = False
         if self.request.user.is_authenticated:
             competitor = Competitor.objects.filter(
                 competition_id=competition.id,
@@ -325,6 +326,8 @@ class CompetitionRegistration(TemplateView):
                 competitor = competitor.first()
                 if competitor.stripe_id:
                     is_prepaid = True
+            if request.user.person.is_wca_authenticated() and request.user.person.is_wca_email_authenticated():
+                is_wca_authenticated = True
         
         registration_competitor_count = Competitor.objects.filter(
             competition_id=competition.id,
@@ -371,6 +374,7 @@ class CompetitionRegistration(TemplateView):
             'wca_oauth_authorization': settings.WCA_OAUTH_AUTHORIZATION,
             'wca_client_id': settings.WCA_CLIENT_ID,
             'redirect_uri': redirect_uri,
+            'is_wca_authenticated': is_wca_authenticated,
             'is_superuser': is_superuser(self, request, competition),
             'is_refunder': is_refunder(self, request, competition)
         }
