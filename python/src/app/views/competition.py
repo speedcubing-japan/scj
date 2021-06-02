@@ -454,7 +454,7 @@ class CompetitionCompetitor(TemplateView):
                 best = bests[competitor.person.id] if competitor.person.id in bests else 'n/a'
                 average = averages[competitor.person.id] if competitor.person.id in averages else 'n/a'
             elif competition.type == app.consts.COMPETITION_TYPE_WCA:
-                competitor.person.wca_name()
+                name = competitor.person.wca_name
                 best = bests[competitor.person.wca_id] if competitor.person.wca_id in bests else 'n/a'
                 average = averages[competitor.person.wca_id] if competitor.person.wca_id in averages else 'n/a'
 
@@ -1213,7 +1213,7 @@ class CompetitionAdminCompetitorCsvWcaImport(LoginRequiredMixin, TemplateView):
         competitors = Competitor.objects.filter(competition_id=competition.id)
 
         response = HttpResponse(content_type='text/csv; charset=Shift-JIS')
-        filename = urllib.parse.quote((name_id + '_competitor.csv').encode('utf8'))
+        filename = urllib.parse.quote((name_id + '_registration.csv').encode('utf8'))
         response['Content-Disposition'] = 'attachment; filename*=UTF-8\'\'{}'.format(filename)
         writer = csv.writer(response)
 
@@ -1225,19 +1225,39 @@ class CompetitionAdminCompetitorCsvWcaImport(LoginRequiredMixin, TemplateView):
         country_names = dict(app.consts.COUNTRY)
         gender = dict(app.consts.GENDER_EN)
 
+        event_name_id_list = []
+        for event_id, event_id_name in event_name_dict.items():
+            if event_id in competition.event_ids:
+                event_name_id_list.append(event_id_name)
+
+        columns = [
+            'Status',
+            'Name',
+            'Country',
+            'WCA ID',
+            'Birth Date',
+            'Gender',
+            'Email'
+        ]
+        columns.extend(list(event_name_dict.values()))
+
+        writer.writerow(columns)
+
         for competitor in competitors:
             if request.POST.get('competitor_id_' + str(competitor.id)):
 
                 status = 'null'
                 if competitor.status == app.consts.COMPETITOR_STATUS_REGISTRATION:
-                    status = 'accepted'
+                    status = 'a'
                 elif competitor.status == app.consts.COMPETITOR_STATUS_CANCEL:
-                    status = 'deleted'
+                    status = 'd'
 
                 event_join_list = []
-                for event_id, event_id_name in event_name_dict.items():
+                for event_id in event_name_dict.keys():
                     if event_id in competitor.event_ids:
-                        event_join_list.append(event_id_name)
+                        event_join_list.append(1)
+                    else:
+                        event_join_list.append(0)
 
                 row = [
                     status,
