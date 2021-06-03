@@ -14,7 +14,13 @@
   </div>
   <div class="col-sm-9 mb-3">
     {% include "app/notification.html" %}
-    <h4 class="mb-3">{{ competitor.person.get_full_name }}さんの情報を編集します</h4>
+    <h4 class="mb-3">
+      {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+        {{ competitor.person.wca_name }}さんの情報を編集します
+      {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+        {{ competitor.person.get_full_name }}さんの情報を編集します
+      {% endif %}
+    </h4>
     <form action="" method="POST">
       {% csrf_token %}
       <div class="card mb-3">
