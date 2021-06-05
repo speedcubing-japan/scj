@@ -1,8 +1,10 @@
+import pprint
 import datetime
 from django.conf import settings
 from django_mysql.models import JSONField
 from django.db import models
 from django.utils import timezone
+from django.utils.timezone import localtime
 from app.consts import COMPETITION_TYPE, FEE_PAY_TYPE, FEE_CALC_TYPE, PREFECTURE, GENDER, FORMAT, EVENT, ROUND_TYPE, REGIONAL_RECORD, COMPETITOR_STATUS, ROUND_LIMIT_TYPE
 
 
@@ -89,12 +91,15 @@ class Competition(models.Model):
         ]
 
     def is_open(self):
-        now = datetime.datetime.now(tz=datetime.timezone.utc)
-        return self.open_at <= now and self.close_at >= now
+        now = localtime(datetime.datetime.now(tz=datetime.timezone.utc))
+        open_at = localtime(self.open_at)
+        close_at = localtime(self.close_at)
+        return open_at.date() <= now.date() and close_at.date() >= now.date()
 
     def is_close(self):
-        now = datetime.datetime.now(tz=datetime.timezone.utc)
-        return self.open_at > now and self.close_at < now
+        now = localtime(datetime.datetime.now(tz=datetime.timezone.utc))
+        close_at = localtime(self.close_at)
+        return close_at.date() < now.date()
 
     def __str__(self):
         return self.name
@@ -277,7 +282,6 @@ class StripeProgress(models.Model):
     updated_at = models.DateTimeField('更新日時', auto_now=True)
 
     class Meta:
-        
         indexes = [
             models.Index(name='idx_customer_id', fields=['customer_id']),
             models.Index(name='idx_competitor_id', fields=['competitor_id'])

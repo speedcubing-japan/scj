@@ -124,31 +124,30 @@ class CompetitionIndex(TemplateView):
                 prefectures.append(prefecture)
         form.fields['prefecture_id'].choices = tuple(prefectures)
 
-        competition = Competition.objects.order_by('open_at').reverse()
+        competitions = Competition.objects.order_by('open_at').reverse()
 
         if event_id != 0:
-            competition = competition.filter(event_ids__contains=[event_id])
+            competitions = competitions.filter(event_ids__contains=[event_id])
 
         if year != 0:
-            competition = competition.filter(open_at__year=year)
+            competitions = competitions.filter(open_at__year=year)
         
         if prefecture_id != 0:
-            competition = competition.filter(prefecture_id=prefecture_id)
+            competitions = competitions.filter(prefecture_id=prefecture_id)
 
-        competitions = []
-        finish_competitions = []
+        competition_list = []
+        finish_competition_list = []
 
-        now = datetime.datetime.now(tz=datetime.timezone.utc)
-        for comp in competition:
-            if comp.close_at >= now:
-                competitions.append(comp)
+        for competition in competitions:
+            if competition.is_open() or not competition.is_close():
+                competition_list.append(competition)
             else:
-                finish_competitions.append(comp)
+                finish_competition_list.append(competition)
 
         context = {
             'form': form,
-            'competitions': competitions,
-            'finish_competitions': finish_competitions
+            'competitions': competition_list,
+            'finish_competitions': finish_competition_list
         }
 
         return render(request, 'app/competition/index.html', context)
@@ -997,7 +996,7 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
         stripe_progresses = StripeProgress.objects.filter(competition_id=competition.id, refund_price=0)
         for competitor in competitors:
             for stripe_progress in stripe_progresses:
-                if competitor.id == stripe_progress.competitor_id: 
+                if competitor.id == stripe_progress.competitor_id:
                     competitor.set_stripe_progress(stripe_progress)
 
         response = HttpResponse(content_type='text/csv; charset=Shift-JIS')
