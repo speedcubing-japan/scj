@@ -1,8 +1,10 @@
+import datetime
 from django.conf import settings
 from django_mysql.models import JSONField
 from django.db import models
 from django.utils import timezone
 from app.consts import COMPETITION_TYPE, FEE_PAY_TYPE, FEE_CALC_TYPE, PREFECTURE, GENDER, FORMAT, EVENT, ROUND_TYPE, REGIONAL_RECORD, COMPETITOR_STATUS, ROUND_LIMIT_TYPE
+
 
 # Create your models here.
 class Person(models.Model):
@@ -86,6 +88,14 @@ class Competition(models.Model):
             models.Index(name='idx_name_id', fields=['name_id'])
         ]
 
+    def is_open(self):
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
+        return self.open_at <= now and self.close_at >= now
+
+    def is_close(self):
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
+        return self.open_at > now and self.close_at < now
+
     def __str__(self):
         return self.name
     
@@ -96,19 +106,19 @@ class Competitor(models.Model):
     event_ids = JSONField('申し込み種目ID')
     guest_count = models.SmallIntegerField('見学者数')
     comment = models.TextField('コメント')
-    pay_price = models.IntegerField('支払額', default=0)
-    stripe_id = models.CharField('Stripe決済ID', max_length=256, default='')
-    refund_price = models.IntegerField('返金額', default=0)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    pay_at = models.DateTimeField('支払日時', default=None, null=True)
-    refund_at = models.DateTimeField('返金日時', default=None, null=True)
     created_at = models.DateTimeField('作成日時', auto_now_add=True)
     updated_at = models.DateTimeField('更新日時', auto_now=True)
+
+    stripe_progress = None
 
     class Meta:
         indexes = [
             models.Index(name='idx_competition_id_person', fields=['competition_id', 'person'])
         ]
+
+    def set_stripe_progress(self, stripe_progress):
+        self.stripe_progress = stripe_progress
 
     def __str__(self):
         return self.competition.name + ' [' + self.person.get_full_name() + ']'
@@ -251,4 +261,24 @@ class WcaBestRank(models.Model):
     class Meta:
         indexes = [
             models.Index(name='idx_event_id_wca_id', fields=['event_id', 'wca_id'])
+        ]
+
+class StripeProgress(models.Model):
+
+    customer_id = models.CharField('Stripe顧客ID', max_length=64)
+    competition_id = models.IntegerField('大会ID', default=0)
+    competitor_id = models.IntegerField('選手ID', default=0)
+    charge_id = models.CharField('Stripe決済ID', max_length=256, default='')
+    pay_price = models.IntegerField('支払額', default=0)
+    refund_price = models.IntegerField('返金額', default=0)
+    pay_at = models.DateTimeField('支払日時', default=None)
+    refund_at = models.DateTimeField('返金日時', default=None, null=True)
+    created_at = models.DateTimeField('作成日時', auto_now_add=True)
+    updated_at = models.DateTimeField('更新日時', auto_now=True)
+
+    class Meta:
+        
+        indexes = [
+            models.Index(name='idx_customer_id', fields=['customer_id']),
+            models.Index(name='idx_competitor_id', fields=['competitor_id'])
         ]

@@ -16,7 +16,7 @@ from django.utils.timezone import localtime
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from app.forms import CompetitionForm, CompetitionRegistrationForm, CompetitionAdminCompetitorEditForm
-from app.models import Competition, Competitor, Person, Result, Round, FeePerEvent, FeePerEventCount, BestRank, AverageRank, WcaBestRank, WcaAverageRank
+from app.models import Competition, Competitor, Person, Result, Round, FeePerEvent, FeePerEventCount, BestRank, AverageRank, WcaBestRank, WcaAverageRank, StripeProgress
 
 
 def is_superuser(self, request, competition):
@@ -324,8 +324,7 @@ class CompetitionRegistration(TemplateView):
             if competitor.exists():
                 is_offer = True
                 competitor = competitor.first()
-                if competitor.stripe_id:
-                    is_prepaid = True
+                is_prepaid = StripeProgress.objects.filter(competitor_id=competitor.id).exists()
             if request.user.person.is_wca_authenticated() and request.user.person.is_wca_email_authenticated():
                 is_wca_authenticated = True
         
@@ -597,32 +596,23 @@ class CompetitionFee(TemplateView):
             return redirect('competition_index')
         name_id = kwargs.get('name_id')
 
-        context = self.create_context(request, name_id)
-        if not context:
-            return redirect('competition_detail', name_id=name_id)
+        status = ''
+        if 'status' in request.GET:
+            status = request.GET.get('status')
 
-        return render(request, 'app/competition/fee.html', context)
-    
-    def post(self, request, **kwargs):
-        if 'name_id' not in kwargs:
-            return redirect('competition_index')
-        name_id = kwargs.get('name_id')
-
-        context = self.create_context(request, name_id)
-        if not context:
-            return redirect('competition_detail', name_id=name_id)
-
-        return render(request, 'app/competition/fee.html', context)
-
-    def create_context(self, request, name_id):
         competition = Competition.objects.filter(name_id=name_id)
         if not competition.exists():
-            return None
+            return redirect('competition_detail', name_id=name_id)
         competition = competition.first()
+
+        stripe_user_id = ''
+        if competition.stripe_user_person_id != 0:
+            person = Person.objects.get(pk=competition.stripe_user_person_id)
+            stripe_user_id = person.stripe_user_id
 
         has_results = Result.objects.filter(competition_id=competition.id).count() > 0
         if has_results:
-            return None
+            return redirect('competition_detail', name_id=name_id)
 
         competitor = None
         if request.user.is_authenticated:
@@ -633,86 +623,31 @@ class CompetitionFee(TemplateView):
                 competitor = competitor.first()
 
         amount = calc_fee(self, competition, competitor)
+
+        paid = False
+        if competitor:
+            paid = StripeProgress.objects.filter(competitor_id=competitor.id).exists()
         
         notification = ''
-        
-        if request.method == 'POST':
-
-            if not competitor or competitor.status == app.consts.COMPETITOR_STATUS_CANCEL:
-                return None
-
-            stripe.api_key = settings.STRIPE_SECRET_KEY
-            token = request.POST.get('stripeToken')
-
-            description = ''
-            if competition.type == app.consts.COMPETITION_TYPE_WCA:
-                description = '大会名: {} WCA_ID: {} WCA_USER_ID: {} 氏名: {}' \
-                    .format(competition.name, \
-                    request.user.person.wca_id, \
-                    request.user.person.wca_user_id, \
-                    request.user.person.get_full_name())
-            elif competition.type == app.consts.COMPETITION_TYPE_SCJ:
-                description = '大会名: {} SCJ_ID: {} 氏名: {}' \
-                    .format(competition.name, \
-                    request.user.person.id, \
-                    request.user.person.get_full_name())
-
-            try:
-                # 購入処理
-                charge = None
-                if competition.stripe_user_person_id == 0:
-                    charge = stripe.Charge.create(
-                        amount=amount['price'],
-                        currency='jpy',
-                        source=token,
-                        description=description
-                    )
-                else:
-                    person = Person.objects.get(pk=competition.stripe_user_person_id)
-                    charge = stripe.Charge.create(
-                        amount=amount['price'],
-                        currency='jpy',
-                        source=token,
-                        stripe_account=person.stripe_user_id,
-                        description=description
-                    )
-            except stripe.error.CardError as e:
-                # カード決済が上手く行かなかった(限度額超えとか)ので、メッセージと一緒に再度ページ表示
-                notification = 'is_just_payment_error'
-            else:
-                # 上手く購入できた。Django側にも購入履歴を入れておく
-                competitor.pay_price = amount['price']
-                competitor.stripe_id = charge.id
-                competitor.pay_at = datetime.datetime.now(tz=datetime.timezone.utc)
-                competitor.save(update_fields=[
-                    'pay_price', 
-                    'stripe_id', 
-                    'pay_at', 
-                    'updated_at'
-                ])
-
-                send_mail(self,
-                    request,
-                    competitor.person.user,
-                    competition,
-                    'mail/competition/registration_payment_subject.txt',
-                    'mail/competition/registration_payment_message.txt',
-                    price=amount['price'])
-
-                notification = 'is_just_payment_success'
+        if status == 'cancel':
+            notification = 'is_just_payment_cancel'
+        elif status == 'success':
+            notification = 'is_just_payment_success'
 
         context = {
             'competition': competition,
             'competitor': competitor,
             'fees': amount['fees'],
             'price': amount['price'],
+            'paid': paid,
             'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+            'stripe_user_id': stripe_user_id,
             'notification': notification,
             'is_superuser': is_superuser(self, request, competition),
             'is_refunder': is_refunder(self, request, competition)
         }
 
-        return context
+        return render(request, 'app/competition/fee.html', context)
 
 class CompetitionAdmin(LoginRequiredMixin, TemplateView):
     def get(self, request, **kwargs):
@@ -810,7 +745,14 @@ class CompetitionAdmin(LoginRequiredMixin, TemplateView):
         pending_competitors = []
         registration_competitors = []
         cancel_competitors = []
+
+        stripe_progresses = StripeProgress.objects.filter(competition_id=competition.id)
         for competitor in competitors:
+
+            for stripe_progress in stripe_progresses:
+                if competitor.id == stripe_progress.competitor_id:
+                    competitor.set_stripe_progress(stripe_progress)
+
             if competitor.status == app.consts.COMPETITOR_STATUS_PENDING:
                 pending_competitors.append(competitor)
             if competitor.status == app.consts.COMPETITOR_STATUS_REGISTRATION:
@@ -846,40 +788,16 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
         if not is_refunder(self, request, competition):
             return redirect('competition_index')
 
-        competitors = Competitor.objects.filter(competition_id=competition.id, refund_price=0)
-        competitors = competitors.exclude(pay_price=0)
+        competitor_ids = []
+        stripe_progresses = StripeProgress.objects.filter(competition_id=competition.id, refund_price=0)
+        for stripe_progress in stripe_progresses:
+            competitor_ids.append(stripe_progress.competitor_id)
 
-        competitor_list = []
+        competitors = Competitor.objects.filter(id__in=competitor_ids)
         for competitor in competitors:
-            if competition.type == app.consts.COMPETITION_TYPE_SCJ:
-                id = competitor.id
-                specific_id = competitor.person.id
-                name = competitor.person.get_full_name()
-                email = competitor.person.user.email
-                comment = competitor.comment
-                pay_at = competitor.pay_at
-                created_at = competitor.created_at
-            elif competition.type == app.consts.COMPETITION_TYPE_WCA:
-                id = competitor.id
-                specific_id = competitor.person.wca_id
-                name = competitor.person.wca_name()
-                email = competitor.person.user.email
-                comment = competitor.comment
-                pay_at = competitor.pay_at
-                created_at = competitor.created_at
-
-            amount = calc_fee(self, competition, competitor)
-
-            competitor_list.append({
-                'id': id,
-                'specific_id': specific_id,
-                'name': name,
-                'email': email,
-                'price': amount['price'],
-                'comment': comment,
-                'pay_at': pay_at,
-                'created_at': created_at
-            })
+            for stripe_progress in stripe_progresses:
+                if competitor.id == stripe_progress.competitor_id: 
+                    competitor.set_stripe_progress(stripe_progress)
 
         has_results = Result.objects.filter(competition_id=competition.id).count() > 0
 
@@ -890,7 +808,7 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
         context = {
             'competition': competition,
             'has_results': has_results,
-            'competitors': competitor_list,
+            'competitors': competitors,
             'notification': notification,
             'is_superuser': is_superuser(self, request, competition),
             'is_refunder': is_refunder(self, request, competition)
@@ -915,11 +833,20 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
         if competition.stripe_user_person_id > 0:
             stripe_user_person = Person.objects.get(pk=competition.stripe_user_person_id)
 
-        competitors = Competitor.objects.filter(competition_id=competition.id, refund_price=0)
-        competitors = competitors.exclude(pay_price=0)
+        competitor_ids = []
+        stripe_progresses = StripeProgress.objects.filter(competition_id=competition.id, refund_price=0)
+        for stripe_progress in stripe_progresses:
+            competitor_ids.append(stripe_progress.competitor_id)
+
+        competitors = Competitor.objects.filter(id__in=competitor_ids)
+        for competitor in competitors:
+            for stripe_progress in stripe_progresses:
+                if competitor.id == stripe_progress.competitor_id: 
+                    competitor.set_stripe_progress(stripe_progress)
 
         for competitor in competitors:
             if request.POST.get('competitor_id_' + str(competitor.id)):
+                stripe_progress = StripeProgress.objects.get(competitor_id=competitor.id)
 
                 fee = calc_fee(self, competition, competitor)
                 amount = int(fee['price'])
@@ -933,24 +860,24 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
                 if stripe_user_person:
                     stripe.Refund.create(
                         amount=int(amount),
-                        charge=competitor.stripe_id,
+                        charge=stripe_progress.charge_id,
                         stripe_account=stripe_user_person.stripe_user_id
                     )
                 else:
                     stripe.Refund.create(
                         amount=int(amount),
-                        charge=competitor.stripe_id
+                        charge=stripe_progress.charge_id
                     )
 
                 competitor.status = app.consts.COMPETITOR_STATUS_CANCEL
-                competitor.refund_price = int(amount)
-                competitor.refund_at = datetime.datetime.now(tz=datetime.timezone.utc)
                 competitor.save(update_fields=[
                     'status',
-                    'refund_price',
-                    'refund_at',
                     'updated_at'
                 ])
+
+                stripe_progress.refund_price = int(amount)
+                stripe_progress.refund_at = datetime.datetime.now(tz=datetime.timezone.utc)
+                stripe_progress.save()
 
                 amount = calc_fee(self, competition, competitor)
                 send_mail(self,
@@ -961,45 +888,12 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
                     'mail/competition/registration_refund_message.txt',
                     price=amount['price'])
 
-        competitor_list = []
-        for competitor in competitors:
-            if competitor.pay_price != 0 and competitor.refund_price == 0:
-                if competition.type == app.consts.COMPETITION_TYPE_SCJ:
-                    id = competitor.id
-                    specific_id = competitor.person.id
-                    name = competitor.person.get_full_name()
-                    email = competitor.person.user.email
-                    comment = competitor.comment
-                    pay_at = competitor.pay_at
-                    created_at = competitor.created_at
-                elif competition.type == app.consts.COMPETITION_TYPE_WCA:
-                    id = competitor.id
-                    specific_id = competitor.person.wca_id
-                    name = competitor.person.wca_name()
-                    email = competitor.person.user.email
-                    comment = competitor.comment
-                    pay_at = competitor.pay_at
-                    created_at = competitor.created_at
-
-                amount = calc_fee(self, competition, competitor)
-
-                competitor_list.append({
-                    'id': id,
-                    'specific_id': specific_id,
-                    'name': name,
-                    'email': email,
-                    'price': amount['price'],
-                    'comment': comment,
-                    'pay_at': pay_at,
-                    'created_at': created_at
-                })
-
         has_results = Result.objects.filter(competition_id=competition.id).count() > 0
 
         context = {
             'competition': competition,
             'has_results': has_results,
-            'competitors': competitor_list,
+            'competitors': competitors,
             'is_superuser': is_superuser(self, request, competition),
             'is_refunder': is_refunder(self, request, competition)
         }
@@ -1100,6 +994,11 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
             return redirect('competition_index')
     
         competitors = Competitor.objects.filter(competition_id=competition.id)
+        stripe_progresses = StripeProgress.objects.filter(competition_id=competition.id, refund_price=0)
+        for competitor in competitors:
+            for stripe_progress in stripe_progresses:
+                if competitor.id == stripe_progress.competitor_id: 
+                    competitor.set_stripe_progress(stripe_progress)
 
         response = HttpResponse(content_type='text/csv; charset=Shift-JIS')
         filename = urllib.parse.quote((name_id + '_competitor.csv').encode('utf8'))
@@ -1115,19 +1014,9 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
             row = [
                 'wca_id',
                 'wca_user_id',
-                'full_name',
-                'full_name_kana',
-                'full_name_rome',
+                'name',
                 'email'
             ]
-            row.extend(list(event_name_dict.values()))
-            row.extend([
-                'guest_count'
-                'stripe_id',
-                'pay_at',
-                'created_at'
-            ])
-            writer.writerow(row)
         elif competition.type == app.consts.COMPETITION_TYPE_SCJ:
             row = [
                 'scj_id',
@@ -1136,15 +1025,16 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
                 'full_name_rome',
                 'email'
             ]
-            row.extend(list(event_name_dict.values()))
-            row.extend([
-                'guest_count',
-                'stripe_id',
-                'comment',
-                'pay_at',
-                'created_at'
-            ])
-            writer.writerow(row)
+
+        row.extend(list(event_name_dict.values()))
+        row.extend([
+            'guest_count',
+            'stripe_charge_id',
+            'comment',
+            'pay_at',
+            'created_at'
+        ])
+        writer.writerow(row)
 
         for index, competitor in enumerate(competitors):
             if request.POST.get('competitor_id_' + str(competitor.id)):
@@ -1159,19 +1049,10 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
                     row = [
                         competitor.person.wca_id,
                         competitor.person.wca_user_id,
-                        competitor.person.get_full_name(),
-                        competitor.person.get_full_name_kana(),
-                        competitor.person.get_full_name_roma(),
-                        competitor.person.user.email,
+                        competitor.person.wca_name,
+                        competitor.person.wca_email,
                     ]
-                    row.extend(event_join_list)
-                    row.extend([
-                        competitor.guest_count,
-                        competitor.stripe_id,
-                        competitor.comment,
-                        localtime(competitor.pay_at) if competitor.pay_at != None else '',
-                        localtime(competitor.created_at),
-                    ])
+
                 elif competition.type == app.consts.COMPETITION_TYPE_SCJ:
                     id = competitor.person.id
                     row = [
@@ -1181,14 +1062,16 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
                         competitor.person.get_full_name_roma(),
                         competitor.person.user.email
                     ]
-                    row.extend(event_join_list)
-                    row.extend([
-                        competitor.guest_count,
-                        competitor.stripe_id,
-                        competitor.comment,
-                        localtime(competitor.pay_at) if competitor.pay_at != None else '',
-                        localtime(competitor.created_at)
-                    ])
+
+                row.extend(event_join_list)
+                row.extend([
+                    competitor.guest_count,
+                    competitor.stripe_progress.charge_id if competitor.stripe_progress != None else '',
+                    competitor.comment,
+                    localtime(competitor.stripe_progress.pay_at) if competitor.stripe_progress != None else '',
+                    localtime(competitor.created_at),
+                ])
+
                 writer.writerow(row)
 
         return response

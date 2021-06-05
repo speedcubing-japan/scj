@@ -150,35 +150,43 @@
     <strong>支払い処理が失敗しました。</strong>
   </div>
 {% endif %}
+{% if notification == 'is_just_payment_cancel' %}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>支払いがキャンセルされました。</strong>
+  </div>
+{% endif %}
 {% if notification == 'is_just_admin_competition_limit' %}
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>承認人数が大会制限人数を超過しています。却下するか定員を増やしてください。</strong>
-</div>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>承認人数が大会制限人数を超過しています。却下するか定員を増やしてください。</strong>
+  </div>
 {% endif %}
 {% if notification == 'is_canceled_competition' %}
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>この大会は中止になりました。</strong>
-</div>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>この大会は中止になりました。</strong>
+  </div>
 {% endif %}
 {% if notification == 'is_just_admin_competitor_event_not_selected' %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>種目が選択されていません。</strong>
-</div>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>種目が選択されていません。</strong>
+  </div>
 {% endif %}
 {% if notification == 'is_just_over_refund_amount' %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>全額よりも高い金額が設定されています。</strong>
-</div>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>全額よりも高い金額が設定されています。</strong>
+  </div>
 {% endif %}

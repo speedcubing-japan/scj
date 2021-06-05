@@ -21,6 +21,8 @@ urlpatterns = [
     path('wca/authorization/', wca.WcaAuthorization.as_view(), name='wca_authorization'),
 
     path('stripe/authorization/', stripe.StripeAuthorization.as_view(), name='stripe_authorization'),
+    path('stripe/create/', stripe.StripeCreate.as_view(), name='stripe_create'),
+    path('stripe/webhook/', stripe.StripeWebhook.as_view(), name='stripe_webhook'),
 
     path('community/posting_request/', frontend.CommunityPostingRequest.as_view(), name='community_posting_request'),
     path('community/question_and_answer/', frontend.CommunityQuestionAndAnswer.as_view(), name='community_question_and_answer'),

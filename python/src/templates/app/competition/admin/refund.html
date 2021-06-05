@@ -41,10 +41,18 @@
                 {% for competitor in competitors %}
                   <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
                     <td><input type="checkbox" name="competitor_id_{{ competitor.id }}"></td>
-                    <td><input type="number" name="competitor_refund_{{ competitor.id }}">&nbsp;/&nbsp;{{ competitor.price }}円</td>
-                    <td>{{ competitor.specific_id }}</td>
-                    <td><a href="mailto:{{ competitor.email }}">{{ competitor.name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
-                    <td>{{ competitor.pay_at | date:"Y年m月d日 H:i:s" }}</td>
+                    <td><input type="number" name="competitor_refund_{{ competitor.id }}">&nbsp;/&nbsp;{{ competitor.stripe_progress.pay_pirce }}円</td>
+                    {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+                      <td>{{ competitor.person.wca_id }}</td>
+                    {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+                      <td>{{ competitor.person.id }}</td>
+                    {% endif %}
+                    {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+                      <td><a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                    {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+                      <td><a href="mailto:{{ competitor.person.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                    {% endif %}
+                    <td>{{ competitor.stripe_progress.pay_at | date:"Y年m月d日 H:i:s" }}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
                   </tr>
                 {% endfor %}

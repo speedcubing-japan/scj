@@ -186,6 +186,7 @@ STRIPE_OAUTH_AUTHORIZATION = 'https://connect.stripe.com/oauth/authorize'
 STRIPE_OAUTH_TOKEN_URL='https://connect.stripe.com/oauth/token'
 STRIPE_PUBLIC_KEY = get_secret('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = get_secret('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_ENDPOINT_SECRET_KEY = get_secret('STRIPE_WEBHOOK_ENDPOINT_SECRET_KEY')
 
 WCA_CLIENT_ID= get_secret('WCA_CLIENT_ID')
 WCA_CLIENT_SECRET= get_secret('WCA_CLIENT_SECRET')
