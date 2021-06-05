@@ -60,18 +60,17 @@ load-wcadata:
 	docker exec -it scj_db_1 sh /etc/mysql/fixtures/sql/wca_import.sh
 
 load-proddata:
-	scp scj:~/buckup/user.json python/src/app/fixtures/
-	scp scj:~/buckup/person.json python/src/app/fixtures/
-	scp scj:~/buckup/competitor.json python/src/app/fixtures/
-	scp scj:~/buckup/information.json python/src/app/fixtures/
+	scp scj:~/backup/*.json python/src/app/fixtures/
 	docker-compose run python ./manage.py loaddata user.json
 	docker-compose run python ./manage.py loaddata person.json
 	docker-compose run python ./manage.py loaddata competitor.json
 	docker-compose run python ./manage.py loaddata information.json
+	docker-compose run python ./manage.py loaddata stripeprogress.json
 	rm -rf python/src/app/fixtures/user.json
 	rm -rf python/src/app/fixtures/person.json
 	rm -rf python/src/app/fixtures/competitor.json
 	rm -rf python/src/app/fixtures/information.json
+	rm -rf python/src/app/fixtures/stripeprogress.json
 
 bulkdata:
 	docker-compose run python ./manage.py bulkdata
@@ -107,9 +106,10 @@ prod-load-wcadata:
 prod-dumpdata:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py dumpdata app.${MODEL} > ${MODEL}.json
 
-prod-buckup:
-	rm -rf /home/admin/buckup/*
-	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py dumpdata app.user > /home/admin/buckup/user.json
-	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py dumpdata app.person > /home/admin/buckup/person.json
-	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py dumpdata app.competitor > /home/admin/buckup/competitor.json
-	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py dumpdata app.information > /home/admin/buckup/information.json
+prod-backup:
+	rm -rf /home/admin/backup/*
+	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py dumpdata app.user > /home/admin/backup/user.json
+	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py dumpdata app.person > /home/admin/backup/person.json
+	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py dumpdata app.competitor > /home/admin/backup/competitor.json
+	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py dumpdata app.information > /home/admin/backup/information.json
+	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py dumpdata app.stripeprogress > /home/admin/backup/stripprogress.json
