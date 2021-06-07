@@ -306,6 +306,11 @@ class Contact(FormView):
     template_name = 'app/contact.html'
     form_class = ContactForm
 
+    def get_context_data(self, **kwargs):
+        context = super(Contact, self).get_context_data(**kwargs)
+        context['recaptcha_public_key'] = settings.RECAPTCHA_PUBLIC_KEY
+        return context 
+
     def form_valid(self, form):
         captcha = self.request.POST.get('g-recaptcha-response')
         if captcha:

@@ -26,6 +26,7 @@ class RegistrationInput(View):
         context = {
             'user_form': user_form,
             'person_form': person_form,
+            'recaptcha_public_key': settings.RECAPTCHA_PUBLIC_KEY
         }
         return render(request, 'app/auth/registration_input.html', context)
 
