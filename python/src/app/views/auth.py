@@ -25,8 +25,7 @@ class RegistrationInput(View):
         person_form = PersonCreateForm(request.session.get('form_data')) 
         context = {
             'user_form': user_form,
-            'person_form': person_form,
-            'recaptcha_public_key': settings.RECAPTCHA_PUBLIC_KEY
+            'person_form': person_form
         }
         return render(request, 'app/auth/registration_input.html', context)
 
@@ -34,20 +33,11 @@ class RegistrationInput(View):
         user_form = UserCreateForm(request.POST)
         person_form = PersonCreateForm(request.POST)
 
-        recaptcha = None
         if user_form.is_valid() and person_form.is_valid():
-            recaptcha = '私はロボットではありませんにチェックを入れてください。'
-            captcha = self.request.POST.get('g-recaptcha-response')
-            if captcha:
-                auth_url = 'https://www.google.com/recaptcha/api/siteverify?secret={}&response={}'
-                auth_url = auth_url.format(settings.RECAPTCHA_SECRET_KEY, captcha)
-                response = requests.get(auth_url)
-                if response.json().get('success'):
-                    request.session['form_data'] = request.POST
-                    return redirect('registration_confirm')
+            request.session['form_data'] = request.POST
+            return redirect('registration_confirm')
         
         context = {
-            'recaptcha': recaptcha,
             'user_form': user_form,
             'person_form': person_form,
         }
@@ -63,12 +53,18 @@ class RegistrationConfirm(View):
         user_form = UserCreateForm(session_form_data, label_suffix="")
         person_form = PersonCreateForm(session_form_data, label_suffix="")
 
+        recaptcha = False
+        if 'recaptcha' in request.session:
+            recaptcha = True
+
         context = {
             'user_form': user_form,
             'person_form': person_form,
             # get_xxx_displayを使う方法が見つからない。
             'gender': dict(person_form.fields['gender'].choices)[int(person_form.data['gender'])],
             'prefecture': dict(person_form.fields['prefecture_id'].choices)[int(person_form.data['prefecture_id'])],
+            'recaptcha_public_key': settings.RECAPTCHA_PUBLIC_KEY,
+            'recaptcha': recaptcha
         }
         return render(request, 'app/auth/registration_confirm.html', context)
 
@@ -77,6 +73,18 @@ class Registration(View):
         session_form_data = request.session.get('form_data')
         if session_form_data is None:
             return redirect('registration_input')
+
+        captcha = self.request.POST.get('g-recaptcha-response')
+        if captcha:
+            auth_url = 'https://www.google.com/recaptcha/api/siteverify?secret={}&response={}'
+            auth_url = auth_url.format(settings.RECAPTCHA_SECRET_KEY, captcha)
+            response = requests.get(auth_url)
+            if not response.json().get('success'):
+                request.session['recaptcha'] = True
+                return redirect('registration_confirm')
+        else:
+            request.session['recaptcha'] = True
+            return redirect('registration_confirm')
 
         del request.session['form_data']
         
