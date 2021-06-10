@@ -28,7 +28,9 @@
                   <th scope="col"><input type="checkbox" class="competition_admin_all_pending" /></th>
                   <th scope="col"></th>
                   <th scope="col">氏名</th>
-                  <th scope="col">都道府県</th>
+                  {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                    <th scope="col">都道府県</th>
+                  {% endif %}
                   {% if competition.type == consts.COMPETITION_TYPE_WCA %}
                     <th scope="col">WCA ID</th>
                   {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
@@ -58,7 +60,9 @@
                       {% endif %}
                       </a>
                       {% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
-                    <td>{{ competitor.person.get_prefecture_id_display }}</td>
+                    {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                      <td>{{ competitor.person.get_prefecture_id_display }}</td>
+                    {% endif %}
                     {% if competition.type == consts.COMPETITION_TYPE_WCA %}
                       <td>{{ competitor.person.wca_id }}</td>
                     {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
@@ -87,7 +91,9 @@
                   <th scope="col"><input type="checkbox" class="competition_admin_all_admit" /></th>
                   <th scope="col"></th>
                   <th scope="col">氏名</th>
-                  <th scope="col">都道府県</th>
+                  {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                    <th scope="col">都道府県</th>
+                  {% endif %}
                   {% if competition.type == consts.COMPETITION_TYPE_WCA %}
                     <th scope="col">WCA ID</th>
                   {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
@@ -117,7 +123,9 @@
                       {% endif %}
                       </a>
                       {% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
-                    <td>{{ competitor.person.get_prefecture_id_display }}</td>
+                    {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                      <td>{{ competitor.person.get_prefecture_id_display }}</td>
+                    {% endif %}
                     {% if competition.type == consts.COMPETITION_TYPE_WCA %}
                       <td>{{ competitor.person.wca_id }}</td>
                     {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
@@ -145,7 +153,9 @@
                 <tr>
                   <th scope="col"><input type="checkbox" class="competition_admin_all_cancel" /></th>
                   <th scope="col">氏名</th>
-                  <th scope="col">都道府県</th>
+                  {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                    <th scope="col">都道府県</th>
+                  {% endif %}
                   {% if competition.type == consts.COMPETITION_TYPE_WCA %}
                     <th scope="col">WCA ID</th>
                   {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
@@ -176,7 +186,9 @@
                       {% endif %}
                       </a>
                       {% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
-                    <td>{{ competitor.person.get_prefecture_id_display }}</td>
+                    {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                      <td>{{ competitor.person.get_prefecture_id_display }}</td>
+                    {% endif %}
                     {% if competition.type == consts.COMPETITION_TYPE_WCA %}
                       <td>{{ competitor.person.wca_id }}</td>
                     {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
