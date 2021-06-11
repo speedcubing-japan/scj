@@ -2,6 +2,11 @@ html {
     font-size: 14px; /* ルート要素のフォントサイズを1rem=14pxと定義する */
 }
 
+body {
+    padding-top: 80px;
+    padding-bottom: 100px;
+}
+
 .w-4rem {
     width: 4rem !important;
 }
@@ -58,7 +63,7 @@ html {
 @media (max-width: 768px) {
     .information-title, .post-title {
         display: block;
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
 }
 
@@ -82,17 +87,21 @@ html {
 
 button.stripe-button-el,
 button.stripe-button-el>span {
-  background-color: #000000 !important;
-  background-image: none;
+    background-color: #000000 !important;
+    background-image: none;
 }
 
-table.table-bordered{
+table.table-bordered {
     border:1px solid #dcdcdc;
     margin-top:20px;
 }
-table.table-bordered > thead > tr > th{
+table.table-bordered > thead > tr > th {
     border:1px solid #dcdcdc;
 }
-table.table-bordered > tbody > tr > td{
+table.table-bordered > tbody > tr > td {
     border:1px solid #dcdcdc;
+}
+
+.footer {
+    border:solid 0.1em #d3d3d3;
 }

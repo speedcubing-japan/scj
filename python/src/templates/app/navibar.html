@@ -1,5 +1,5 @@
 {% load static %}
-<nav class="navbar navbar-expand-xl navbar-dark bg-dark mb-3">
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top mb-3">
   <a class="navbar-brand" href="/"><img class="title-logo" src="{% static 'app/image/scj.png' %}"></a>
   <div class="navbar-brand"><span class="title">一般社団法人</span><span class="title">スピードキュービングジャパン</span></div>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,26 +9,11 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <small>スピードキュービング</small>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="{% url 'speedcubing' %}"><i class="fas fa-info-circle fa-fw mr-2"></i>スピードキュービング</a>
-          <a class="dropdown-item" href="{% url 'speedcubing' %}#history"><i class="fas fa-history fa-fw mr-2"></i>歴史</a>
-          <a class="dropdown-item" href="{% url 'speedcubing' %}#how_to_begin"><i class="fas fa-file-alt fa-fw mr-2"></i>はじめかた</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <small>SCJについて</small>
+          SCJについて
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="{% url 'about' %}"><i class="fas fa-info-circle fa-fw mr-2"></i>SCJについて</a>
           <a class="dropdown-item" href="{% url 'organization' %}"><i class="fas fa-sitemap fa-fw mr-2"></i>組織</a>
-          <a class="dropdown-item" href="{% url 'public_announcement' %}"><i class="fas fa-bullhorn fa-fw mr-2"></i>公告</a>
-          <a class="dropdown-item" href="{% url 'terms' %}"></i><i class="fas fa-book fa-fw mr-2"></i>利用規約</a>
-          <a class="dropdown-item" href="{% url 'privacy_policy' %}"><i class="fas fa-user-secret fa-fw mr-2"></i>プライバシーポリシー</a>
-          <a class="dropdown-item" href="{% url 'terms_of_sale' %}"><i class="fas fa-balance-scale fa-fw mr-2"></i>特定商取引に関する表記</a>
-          <a class="dropdown-item" href="{% url 'contact' %}"><i class="fas fa-envelope fa-fw mr-2"></i>お問い合わせ</a>
           {% if user.person.is_community_posting_offer %}
             <a class="dropdown-item" href="{% url 'post_list' %}"><i class="fas fa-list fa-fw mr-2"></i>お知らせ投稿一覧</a>
             <a class="dropdown-item" href="{% url 'post_input' 'event' %}"><i class="fas fa-pencil-alt fa-fw mr-2"></i>イベント投稿</a>
@@ -40,7 +25,7 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <small>WCA大会</small>
+          WCA大会
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="{% url 'wca_about' %}"><i class="fas fa-info-circle fa-fw mr-2"></i>WCAについて</a>
@@ -51,21 +36,21 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <small>SCJ大会</small>
+          SCJ大会
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="{% url 'competition_about' %}"><i class="fas fa-info-circle fa-fw mr-2"></i>SCJ大会について</a>
           <a class="dropdown-item" href="{% url 'competition_regulation' %}"><i class="fas fa-book fa-fw mr-2"></i>SCJ大会規定</a>
-          <a class="dropdown-item" href="{% url 'competition_index' %}"><i class="fas fa-trophy fa-fw mr-2"></i>すべての大会</a>
+          <a class="dropdown-item" href="{% url 'competition_index' %}?type=1"><i class="fas fa-trophy fa-fw mr-2"></i>すべての大会</a>
           <a class="dropdown-item" href="{% url 'ranking_index' %}"><i class="fas fa-th-list fa-fw mr-2"></i>ランキング</a>
         </div>
       </li>
 
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <small>コミュニティ</small>
+          コミュニティ
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="{% url 'community_posting_request' %}"><i class="fas fa-clipboard-list fa-fw mr-2"></i>各種イベント活動内容の宣伝​</a>
           <a class="dropdown-item" href="{% url 'community_question_and_answer' %}"><i class="fas fa-question fa-fw mr-2"></i>掲載Q&A​</a>
           <a class="dropdown-item" href="{% url 'community_advise' %}"><i class="fas fa-phone fa-fw mr-2"></i>地域団体立ち上げや活動内容に関するご相談​​</a>
@@ -78,10 +63,10 @@
             {% if user.person.is_wca_authenticated and user.person.is_avater_exist %}
               <img class="wca-avator-thumb" src="{{ user.person.wca_avatar_thumb_url }}">
             {% else %}
-              <small>プロフィール</small>
+              プロフィール
             {% endif %}
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-address-card fa-fw mr-2"></i>プロフィール</a>
             <a class="dropdown-item" href="{% url 'password_change' %}"><i class="fas fa-key fa-fw mr-2"></i>パスワード変更</a>
             <a class="dropdown-item" href="{% url 'mail_change' %}"><i class="fas fa-at fa-fw mr-2"></i>メールアドレス変更</a>
@@ -91,9 +76,9 @@
       {% else %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <small>ログイン</small>
+            ログイン
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-fw mr-2"></i>ログイン</a>
             <a class="dropdown-item" href="{% url 'registration_input' %}"><i class="fas fa-user-plus fa-fw mr-2"></i>ユーザー新規登録</a>
           </div>

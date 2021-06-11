@@ -47,11 +47,12 @@
 <title>{% block title %}Speedcubing Japan{% endblock %}</title>
 </head>
 <body>
-  <div class="container">
+  <div class="container-fluid">
     {% include "app/navibar.html" %}
     {% block content %}
       {{ content }}
     {% endblock %}
+    {% include "app/footer.html" %}
   </div>
 {% block extra_js %}{% endblock %}
 </body>
