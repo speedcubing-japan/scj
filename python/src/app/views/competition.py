@@ -98,15 +98,21 @@ class CompetitionRegulation(TemplateView):
 class CompetitionIndex(TemplateView):
     def get(self, request):
 
+        type = int(self.request.GET.get(key='type', default=0))
         event_id = int(self.request.GET.get(key='event_id', default=0))
         year = int(self.request.GET.get(key='year', default=0))
         prefecture_id = int(self.request.GET.get(key='prefecture_id', default=0))
 
         form = CompetitionForm(initial = {
+            'type': type,
             'event_id': event_id,
             'year': year,
             'prefecture_id': prefecture_id,
         })
+
+        competition_type = list(app.consts.COMPETITION_TYPE)
+        competition_type.insert(0, (0, '全種別'))
+        form.fields['type'].choices = tuple(competition_type)
 
         event = list(app.consts.EVENT)
         event.insert(0, (0, '全種目'))
@@ -125,6 +131,9 @@ class CompetitionIndex(TemplateView):
         form.fields['prefecture_id'].choices = tuple(prefectures)
 
         competitions = Competition.objects.order_by('open_at').reverse()
+
+        if type != 0:
+            competitions = competitions.filter(type=type)
 
         if event_id != 0:
             competitions = competitions.filter(event_ids__contains=[event_id])

@@ -179,6 +179,11 @@ class ProfileForm(forms.Form):
     )
 
 class CompetitionForm(forms.Form):
+    type = forms.fields.ChoiceField(
+        label='大会種別',
+        label_suffix='',
+        widget=forms.widgets.Select
+    )
     event_id = forms.fields.ChoiceField(
         label='開催種目',
         label_suffix='',
