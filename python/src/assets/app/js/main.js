@@ -101,7 +101,7 @@ $(function(){
       roundType = $(this).attr('round_type')
       console.error(roundType);
       var value = ''
-      if (roundType == 4) {
+      if (roundType == 4 || roundType == 7) {
         value = 'table-danger';
       }
       else if (roundType == 3) {
