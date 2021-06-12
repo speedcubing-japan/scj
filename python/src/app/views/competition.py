@@ -651,6 +651,7 @@ class CompetitionFee(TemplateView):
             'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
             'stripe_user_id': stripe_user_id,
             'notification': notification,
+            'is_payment': competition.is_payment or is_superuser(self, request, competition),
             'is_superuser': is_superuser(self, request, competition),
             'is_refunder': is_refunder(self, request, competition)
         }

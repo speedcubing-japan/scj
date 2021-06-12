@@ -36,9 +36,11 @@
             参加費支払い
           </div>
           <div class="card-body">
-            {% if not paid %}
-            <h5 class="mb-2">計&nbsp;{{ price }}円</h5>
-            <button type="button" class="btn bg-dark text-white" id="checkout">支払う</button>
+            {% if not is_payment %}
+              <h5>参加費の支払いを停止中です。</h5>
+            {% elif not paid %}
+              <h5 class="mb-2">計&nbsp;{{ price }}円</h5>
+              <button type="button" class="btn bg-dark text-white" id="checkout">支払う</button>
             {% else %}
               <h5 class="mb-2"><i class="fas fa-check fa-fw mr-2"></i>支払い済み</h5>
             {% endif %}

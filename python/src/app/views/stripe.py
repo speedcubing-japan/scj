@@ -5,7 +5,7 @@ import pprint
 import stripe
 import app.consts
 import datetime
-from app.views.competition import calc_fee, send_mail
+from app.views.competition import calc_fee, send_mail, is_superuser
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
@@ -55,13 +55,16 @@ class StripeCreate(View):
         stripe.api_key = settings.STRIPE_SECRET_KEY
 
         if not request.user.is_authenticated:
-            return redirect('login')
+            return JsonResponse({ 'error': 'ログインしてください。' })
 
         datas = json.loads(request.body)
 
         competition = Competition.objects.get(pk=datas['competition_id'])
         if not competition or competition.is_close():
-            return redirect('index')
+            return JsonResponse({ 'error': '大会が終了しています。' })
+
+        if not competition.is_payment and not is_superuser(self, request, competition):
+            return JsonResponse({ 'error': '現在支払えません。' })
 
         competitor = Competitor.objects.filter(
                 competition_id=competition.id,

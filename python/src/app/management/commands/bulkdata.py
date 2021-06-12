@@ -175,6 +175,7 @@ class Command(BaseCommand):
                     description=record['fields']['description'],
                     requirement=record['fields']['requirement'],
                     is_cancel=record['fields']['is_cancel'],
+                    is_payment=record['fields']['is_payment'],
                 )
                 competitions.append(competition)
 
