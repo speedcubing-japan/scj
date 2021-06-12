@@ -222,7 +222,7 @@ class StripeWebhook(View):
                 stripe_progress.save(update_fields=[
                     'charge_id',
                     'pay_price',
-                    'pay_ar',
+                    'pay_at',
                     'updated_at'
                 ])
 
