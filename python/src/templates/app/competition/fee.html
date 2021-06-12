@@ -33,7 +33,7 @@
       {% if competitor and competitor.status != consts.COMPETITOR_STATUS_CANCEL %}
         <div class="card mb-3">
           <div class="card-header text-white bg-dark lead">
-            参加費支払い
+            参加費支払い{% if is_superuser and not competition.is_payment %}<span class="text-danger font-weight-bold">&nbsp;(デバッグモード)</span>{% endif %}
           </div>
           <div class="card-body">
             {% if not is_payment %}
