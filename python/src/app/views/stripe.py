@@ -167,6 +167,28 @@ class StripeWebhook(View):
             # Invalid signature
             return HttpResponse(status=400)
 
+        if event.type == 'application_fee.created':
+            fee = event.data.object
+
+            charge = stripe.Charge.retrieve(
+                fee.charge,
+                stripe_account=fee.account
+            )
+
+            customer = stripe.Customer.retrieve(
+                charge.customer,
+                stripe_account=fee.account
+            )
+
+            stripe_progress = StripeProgress()
+            stripe_progress.customer_id = customer.id
+            stripe_progress.competition_id = customer.metadata.competition_id
+            stripe_progress.competitor_id = customer.metadata.competitor_id
+            stripe_progress.charge_id = charge.id
+            stripe_progress.pay_price = charge.amount
+            stripe_progress.pay_at = datetime.datetime.fromtimestamp(charge.created, tz=datetime.timezone.utc)
+            stripe_progress.save()
+
         if event.type == 'checkout.session.completed':
             checkout_session = event.data.object
 
