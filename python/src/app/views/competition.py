@@ -635,6 +635,9 @@ class CompetitionFee(TemplateView):
         paid = False
         if competitor:
             paid = StripeProgress.objects.filter(competitor_id=competitor.id).exists()
+        if status == 'success':
+            # 一旦支払い済みにする(同期が遅いときある)
+            paid = True
         
         notification = ''
         if status == 'cancel':
