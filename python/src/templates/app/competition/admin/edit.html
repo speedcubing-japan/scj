@@ -2,6 +2,7 @@
 {% load bootstrap4 %}
 {% load competition_logo %}
 {% load static %}
+{% load event_id_name %}
 
 {% block content %}
 {% with path=competition|competition_logo %}
@@ -40,7 +41,7 @@
               {% for event_id, event_name in events.items %}
                 <tr>
                   <td><input type="checkbox" name="event_id_{{ event_id }}" {% if event_id in competitor.event_ids %}checked{% endif %}>
-                  <td>{{ event_name }}</td>
+                  <td><span class="cubing-icon event-{{ event_id | event_id_name }} mr-2 md-2 h4"></span>{{ event_name }}</td>
                   <td>{% if event_id in competitor.event_ids %}<i class="fas fa-check fa-fw mr-2"></i>{% endif %}</td>
                 </tr>
               {% endfor %}
