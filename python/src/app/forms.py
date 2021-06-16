@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse
 from django.utils import timezone
-from app.consts import PREFECTURE, INFORMATION_TYPE, INFORMATION_TYPE_EVENT
+from app.defines.prefecture import PrefectureAndOversea
 
 class UserCreateForm(UserCreationForm):
 
@@ -175,7 +175,7 @@ class ProfileForm(forms.Form):
         label='都道府県',
         label_suffix='',
         widget=forms.widgets.Select,
-        choices=PREFECTURE
+        choices=PrefectureAndOversea.choices()
     )
 
 class CompetitionForm(forms.Form):

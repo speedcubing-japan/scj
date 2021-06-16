@@ -1,11 +1,17 @@
 import pprint
 import datetime
+from app.defines.gender import Gender
+from app.defines.competitor import Status as CompetitorStatus
+from app.defines.fee import PayType as FeePayType
+from app.defines.fee import CalcType as FeeCalcType
+from app.defines.prefecture import PrefectureAndOversea
+from app.defines.event import Format, Event
 from django.conf import settings
 from django_mysql.models import JSONField
 from django.db import models
 from django.utils import timezone
 from django.utils.timezone import localtime
-from app.consts import COMPETITION_TYPE, FEE_PAY_TYPE, FEE_CALC_TYPE, PREFECTURE, GENDER, FORMAT, EVENT, ROUND_TYPE, REGIONAL_RECORD, COMPETITOR_STATUS, ROUND_LIMIT_TYPE
+from app.consts import COMPETITION_TYPE, ROUND_TYPE, ROUND_LIMIT_TYPE
 
 
 # Create your models here.
@@ -17,9 +23,9 @@ class Person(models.Model):
     last_name_kana = models.CharField('セイ', max_length=64)
     first_name_roma = models.CharField('名(ローマ字)', max_length=64)
     last_name_roma = models.CharField('姓(ローマ字)', max_length=64)
-    gender = models.SmallIntegerField('性別', choices=GENDER)
+    gender = models.SmallIntegerField('性別', choices=Gender.choices())
     birth_at = models.DateField('生年月日')
-    prefecture_id = models.SmallIntegerField('都道府県', choices=PREFECTURE)
+    prefecture_id = models.SmallIntegerField('都道府県', choices=PrefectureAndOversea.choices())
     wca_id = models.CharField('WCA_ID', max_length=10)
     wca_user_id = models.IntegerField('WCA_USER_ID', default=0)
     wca_email = models.EmailField('WCA EMAIL', default='')
@@ -70,7 +76,7 @@ class Competition(models.Model):
     judge_person_ids = JSONField('審判員ID')
     stripe_user_person_id = models.IntegerField('Stripe使用者ID', default=0)
     event_ids = JSONField('イベントID')
-    prefecture_id = models.SmallIntegerField('都道府県ID', choices=PREFECTURE)
+    prefecture_id = models.SmallIntegerField('都道府県ID', choices=PrefectureAndOversea.choices())
     organizer_person_ids = JSONField('主催者SCJID')
     venue_name = models.CharField('開催地名', max_length=256)
     venue_address = models.CharField('開催地住所', max_length=256)
@@ -79,8 +85,8 @@ class Competition(models.Model):
     limit = models.IntegerField('制限人数')
     guest_limit = models.SmallIntegerField('ゲスト最大人数')
     is_display_pending_competitor = models.BooleanField('承認前の競技者の一覧表示フラグ', default=False)
-    fee_pay_type = models.SmallIntegerField('参加費支払いタイプ', default=0, choices=FEE_PAY_TYPE)
-    fee_calc_type = models.SmallIntegerField('参加費計算タイプ', default=0, choices=FEE_CALC_TYPE)
+    fee_pay_type = models.SmallIntegerField('参加費支払いタイプ', default=0, choices=FeePayType.choices())
+    fee_calc_type = models.SmallIntegerField('参加費計算タイプ', default=0, choices=FeeCalcType.choices())
     description = models.TextField('大会説明', default='')
     requirement = models.TextField('参加要件', default='')
     is_cancel = models.BooleanField('キャンセル可否', default=False)
@@ -108,7 +114,7 @@ class Competition(models.Model):
 class Competitor(models.Model):
 
     competition_id = models.IntegerField("大会ID")
-    status = models.SmallIntegerField('状態', choices=COMPETITOR_STATUS)
+    status = models.SmallIntegerField('状態', choices=CompetitorStatus.choices())
     event_ids = JSONField('申し込み種目ID')
     guest_count = models.SmallIntegerField('見学者数')
     comment = models.TextField('コメント')
@@ -133,11 +139,11 @@ class Round(models.Model):
 
     id = models.IntegerField('ラウンドID', primary_key=True)
     competition_id = models.IntegerField('大会ID')
-    event_id = models.SmallIntegerField('イベントID', choices=EVENT)
+    event_id = models.SmallIntegerField('イベントID', choices=Event.choices())
     event_name = models.CharField('イベント名', max_length=64, default='')
     attempt_count = models.SmallIntegerField('挑戦回数', default=0)
     type = models.SmallIntegerField('ラウンドタイプ', choices=ROUND_TYPE)
-    format_id = models.IntegerField('フォーマットID', choices=FORMAT)
+    format_id = models.IntegerField('フォーマットID', choices=Format.choices())
     limit_type = models.SmallIntegerField('制限タイプ', default=0, choices=ROUND_LIMIT_TYPE)
     limit_time = models.IntegerField('制限時間')
     cutoff_attempt_count = models.SmallIntegerField('カットオフ回数', default=0)
@@ -150,7 +156,7 @@ class Round(models.Model):
 class Result(models.Model):
 
     competition_id = models.IntegerField('大会ID')
-    event_id = models.SmallIntegerField('イベントID', choices=EVENT)
+    event_id = models.SmallIntegerField('イベントID', choices=Event.choices())
     person_id = models.IntegerField('競技者ID')
     round = models.ForeignKey(Round, on_delete=models.CASCADE)
     rank = models.SmallIntegerField('順位')
@@ -173,7 +179,7 @@ class Result(models.Model):
 class AverageRank(models.Model):
 
     person = models.ForeignKey(Person, on_delete=models.CASCADE, default=None) 
-    event_id = models.SmallIntegerField('イベントID', choices=EVENT)
+    event_id = models.SmallIntegerField('イベントID', choices=Event.choices())
     competition_id = models.IntegerField('大会ID')
     competition_name_id = models.CharField('大会名ID', max_length=64, default='')
     competition_name = models.CharField('大会名', max_length=64, default='')
@@ -184,9 +190,9 @@ class AverageRank(models.Model):
     value3 = models.FloatField('値3', default=0)
     value4 = models.FloatField('値4', default=0)
     value5 = models.FloatField('値5', default=0)
-    gender = models.SmallIntegerField("性別", default=0, choices=GENDER)
+    gender = models.SmallIntegerField("性別", default=0, choices=Gender.choices())
     generation = models.SmallIntegerField("世代", default=0)
-    prefecture_id = models.SmallIntegerField("都道府県ID", default=0, choices=PREFECTURE)
+    prefecture_id = models.SmallIntegerField("都道府県ID", default=0, choices=PrefectureAndOversea.choices())
     rank = models.IntegerField('ランク', default=0)
     gender_rank = models.IntegerField('性別ランク', default=0)
     generation_rank = models.IntegerField('世代ランク', default=0)
@@ -203,15 +209,15 @@ class AverageRank(models.Model):
 class BestRank(models.Model):
 
     person = models.ForeignKey(Person, on_delete=models.CASCADE, default=None)
-    event_id = models.SmallIntegerField('イベントID', choices=EVENT)
+    event_id = models.SmallIntegerField('イベントID', choices=Event.choices())
     competition_id = models.IntegerField('大会ID')
     competition_name_id = models.CharField('大会名ID', max_length=64, default='')
     competition_name = models.CharField('大会名', max_length=64, default='')
     year = models.SmallIntegerField('年', default=0)
     best = models.FloatField('ベスト')
-    gender = models.SmallIntegerField("性別", default=0, choices=GENDER)
+    gender = models.SmallIntegerField("性別", default=0, choices=Gender.choices())
     generation = models.SmallIntegerField("世代", default=0)
-    prefecture_id = models.SmallIntegerField("都道府県ID", default=0, choices=PREFECTURE)
+    prefecture_id = models.SmallIntegerField("都道府県ID", default=0, choices=PrefectureAndOversea.choices())
     rank = models.IntegerField('ランク', default=0)
     gender_rank = models.IntegerField('性別ランク', default=0)
     generation_rank = models.IntegerField('世代ランク', default=0)
@@ -228,7 +234,7 @@ class BestRank(models.Model):
 class Scramble(models.Model):
 
     competition_id = models.IntegerField('大会ID')
-    event_id = models.SmallIntegerField('イベントID', choices=EVENT)
+    event_id = models.SmallIntegerField('イベントID', choices=Event.choices())
     round_id = models.IntegerField('ラウンドID')
     group_id = models.CharField('グループID', max_length=4)
     scramble = models.CharField('スクランブル', max_length=64)
@@ -236,7 +242,7 @@ class Scramble(models.Model):
 class FeePerEvent(models.Model):
 
     competition_id = models.IntegerField('大会ID')
-    event_id = models.SmallIntegerField('イベントID', choices=EVENT)
+    event_id = models.SmallIntegerField('イベントID', choices=Event.choices())
     price = models.IntegerField('料金')
 
 class FeePerEventCount(models.Model):
@@ -248,7 +254,7 @@ class FeePerEventCount(models.Model):
 class WcaAverageRank(models.Model):
 
     wca_id = models.CharField('WCA_ID', max_length=10)
-    event_id = models.SmallIntegerField('イベントID', choices=EVENT)
+    event_id = models.SmallIntegerField('イベントID', choices=Event.choices())
     best = models.IntegerField('ベスト')
     rank = models.IntegerField('順位')
 
@@ -260,7 +266,7 @@ class WcaAverageRank(models.Model):
 class WcaBestRank(models.Model):
 
     wca_id = models.CharField('WCA_ID', max_length=10)
-    event_id = models.SmallIntegerField('イベントID', choices=EVENT)
+    event_id = models.SmallIntegerField('イベントID', choices=Event.choices())
     best = models.IntegerField('ベスト')
     rank = models.IntegerField('順位')
 

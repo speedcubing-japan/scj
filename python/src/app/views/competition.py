@@ -5,6 +5,12 @@ import stripe
 import pprint
 import csv
 import urllib
+from app.defines.gender import Gender, GenderEn
+from app.defines.competitor import Status as CompetitorStatus
+from app.defines.fee import PayType as FeePayType
+from app.defines.fee import CalcTypeEn as FeeCalcType
+from app.defines.prefecture import Prefecture, PrefectureAndOversea
+from app.defines.event import Event
 from django.http import HttpResponse
 from django.conf import settings
 from django.views.generic import TemplateView
@@ -61,8 +67,7 @@ def calc_fee(self, competition, competitor):
     fees = {}
     price = 0
 
-    if competition.fee_calc_type == app.consts.FEE_CALC_TYPE_EVENT:
-        events = dict(app.consts.EVENT)
+    if competition.fee_calc_type == FeeCalcType.EVENT.value:
         results = FeePerEvent.objects.filter(competition_id=competition.id)
         for result in results:
             fees[result.event_id] = result.price
@@ -74,7 +79,7 @@ def calc_fee(self, competition, competitor):
                 if result.event_id in competitor.event_ids:
                     price += result.price
 
-    elif competition.fee_calc_type == app.consts.FEE_CALC_TYPE_EVENT_COUNT:
+    elif competition.fee_calc_type == FeeCalcType.EVENT_COUNT.value:
         results = FeePerEventCount.objects.filter(competition_id=competition.id)
         for result in results:
             fees[result.event_count] = result.price
@@ -114,9 +119,9 @@ class CompetitionIndex(TemplateView):
         competition_type.insert(0, (0, '全種別'))
         form.fields['type'].choices = tuple(competition_type)
 
-        event = list(app.consts.EVENT)
-        event.insert(0, (0, '全種目'))
-        form.fields['event_id'].choices = tuple(event)
+        events = [(0, '全種目')]
+        events += Event.choices()
+        form.fields['event_id'].choices = tuple(events)
 
         years = [(0, '最新')]
         current_year = datetime.date.today().year
@@ -124,9 +129,7 @@ class CompetitionIndex(TemplateView):
         form.fields['year'].choices = tuple(years)
 
         prefectures = [(0, '全都道府県')]
-        for prefecture in app.consts.PREFECTURE:
-            if prefecture[0] <= app.consts.PREFECTURE_COUNT:
-                prefectures.append(prefecture)
+        prefectures += list(map(lambda x: (x.value, x.name), Prefecture))
         form.fields['prefecture_id'].choices = tuple(prefectures)
 
         competitions = Competition.objects.order_by('open_at').reverse()
@@ -180,11 +183,8 @@ class CompetitionDetail(TemplateView):
         # 主催者
         organizers = Person.objects.filter(id__in=competition.organizer_person_ids)
 
-        fee_pay_types = dict(app.consts.FEE_PAY_TYPE)
-        fee_pay_type_text = fee_pay_types[competition.fee_pay_type]
-
-        fee_calc_types = dict(app.consts.FEE_CALC_TYPE)
-        fee_calc_type_text = fee_calc_types[competition.fee_calc_type]
+        fee_pay_type_text = FeePayType.get_name(competition.fee_pay_type)
+        fee_calc_type_text = FeeCalcType.get_name(competition.fee_calc_type)
 
         notification = ''
         if competition.is_cancel:
@@ -201,7 +201,7 @@ class CompetitionDetail(TemplateView):
         # 承認者数
         competitor_registration_count = Competitor.objects.filter(
             competition_id=competition.id,
-            status=app.consts.COMPETITOR_STATUS_REGISTRATION).count()
+            status=CompetitorStatus.REGISTRATION.value).count()
         competitor_registration_rate = int(competitor_registration_count * 100 / competition.limit)
 
         # google calendar date params
@@ -290,7 +290,7 @@ class CompetitionRegistration(TemplateView):
         
             competitor = Competitor()
             competitor.competition_id = competition.id
-            competitor.status = app.consts.COMPETITOR_STATUS_PENDING
+            competitor.status = CompetitorStatus.PENDING.value
             competitor.event_ids = event_ids
             competitor.guest_count = guest_count
             competitor.comment = comment
@@ -337,7 +337,7 @@ class CompetitionRegistration(TemplateView):
         
         registration_competitor_count = Competitor.objects.filter(
             competition_id=competition.id,
-            status=app.consts.COMPETITOR_STATUS_REGISTRATION).count()
+            status=CompetitorStatus.REGISTRATION.value).count()
         is_limit = registration_competitor_count >= competition.limit
 
         now = datetime.datetime.now(tz=datetime.timezone.utc)
@@ -353,8 +353,8 @@ class CompetitionRegistration(TemplateView):
 
         events = []
         for event_id in competition.event_ids:
-            if event_id in dict(app.consts.EVENT):
-                events.append((str(event_id), dict(app.consts.EVENT)[event_id]))
+            if event_id in Event.dict():
+                events.append((str(event_id), Event.get_name(event_id)))
         form.fields['event_ids'].choices = events
 
         form.fields['name_id'].initial = name_id
@@ -406,7 +406,7 @@ class CompetitionCompetitor(TemplateView):
         event_id = 0
         event_name = kwargs.get('event_name')
         if event_name != 'list':
-            event_id = [k for k, v in dict(app.consts.EVENT).items() if v == event_name][0]
+            event_id = Event.get_value(event_name)
 
         if event_id:
             competitors = Competitor.objects.filter(competition_id=competition.id, event_ids__contains=event_id)
@@ -414,9 +414,9 @@ class CompetitionCompetitor(TemplateView):
             competitors = Competitor.objects.filter(competition_id=competition.id)
 
         if competition.is_display_pending_competitor:
-            competitors = competitors.exclude(status=app.consts.COMPETITOR_STATUS_CANCEL).order_by('created_at')
+            competitors = competitors.exclude(status=CompetitorStatus.CANCEL.value).order_by('created_at')
         else:
-            competitors = competitors.filter(status=app.consts.COMPETITOR_STATUS_REGISTRATION).order_by('created_at')
+            competitors = competitors.filter(status=CompetitorStatus.REGISTRATION.value).order_by('created_at')
 
         bests = {}
         averages = {}
@@ -712,7 +712,7 @@ class CompetitionAdmin(LoginRequiredMixin, TemplateView):
         for competitor in competitors:
             if request.POST.get('competitor_id_' + str(competitor.id)):
                 if type == 'admit':
-                    competitor.status = app.consts.COMPETITOR_STATUS_REGISTRATION
+                    competitor.status = CompetitorStatus.REGISTRATION.value
                     competitor.save(update_fields=[
                         'status',
                         'updated_at'
@@ -726,7 +726,7 @@ class CompetitionAdmin(LoginRequiredMixin, TemplateView):
                         'mail/competition/registration_admit_message.txt')
 
                 if type == 'cancel':
-                    competitor.status = app.consts.COMPETITOR_STATUS_CANCEL
+                    competitor.status = CompetitorStatus.CANCEL.value
                     competitor.save(update_fields=[
                         'status',
                         'updated_at'
@@ -762,11 +762,11 @@ class CompetitionAdmin(LoginRequiredMixin, TemplateView):
                 if competitor.id == stripe_progress.competitor_id:
                     competitor.set_stripe_progress(stripe_progress)
 
-            if competitor.status == app.consts.COMPETITOR_STATUS_PENDING:
+            if competitor.status == CompetitorStatus.PENDING.value:
                 pending_competitors.append(competitor)
-            if competitor.status == app.consts.COMPETITOR_STATUS_REGISTRATION:
+            if competitor.status == CompetitorStatus.REGISTRATION.value:
                 registration_competitors.append(competitor)
-            if competitor.status == app.consts.COMPETITOR_STATUS_CANCEL:
+            if competitor.status == CompetitorStatus.CANCEL.value:
                 cancel_competitors.append(competitor)
 
         has_results = Result.objects.filter(competition_id=competition.id).count() > 0
@@ -878,7 +878,7 @@ class CompetitionAdminRefund(LoginRequiredMixin, TemplateView):
                         charge=stripe_progress.charge_id
                     )
 
-                competitor.status = app.consts.COMPETITOR_STATUS_CANCEL
+                competitor.status = CompetitorStatus.CANCEL.value
                 competitor.save(update_fields=[
                     'status',
                     'updated_at'
@@ -1115,7 +1115,7 @@ class CompetitionAdminCompetitorCsvWcaImport(LoginRequiredMixin, TemplateView):
             event_name_dict[event_id] = event_id_names[event_id]
 
         country_names = dict(app.consts.COUNTRY)
-        gender = dict(app.consts.GENDER_EN)
+        gender = dict(GenderEn.choices())
 
         event_name_id_list = []
         for event_id, event_id_name in event_name_dict.items():
@@ -1139,9 +1139,9 @@ class CompetitionAdminCompetitorCsvWcaImport(LoginRequiredMixin, TemplateView):
             if request.POST.get('competitor_id_' + str(competitor.id)):
 
                 status = 'null'
-                if competitor.status == app.consts.COMPETITOR_STATUS_REGISTRATION:
+                if competitor.status == CompetitorStatus.REGISTRATION.value:
                     status = 'a'
-                elif competitor.status == app.consts.COMPETITOR_STATUS_CANCEL:
+                elif competitor.status == CompetitorStatus.CANCEL.value:
                     status = 'd'
 
                 event_join_list = []

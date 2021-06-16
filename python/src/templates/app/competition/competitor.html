@@ -38,8 +38,8 @@
         </thead>
         <tbody>
           {% for competitor in competitors %}
-            <tr{% if competitor.status == consts.COMPETITOR_STATUS_PENDING %} class="bg-light"{% endif %}>
-              <th scope="row">{% if competitor.status == consts.COMPETITOR_STATUS_PENDING %}未承認{% else %}{{ forloop.counter }}{% endif %}</th>
+            <tr{% if competitor.status == competitor_status.PENDING.value %} class="bg-light"{% endif %}>
+              <th scope="row">{% if competitor.status == competitor_status.PENDING.value %}未承認{% else %}{{ forloop.counter }}{% endif %}</th>
               <td>{{ competitor.name }}</td>
               {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
                 <td>{{ competitor.prefecture }}</td>

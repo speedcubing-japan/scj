@@ -2,6 +2,8 @@ import pyjq
 import os
 import json
 import app.consts
+from app.defines.gender import Gender
+from app.defines.prefecture import PrefectureAndOversea
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
@@ -75,17 +77,9 @@ class Command(BaseCommand):
                 results = pyjq.all(query, json_object)
 
                 rank = 0
-                gender_ranks = {}
-                for k, v in dict(app.consts.GENDER).items():
-                    gender_ranks[k] = 0
-                
-                generation_ranks = {}
-                for i in range(0, 10):
-                    generation_ranks[i * app.consts.GENERATION_MAX] = 0 
-
-                prefecture_ranks = {}
-                for k, v in dict(app.consts.PREFECTURE).items():
-                    prefecture_ranks[k] = 0
+                gender_ranks = dict(map(lambda x: (x.value, 0), Gender))
+                generation_ranks = dict(map(lambda x: (x * app.consts.GENERATION_MAX, 0), range(0, 10)))
+                prefecture_ranks = dict(map(lambda x: (x.value, 0), PrefectureAndOversea))
 
                 before_record = 0
                 skip_count = 1

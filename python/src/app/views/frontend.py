@@ -2,6 +2,8 @@ import requests
 import app.consts
 import pprint
 import datetime
+from app.defines.information import Type as InformationType
+from app.defines.information import TypeEn as InformationTypeEn
 from django.conf import settings
 from django.shortcuts import render
 from django.utils import timezone
@@ -129,10 +131,10 @@ class InformationList(TemplateView):
                 .order_by('updated_at') \
                 .reverse()
         else:
-            if not type in dict(app.consts.INFORMATION_TYPE_EN):
+            if not InformationTypeEn.contains_name(type):
                 return redirect('index') 
             
-            type_id = dict(app.consts.INFORMATION_TYPE_EN)[type] 
+            type_id = InformationTypeEn.get_value(type)
             all_informations = Information.objects \
                 .filter(type=type_id) \
                 .filter(is_public=True) \
@@ -426,14 +428,14 @@ class PostConfirm(View):
 
         if format == 'event':
             form = PostForm(session_form_data)
-            type = app.consts.INFORMATION_TYPE_EVENT
+            type = InformationTypeEn.event.value
             text = make_post_text(self, form.data)
         elif format == 'information':
             form = InformationForm(session_form_data)
             type = form.data['type']
             text = form.data['text']
 
-        type_display_name = dict(app.consts.INFORMATION_TYPE)[int(type)]
+        type_display_name = InformationType.get_name(int(type))
 
         context = {
             'form': form,
@@ -463,7 +465,7 @@ class PostComplete(View):
 
         if form.is_valid():
             if format == 'event':
-                type = app.consts.INFORMATION_TYPE_EVENT
+                type = InformationTypeEn.event.value
                 text = make_post_text(self, form.cleaned_data)
             elif format == 'information':
                 type = form.cleaned_data['type']
@@ -619,7 +621,7 @@ class PostEdit(LoginRequiredMixin, View):
                 return redirect('index')
 
             post = post.first()
-            post.type = app.consts.INFORMATION_TYPE_EVENT
+            post.type = InformationTypeEn.event.value
             post.title = post_form.cleaned_data['title']
             post.text = post_form.cleaned_data['text']
             post.save(update_fields=[

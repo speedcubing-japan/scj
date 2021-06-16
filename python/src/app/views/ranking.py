@@ -1,5 +1,7 @@
 import app.consts
 import datetime
+from app.defines.gender import Gender
+from app.defines.prefecture import Prefecture
 from pprint import pprint
 from django.shortcuts import render
 from django.views.generic import TemplateView
@@ -25,8 +27,8 @@ class RankingIndex(TemplateView):
         form.fields['event_id'].choices = app.consts.EVENT
 
         genders = [(0, "すべて")]
-        for gender in app.consts.GENDER:
-            genders.append(gender)
+        genders += Gender.choices()
+
         form.fields['gender_id'].choices = tuple(genders)
 
         generattions = [(-1, "全世代")]
@@ -35,9 +37,7 @@ class RankingIndex(TemplateView):
         form.fields['generation_id'].choices = tuple(generattions)
 
         prefectures = [(0, "全都道府県")]
-        for prefecture in app.consts.PREFECTURE:
-            if prefecture[0] <= app.consts.PREFECTURE_COUNT:
-                prefectures.append(prefecture)
+        prefectures += list(map(lambda x: (x.value, x.name), Prefecture))
         form.fields['prefecture_id'].choices = tuple(prefectures)
 
         if type == 'best':

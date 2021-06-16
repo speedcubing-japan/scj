@@ -1,12 +1,12 @@
-{% if competitor.status == consts.COMPETITOR_STATUS_PENDING %}
+{% if competitor.status == competitor_status.PENDING.value %}
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
     <strong>あなたの申し込みは承認待ちです。</strong>
   </div>
-{% elif competitor.status == consts.COMPETITOR_STATUS_REGISTRATION %}
+{% elif competitor.status == competitor_status.REGISTRATION.value %}
   <div class="alert alert-success alert-dismissible fade show" role="alert">
     <strong>あなたの申し込みは承認されました。</strong>
   </div>
-{% elif competitor.status == consts.COMPETITOR_STATUS_CANCEL %}
+{% elif competitor.status == competitor_status.CANCEL.value %}
   <div class="alert alert-danger alert-dismissible fade show" role="alert">
     <strong>あなたの申し込みはキャンセルされました。</strong>
   </div>
