@@ -120,8 +120,7 @@ class CompetitionIndex(TemplateView):
 
         years = [(0, '最新')]
         current_year = datetime.date.today().year
-        for target_year in range(app.consts.SCJ_COMPETITON_FIRST_YEAR, current_year + 1):
-            years.append((target_year, str(target_year) + '年'))
+        years += list(map(lambda x: (x, str(x) + '年'), reversed(range(app.consts.SCJ_COMPETITON_FIRST_YEAR, current_year + 1))))
         form.fields['year'].choices = tuple(years)
 
         prefectures = [(0, '全都道府県')]
@@ -407,10 +406,7 @@ class CompetitionCompetitor(TemplateView):
         event_id = 0
         event_name = kwargs.get('event_name')
         if event_name != 'list':
-            event_ids = [k for k, v in dict(app.consts.EVENT).items() if v == event_name]
-            if not event_ids:
-                return redirect('competition_detail', name_id=name_id)
-            event_id = event_ids[0]
+            event_id = [k for k, v in dict(app.consts.EVENT).items() if v == event_name][0]
 
         if event_id:
             competitors = Competitor.objects.filter(competition_id=competition.id, event_ids__contains=event_id)
@@ -432,11 +428,11 @@ class CompetitionCompetitor(TemplateView):
 
                 best_ranks = BestRank.objects.filter(event_id=event_id, person_id__in=person_ids)
                 for best_rank in best_ranks:
-                    bests[best_rank.person.id] = '{:.02f}'.format(best_rank.best)
+                    bests[best_rank.person.id] = best_rank.best
 
                 average_ranks = AverageRank.objects.filter(event_id=event_id, person_id__in=person_ids)
                 for average_rank in average_ranks:
-                    averages[average_rank.person.id] = '{:.02f}'.format(average_rank.best)
+                    averages[average_rank.person.id] = average_rank.best
 
             elif competition.type == app.consts.COMPETITION_TYPE_WCA:
                 wca_ids = []
@@ -445,11 +441,11 @@ class CompetitionCompetitor(TemplateView):
 
                 wca_best_ranks = WcaBestRank.objects.filter(event_id=event_id, wca_id__in=wca_ids)
                 for wca_best_rank in wca_best_ranks:
-                    bests[wca_best_rank.wca_id] = '{:.02f}'.format(wca_best_ranks.best)
+                    bests[wca_best_rank.wca_id] = wca_best_ranks.best
 
                 wca_average_ranks = WcaAverageRank.objects.filter(event_id=event_id, wca_id__in=wca_ids)
                 for wca_average_rank in wca_average_ranks:
-                    averages[wca_average_rank.wca_id] = '{:.02f}'.format(wca_average_rank.best)
+                    averages[wca_average_rank.wca_id] = wca_average_rank.best
 
         competitor_list = []
         name = ''
@@ -483,6 +479,7 @@ class CompetitionCompetitor(TemplateView):
         context = {
             'competition': competition,
             'competitors': competitor_list,
+            'event_id': event_id,
             'event_name': event_name,
             'event_names': event_names,
             'name_id': name_id,
