@@ -454,12 +454,12 @@ class CompetitionCompetitor(TemplateView):
             if competition.type == app.consts.COMPETITION_TYPE_SCJ:
                 name = competitor.person.get_full_name()
                 prefecture = competitor.person.get_prefecture_id_display()
-                best = bests[competitor.person.id] if competitor.person.id in bests else 'n/a'
-                average = averages[competitor.person.id] if competitor.person.id in averages else 'n/a'
+                best = bests[competitor.person.id] if competitor.person.id in bests else app.consts.OUTLIERS
+                average = averages[competitor.person.id] if competitor.person.id in averages else app.consts.OUTLIERS
             elif competition.type == app.consts.COMPETITION_TYPE_WCA:
                 name = competitor.person.wca_name
-                best = bests[competitor.person.wca_id] if competitor.person.wca_id in bests else 'n/a'
-                average = averages[competitor.person.wca_id] if competitor.person.wca_id in averages else 'n/a'
+                best = bests[competitor.person.wca_id] if competitor.person.wca_id in bests else app.consts.OUTLIERS
+                average = averages[competitor.person.wca_id] if competitor.person.wca_id in averages else app.consts.OUTLIERS
 
             competitor_list.append({
                 'status': competitor.status,
