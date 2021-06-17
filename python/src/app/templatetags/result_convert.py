@@ -29,5 +29,7 @@ def result_convert(result, event_id):
         pass
     elif event_id == 17:
         return mbf_convert(result)
+    elif result == 'n/a':
+        return result
     else:
         return str('{:.02f}'.format(result))
