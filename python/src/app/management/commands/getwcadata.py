@@ -7,6 +7,7 @@ import json
 import zipfile
 import csv
 import app.consts
+from app.defines.event import Event
 
 
 class Command(BaseCommand):
@@ -41,7 +42,7 @@ class Command(BaseCommand):
 
     def make_json(self, filepath, model_name):
 
-        event_id_name_dict = dict(app.consts.EVENT_ID_NAME)
+        event_id_name_dict = Event.get_event_id_names()
         event_name_id_dict = {v: k for k, v in event_id_name_dict.items()}
 
         sql = 'TRUNCATE TABLE app_' + model_name + '; '

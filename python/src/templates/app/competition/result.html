@@ -33,7 +33,7 @@
                       <th scope="col" class="col-xs-4">都道府県</th>
                     {% endif %}
                     <th scope="col" class="col-xs-4">ベスト</th>
-                    {% if not event_id in consts.EVENT_ONLY_BEST_IDS %}
+                    {% if not event_id in best_only_event_ids %}
                       <th scope="col" class="col-xs-4">平均</th>
                     {% endif %}
                   </tr>
@@ -52,7 +52,7 @@
                           <td>{{ competitor_prefectures | key:result.person_id }}</td>
                         {% endif %}
                         <td class="text-monospace">{{ result.best | result_convert:result.event_id }}</td>
-                        {% if not event_id in consts.EVENT_ONLY_BEST_IDS %}
+                        {% if not event_id in best_only_event_ids %}
                           <td class="text-monospace">{{ result.average | result_convert:result.event_id }}</td>
                         {% endif %}
                       </tr>

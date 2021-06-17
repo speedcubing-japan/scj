@@ -2,6 +2,7 @@ import app.consts
 import datetime
 from app.defines.gender import Gender
 from app.defines.prefecture import Prefecture
+from app.defines.event import Event
 from pprint import pprint
 from django.shortcuts import render
 from django.views.generic import TemplateView
@@ -24,7 +25,7 @@ class RankingIndex(TemplateView):
             'gender_id': gender_id
         })
 
-        form.fields['event_id'].choices = app.consts.EVENT
+        form.fields['event_id'].choices = Event.choices()
 
         genders = [(0, "すべて")]
         genders += Gender.choices()

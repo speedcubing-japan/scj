@@ -353,7 +353,7 @@ class CompetitionRegistration(TemplateView):
 
         events = []
         for event_id in competition.event_ids:
-            if event_id in Event.dict():
+            if event_id in dict(Event.choices()):
                 events.append((str(event_id), Event.get_name(event_id)))
         form.fields['event_ids'].choices = events
 
@@ -470,12 +470,7 @@ class CompetitionCompetitor(TemplateView):
             })
 
         competitor_list = sorted(competitor_list, key=lambda x: x['average'])
-
-        event_names = []
-        for event_id in competition.event_ids:
-            if event_id in dict(app.consts.EVENT):
-                event_names.append(dict(app.consts.EVENT)[event_id])
-
+        event_names = Event.get_names(competition.event_ids)
         context = {
             'competition': competition,
             'competitors': competitor_list,
@@ -514,10 +509,7 @@ class CompetitionResult(TemplateView):
             else:
                 competition_rounds[round.event_id] = [round.get_type_display()]
 
-        events = []
-        for event_id in competition.event_ids:
-            if event_id in dict(app.consts.EVENT):
-                events.append({'event_id': event_id, 'event_name': dict(app.consts.EVENT)[event_id]})
+        events = list({'event_id': k, 'event_name': v} for k, v in Event.get_events(competition.event_ids).items())
 
         competitor_names = {}
         for competitor in competitors:
@@ -539,6 +531,7 @@ class CompetitionResult(TemplateView):
             'events': events,
             'rounds': competition_rounds,
             'results': results,
+            'best_only_event_ids': Event.get_best_only_values(),
             'has_results': True,
             'is_superuser': is_superuser(self, request, competition),
             'is_refunder': is_refunder(self, request, competition)
@@ -949,10 +942,7 @@ class CompetitionAdminCompetitorEdit(LoginRequiredMixin, TemplateView):
         if not competitor:
             return None
 
-        events = {}
-        for event_id in competition.event_ids:
-            if event_id in dict(app.consts.EVENT):
-                events[event_id] = dict(app.consts.EVENT)[event_id]
+        events = Event.get_events(competition.event_ids)
 
         notification = ''
         if request.method == 'POST':
@@ -1015,7 +1005,7 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
         writer = csv.writer(response)
 
         event_name_dict = {}
-        event_id_names = dict(app.consts.EVENT_ID_NAME)
+        event_id_names = Event.get_event_id_names()
         for event_id in competition.event_ids:
             event_name_dict[event_id] = event_id_names[event_id]
 
@@ -1110,7 +1100,7 @@ class CompetitionAdminCompetitorCsvWcaImport(LoginRequiredMixin, TemplateView):
         writer = csv.writer(response)
 
         event_name_dict = {}
-        event_id_names = dict(app.consts.EVENT_ID_NAME)
+        event_id_names = Event.get_event_id_names()
         for event_id in competition.event_ids:
             event_name_dict[event_id] = event_id_names[event_id]
 

@@ -1,25 +1,14 @@
 SCJ_COMPETITON_FIRST_YEAR = 2020
-NR_REGIONAL_ID = 99
 COMPETITION_TYPE_SCJ = 1
 COMPETITION_TYPE_WCA = 2
 ROUND_LIMIT_TYPE_LIMIT = 1
 ROUND_LIMIT_TYPE_CUMULATIVE = 2
-EVENT_ID_FMC = 8
 GENERATION_MAX = 10
-EVENT_ONLY_BEST_IDS = [15, 16, 17]
 OUTLIERS = 99999999999
 
 COMPETITION_TYPE = (
     (1, 'SCJ大会'),
     (2, 'WCA大会'),
-)
-
-FORMAT = (
-    (1, 'Best of 1'),
-    (2, 'Best of 2'),
-    (3, 'Best of 3'),
-    (4, 'Average of 5'),
-    (5, 'Mean of 3'),
 )
 
 ROUND_TYPE = (
@@ -35,46 +24,6 @@ ROUND_TYPE = (
 ROUND_LIMIT_TYPE = (
     (1, '時間制限'),
     (2, '累計時間制限'),
-)
-
-EVENT = (
-    (1, "3x3x3 キューブ"),
-    (2, "2x2x2 キューブ"),
-    (3, "4x4x4 キューブ"),
-    (4, "5x5x5 キューブ"),
-    (5, "6x6x6 キューブ"),
-    (6, "7x7x7 キューブ"),
-    (7, "3x3x3 目隠し"),
-    (8, "3x3x3 最少手数"),
-    (9, "3x3x3 片手"),
-    (10, "クロック"),
-    (11, "メガミンクス"),
-    (12, "ピラミンクス"),
-    (13, "スキューブ"),
-    (14, "スクエア1"),
-    (15, "4x4x4 目隠し"),
-    (16, "5x5x5 目隠し"),
-    (17, "3x3x3 複数目隠し"),
-)
-
-EVENT_ID_NAME = (
-    (1, "333"),
-    (2, "222"),
-    (3, "444"),
-    (4, "555"),
-    (5, "666"),
-    (6, "777"),
-    (7, "333bf"),
-    (8, "333fm"),
-    (9, "333oh"),
-    (10, "clock"),
-    (11, "minx"),
-    (12, "pyram"),
-    (13, "skewb"),
-    (14, "sq1"),
-    (15, "444bf"),
-    (16, "555bf"),
-    (17, "333mbf"),
 )
 
 COUNTRY = (
