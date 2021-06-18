@@ -4,6 +4,8 @@ from app.defines.gender import Gender
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.fee import PayType as FeePayType
 from app.defines.fee import CalcType as FeeCalcType
+from app.defines.competition import Type as CompetitionType
+from app.defines.competition import RoundType, RoundLimitType
 from app.defines.prefecture import PrefectureAndOversea
 from app.defines.event import Format, Event
 from django.conf import settings
@@ -11,7 +13,6 @@ from django_mysql.models import JSONField
 from django.db import models
 from django.utils import timezone
 from django.utils.timezone import localtime
-from app.consts import COMPETITION_TYPE, ROUND_TYPE, ROUND_LIMIT_TYPE
 
 
 # Create your models here.
@@ -66,7 +67,7 @@ class Person(models.Model):
 class Competition(models.Model):
 
     id = models.IntegerField('大会ID', primary_key=True)
-    type = models.SmallIntegerField('大会タイプ', default=0, choices=COMPETITION_TYPE)
+    type = models.SmallIntegerField('大会タイプ', default=0, choices=CompetitionType.choices())
     name = models.CharField('大会名', max_length=64)
     name_id = models.CharField('大会名ID', max_length=64)
     open_at = models.DateTimeField('開始日', default=timezone.now)
@@ -142,9 +143,9 @@ class Round(models.Model):
     event_id = models.SmallIntegerField('イベントID', choices=Event.choices())
     event_name = models.CharField('イベント名', max_length=64, default='')
     attempt_count = models.SmallIntegerField('挑戦回数', default=0)
-    type = models.SmallIntegerField('ラウンドタイプ', choices=ROUND_TYPE)
+    type = models.SmallIntegerField('ラウンドタイプ', choices=RoundType.choices())
     format_id = models.IntegerField('フォーマットID', choices=Format.choices())
-    limit_type = models.SmallIntegerField('制限タイプ', default=0, choices=ROUND_LIMIT_TYPE)
+    limit_type = models.SmallIntegerField('制限タイプ', default=0, choices=RoundLimitType.choices())
     limit_time = models.IntegerField('制限時間')
     cutoff_attempt_count = models.SmallIntegerField('カットオフ回数', default=0)
     cutoff_time = models.IntegerField('カットオフ時間')

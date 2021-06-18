@@ -1,9 +1,9 @@
 import pyjq
 import os
 import json
-import app.consts
 from app.defines.gender import Gender
 from app.defines.prefecture import PrefectureAndOversea
+from app.defines.competitor import GENERATION_MAX
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
@@ -24,7 +24,7 @@ class Command(BaseCommand):
     def get_generation(self, birth_at, competition_close_at):
         close_at = localtime(datetime.fromisoformat(competition_close_at.replace('Z', '+00:00'))).date()
         age = relativedelta(close_at, birth_at).years
-        return age // app.consts.GENERATION_MAX
+        return age // GENERATION_MAX
 
     def handle(self, *args, **kwargs):
         persons = Person.objects.all()
@@ -78,7 +78,7 @@ class Command(BaseCommand):
 
                 rank = 0
                 gender_ranks = dict(map(lambda x: (x.value, 0), Gender))
-                generation_ranks = dict(map(lambda x: (x * app.consts.GENERATION_MAX, 0), range(0, 10)))
+                generation_ranks = dict(map(lambda x: (x * GENERATION_MAX, 0), range(0, 10)))
                 prefecture_ranks = dict(map(lambda x: (x.value, 0), PrefectureAndOversea))
 
                 before_record = 0
@@ -89,7 +89,7 @@ class Command(BaseCommand):
                         generation = self.get_generation(
                             person_datas[result['person_id']].birth_at,
                             competiton_datas[result['competition_id']]['close_at']
-                        ) * app.consts.GENERATION_MAX
+                        ) * GENERATION_MAX
 
                         if before_record == 0 or before_record < result[rank_type]:
                             before_record = result[rank_type]

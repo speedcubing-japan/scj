@@ -6,7 +6,6 @@ import shutil
 import json
 import zipfile
 import csv
-import app.consts
 from app.defines.event import Event
 
 

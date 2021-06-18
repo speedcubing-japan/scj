@@ -16,9 +16,9 @@
   <div class="col-sm-9 mb-3">
     {% include "app/notification.html" %}
     <h4 class="mb-3">
-      {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+      {% if competition.type == competition_type.WCA.value %}
         {{ competitor.person.wca_name }}さんの情報を編集します
-      {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+      {% elif competition.type == competition_type.SCJ.value %}
         {{ competitor.person.get_full_name }}さんの情報を編集します
       {% endif %}
     </h4>

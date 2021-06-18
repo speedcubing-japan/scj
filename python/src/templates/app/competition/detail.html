@@ -122,9 +122,9 @@
         {% endif %}
         <li class="list-group-item">
           <h6>
-            {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+            {% if competition.type == competition_type.WCA.value %}
               WCA Delegate
-            {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+            {% elif competition.type == competition_type.SCJ.value %}
               SCJ 審判員
             {% endif %}
           </h6>

@@ -6,7 +6,6 @@ import os
 import requests
 import json
 import pprint
-import app.consts
 import subprocess
 
 

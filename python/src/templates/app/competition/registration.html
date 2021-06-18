@@ -52,18 +52,18 @@
           <li>18歳未満の方の参加には、保護者の同意が必要です。</li>
           <li>大会開催中における18歳未満の参加者の保護責任は保護者にあります。</li>
           <li>
-            {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+            {% if competition.type == competition_type.WCA.value %}
               個人情報の取扱は、<a href="https://www.worldcubeassociation.org/privacy" target="_blank">WCAプライバシーポリシー</a>に準じます。
-            {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+            {% elif competition.type == competition_type.SCJ.value %}
               個人情報の取扱は、<a href="https://speedcubing.or.jp/privacy_policy/" target="_blank">SCJプライバシーポリシー</a>に準じます。
             {% endif %}
           </li>
-          {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+          {% if competition.type == competition_type.WCA.value %}
             <li>参加者の計測結果、名前、国籍、性別はインターネット上に公開されます。</li>
-          {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+          {% elif competition.type == competition_type.SCJ.value %}
             <li>参加者の計測結果、名前、都道府県、その他ランキングで必要となる情報はインターネット上に公開されます。</li>
           {% endif %}
-          {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+          {% if competition.type == competition_type.WCA.value %}
             <li>生年月日および連絡先は、本人の同意なく公開されません。</li>
           {% endif %}
           <li>広報活動や記録を目的に、撮影した写真や映像を大会運営者のHPなどで使用することがあります。</li>
@@ -76,7 +76,7 @@
       <div class="alert alert-light" role="alert">
         {{ competition.name }}に申し込むには<a href="{% url 'login' %}?next={{ request.path }}">ログイン</a>が必要です。
       </div>
-    {% elif competition.type == consts.COMPETITION_TYPE_WCA and not is_wca_authenticated %}
+    {% elif competition.type == competition_type.WCA.value and not is_wca_authenticated %}
       <div class="alert alert-light" role="alert">
         {{ competition.name }}に申し込むには<a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email"><i class="fas fa-sign-in-alt"></i>WCA認証</a>が必要です。
       </div>

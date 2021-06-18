@@ -1,5 +1,4 @@
 import requests
-import app.consts
 import pprint
 import datetime
 from app.defines.information import Type as InformationType

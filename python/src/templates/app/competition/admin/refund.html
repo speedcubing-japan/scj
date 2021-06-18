@@ -27,9 +27,9 @@
                   <tr>
                     <th scope="col"></th>
                     <th scope="col">返金額</th>
-                    {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+                    {% if competition.type == competition_type.WCA.value %}
                       <th scope="col">WCA ID</th>
-                    {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+                    {% elif competition.type == competition_type.SCJ.value %}
                       <th scope="col">SCJ ID</th>
                     {% endif %}
                     <th scope="col">氏名</th>
@@ -42,14 +42,14 @@
                   <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
                     <td><input type="checkbox" name="competitor_id_{{ competitor.id }}"></td>
                     <td><input type="number" name="competitor_refund_{{ competitor.id }}">&nbsp;/&nbsp;{{ competitor.stripe_progress.pay_pirce }}円</td>
-                    {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+                    {% if competition.type == competition_type.WCA.value %}
                       <td>{{ competitor.person.wca_id }}</td>
-                    {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+                    {% elif competition.type == competition_type.SCJ.value %}
                       <td>{{ competitor.person.id }}</td>
                     {% endif %}
-                    {% if competition.type == consts.COMPETITION_TYPE_WCA %}
+                    {% if competition.type == competition_type.WCA.value %}
                       <td><a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
-                    {% elif competition.type == consts.COMPETITION_TYPE_SCJ %}
+                    {% elif competition.type == competition_type.SCJ.value %}
                       <td><a href="mailto:{{ competitor.person.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     {% endif %}
                     <td>{{ competitor.stripe_progress.pay_at | date:"Y年m月d日 H:i:s" }}</td>

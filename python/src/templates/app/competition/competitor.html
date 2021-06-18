@@ -27,7 +27,7 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">氏名</th>
-            {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+            {% if competition.type == competition_type.SCJ.value %}
               <th scope="col">都道府県</th>
             {% endif %}
             {% if event_name != 'list' %}
@@ -41,7 +41,7 @@
             <tr{% if competitor.status == competitor_status.PENDING.value %} class="bg-light"{% endif %}>
               <th scope="row">{% if competitor.status == competitor_status.PENDING.value %}未承認{% else %}{{ forloop.counter }}{% endif %}</th>
               <td>{{ competitor.name }}</td>
-              {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+              {% if competition.type == competition_type.SCJ.value %}
                 <td>{{ competitor.prefecture }}</td>
               {% endif %}
               {% if event_name != 'list' %}

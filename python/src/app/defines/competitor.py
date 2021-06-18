@@ -1,6 +1,7 @@
 from app.defines.define import Define
 from enum import unique
 
+GENERATION_MAX = 10
 
 @unique
 class Status(Define):

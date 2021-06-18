@@ -29,7 +29,7 @@
                   <tr>
                     <th scope="col" class="col-xs-1">#</th>
                     <th scope="col" class="col-xs-7">氏名</th>
-                    {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                    {% if competition.type == competition_type.SCJ.value %}
                       <th scope="col" class="col-xs-4">都道府県</th>
                     {% endif %}
                     <th scope="col" class="col-xs-4">ベスト</th>
@@ -43,12 +43,12 @@
                     {% if result.event_id == event.event_id and result.round.get_type_display == round_name %}
                       <tr data-toggle="tooltip" data-placement="top" title="{{ result | result_values }}">
                         <th scope="row">{{ result.rank }}</th>
-                        {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                        {% if competition.type == competition_type.SCJ.value %}
                           <td>{{ competitor_names | key:result.person_id }}</td>
-                        {% elif competition.type == consts.COMPETITION_TYPE_WCA %}
+                        {% elif competition.type == competition_type.WCA.value %}
                           <td>{{ competitor_wca_names | key:result.person_id }}</td>
                         {% endif %}
-                        {% if competition.type == consts.COMPETITION_TYPE_SCJ %}
+                        {% if competition.type == competition_type.SCJ.value %}
                           <td>{{ competitor_prefectures | key:result.person_id }}</td>
                         {% endif %}
                         <td class="text-monospace">{{ result.best | result_convert:result.event_id }}</td>

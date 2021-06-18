@@ -1,6 +1,5 @@
 import json
 import datetime
-import app.consts
 import stripe
 import pprint
 import csv
@@ -11,6 +10,10 @@ from app.defines.fee import PayType as FeePayType
 from app.defines.fee import CalcTypeEn as FeeCalcType
 from app.defines.prefecture import Prefecture, PrefectureAndOversea
 from app.defines.event import Event
+from app.defines.competition import Type as CompetitionType
+from app.defines.country import Country
+from app.defines.competition import SCJ_COMPETITON_FIRST_YEAR
+from app.defines.define import OUTLIERS
 from django.http import HttpResponse
 from django.conf import settings
 from django.views.generic import TemplateView
@@ -115,9 +118,9 @@ class CompetitionIndex(TemplateView):
             'prefecture_id': prefecture_id,
         })
 
-        competition_type = list(app.consts.COMPETITION_TYPE)
-        competition_type.insert(0, (0, '全種別'))
-        form.fields['type'].choices = tuple(competition_type)
+        competition_types = [(0, '全種別')]
+        competition_types += list(map(lambda x: (x[0], str(x[1]) + '大会'), CompetitionType.choices()))
+        form.fields['type'].choices = competition_types
 
         events = [(0, '全種目')]
         events += Event.choices()
@@ -125,7 +128,7 @@ class CompetitionIndex(TemplateView):
 
         years = [(0, '最新')]
         current_year = datetime.date.today().year
-        years += list(map(lambda x: (x, str(x) + '年'), reversed(range(app.consts.SCJ_COMPETITON_FIRST_YEAR, current_year + 1))))
+        years += list(map(lambda x: (x, str(x) + '年'), reversed(range(SCJ_COMPETITON_FIRST_YEAR, current_year + 1))))
         form.fields['year'].choices = tuple(years)
 
         prefectures = [(0, '全都道府県')]
@@ -421,7 +424,7 @@ class CompetitionCompetitor(TemplateView):
         bests = {}
         averages = {}
         if event_id:
-            if competition.type == app.consts.COMPETITION_TYPE_SCJ:
+            if competition.type == CompetitionType.SCJ.value:
                 person_ids = []
                 for competitor in competitors:
                     person_ids.append(competitor.person.id)
@@ -434,7 +437,7 @@ class CompetitionCompetitor(TemplateView):
                 for average_rank in average_ranks:
                     averages[average_rank.person.id] = average_rank.best
 
-            elif competition.type == app.consts.COMPETITION_TYPE_WCA:
+            elif competition.type == CompetitionType.WCA.value:
                 wca_ids = []
                 for competitor in competitors:
                     wca_ids.append(competitor.person.wca_id)
@@ -451,15 +454,15 @@ class CompetitionCompetitor(TemplateView):
         name = ''
         prefecture = ''
         for competitor in competitors:
-            if competition.type == app.consts.COMPETITION_TYPE_SCJ:
+            if competition.type == CompetitionType.SCJ.value:
                 name = competitor.person.get_full_name()
                 prefecture = competitor.person.get_prefecture_id_display()
-                best = bests[competitor.person.id] if competitor.person.id in bests else app.consts.OUTLIERS
-                average = averages[competitor.person.id] if competitor.person.id in averages else app.consts.OUTLIERS
-            elif competition.type == app.consts.COMPETITION_TYPE_WCA:
+                best = bests[competitor.person.id] if competitor.person.id in bests else OUTLIERS
+                average = averages[competitor.person.id] if competitor.person.id in averages else OUTLIERS
+            elif competition.type == CompetitionType.WCA.value:
                 name = competitor.person.wca_name
-                best = bests[competitor.person.wca_id] if competitor.person.wca_id in bests else app.consts.OUTLIERS
-                average = averages[competitor.person.wca_id] if competitor.person.wca_id in averages else app.consts.OUTLIERS
+                best = bests[competitor.person.wca_id] if competitor.person.wca_id in bests else OUTLIERS
+                average = averages[competitor.person.wca_id] if competitor.person.wca_id in averages else OUTLIERS
 
             competitor_list.append({
                 'status': competitor.status,
@@ -1009,14 +1012,14 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
         for event_id in competition.event_ids:
             event_name_dict[event_id] = event_id_names[event_id]
 
-        if competition.type == app.consts.COMPETITION_TYPE_WCA:
+        if competition.type == CompetitionType.WCA.value:
             row = [
                 'wca_id',
                 'wca_user_id',
                 'name',
                 'email'
             ]
-        elif competition.type == app.consts.COMPETITION_TYPE_SCJ:
+        elif competition.type == CompetitionType.SCJ.value:
             row = [
                 'scj_id',
                 'full_name',
@@ -1044,7 +1047,7 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
                     else:
                         event_join_list.append(0)
 
-                if competition.type == app.consts.COMPETITION_TYPE_WCA:
+                if competition.type == CompetitionType.WCA.value:
                     row = [
                         competitor.person.wca_id,
                         competitor.person.wca_user_id,
@@ -1052,7 +1055,7 @@ class CompetitionAdminCompetitorCsv(LoginRequiredMixin, TemplateView):
                         competitor.person.wca_email,
                     ]
 
-                elif competition.type == app.consts.COMPETITION_TYPE_SCJ:
+                elif competition.type == CompetitionType.SCJ.value:
                     id = competitor.person.id
                     row = [
                         id,
@@ -1086,7 +1089,7 @@ class CompetitionAdminCompetitorCsvWcaImport(LoginRequiredMixin, TemplateView):
             return redirect('competition_index')
         competition = competition.first()
 
-        if competition.type != app.consts.COMPETITION_TYPE_WCA:
+        if competition.type != CompetitionType.WCA.value:
             return redirect('competition_index')
 
         if not is_superuser(self, request, competition):
@@ -1104,7 +1107,7 @@ class CompetitionAdminCompetitorCsvWcaImport(LoginRequiredMixin, TemplateView):
         for event_id in competition.event_ids:
             event_name_dict[event_id] = event_id_names[event_id]
 
-        country_names = dict(app.consts.COUNTRY)
+        country_names = dict(Country.choices())
         gender = dict(GenderEn.choices())
 
         event_name_id_list = []

@@ -1,8 +1,8 @@
-import app.consts
 import datetime
 from app.defines.gender import Gender
 from app.defines.prefecture import Prefecture
 from app.defines.event import Event
+from app.defines.competitor import GENERATION_MAX
 from pprint import pprint
 from django.shortcuts import render
 from django.views.generic import TemplateView
@@ -33,8 +33,8 @@ class RankingIndex(TemplateView):
         form.fields['gender_id'].choices = tuple(genders)
 
         generattions = [(-1, "全世代")]
-        for generation in range(0, app.consts.GENERATION_MAX + 1):
-            generattions.append((generation * app.consts.GENERATION_MAX, str(generation * app.consts.GENERATION_MAX) + "代"))
+        for generation in range(0, GENERATION_MAX + 1):
+            generattions.append((generation * GENERATION_MAX, str(generation * GENERATION_MAX) + "代"))
         form.fields['generation_id'].choices = tuple(generattions)
 
         prefectures = [(0, "全都道府県")]

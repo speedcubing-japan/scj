@@ -3,7 +3,6 @@ import pyjq
 import requests
 import pprint
 import stripe
-import app.consts
 import datetime
 from app.views.competition import calc_fee, send_mail, is_superuser
 from django.views.decorators.csrf import csrf_exempt
@@ -17,6 +16,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.urls import reverse
 from django.http import JsonResponse
+from app.defines.competition import Type as CompetitionType
 from app.models import Competition, Competitor, Person, StripeProgress
 
 class StripeAuthorization(TemplateView):
@@ -79,7 +79,7 @@ class StripeCreate(View):
         domain = current_site.domain
         protocol = 'https' if request.is_secure() else 'http'
 
-        if competition.type == app.consts.COMPETITION_TYPE_SCJ:
+        if competition.type == CompetitionType.SCJ.value:
             name = request.user.person.get_full_name()
             image_path = protocol + '://' + domain + static('app/image/scj_logo_s.png')
             spcific_id = request.user.person.id
@@ -87,7 +87,7 @@ class StripeCreate(View):
                     .format(request.user.person.id, \
                     request.user.person.get_full_name())
 
-        elif competition.type == app.consts.COMPETITION_TYPE_WCA:
+        elif competition.type == CompetitionType.WCA.value:
             name = request.user.person.wca_name
             image_path = protocol + '://' + domain + static('app/image/wca.svg')
             spcific_id = request.user.person.wca_id

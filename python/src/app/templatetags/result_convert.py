@@ -1,5 +1,5 @@
 from django import template
-import app.consts
+from app.defines.define import OUTLIERS
 import pprint
 
 register = template.Library()
@@ -28,7 +28,7 @@ def result_convert(result, event_id):
         return 'DNS'
     elif result == 0:
         pass
-    elif result == app.consts.OUTLIERS:
+    elif result == OUTLIERS:
         return 'n/a'
     elif event_id == 17:
         return mbf_convert(result)

@@ -1,6 +1,8 @@
 from enum import Enum
 
 
+OUTLIERS = 99999999999
+
 class Define(Enum):
     @classmethod
     def choices(cls):

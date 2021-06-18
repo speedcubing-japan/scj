@@ -34,7 +34,7 @@ class Event(Define):
     EVENT15 = (15, '4x4x4 目隠し', '444bf', False)
     EVENT16 = (16, '5x5x5 目隠し', '555bf', False)
     EVENT17 = (17, '3x3x3 複数目隠し', '333mbf', False)
-    
+
     def __init__(self, event_id, event_name, event_id_name, is_best_and_average_event):
         self.event_id = event_id
         self.event_name = event_name
@@ -58,7 +58,7 @@ class Event(Define):
         for x in cls:
             if x.value[0] == value:
                 return x.value[2]
-    
+
     # event_nameからevent_idを引く
     @classmethod
     def get_value(cls, name):
