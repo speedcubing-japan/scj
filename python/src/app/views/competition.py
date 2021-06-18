@@ -7,7 +7,8 @@ import urllib
 from app.defines.gender import Gender, GenderEn
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.fee import PayType as FeePayType
-from app.defines.fee import CalcTypeEn as FeeCalcType
+from app.defines.fee import CalcTypeEn as FeeCalcTypeEn
+from app.defines.fee import CalcType as FeeCalcType
 from app.defines.prefecture import Prefecture, PrefectureAndOversea
 from app.defines.event import Event
 from app.defines.competition import Type as CompetitionType
@@ -70,7 +71,7 @@ def calc_fee(self, competition, competitor):
     fees = {}
     price = 0
 
-    if competition.fee_calc_type == FeeCalcType.EVENT.value:
+    if competition.fee_calc_type == FeeCalcTypeEn.EVENT.value:
         results = FeePerEvent.objects.filter(competition_id=competition.id)
         for result in results:
             fees[result.event_id] = result.price
@@ -82,7 +83,7 @@ def calc_fee(self, competition, competitor):
                 if result.event_id in competitor.event_ids:
                     price += result.price
 
-    elif competition.fee_calc_type == FeeCalcType.EVENT_COUNT.value:
+    elif competition.fee_calc_type == FeeCalcTypeEn.EVENT_COUNT.value:
         results = FeePerEventCount.objects.filter(competition_id=competition.id)
         for result in results:
             fees[result.event_count] = result.price

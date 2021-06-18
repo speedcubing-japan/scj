@@ -4,9 +4,11 @@
 {% load result_convert %}
 
 {% block content %}
-<h4 class="ml-2 mb-3">ランキング</h4>
+<div class="container">
+  <h4 class="ml-2 mb-3">ランキング</h4>
+</div>
 
-<div class="card mb-3">
+<div class="card mb-3 container">
   <div class="card-body">
     {{ form.non_field_errors }}
     <form action="" method="GET">
@@ -36,29 +38,33 @@
   </div>
 </div>
 
-<div class="text-nowrap table-responsive">
-  <table class="table table-hover table-striped table-sm">
+<div class="text-nowrap table-responsive container">
+  <table class="table table-hover table-striped border table-sm">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col-sm">氏名</th>
-        <th scope="col-sm">都道府県</th>
-        <th scope="col">記録</th>
-        <th scope="col">大会</th>
+        <th class="text-right" style="width: 1%;"> # </th>
+        <th style="width: 20%;">氏名</th>
+        <th class="text-right" style="width: 2%;">都道府県</th>
+        <th class="text-right" style="width: 1%;">記録</th>
+        {% if type == 'best' %}
+          <th style="width: 50%;">大会</th>
+        {% elif type == 'average' %}
+          <th style="width: 20%;">大会</th>
+          <th style="width: 30%;">試技</th>
+        {% endif %}
       </tr>
     </thead>
     <tbody>
       {% for rank in ranks %}
-        {% if type == 'best' %}
-          <tr>
-        {% elif type == 'average' %}
-          <tr data-toggle="tooltip" data-placement="top" title="{{ rank | result_values }}">
-        {% endif %}
-          <th scope="row">{{ rank.rank }}</th>
+        <tr>
+          <td class="text-right font-weight-bold">&nbsp;{{ rank.rank }}&nbsp;</td>
           <td>{{ rank.person.get_full_name }}</td>
           <td>{{ rank.person.get_prefecture_id_display }}</td>
-          <td class="text-monospace">{{ rank.best | result_convert:form.event_id }}</td>
+          <td class="text-right text-monospace">{{ rank.best | result_convert:form.event_id }}</td>
           <td><a href="{% url 'competition_detail' rank.competition_name_id %}">{{ rank.competition_name }}</a></td>
+          {% if type == 'average' %}
+            <td class="text-monospace">{{ rank | result_values }}</td>
+          {% endif %}
         </tr>
       {% endfor%}
     </tbody>

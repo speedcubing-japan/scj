@@ -16,7 +16,7 @@
   {% include "app/competition/status.html" %}
 {% endif %}
 <div class="row">
-  <div class="col-sm-3 mb-3">
+  <div class="col-lg-2 mb-3">
     {% include "app/competition/menu.html" with active='detail' %}
 
     {% if not has_results and not competition.is_cancel %}
@@ -31,7 +31,7 @@
       </div>
     {% endif %}
   </div>
-  <div class="col-sm-4 mb-3">
+  <div class="col-md mb-3">
     <div class="card">
       <div class="card-header lead">
         詳細
@@ -94,7 +94,7 @@
       </ul>
     </div>
   </div>
-  <div class="col-sm-5 mb-3">
+  <div class="col-md mb-3">
     <div class="card mb-3">
       <div class="card-header lead">
         その他
