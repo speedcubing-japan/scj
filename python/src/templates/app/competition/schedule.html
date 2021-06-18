@@ -10,10 +10,10 @@
 {% endwith %}
 
 <div class="row mb-3">
-  <div class="col-sm-3 mb-3">
+  <div class="col-lg-2 mb-3">
     {% include "app/competition/menu.html" with active='round' %}
   </div>
-  <div class="col-sm-9">
+  <div class="col-lg-10">
     <div class="row ml-3 mb-3">
       {% for event_id, round_count in event_round_count_dict.items %}
         <div class="col-lg-3 col-md-5 col-xs-6">

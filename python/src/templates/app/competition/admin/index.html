@@ -9,10 +9,10 @@
 {% endwith %}
 
 <div class="row">
-  <div class="col-sm-3 mb-3">
+  <div class="col-lg-2 mb-3">
     {% include "app/competition/menu.html" with active='admin' %}
   </div>
-  <div class="col-sm-9 mb-3">
+  <div class="col-lg-10 mb-3">
     {% include "app/notification.html" %}
     <form action="" method="POST">
       {% csrf_token %}

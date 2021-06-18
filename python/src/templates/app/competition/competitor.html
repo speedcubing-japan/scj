@@ -11,10 +11,10 @@
 {% endwith %}
 
 <div class="row">
-  <div class="col-sm-3 mb-3">
+  <div class="col-lg-2 mb-3">
     {% include "app/competition/menu.html" with active='competitor' %}
   </div>
-  <div class="col-sm-9 mb-3">
+  <div class="col-lg-10 mb-3">
     <select class="competition_competitor">
       <option value="{% url 'competition_competitor' competition.name_id 'list' %}" {% if event_name == 'list' %}selected{% endif %}>全競技者</option>
       {% for name in event_names %}
