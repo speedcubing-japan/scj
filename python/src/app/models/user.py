@@ -1,15 +1,11 @@
 from django.db import models
-from django.conf import settings
 from django.utils import timezone
-from app.defines.information import Type as InformationType
-from .scj import Person
 from django.core.mail import send_mail
 from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy
 
 
-# Create your models here.
 class CustomUserManager(UserManager):
 
     use_in_migrations = True
@@ -39,25 +35,25 @@ class CustomUserManager(UserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
 
-    email = models.EmailField(_('email address'), unique=True)
-    first_name = models.CharField(_('first name'), max_length=30, blank=True)
-    last_name = models.CharField(_('last name'), max_length=150, blank=True)
+    email = models.EmailField(ugettext_lazy('email address'), unique=True)
+    first_name = models.CharField(ugettext_lazy('first name'), max_length=30, blank=True)
+    last_name = models.CharField(ugettext_lazy('last name'), max_length=150, blank=True)
 
     is_staff = models.BooleanField(
-        _('staff status'),
+        ugettext_lazy('staff status'),
         default=False,
-        help_text=_(
+        help_text=ugettext_lazy(
             'Designates whether the user can log into this admin site.'),
     )
     is_active = models.BooleanField(
-        _('active'),
+        ugettext_lazy('active'),
         default=True,
-        help_text=_(
+        help_text=ugettext_lazy(
             'Designates whether this user should be treated as active. '
             'Unselect this instead of deleting accounts.'
         ),
     )
-    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+    date_joined = models.DateTimeField(ugettext_lazy('date joined'), default=timezone.now)
 
     objects = CustomUserManager()
 
@@ -66,8 +62,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     class Meta:
-        verbose_name = _('user')
-        verbose_name_plural = _('users')
+        verbose_name = ugettext_lazy('user')
+        verbose_name_plural = ugettext_lazy('users')
 
     def get_full_name(self):
         full_name = '%s %s' % (self.last_name, self.first_name)
@@ -82,28 +78,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def username(self):
         return self.email
-
-class Information(models.Model):    
-
-    type = models.IntegerField('種類', choices=InformationType.choices())
-    title = models.CharField('タイトル', max_length=64)
-    text = models.TextField('本文')
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    is_public = models.BooleanField('公開する', default=False)
-    created_at = models.DateTimeField('作成日時', auto_now_add=True)
-    updated_at = models.DateTimeField('更新日時', auto_now=True)
-
-    def __str__(self):
-        return self.title
-
-class Post(models.Model):
-
-    type = models.IntegerField('種類', choices=InformationType.choices())
-    title = models.CharField('タイトル', max_length=24)
-    text = models.TextField('本文')
-    person = models.ForeignKey(Person, on_delete=models.CASCADE) 
-    created_at = models.DateTimeField('作成日時', auto_now_add=True)
-    updated_at = models.DateTimeField('更新日時', auto_now=True)
-
-    def __str__(self):
-        return self.title
