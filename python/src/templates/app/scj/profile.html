@@ -1,0 +1,95 @@
+{% extends "app/common/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<h4 class="ml-2 mb-3">プロフィール</h4>
+
+{% include "app/common/notification.html" %}
+<div class="card">
+  <div class="card-body">
+    <div class="mb-5">
+      <table class="table col-10">
+        <tbody>
+          <tr>
+            <td class="table-dark">SCJ ID</td>
+            <td>{{ user.person.id }}</td>
+          </tr>
+          <tr>
+            <td class="table-dark">氏名</td>
+            <td>{{ user.person.get_full_name }}</td>
+          </tr>
+          <tr>
+            <td class="table-dark">氏名（カナ）</td>
+            <td>{{ user.person.get_full_name_kana }}</td>
+          </tr>
+          <tr>
+            <td class="table-dark">氏名（ローマ字）</td>
+            <td>{{ user.person.get_full_name_roma }}</td>
+          </tr>
+          <tr>
+            <td class="table-dark">性別</td>
+            <td>{{ user.person.get_gender_display }}</td>
+          </tr>
+          <tr>
+            <td class="table-dark">都道府県</td>
+            <td>{{ user.person.get_prefecture_id_display }}</td>
+          </tr>
+          <tr>
+            <td class="table-dark">生年月日</td>
+            <td>{{ user.person.birth_at }}</td>
+          </tr>
+          <tr>
+            <td class="table-dark">WCA ID</td>
+            <td>{{ user.person.wca_id }}</td>
+          </tr>
+          <tr>
+            <td class="table-dark">WCA USER ID</td>
+            <td>{{ user.person.wca_user_id }}</td>
+          </tr>
+          <tr>
+            <td class="table-dark">WCA EMAIL</td>
+            <td>{{ user.person.wca_email }}</td>
+          </tr>
+          <tr>
+            <td class="table-dark">WCA 氏名</td>
+            <td>{{ user.person.wca_name }}</td>
+          </tr>
+          <tr>
+            <td class="table-dark">WCA 所属国</td>
+            <td>{{ user.person.wca_country_iso2 }}</td>
+          </tr>
+          <tr>
+            <td class="table-dark">Stripe 認証</td>
+            <td>{% if user.person.stripe_user_id %}認証済み{% else %}未認証{% endif %}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="mb-5">
+      <h4>更新</h4>
+      <hr>
+      <form action="" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form layout='horizontal' %}
+        <input class="btn btn-dark" type="submit" value="更新">
+      </form>
+    </div>
+    <div class="mb-5">
+      <h4>WCA認証</h4>
+      <hr>
+      <div>
+        <a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email"><button type="button" class="btn btn-dark"><i class="fas fa-sign-in-alt mr-2"></i>WCA認証</button></a>
+      </div>
+    </div>
+    {% if user.person.is_judge %}
+      <div class="mb-5">
+        <h4>Stripe認証</h4>
+        <hr>
+        <div>
+          <a href="{{ stripe_oauth_authorization }}?response_type=code&client_id={{ stripe_client_id }}&scope=read_write"><button type="button" class="btn btn-dark"><i class="fas fa-sign-in-alt mr-2"></i>Stripe認証</button></a>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

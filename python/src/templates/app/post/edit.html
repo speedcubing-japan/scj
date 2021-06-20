@@ -1,10 +1,10 @@
-{% extends "app/base.html" %}
+{% extends "app/common/base.html" %}
 {% load bootstrap4 %}
 
 {% block content %}
 <h4 class="ml-2 mb-3">編集</h4>
 
-{% include "app/notification.html" %}
+{% include "app/common/notification.html" %}
 <div class="card mb-3">
   <div class="card-body">
     <form action="" method="POST">
@@ -22,7 +22,7 @@
 
 <div class="card mb-3">
   <div class="card-header lead">
-    {{ post.title }}&nbsp;{% include "app/information_type_badge.html" with type_display_name=post.get_type_display %}
+    {{ post.title }}&nbsp;{% include "app/common/information_type_badge.html" with type_display_name=post.get_type_display %}
   </div>
   <div class="card-body">
     {{ post.text | safe }}

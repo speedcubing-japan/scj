@@ -223,22 +223,6 @@ class CompetitionRegistrationForm(forms.Form):
         widget=forms.HiddenInput()
     )
 
-class CompetitionAdminCompetitorEditForm(forms.Form):
-    event_ids = forms.MultipleChoiceField(
-          label='参加種目',
-          required=True,
-          widget=forms.CheckboxSelectMultiple(attrs=
-          {
-               'id': 'event_ids'
-          })
-    )
-    name_id = forms.fields.CharField(
-        widget=forms.HiddenInput()
-    )
-    competitor_id = forms.fields.CharField(
-        widget=forms.HiddenInput()
-    )
-
 class PostForm(forms.Form):
     title = forms.CharField(
         label='タイトル',

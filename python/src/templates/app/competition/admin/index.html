@@ -1,4 +1,4 @@
-{% extends "app/base.html" %}
+{% extends "app/common/base.html" %}
 {% load bootstrap4 %}
 {% load competition_logo %}
 {% load static %}
@@ -13,7 +13,7 @@
     {% include "app/competition/menu.html" with active='admin' %}
   </div>
   <div class="col-lg-10 mb-3">
-    {% include "app/notification.html" %}
+    {% include "app/common/notification.html" %}
     <form action="" method="POST">
       {% csrf_token %}
       {% if pending_competitors %}
@@ -46,7 +46,7 @@
                 {% for competitor in pending_competitors %}
                   <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_pending" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}">
-                    <td><a href="{% url 'competition_admin_competitor_edit' competition.name_id competitor.id %}">編集</a></td>
+                    <td><a href="{% url 'competition_admin_edit' competition.name_id competitor.id %}">編集</a></td>
                     <td>
                       {% if competition.type == competition_type.WCA.value %}
                         <a href="mailto:{{ competitor.person.wca_email }}">
@@ -109,7 +109,7 @@
                 {% for competitor in registration_competitors %}
                   <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_admit" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}">
-                    <td><a href="{% url 'competition_admin_competitor_edit' competition.name_id competitor.id %}">編集</a></td>
+                    <td><a href="{% url 'competition_admin_edit' competition.name_id competitor.id %}">編集</a></td>
                     <td>
                       {% if competition.type == competition_type.WCA.value %}
                         <a href="mailto:{{ competitor.person.wca_email }}">
@@ -219,10 +219,10 @@
       <div class="float-right">
         {% if competition.type == competition_type.WCA.value %}
           {% with path=competition|competition_logo %}
-            <button type="button" class="btn btn-dark mt-2 mb-2 submit_change_action" value="{% url 'competition_admin_competitor_csv_wca_import' competition.name_id %}"><img class="mr-2" width="18" src="{% static path %}">WCA Import CSV</button>
+            <button type="button" class="btn btn-dark mt-2 mb-2 submit_change_action" value="{% url 'competition_admin_wca_csv' competition.name_id %}"><img class="mr-2" width="18" src="{% static path %}">WCA Import CSV</button>
           {% endwith %}
         {% endif %}
-        <button type="button" class="btn btn-info mt-2 mb-2 mr-1 submit_change_action" value="{% url 'competition_admin_competitor_csv' competition.name_id %}"><i class="fas fa-check fa-file-csv mr-2"></i>CSV</button>
+        <button type="button" class="btn btn-info mt-2 mb-2 mr-1 submit_change_action" value="{% url 'competition_admin_csv' competition.name_id %}"><i class="fas fa-check fa-file-csv mr-2"></i>CSV</button>
       </div>
     {% endif %}
   </div>

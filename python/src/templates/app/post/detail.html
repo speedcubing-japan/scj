@@ -1,4 +1,4 @@
-{% extends "app/base.html" %}
+{% extends "app/common/base.html" %}
 
 {% block content %}
 <div class="alert alert-info alert-dismissible fade show" role="alert">
@@ -7,7 +7,7 @@
 
 <div class="card mb">
   <div class="card-header lead">
-    {{ post.title }}&nbsp;{% include "app/information_type_badge.html" with type_display_name=post.get_type_display %}
+    {{ post.title }}&nbsp;{% include "app/common/information_type_badge.html" with type_display_name=post.get_type_display %}
   </div>
   <div class="card-body">
     {{ post.text | safe }}

@@ -1,4 +1,4 @@
-{% extends "app/base.html" %}
+{% extends "app/common/base.html" %}
 {% load bootstrap4 %}
 {% load competition_logo %}
 {% load static %}
@@ -13,7 +13,7 @@
     {% include "app/competition/menu.html" with active='refund' %}
   </div>
   <div class="col-lg-10 mb-3">
-    {% include "app/notification.html" %}
+    {% include "app/common/notification.html" %}
     <form action="" method="POST">
       {% csrf_token %}
       {% if competitors %}

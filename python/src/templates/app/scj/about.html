@@ -1,0 +1,68 @@
+{% extends "app/common/base.html" %}
+{% load static %}
+
+{% block content %}
+<h4 class="ml-2 mb-4">SCJについて</h4>
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="mb-4 text-nowrap table-responsive">
+      <table class="table">
+        <tbody>
+          <tr>
+            <td class="table-dark">正式名称</td>
+            <td>一般社団法人スピードキュービングジャパン</td>
+          </tr>
+          <tr>
+            <td class="table-dark">英語表記</td>
+            <td>Speedcubing Japan</td>
+          </tr>
+          <tr>
+            <td class="table-dark">略称</td>
+            <td>SCJ</td>
+          </tr>
+          <tr>
+            <td class="table-dark">所在地</td>
+            <td>神奈川県川崎市</td>
+          </tr>
+          <tr>
+            <td class="table-dark">沿革</td>
+            <td>
+              <div class="mb-1">2005年 前身となる日本ルービックキューブ協会発足。​</div>
+              <div>2020年 一般社団法人スピードキュービングジャパン創立。</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="mb-5">
+      <h5>SCJの目的と事業</h5>
+      <hr>
+      <div>SCJの目的は、スピードキュービングの健全な普及と発展です。​</div>
+      <div class="mb-4">そして、その目的を達成するため、次の事業を行います。</div>
+      <ul>
+        <li>スピードキュービングを通した、地域及び国際的な貢献と交流に係る事業​</li>
+        <li>日本国内におけるWorld Cube Associationの公認する大会の統括事業​</li>
+        <li>当法人独自に定める競技規則に基づく大会の統括事業​</li>
+        <li>その他、当法人の目的を達成するために必要な事業​</li>
+      </ul>
+    </div>
+    <div class="mb-5">
+      <h5>SCJシンボルマーク</h5>
+      <hr>
+      <div class="text-center"><img width="60%" src="{% static 'app/image/scj_logo.png' %}"></div>
+      <div>SCJのシンボルマークは3x3x3&nbsp;キューブとJapanの頭文字"J"から成り立ち、​スピードキュービングを中心として派生していく文化全般を表現しています。​</div>
+      <div>このシンボルマークは、SCJの公認した大会、用具、販売グッズなどに使用されます。</div>
+    </div>
+    <div class="mb-5">
+      <h5>SCJ定款</h5>
+      <hr>
+      <div><a href="{% static 'app/pdf/articles.pdf' %}">SCJ定款</a></div>
+    </div>
+    <div>
+      <h5>スポンサー</h5>
+      <hr>
+      <div><a href="https://www.megahouse.co.jp/" target="_blank"><img width="45%" src="{% static 'app/image/megahouse.png' %}"></a></div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,4 +1,4 @@
-{% extends "app/base.html" %}
+{% extends "app/common/base.html" %}
 {% load strip %}
 {% load static %}
 {% load competition_logo %}
@@ -11,7 +11,7 @@
   <h4 class="ml-2 mb-3"><img class="mr-2" width="30" src="{% static path %}">{{ competition.name }}</h4>
 {% endwith %}
 
-{% include "app/notification.html" %}
+{% include "app/common/notification.html" %}
 {% if competitor and competition.registration_close_at > now and not competition.is_cancel %}
   {% include "app/competition/status.html" %}
 {% endif %}

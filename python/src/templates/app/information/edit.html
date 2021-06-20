@@ -1,0 +1,34 @@
+{% extends "app/common/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<h4 class="ml-2 mb-3">編集</h4>
+
+{% include "app/common/notification.html" %}
+<div class="card mb-3">
+  <div class="card-body">
+    <form action="" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form form layout='horizontal' %}
+      <div class="form-group row">
+        <div class="offset-md-3 col-md-9">
+          <input class="btn btn-dark mr-3" type="submit" value="更新">
+          <a href="{% url 'information_delete' information.id %}" class="btn btn-danger">削除</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header lead">
+    {{ information.title }}&nbsp;{% include "app/common/information_type_badge.html" with type_display_name=information.get_type_display %}
+  </div>
+  <div class="card-body">
+    {{ information.text | safe }}
+  </div>
+  <div class="card-footer small text-right">
+    {{ information.updated_at | date:"Y年m月d日" }}&nbsp;投稿者:&nbsp{{ information.person.get_full_name }}
+  </div>
+</div>
+{% endblock %}

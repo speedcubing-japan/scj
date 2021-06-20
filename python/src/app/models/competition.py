@@ -54,5 +54,25 @@ class Competition(models.Model):
         close_at = localtime(self.close_at)
         return close_at.date() < now.date()
 
+    def is_superuser(self, user):
+        is_superuser = False
+        if user.is_authenticated:
+            if user.is_superuser:
+                is_superuser = True
+            if user.person.id in self.organizer_person_ids:
+                is_superuser = True
+            if user.person.id in self.judge_person_ids:
+                is_superuser = True
+        return is_superuser
+
+    def is_refunder(self, user):
+        is_refunder = False
+        if user.is_authenticated:
+           if user.is_superuser:
+               is_refunder = True
+           if user.person.id == self.stripe_user_person_id:
+               is_refunder = True
+        return is_refunder
+
     def __str__(self):
         return self.name

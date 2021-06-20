@@ -1,0 +1,72 @@
+{% extends "app/common/base.html" %}
+{% load static %}
+
+{% block content %}
+<h4 class="ml-2 mb-3">組織</h4>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h5>役員</h5>
+    <hr>
+    <div class="mb-5">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td class="table-dark">
+              <div>代表理事</div>
+              <div>理事</div>
+            </td>
+            <td>大村周平</td>
+            <td>
+              <div>WCA Regional Delegate</div>
+              <div>WCA大会事業担当</div>
+            </td>
+          </tr>
+          <tr>
+            <td class="table-dark">理事</td>
+            <td>鈴木洋平</td>
+            <td>
+              <div>WCA Delegate</div>
+              <div>コミュニティ事業担当</div>
+            </td>
+          </tr>
+          <tr>
+            <td class="table-dark">理事</td>
+            <td>荒木慎平</td>
+            <td>
+              <div>SCJ大会事業担当</div>
+            </td>
+          </tr>
+          <tr>
+            <td class="table-dark">理事</td>
+            <td>上田浩登</td>
+            <td>
+              <div>事務局担当</div>
+            </td>
+          </tr>
+          <tr>
+            <td class="table-dark">顧問</td>
+            <td>秋元正行</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="table-dark">顧問</td>
+            <td>巣瀬雄史</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="table-dark">顧問</td>
+            <td>百田郁夫</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h5>組織図</h5>
+    <hr>
+    <div>
+      <div class="text-canter"><img width="80%" src="{% static 'app/image/organization.png' %}"></div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

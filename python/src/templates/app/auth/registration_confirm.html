@@ -1,4 +1,4 @@
-{% extends "app/base.html" %}
+{% extends "app/common/base.html" %}
 {% load bootstrap4 %}
 
 {% block content %}
@@ -38,7 +38,7 @@
         {% endfor %}
       </tbody>
     </table>
-    <form class="mb-3" action="{% url 'registration' %}" method="POST">
+    <form class="mb-3" action="{% url 'registration_execute' %}" method="POST">
       <div class="mb-3 g-recaptcha" data-sitekey="{{ recaptcha_public_key }}"></div>
       <button type="submit" class="btn btn-success btn-lg mr-3">送信</button>
       <a href="{% url 'registration_input' %}" class="btn btn-dark btn-lg">戻る</a>

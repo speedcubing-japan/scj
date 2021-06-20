@@ -1,4 +1,4 @@
-{% extends "app/base.html" %}
+{% extends "app/common/base.html" %}
 {% load bootstrap4 %}
 {% load competition_logo %}
 {% load static %}
@@ -14,7 +14,7 @@
     {% include "app/competition/menu.html" with active='admin' %}
   </div>
   <div class="col-lg-10 mb-3">
-    {% include "app/notification.html" %}
+    {% include "app/common/notification.html" %}
     <h4 class="mb-3">
       {% if competition.type == competition_type.WCA.value %}
         {{ competitor.person.wca_name }}さんの情報を編集します
