@@ -5,7 +5,7 @@ from django.contrib.auth.views import PasswordResetConfirmView
 
 class ResetComplete(PasswordResetConfirmView):
     success_url = reverse_lazy('index')
-    template_name = 'app/auth/password_reset_complete.html'
+    template_name = 'app/password/reset_complete.html'
     form_class = SetPasswordForm
 
     def get_context_data(self, **kwargs):

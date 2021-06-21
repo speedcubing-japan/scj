@@ -1,7 +1,7 @@
 {% extends "app/common/base.html" %}
 
 {% block content %}
-<h4 class="ml-2 mb-3">SCJ大会について</h4>
+{% include "app/common/title.html" with title="SCJ大会について" %}
 
 <div class="card mb">
   <div class="card-body">
@@ -20,8 +20,9 @@
     <div class="mb-5">
       <h5>ロードマップ</h5>
       <hr>
-      <div>本事業年度の方針(2020年10月から2021年7月末まで)はのべ500人の参加を目指し、記録管理などシステム構築の試用期間として運用します。</div>
+      <div>本事業年度の方針(2020年10月から2022年7月末まで)はのべ500人の参加を目指し、記録管理などシステム構築の試用期間として運用します。</div>
       <div>翌事業年度より正式運用を開始し、のべ1000人の参加を目標とします。​</div>
+      <div class="font-weight-bold">試用期間を延長しました。(2021年6月22日)</div>
     </div>
     <div class="mb-5">
       <h5>規則</h5>
@@ -38,7 +39,7 @@
         <li>SCJの理念に共感し、その達成に貢献できること。​</li>
         <li>所定の「SCJ公認審判員宣誓書」に署名すること。​</li>
         <li>年間登録料として5000円を納めること。​</li>
-        <li>World Cube Associationの公式大会及び／又はSCJ公認大会に合計10回以上出場した経験があること。<a href="" data-toggle="modal" data-target="#annotation1">*</a>​</li>
+        <li>World Cube Associationの公式大会またはSCJ公認大会に合計10回以上出場した経験があること。<a href="" data-toggle="modal" data-target="#annotation1">*</a>​</li>
         <li>スピードキュービングに関わる組織を半年以上運営し、のべ50人以上参加していること。</li>
       </ul>
       <div class="mb-3">
@@ -52,8 +53,34 @@
       <div class="mb-4">SCJでは、以下に基づくランキングを作成し、当サイト内にて公開します。​</div>
       <ul>
         <li>住所登録地域</li>
-        <li>年齢</li>
+        <li>世代別</li>
         <li>性別</li>
+      </ul>
+    </div>
+    <div class="mb-5">
+      <h5>Q&A</h5>
+      <hr class="mb-3">
+      <h5 class="font-weight-bold">SCJ大会を開催するのはどのような手続きをとればいいですか？</h5>
+      <hr>
+      <div>初めにSCJ審判員になっていただく必要がございます。</div>
+      <div>条件は上に記載しております。応募は上のフォームからよろしくお願いします。</div>
+      <div class="mb-4">その後の手続き等はおって連絡させていただきます。</div>
+      <h5 class="font-weight-bold">どのような種目を開催できますか？</h5>
+      <hr>
+      <div>現時点でWCA公式種目の競技のみ開催可能です。</div>
+      <div>また試用期間中はこちらで大会ごとの種目設定を制限をすることはございません。</div>
+      <div class="mb-4">ただしスケジュールに無理がある等の場合はこちらで相談させていただきます。</div>
+      <h5 class="font-weight-bold">参加資格の限定が可能ですが、どのような条件を課すことができますか？</h5>
+      <hr>
+      <div>試用期間中は参加条件をこちらで制限をすることはございません。</div>
+      <div class="mb-3">社会通念上許容される範囲内で団体に即した制限が可能でございます。</div>
+      <div>例</div>
+      <ul class="mb-4">
+        <li>地域(都道府県、市町村、その他の該当地域)の制限</li>
+        <li>所属(該当団体に所属など)制限</li>
+        <li>性別制限</li>
+        <li>年齢制限</li>
+        <li>その他(社会通念上許容される場合に限る)の制限</li>
       </ul>
     </div>
   </div>

@@ -2,7 +2,7 @@
 {% load bootstrap4 %}
 
 {% block content %}
-<h4 class="ml-2 mb-3">確認</h4>
+{% include "app/common/title.html" with title="確認" %}
 
 <div class="card">
   <div class="card-body">
@@ -13,31 +13,35 @@
          </button>
          <strong>私はロボットではありませんにチェックを入れてください。</strong>
        </div>
+    {% else %}
+      <strong>この内容で登録します。よろしければチェックをいれて送信してください。</strong>
     {% endif %}
-    <table class="table">
-      <tbody>
-        {% for field in user_form %}
-          {% if field.name == 'email' %}
+    <div class="mb-3 text-nowrap table-responsive col-lg-6">
+      <table class="table table-bordered">
+        <tbody>
+          {% for field in user_form %}
+            {% if field.name == 'email' %}
+              <tr>
+                <td class="table-dark">{{ field.label_tag }}</td>
+                <td>{{ field.value }}</td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+          {% for field in person_form %}
             <tr>
               <td class="table-dark">{{ field.label_tag }}</td>
-              <td>{{ field.value }}</td>
+              {% if field.name == 'gender' %}
+                <td>{{ gender }}</td>
+              {% elif field.name == 'prefecture_id' %}
+                <td>{{ prefecture }}</td>
+              {% else %}
+                <td>{{ field.value }}</td>
+              {% endif %}
             </tr>
-          {% endif %}
-        {% endfor %}
-        {% for field in person_form %}
-          <tr>
-            <td class="table-dark">{{ field.label_tag }}</td>
-            {% if field.name == 'gender' %}
-              <td>{{ gender }}</td>
-            {% elif field.name == 'prefecture_id' %}
-              <td>{{ prefecture }}</td>
-            {% else %}
-              <td>{{ field.value }}</td>
-            {% endif %}
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
     <form class="mb-3" action="{% url 'registration_execute' %}" method="POST">
       <div class="mb-3 g-recaptcha" data-sitekey="{{ recaptcha_public_key }}"></div>
       <button type="submit" class="btn btn-success btn-lg mr-3">送信</button>

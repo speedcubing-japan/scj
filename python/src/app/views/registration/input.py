@@ -11,7 +11,7 @@ class Input(TemplateView):
             'user_form': user_form,
             'person_form': person_form
         }
-        return render(request, 'app/auth/registration_input.html', context)
+        return render(request, 'app/registration/input.html', context)
 
     def post(self, request):
         user_form = UserCreateForm(request.POST)
@@ -26,4 +26,4 @@ class Input(TemplateView):
             'person_form': person_form,
         }
 
-        return render(request, 'app/auth/registration_input.html', context)
+        return render(request, 'app/registration/input.html', context)

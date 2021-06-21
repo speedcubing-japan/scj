@@ -12,7 +12,7 @@ from app.models import User
 
 
 class Reset(FormView):
-    template_name = 'app/auth/password_reset.html'
+    template_name = 'app/password/reset.html'
     form_class = PasswordResetForm
 
     def form_valid(self, form):

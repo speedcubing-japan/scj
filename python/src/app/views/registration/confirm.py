@@ -26,4 +26,4 @@ class Confirm(TemplateView):
             'recaptcha_public_key': settings.RECAPTCHA_PUBLIC_KEY,
             'recaptcha': recaptcha
         }
-        return render(request, 'app/auth/registration_confirm.html', context)
+        return render(request, 'app/registration/confirm.html', context)

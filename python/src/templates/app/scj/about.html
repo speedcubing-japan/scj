@@ -2,14 +2,14 @@
 {% load static %}
 
 {% block content %}
-<h4 class="ml-2 mb-4">SCJについて</h4>
+{% include "app/common/title.html" with title="SCJについて" %}
 <div class="card mb-3">
   <div class="card-body">
-    <div class="mb-4 text-nowrap table-responsive">
-      <table class="table">
+    <div class="mb-4 text-nowrap table-responsive col-lg-6">
+      <table class="table table-bordered">
         <tbody>
           <tr>
-            <td class="table-dark">正式名称</td>
+            <td class="table-dark col-xs-3">正式名称</td>
             <td>一般社団法人スピードキュービングジャパン</td>
           </tr>
           <tr>

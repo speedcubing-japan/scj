@@ -2,14 +2,14 @@
 {% load static %}
 
 {% block content %}
-<h4 class="ml-2 mb-3">組織</h4>
+{% include "app/common/title.html" with title="組織" %}
 
 <div class="card mb-3">
   <div class="card-body">
     <h5>役員</h5>
     <hr>
     <div class="mb-5">
-      <table class="table table-bordered">
+      <table class="table table-bordered col-lg-6">
         <tbody>
           <tr>
             <td class="table-dark">

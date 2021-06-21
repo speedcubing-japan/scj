@@ -10,7 +10,7 @@ from django.contrib.sites.shortcuts import get_current_site
 
 
 class Change(LoginRequiredMixin, FormView):
-    template_name = 'app/auth/mail_change.html'
+    template_name = 'app/mail/change.html'
     form_class = MailChangeForm
 
     def form_valid(self, form):

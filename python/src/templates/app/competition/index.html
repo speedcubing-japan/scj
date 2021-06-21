@@ -4,11 +4,9 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-  <h4 class="ml-2 mb-3">大会一覧</h4>
-</div>
+{% include "app/common/title.html" with title="大会一覧" %}
 
-<div class="card mb-3 container">
+<div class="card mb-3">
   <div class="card-body">
     {{ form.non_field_errors }}
     <form action="" method="GET">
@@ -34,7 +32,7 @@
   </div>
 </div>
 {% if competitions %}
-  <ul class="list-group mb-3 container">
+  <ul class="list-group mb-3">
     <li class="list-group-item font-weight-bold bg-light lead">大会一覧({{ competitions | length }})</li>
     {% for competition in competitions %}
       <li class="list-group-item">
@@ -53,7 +51,7 @@
   </ul>
 {% endif %}
 {% if finish_competitions %}
-  <ul class="list-group container">
+  <ul class="list-group">
     <li class="list-group-item font-weight-bold bg-light lead">終了した大会({{ finish_competitions | length }})</li>
     {% for competition in finish_competitions %}
       <li class="list-group-item">

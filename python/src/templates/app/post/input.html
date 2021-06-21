@@ -2,7 +2,11 @@
 {% load bootstrap4 %}
 
 {% block content %}
-<h4 class="ml-2 mb-3">{% if format == 'event' %}イベント{% elif format == 'information' %}お知らせ{% endif %}投稿</h4>
+{% if format == 'event' %}
+  {% include "app/common/title.html" with title="イベント投稿" %}
+{% elif format == 'information' %}
+  {% include "app/common/title.html" with title="お知らせ投稿" %}
+{% endif %}
 
 <div class="card">
   <div class="card-body">

@@ -4,9 +4,7 @@
 {% load static %}
 
 {% block content %}
-{% with path=competition|competition_logo %}
-  <h4 class="ml-2 mb-3"><img class="mr-2" width="30" src="{% static path %}">{{ competition.name }}</h4>
-{% endwith %}
+{% include "app/common/competition_title.html" %}
 
 <div class="row">
   <div class="col-lg-2 mb-3">

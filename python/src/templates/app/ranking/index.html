@@ -4,11 +4,9 @@
 {% load result_convert %}
 
 {% block content %}
-<div class="container">
-  <h4 class="ml-2 mb-3">ランキング</h4>
-</div>
+{% include "app/common/title.html" with title="ランキング" %}
 
-<div class="card mb-3 container">
+<div class="card mb-3">
   <div class="card-body">
     {{ form.non_field_errors }}
     <form action="" method="GET">
@@ -38,7 +36,7 @@
   </div>
 </div>
 
-<div class="text-nowrap table-responsive container">
+<div class="text-nowrap table-responsive">
   <table class="table table-hover table-striped border table-sm">
     <thead>
       <tr>
