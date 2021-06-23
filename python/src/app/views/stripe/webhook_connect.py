@@ -11,10 +11,10 @@ from app.views.competition.util import send_mail
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class Webhook(View):
+class WebhookConnect(View):
     def post(self, request):
         stripe.api_key = settings.STRIPE_SECRET_KEY
-        stripe_webhook_endpoint_secret = settings.STRIPE_WEBHOOK_ENDPOINT_SECRET_KEY
+        stripe_webhook_endpoint_secret = settings.STRIPE_WEBHOOK_CONNECT_ENDPOINT_SECRET_KEY
 
         payload = request.body.decode('utf-8')
         sig_header = request.META['HTTP_STRIPE_SIGNATURE']

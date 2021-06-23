@@ -25,6 +25,7 @@ from .views.wca.authorization import Authorization as WcaAuthorization
 from .views.stripe.authorization import Authorization as StripeAuthorization
 from .views.stripe.create import Create as StripeCreate
 from .views.stripe.webhook import Webhook as StripeWebhook
+from .views.stripe.webhook_connect import WebhookConnect as StripeWebhookConnect
 
 from .views.community.posting_request import PostingRequest as CommunityPostingRequest
 from .views.community.question_and_answer import QuestionAndAnswer as CommunityQuestionAndAnswer
@@ -98,6 +99,7 @@ urlpatterns = [
     path('stripe/authorization/', StripeAuthorization.as_view(), name='stripe_authorization'),
     path('stripe/create/', StripeCreate.as_view(), name='stripe_create'),
     path('stripe/webhook/', StripeWebhook.as_view(), name='stripe_webhook'),
+    path('stripe/webhook/connect/', StripeWebhookConnect.as_view(), name='stripe_webhook_connect'),
 
     path('community/posting_request/', CommunityPostingRequest.as_view(), name='community_posting_request'),
     path('community/question_and_answer/', CommunityQuestionAndAnswer.as_view(), name='community_question_and_answer'),
