@@ -1,6 +1,5 @@
 import stripe
 import datetime
-import pprint
 from django.conf import settings
 from django.http import HttpResponse
 from django.views.generic import View
@@ -31,8 +30,6 @@ class WebhookConnect(View):
         except stripe.error.SignatureVerificationError as e:
             # Invalid signature
             return HttpResponse(status=400)
-
-        pprint.pprint(event)
 
         # それぞれのeventが別のリクエスト来る(順番は保証されない)ので、それぞれから確保できるデータを用いてレコードを組み立てる。
         if event.type == 'checkout.session.completed':
