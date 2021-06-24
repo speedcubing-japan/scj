@@ -58,6 +58,7 @@ class Fee(TemplateView):
             'competition': competition,
             'competitor': competitor,
             'fees': amount['fees'],
+            'prepaid_fees': amount['prepaid_fees'],
             'price': amount['price'],
             'paid': paid,
             'stripe_public_key': settings.STRIPE_PUBLIC_KEY,

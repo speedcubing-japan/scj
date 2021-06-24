@@ -35,8 +35,8 @@
             {% if not is_payment %}
               <h5>参加費の支払いを停止中です。</h5>
             {% elif not paid %}
-              <h5 class="mb-2">計&nbsp;{{ price }}円</h5>
-              <button type="button" class="btn bg-dark text-white" id="checkout">支払う</button>
+              <h3 class="mb-3">計&nbsp;{{ price }}円</h3>
+              <button type="button" class="btn bg-primary text-white" id="checkout">支払う</button>
             {% else %}
               <h5 class="mb-2"><i class="fas fa-check fa-fw mr-2"></i>支払い済み</h5>
             {% endif %}
@@ -44,16 +44,33 @@
         </div>
       {% endif %}
     {% endif %}
-    <div class="card">
-      <ul class="list-group">
-        {% for item, price in fees.items %}
-          <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
-            <span>{% if item == 0 %}基本料金{% else %}<span class="cubing-icon event-{{ item | event_id_name }} mr-2 md-2 h5"></span>{{ item | event_name }}{% endif %}{% if competition.fee_calc_type == fee_calc_type.EVENT_COUNT.value and item != 0 %}種目{% endif %}
-            </span>
-            <span class="float-right">{% if item != 0 %}+{% endif %}{{ price }}円</span>
-          </li>
-        {% endfor %}
-      </ul>
+    <div class="card-deck mb-5">
+      {% if competition.fee_pay_type != fee_pay_type.LOCAL_ONLY.value %}
+        <div class="card">
+          <ul class="list-group">
+            {% for item, price in fees.items %}
+              <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
+                <span>{% if item == 0 %}事前支払い料金{% else %}<span class="cubing-icon event-{{ item | event_id_name }} mr-2 md-2 h5"></span>{{ item | event_name }}{% endif %}{% if competition.fee_calc_type == fee_calc_type.EVENT_COUNT.value and item != 0 %}種目{% endif %}
+                </span>
+                <span class="float-right">{% if item != 0 %}+{% endif %}{{ price }}円</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      {% if competition.fee_pay_type != fee_pay_type.REMOTE_ONLY.value %}
+        <div class="card">
+          <ul class="list-group">
+            {% for item, price in prepaid_fees.items %}
+              <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
+                <span>{% if item == 0 %}現地支払い料金{% else %}<span class="cubing-icon event-{{ item | event_id_name }} mr-2 md-2 h5"></span>{{ item | event_name }}{% endif %}{% if competition.fee_calc_type == fee_calc_type.EVENT_COUNT.value and item != 0 %}種目{% endif %}
+                </span>
+                <span class="float-right">{% if item != 0 %}+{% endif %}{{ price }}円</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
     </div>
   </div>
 </div>

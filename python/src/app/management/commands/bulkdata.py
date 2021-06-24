@@ -211,6 +211,7 @@ class Command(BaseCommand):
                     competition_id=record['fields']['competition_id'],
                     event_id=record['fields']['event_id'],
                     price=record['fields']['price'],
+                    prepaid_price=record['fields']['prepaid_price']
                 )
                 fee_per_events.append(fee_per_event)
 
@@ -228,6 +229,7 @@ class Command(BaseCommand):
                     competition_id=record['fields']['competition_id'],
                     event_count=record['fields']['event_count'],
                     price=record['fields']['price'],
+                    prepaid_price=record['fields']['prepaid_price'],
                 )
                 fee_per_event_counts.append(fee_per_event_count)
 
