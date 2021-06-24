@@ -31,62 +31,18 @@ class Webhook(View):
             # Invalid signature
             return HttpResponse(status=400)
 
-        # それぞれのeventが別のリクエスト来る(順番は保証されない)ので、それぞれから確保できるデータを用いてレコードを組み立てる。
-        if event.type == 'checkout.session.completed':
-            checkout_session = event.data.object
+        if event.type == 'payment_intent.succeeded':
+            payment_intent = event.data.object
+            # 基本一つだけ。
+            charges = payment_intent.charges.data[0]
 
-            competition_id = int(checkout_session.metadata.competition_id)
-            competitor_id = int(checkout_session.client_reference_id)
-
-            query_set = StripeProgress.objects.filter(customer_id=checkout_session.customer)
-            if query_set.first() is None:
-                stripe_progress = StripeProgress()
-                stripe_progress.customer_id = checkout_session.customer
-                stripe_progress.competition_id = competition_id
-                stripe_progress.competitor_id = competitor_id
-                stripe_progress.save()
-            else:
-                stripe_progress = query_set.first()
-                stripe_progress.competition_id = competition_id
-                stripe_progress.competitor_id = competitor_id
-                stripe_progress.save(update_fields=[
-                    'competition_id',
-                    'competitor_id',
-                    'updated_at'
-                ])
-
-            competitor = Competitor.objects.get(pk=competitor_id)
-            competition = Competition.objects.get(pk=competition_id)
-
-            send_mail(request,
-                competitor.person.user,
-                competition,
-                'app/mail/competition/registration_payment_subject.txt',
-                'app/mail/competition/registration_payment_message.txt',
-                price=checkout_session.amount_total)
-
-        if event.type == 'charge.succeeded':
-            charge = event.data.object
-
-            pay_at = datetime.datetime.fromtimestamp(charge.created, tz=datetime.timezone.utc)
-            query_set = StripeProgress.objects.filter(customer_id=charge.customer)
-            if query_set.first() is None:
-                stripe_progress = StripeProgress()
-                stripe_progress.customer_id = charge.customer
-                stripe_progress.charge_id = charge.id
-                stripe_progress.pay_price = charge.amount
-                stripe_progress.pay_at = pay_at
-                stripe_progress.save()
-            else:
-                stripe_progress = query_set.first()
-                stripe_progress.charge_id = charge.id
-                stripe_progress.pay_price = charge.amount
-                stripe_progress.pay_at = pay_at
-                stripe_progress.save(update_fields=[
-                    'charge_id',
-                    'pay_price',
-                    'pay_at',
-                    'updated_at'
-                ])
+            stripe_progress = StripeProgress()
+            stripe_progress.customer_id = charges.customer
+            stripe_progress.competition_id = charges.metadata.competition_id
+            stripe_progress.competitor_id = charges.metadata.competitor_id
+            stripe_progress.charge_id = charges.id
+            stripe_progress.pay_price = charges.amount
+            stripe_progress.pay_at = datetime.datetime.fromtimestamp(charges.created, tz=datetime.timezone.utc)
+            stripe_progress.save()
 
         return HttpResponse(status=200)

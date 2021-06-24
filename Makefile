@@ -29,8 +29,11 @@ sqlmigrate:
 createsuperuser:
 	docker-compose run python ./manage.py createsuperuser
 
-stripelisten:
+stripe-listen:
 	stripe listen --forward-to localhost:8000/stripe/webhook/
+
+stripe-listen-connect:
+	stripe listen --forward-to localhost:8000/stripe/webhook/connect/
 
 collectstatic:
 	docker-compose run python ./manage.py collectstatic

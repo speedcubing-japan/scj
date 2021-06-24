@@ -25,6 +25,7 @@ class Person(models.Model):
     wca_avatar_url = models.CharField('アバター', max_length=256)
     wca_avatar_thumb_url = models.CharField('アバターサムネイル', max_length=256)
     stripe_user_id = models.CharField('STRIPE_USER_ID', max_length=256, default='')
+    stripe_customer_id = models.CharField('STRIPE_CUSTOMER_ID', max_length=256, default='')
     is_judge = models.BooleanField('審判員フラグ', default=False)
     is_community_posting_offer = models.BooleanField('宣伝申請許可', default=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)

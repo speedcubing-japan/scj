@@ -61,16 +61,24 @@ class Create(View):
             person = Person.objects.get(pk=competition.stripe_user_person_id)
             stripe_user_id = person.stripe_user_id
 
-        customer = stripe.Customer.create(
-            name=request.user.person.get_full_name(),
-            email=request.user.email,
-            metadata={
-                'competition_id': competition.id,
-                'competitor_id': competitor.id
-            },
-            stripe_account=stripe_user_id
-        )
+        if request.user.person.stripe_customer_id:
+            customer = stripe.Customer.retrieve(
+                request.user.person.stripe_customer_id,
+                stripe_account=stripe_user_id
+            )
+        else:
+            customer = stripe.Customer.create(
+                name=request.user.person.get_full_name(),
+                email=request.user.email,
+                stripe_account=stripe_user_id
+            )
 
+            person = request.user.person
+            person.stripe_customer_id = customer.id
+            person.save(update_fields=[
+                'stripe_customer_id',
+                'updated_at'
+            ])
         try:
             session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
@@ -93,6 +101,16 @@ class Create(View):
                     'competition_name': competition.name,
                     'spcific_id': spcific_id,
                     'name': name
+                },
+                payment_intent_data={
+                    'metadata': {
+                        'competition_id': competition.id,
+                        'competition_name': competition.name,
+                        'competitor_id': competitor.id,
+                        'spcific_id': spcific_id,
+                        'name': name,
+                        'email': request.user.email
+                    }
                 },
                 customer=customer,
                 client_reference_id=competitor.id,
