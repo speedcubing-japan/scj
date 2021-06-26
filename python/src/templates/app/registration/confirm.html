@@ -1,8 +1,9 @@
 {% extends "app/common/base.html" %}
 {% load bootstrap4 %}
+{% load i18n %}
 
 {% block content %}
-{% include "app/common/title.html" with title="確認" %}
+<h2 class="mb-3">{% trans "確認" %}</h2>
 
 <div class="card">
   <div class="card-body">
@@ -11,10 +12,10 @@
          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
            <span aria-hidden="true">&times;</span>
          </button>
-         <strong>私はロボットではありませんにチェックを入れてください。</strong>
+         <strong>{% trans "私はロボットではありませんにチェックを入れてください。" %}</strong>
        </div>
     {% else %}
-      <strong>この内容で登録します。よろしければチェックをいれて送信してください。</strong>
+      <strong>{% trans "この内容で登録します。よろしければチェックをいれて送信してください。" %}</strong>
     {% endif %}
     <div class="mb-3 text-nowrap table-responsive col-lg-6">
       <table class="table table-bordered">
@@ -44,8 +45,8 @@
     </div>
     <form class="mb-3" action="{% url 'registration_execute' %}" method="POST">
       <div class="mb-3 g-recaptcha" data-sitekey="{{ recaptcha_public_key }}"></div>
-      <button type="submit" class="btn btn-success btn-lg mr-3">送信</button>
-      <a href="{% url 'registration_input' %}" class="btn btn-dark btn-lg">戻る</a>
+      <button type="submit" class="btn btn-success btn-lg mr-3">{% trans "送信" %}</button>
+      <a href="{% url 'registration_input' %}" class="btn btn-dark btn-lg">{% trans "戻る" %}</a>
       {% csrf_token %}
     </form>
     <div>

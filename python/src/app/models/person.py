@@ -2,19 +2,19 @@ from django.conf import settings
 from django.db import models
 from app.defines.gender import Gender
 from app.defines.prefecture import PrefectureAndOversea
+from django.utils.translation import gettext_lazy as _
 
 
 class Person(models.Model):
-
-    first_name = models.CharField('名', max_length=64)
-    last_name = models.CharField('姓', max_length=64)
-    first_name_kana = models.CharField('メイ', max_length=64)
-    last_name_kana = models.CharField('セイ', max_length=64)
-    first_name_roma = models.CharField('名(ローマ字)', max_length=64)
-    last_name_roma = models.CharField('姓(ローマ字)', max_length=64)
-    gender = models.SmallIntegerField('性別', choices=Gender.choices())
-    birth_at = models.DateField('生年月日')
-    prefecture_id = models.SmallIntegerField('都道府県', choices=PrefectureAndOversea.choices())
+    first_name = models.CharField(_('名'), max_length=64)
+    last_name = models.CharField(_('姓'), max_length=64)
+    first_name_kana = models.CharField(_('メイ'), max_length=64)
+    last_name_kana = models.CharField(_('セイ'), max_length=64)
+    first_name_roma = models.CharField(_('名(ローマ字)'), max_length=64)
+    last_name_roma = models.CharField(_('姓(ローマ字)'), max_length=64)
+    gender = models.SmallIntegerField(_('性別'), choices=Gender.choices())
+    birth_at = models.DateField(_('生年月日'))
+    prefecture_id = models.SmallIntegerField(_('都道府県'), choices=PrefectureAndOversea.choices())
     wca_id = models.CharField('WCA_ID', max_length=10)
     wca_user_id = models.IntegerField('WCA_USER_ID', default=0)
     wca_email = models.EmailField('WCA EMAIL', default='')

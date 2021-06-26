@@ -1,8 +1,9 @@
 {% extends "app/common/base.html" %}
 {% load bootstrap4 %}
+{% load i18n %}
 
 {% block content %}
-{% include "app/common/title.html" with title="ユーザー新規登録" %}
+<h2 class="mb-3">{% trans "ユーザー新規登録" %}</h2>
 
 <div class="card">
   <div class="card-body">
@@ -15,30 +16,30 @@
 
       <div class="ml-3">
         <div class="form-group row offset-md-3">
-          <a href="{% url 'terms' %}" target="_blank"><button type="button" class="btn btn-dark mr-3 mb-2"><i class="fas fa-link"></i>&nbsp;利用規約</button></a>
-          <a href="{% url 'privacy_policy' %}" target="_blank"><button type="button" class="btn btn-dark"><i class="fas fa-link"></i>&nbsp;プライバシーポリシー</button></a>
+          <a href="{% url 'terms' %}" target="_blank"><button type="button" class="btn btn-dark mr-3 mb-2"><i class="fas fa-link"></i>&nbsp;{% trans "利用規約" %}</button></a>
+          <a href="{% url 'privacy_policy' %}" target="_blank"><button type="button" class="btn btn-dark"><i class="fas fa-link"></i>&nbsp;{% trans "プライバシーポリシー" %}</button></a>
         </div>
         <div class="form-group row offset-md-3 col-md-9">
           <label class="form-check-label" for="registration_terms">
-            利用規約に同意します
+            {% trans "利用規約に同意します" %}
           </label>
           <input class="form-check-input registration_terms" type="checkbox" value="" id="registration_terms">
         </div>
         <div class="form-group row offset-md-3 col-md-9">
           <label class="form-check-label" for="registration_privacy_policy">
-            プライバシーポリシーに同意します
+            {% trans "プライバシーポリシーに同意します" %}
           </label>
           <input class="form-check-input registration_privacy_policy" type="checkbox" value="" id="registration_privacy_policy">
         </div>
         <div class="form-group row offset-md-3 text-danger">
-          <strong>アカウント登録後にSCJ大会に参加した場合、登録した生年月日に基づいて年代別ランキングが作成され、あなたの記録とその時点での年齢が使用されます。</strong>
+          <strong>{% trans "アカウント登録後にSCJ大会に参加した場合、登録した生年月日に基づいて年代別ランキングが作成され、あなたの記録とその時点での年齢が使用されます。" %}</strong>
         </div>
         <div class="form-group row offset-md-3 text-danger">
-          <strong>一旦掲載された大会記録は、後から削除することはできません。利用規約とプライバシーポリシーを必ず確認してください。</strong>
+          <strong>{% trans "一旦掲載された大会記録は、後から削除することはできません。利用規約とプライバシーポリシーを必ず確認してください。" %}</strong>
         </div>
       </div>
       <div class="form-group row offset-md-3 col-md-9">
-        <input class="btn btn-dark registration_submit" type="submit" value="登録" disabled>
+        <input class="btn btn-dark registration_submit" type="submit" value="{% trans "登録" %}" disabled>
       </div>
     </form>
   </div>

@@ -35,6 +35,12 @@ stripe-listen:
 stripe-listen-connect:
 	stripe listen --forward-to localhost:8000/stripe/webhook/connect/
 
+makemessages:
+	docker-compose run python django-admin makemessages -l en
+
+compilemessages:
+	docker-compose run python django-admin compilemessages
+
 collectstatic:
 	docker-compose run python ./manage.py collectstatic
 

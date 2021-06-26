@@ -35,18 +35,18 @@ class CustomUserManager(UserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
 
-    email = models.EmailField(_('email address'), unique=True)
-    first_name = models.CharField(_('first name'), max_length=30, blank=True)
-    last_name = models.CharField(_('last name'), max_length=150, blank=True)
+    email = models.EmailField(_('メールアドレス'), unique=True)
+    first_name = models.CharField(_('名'), max_length=30, blank=True)
+    last_name = models.CharField(_('性'), max_length=150, blank=True)
 
     is_staff = models.BooleanField(
-        _('staff status'),
+        _('スタッフ可否'),
         default=False,
         help_text=_(
             'Designates whether the user can log into this admin site.'),
     )
     is_active = models.BooleanField(
-        _('active'),
+        _('アクティブ'),
         default=True,
         help_text=_(
             'Designates whether this user should be treated as active. '
