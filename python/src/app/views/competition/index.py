@@ -40,7 +40,7 @@ class Index(TemplateView):
         prefectures += list(map(lambda x: (x.value, x.name), Prefecture))
         form.fields['prefecture_id'].choices = tuple(prefectures)
 
-        competitions = Competition.objects.order_by('open_at').reverse()
+        competitions = Competition.objects.filter(is_display=True).order_by('open_at').reverse()
 
         if type != 0:
             competitions = competitions.filter(type=type)

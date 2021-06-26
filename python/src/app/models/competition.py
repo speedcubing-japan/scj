@@ -37,6 +37,7 @@ class Competition(models.Model):
     requirement = models.TextField('参加要件', default='')
     is_cancel = models.BooleanField('キャンセル可否', default=False)
     is_payment = models.BooleanField('課金可否', default=False)
+    is_display = models.BooleanField('表示可否', default=False)
 
     class Meta:
         indexes = [
