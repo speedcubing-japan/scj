@@ -136,6 +136,10 @@ class Registration(TemplateView):
         # WCA認証で2つ以上のパラメータを渡せないため、セッションで管理。
         request.session['wca_authorization_name_id'] = name_id
 
+        notification = self.request.session.get('notification')
+        if self.request.session.get('notification') is not None:
+            del self.request.session['notification']
+
         context = {
             'form': form,
             'is_limit': is_limit,
@@ -151,6 +155,7 @@ class Registration(TemplateView):
             'wca_client_id': settings.WCA_CLIENT_ID,
             'redirect_uri': redirect_uri,
             'is_wca_authenticated': is_wca_authenticated,
+            'notification': notification,
             'is_superuser': competition.is_superuser(request.user),
             'is_refunder': competition.is_refunder(request.user)
         }

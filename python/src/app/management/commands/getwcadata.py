@@ -21,8 +21,11 @@ class Command(BaseCommand):
         dirpath = os.path.join(settings.BASE_DIR, 'app/fixtures/')
 
         res = requests.get(settings.WCA_TSV_URL, stream = True)
-        with open(filepath, 'wb') as fp:
-            shutil.copyfileobj(res.raw, fp)
+        with open(filepath, 'wb') as f:
+            for chunk in res.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
+                    f.flush()
 
         with zipfile.ZipFile(filepath) as existing_zip:
             existing_zip.extract(single_tsv_filename, dirpath)

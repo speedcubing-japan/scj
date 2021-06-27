@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.models import Competition, Competitor, Result, StripeProgress
 from app.defines.competitor import Status as CompetitorStatus
+from app.defines.competition import Type as CompetitionType
 from app.views.competition.util import send_mail
 
 
@@ -21,8 +22,16 @@ class Index(LoginRequiredMixin, TemplateView):
             return redirect('competition_index')
 
         competitors = Competitor.objects.filter(competition_id=competition.id)
+
         context = self.create_context(request, competition, competitors)
-        return render(request, 'app/competition/admin/index.html', context)
+
+        competition_type = ''
+        if competition.type == CompetitionType.SCJ.value:
+            competition_type = CompetitionType.SCJ.name.lower()
+        elif competition.type == CompetitionType.WCA.value:
+            competition_type = CompetitionType.WCA.name.lower()
+
+        return render(request, 'app/competition/admin/index_' + competition_type + '.html', context)
 
     def post(self, request, **kwargs):
         if 'name_id' not in kwargs:
@@ -46,10 +55,10 @@ class Index(LoginRequiredMixin, TemplateView):
 
         for competitor in competitors:
             if request.POST.get('competitor_id_' + str(competitor.id)):
-                if type == 'admit':
+                if type == 'admit' and competitor.status != CompetitorStatus.REGISTRATION.value:
                     registration_count += 1
 
-                if type == 'cancel':
+                if type == 'cancel' and competitor.status != CompetitorStatus.CANCEL.value:
                     registration_count -= 1
 
         if registration_count > competition.limit:
@@ -59,7 +68,7 @@ class Index(LoginRequiredMixin, TemplateView):
         is_updated = False
         for competitor in competitors:
             if request.POST.get('competitor_id_' + str(competitor.id)):
-                if type == 'admit':
+                if type == 'admit' and competitor.status != CompetitorStatus.REGISTRATION.value:
                     competitor.status = CompetitorStatus.REGISTRATION.value
                     competitor.save(update_fields=[
                         'status',
@@ -72,7 +81,9 @@ class Index(LoginRequiredMixin, TemplateView):
                         'app/mail/competition/registration_admit_subject.txt',
                         'app/mail/competition/registration_admit_message.txt')
 
-                if type == 'cancel':
+                    is_updated = True
+
+                if type == 'cancel' and competitor.status != CompetitorStatus.CANCEL.value:
                     competitor.status = CompetitorStatus.CANCEL.value
                     competitor.save(update_fields=[
                         'status',
@@ -85,18 +96,33 @@ class Index(LoginRequiredMixin, TemplateView):
                         'app/mail/competition/registration_cancel_subject.txt',
                         'app/mail/competition/registration_cancel_message.txt')
 
-                is_updated = True
+                    is_updated = True
 
         context = self.create_context(request, competition, competitors)
 
         if is_updated:
             context['notification'] = 'is_just_update'
         else:
-            context['notification'] = 'is_just_not_selected'
+            context['notification'] = 'is_just_not_updated'
 
-        return render(request, 'app/competition/admin/index.html', context)
+        competition_type = ''
+        if competition.type == CompetitionType.SCJ.value:
+            competition_type = CompetitionType.SCJ.name.lower()
+        elif competition.type == CompetitionType.WCA.value:
+            competition_type = CompetitionType.WCA.name.lower()
+
+        return render(request, 'app/competition/admin/index_' + competition_type + '.html', context)
 
     def create_context(self, request, competition, competitors):
+
+        # 重複確認
+        twin_competition_competitor_specfic_ids = []
+        if competition.twin_competition_id != 0:
+            twin_competition_competitors = Competitor.objects.filter(competition_id=competition.twin_competition_id)
+            for twin_competition_competitor in twin_competition_competitors:
+                if twin_competition_competitor.status != CompetitorStatus.CANCEL.value:
+                    twin_competition_competitor_specfic_ids.append(twin_competition_competitor.get_specific_id(competition.type))
+
         pending_competitors = []
         registration_competitors = []
         cancel_competitors = []
@@ -107,6 +133,9 @@ class Index(LoginRequiredMixin, TemplateView):
             for stripe_progress in stripe_progresses:
                 if competitor.id == stripe_progress.competitor_id:
                     competitor.set_stripe_progress(stripe_progress)
+
+            if competitor.get_specific_id(competition.type) in twin_competition_competitor_specfic_ids:
+                competitor.set_is_duplicated_twin_competitions()
 
             if competitor.status == CompetitorStatus.PENDING.value:
                 pending_competitors.append(competitor)

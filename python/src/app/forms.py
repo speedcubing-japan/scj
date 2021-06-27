@@ -1,6 +1,5 @@
 import datetime
 import re
-import pprint
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from app.models import Person, User, Post, Information
@@ -204,7 +203,7 @@ class CompetitionForm(forms.Form):
 
 class CompetitionRegistrationForm(forms.Form):
     event_ids = forms.MultipleChoiceField(
-          label='参加種目',
+          label=_('参加種目'),
           required=True,
           widget=forms.CheckboxSelectMultiple(attrs=
           {
@@ -212,12 +211,12 @@ class CompetitionRegistrationForm(forms.Form):
           })
     )
     guest_count = forms.fields.ChoiceField(
-        label='見学者数',
+        label=_('見学者数'),
         required=True,
         widget=forms.widgets.Select,
     )
     comment = forms.fields.CharField(
-        label='コメント',
+        label=_('コメント'),
         required=False,
         widget=forms.Textarea(attrs={'cols': '80', 'rows': '5'}),
     )

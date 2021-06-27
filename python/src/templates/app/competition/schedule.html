@@ -1,6 +1,7 @@
 {% extends "app/common/base.html" %}
 {% load event_name %}
 {% load event_id_name %}
+{% load i18n %}
 
 {% block content %}
 {% include "app/common/competition_title.html" %}
@@ -14,7 +15,7 @@
       {% for event_id, round_count in event_round_count_dict.items %}
         <div class="col-lg-3 col-md-5 col-xs-6">
           <input class="pt-3 competition_schedule_event" type="checkbox" value="{{ event_id }}">
-          <span class="cubing-icon event-{{ event_id | event_id_name }} h1"></span>&nbsp;{{ round_count}}ラウンド
+          <span class="cubing-icon event-{{ event_id | event_id_name }} h1"></span>&nbsp;{{ round_count}}&nbsp;{% trans "ラウンド" %}
         </div>
       {% endfor %}
     </div>
@@ -30,14 +31,14 @@
               <table class="table table-hover table-bordered competition-schedule">
                   <thead>
                     <tr class="bg-dark text-white">
-                      <th scope="col">開始</th>
-                      <th scope="col">終了</th>
-                      <th scope="col">種目</th>
-                      <th scope="col">ラウンド</th>
-                      <th scope="col">形式</th>
-                      <th scope="col">カットオフ<a href="" class="text-danger" data-toggle="modal" data-target="#cutoff">*</a></th>
-                      <th scope="col">制限<a href="" class="text-danger" data-toggle="modal" data-target="#limit">*</a></th>
-                      <th scope="col">進出人数</th>
+                      <th scope="col">{% trans "開始" %}</th>
+                      <th scope="col">{% trans "終了" %}</th>
+                      <th scope="col">{% trans "種目" %}</th>
+                      <th scope="col">{% trans "ラウンド" %}</th>
+                      <th scope="col">{% trans "形式" %}</th>
+                      <th scope="col">{% trans "カットオフ" %}<a href="" class="text-danger" data-toggle="modal" data-target="#cutoff">*</a></th>
+                      <th scope="col">{% trans "制限" %}<a href="" class="text-danger" data-toggle="modal" data-target="#limit">*</a></th>
+                      <th scope="col">{% trans "進出人数" %}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -53,9 +54,9 @@
                           {% endif %}
                         </td>
                         <td>{% if round.type > 0 %}{{ round.get_type_display }}{% endif %}</td>
-                        <td>{% if round.cutoff_attempt_count > 0 %}Best of {{ round.cutoff_attempt_count }}/{% endif %}{% if round.format_id > 0 %}{{ round.get_format_id_display }}{% endif %}{% if round.attempt_count > 0 %}&nbsp;({{ round.attempt_count }}試技目){% endif %}</td>
-                        <td>{% if round.cutoff_time > 0 %}{{ round.cutoff_time }}秒{% endif %}</td>
-                        <td>{% if round.limit_time > 0 %}{{ round.limit_time }}秒{% endif %}</td>
+                        <td>{% if round.cutoff_attempt_count > 0 %}Best of {{ round.cutoff_attempt_count }}/{% endif %}{% if round.format_id > 0 %}{{ round.get_format_id_display }}{% endif %}{% if round.attempt_count > 0 %}&nbsp;({{ round.attempt_count }}{% trans "試技目" %}){% endif %}</td>
+                        <td>{% if round.cutoff_time > 0 %}{{ round.cutoff_time }}&nbsp;{% trans "秒" %}{% endif %}</td>
+                        <td>{% if round.limit_time > 0 %}{{ round.limit_time }}&nbsp;{% trans "秒" %}{% endif %}</td>
                         <td>{% if round.proceed_count > 0 %}{{ round.proceed_count }}人{% endif %}</td>
                       </tr>
                     {% endfor %}
@@ -73,17 +74,17 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">制限タイム</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{% trans "制限タイム" %}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&#10005;</span>
         </button>
       </div>
       <div class="modal-body">
-        <div>試技中に制限タイムを超過した場合、ジャッジは試技を中断し、その試技の記録はDNF(記録なし)となります(<a href="https://www.worldcubeassociation.org/regulations/translations/japanese/#A1a4" target="_blank">大会規則A1a4</a>参照)。</div>
-        <div>累積制限タイムが採用される場合があります(<a href="https://www.worldcubeassociation.org/regulations/translations/japanese/#A1a2" target="_blank">大会規則A1a2</a>参照)。</div>
+        <div>{% blocktrans with url="https://www.worldcubeassociation.org/regulations/translations/japanese/#A1a4" target="_blank" %}試技中に制限タイムを超過した場合、ジャッジは試技を中断し、その試技の記録はDNF(記録なし)となります(<a href="{{ url }}" target="{{ target }}">大会規則A1a4</a>参照)。{% endblocktrans %}</div>
+        <div>{% blocktrans with url="https://www.worldcubeassociation.org/regulations/translations/japanese/#A1a2" target="_blank" %}累積制限タイムが採用される場合があります(<a href="{{ url }}" target="{{ target }}">大会規則A1a2</a>参照)。{% endblocktrans %}</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "閉じる" %}</button>
       </div>
     </div>
   </div>
@@ -93,16 +94,16 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">カットオフ</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{% trans "カットオフ" %}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&#10005;</span>
         </button>
       </div>
       <div class="modal-body">
-        <div>最初の指定された回数の試技までに基準タイムを超えない場合、残りの試技を行うことができません(<a href="https://www.worldcubeassociation.org/regulations/translations/japanese/#9g" target="_blank">大会規則9g</a>参照)。</div>
+        <div>{% blocktrans with url="https://www.worldcubeassociation.org/regulations/translations/japanese/#9g" %}最初の指定された回数の試技までに基準タイムを超えない場合、残りの試技を行うことができません(<a href="{{ url }}" target="{{ target }}">大会規則9g</a>参照)。{% endblocktrans %}</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "閉じる" %}</button>
       </div>
     </div>
   </div>

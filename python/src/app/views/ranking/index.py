@@ -3,7 +3,6 @@ from app.defines.gender import Gender
 from app.defines.prefecture import Prefecture
 from app.defines.event import Event
 from app.defines.competitor import GENERATION_MAX
-from pprint import pprint
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from app.forms import RankingForm

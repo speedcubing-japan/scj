@@ -3,7 +3,8 @@
 {% load i18n %}
 
 {% block content %}
-<h2 class="mb-3">{% trans "確認" %}</h2>
+{% trans "確認" as title %}
+{% include "app/common/title.html" with title=title %}
 
 <div class="card">
   <div class="card-body">

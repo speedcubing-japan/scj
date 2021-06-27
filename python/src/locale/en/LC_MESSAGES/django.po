@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-26 17:07+0000\n"
+"POT-Creation-Date: 2021-06-30 10:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,25 +26,668 @@ msgstr ""
 msgid "Japanese"
 msgstr ""
 
+#: templates/app/competition/competitor.html:16
+msgid "全競技者"
+msgstr "All Competitors"
+
+#: templates/app/competition/competitor.html:26
+msgid "氏名"
+msgstr "Name"
+
+#: templates/app/competition/competitor.html:28
+msgid "都道府県"
+msgstr "Prefecutre"
+
+#: templates/app/competition/competitor.html:30
+msgid "国"
+msgstr "Citizen of"
+
+#: templates/app/competition/competitor.html:33
+msgid "ベスト"
+msgstr "Best"
+
+#: templates/app/competition/competitor.html:34
+msgid "平均"
+msgstr "Average"
+
+#: templates/app/competition/competitor.html:41
+msgid "未承認"
+msgstr "Not approved"
+
+#: templates/app/competition/detail.html:24
+msgid "承認者数"
+msgstr "Number of approved"
+
+#: templates/app/competition/detail.html:36
+#: templates/app/competition/menu.html:4
+msgid "詳細"
+msgstr "Detail"
+
+#: templates/app/competition/detail.html:40
+msgid "種別"
+msgstr "Type"
+
+#: templates/app/competition/detail.html:45
+msgid "WCA大会"
+msgstr "WCA competition"
+
+#: templates/app/competition/detail.html:47
+msgid "SCJ大会"
+msgstr "SCJ competition"
+
+#: templates/app/competition/detail.html:51
+msgid "日付"
+msgstr "Date"
+
+#: templates/app/competition/detail.html:59
+msgid "Google Calendarに追加"
+msgstr "Add to Google Calendar"
+
+#: templates/app/competition/detail.html:62
+msgid "会場"
+msgstr "Venue"
+
+#: templates/app/competition/detail.html:68
+msgid "会場住所"
+msgstr "Address"
+
+#: templates/app/competition/detail.html:77
+msgid "開催イベント"
+msgstr "Event"
+
+#: templates/app/competition/detail.html:87
+msgid "定員"
+msgstr "Limit"
+
+#: templates/app/competition/detail.html:93
+#: templates/app/competition/fee.html:17
+msgid "参加費支払い方法"
+msgstr "Fee payment location"
+
+#: templates/app/competition/detail.html:99
+msgid "参加費計算"
+msgstr "Fee payment calc method"
+
+#: templates/app/competition/detail.html:110
+msgid "その他"
+msgstr "Other"
+
+#: templates/app/competition/detail.html:114
+msgid "申し込み日時"
+msgstr "Registration period"
+
+#: templates/app/competition/detail.html:120
+msgid "お知らせ"
+msgstr "Information"
+
+#: templates/app/competition/detail.html:133
+#: templates/app/competition/registration.html:44
+msgid "参加要件"
+msgstr "Requirements"
+
+#: templates/app/competition/detail.html:148
+msgid "WCA Delegate"
+msgstr ""
+
+#: templates/app/competition/detail.html:150
+msgid "SCJ 審判員"
+msgstr "SCJ Judge"
+
+#: templates/app/competition/detail.html:160
+msgid "主催者"
+msgstr "Organiser"
+
+#: templates/app/competition/fee.html:21
+msgid ""
+"現地支払いにのみ対応しております。なるべくお釣りのでないよう事前にご準備下さ"
+"い。"
+msgstr "We accept payment at the venue only."
+
+#: templates/app/competition/fee.html:23
+msgid ""
+"事前支払いならびに現地支払いに対応しております。事前支払いを推奨します。"
+msgstr ""
+"We accept payment of fee on the site and at the venue. On the site is "
+"recommended."
+
+#: templates/app/competition/fee.html:25
+msgid ""
+"事前支払いにのみ対応しております。事前にお支払いいただけないと大会参加が承認"
+"されません。"
+msgstr "We accept payment on the site only."
+
+#: templates/app/competition/fee.html:33
+msgid "参加費支払い"
+msgstr "Fee payment"
+
+#: templates/app/competition/fee.html:33
+msgid "デバッグモード"
+msgstr "Debug mode"
+
+#: templates/app/competition/fee.html:37
+msgid "参加費の支払いを停止中です。"
+msgstr "We are suspending payment of the registration fee."
+
+#: templates/app/competition/fee.html:39
+msgid "計"
+msgstr "Total"
+
+#: templates/app/competition/fee.html:39 templates/app/competition/fee.html:57
+#: templates/app/competition/fee.html:69 templates/app/competition/fee.html:84
+#: templates/app/competition/fee.html:96
+msgid "円"
+msgstr "Yen"
+
+#: templates/app/competition/fee.html:40
+msgid "支払う"
+msgstr "Pay"
+
+#: templates/app/competition/fee.html:42
+msgid "支払い済み"
+msgstr "You've paid."
+
+#: templates/app/competition/fee.html:55 templates/app/competition/fee.html:67
+msgid "事前支払い料金"
+msgstr "Payment fees on the site"
+
+#: templates/app/competition/fee.html:67 templates/app/competition/fee.html:82
+#: templates/app/competition/fee.html:94
+#: templates/app/competition/schedule.html:36
+msgid "種目"
+msgstr "Events"
+
+#: templates/app/competition/fee.html:82 templates/app/competition/fee.html:94
+msgid "現地支払い料金"
+msgstr "Payment fees at the venue"
+
+#: templates/app/competition/fee_alert.html:6
+#, python-format
+msgid ""
+"参加費は現地支払いならびに事前支払いが可能です。<a href=\"%(url)s\">事前支払"
+"い</a>を推奨します。"
+msgstr ""
+"We accept payment of fee on the site and at the venue. <a href=\"%(url)s"
+"\">On the site</a> is recommended."
+
+#: templates/app/competition/fee_alert.html:8
+#, python-format
+msgid ""
+"<a href=\"%(url)s\">事前支払い</a>にのみ対応しております。事前にお支払いいた"
+"だけないと大会参加が承認されません。"
+msgstr "We accept payment <a href=\"%(url)s\">on the site</a> only."
+
+#: templates/app/competition/menu.html:7
+msgid "結果"
+msgstr "Results"
+
+#: templates/app/competition/menu.html:9
+msgid "参加費"
+msgstr "Fees"
+
+#: templates/app/competition/menu.html:10
+msgid "スケジュール"
+msgstr "Schedule"
+
+#: templates/app/competition/menu.html:11
+#: templates/app/competition/registration.html:173
+msgid "申し込み"
+msgstr "Registration"
+
+#: templates/app/competition/menu.html:12
+msgid "競技者一覧"
+msgstr "Competitors"
+
+#: templates/app/competition/registration.html:17
+msgid "前提要件"
+msgstr "Tips"
+
+#: templates/app/competition/registration.html:23
+#, python-format
+msgid ""
+"アカウントをお持ちでない方は<a href=\"%(url)s\">ユーザー新規登録</a>より作成"
+"してください。"
+msgstr ""
+"If you do not have an SCJ account. <a href=\"%(url)s\">Sign up</a> please."
+
+#: templates/app/competition/registration.html:27
+msgid ""
+"申し込みを完了し定員に達していない場合かつ主催者に認められた場合に限り申し込"
+"みが承認されます。"
+msgstr ""
+"Registration will be approved only if the competitor limit is not reached "
+"and the organizer approves it."
+
+#: templates/app/competition/registration.html:32
+#, python-format
+msgid ""
+"<a href=\"https://www.worldcubeassociation.org/\" target=\"_blank\">World "
+"Cube Association</a>が認める大会です。そのため参加される前に<a href=\"%(url)s"
+"\">WCA大会規則</a>をご理解いただくようお願いします。"
+msgstr ""
+"This competition is recognized as an official <a href=\"https://www."
+"worldcubeassociation.org/\" target=\"_blank\">World Cube Association</a> "
+"competition. Therefore, please make sure you understand <a href=\"%(url)s"
+"\">WCA Regulations</a> before attending."
+
+#: templates/app/competition/registration.html:59
+msgid "免責事項"
+msgstr "Disclaimer"
+
+#: templates/app/competition/registration.html:62
+msgid "大会に申込みをする前に、以下をご了承ください。"
+msgstr "Please agree the following precautions before registration"
+
+#: templates/app/competition/registration.html:64
+msgid "18歳未満の方の参加には、保護者の同意が必要です。"
+msgstr ""
+"If you are under 18 years of age, please get the consent of your parent "
+"before registration."
+
+#: templates/app/competition/registration.html:67
+#, python-format
+msgid ""
+"個人情報の取扱は、<a href=\"%(url)s\" target=\"%(target)s\">WCAプライバシーポ"
+"リシー</a>に準じます。"
+msgstr ""
+"Personal data treatment follows <a href=\"%(url)s\" target=\"%(target)s"
+"\">WCA Privacy Statement</a>."
+
+#: templates/app/competition/registration.html:73
+msgid "参加者の計測結果、名前、国籍、性別はインターネット上に公開されます。"
+msgstr ""
+"Participant's name (full name), nationality, and gender will be disclosed on "
+"the Internet."
+
+#: templates/app/competition/registration.html:79
+msgid "生年月日および連絡先は、本人の同意なく公開されません。"
+msgstr ""
+"Birth date and contact information will not be disclosed to the outside "
+"without the consent of the person."
+
+#: templates/app/competition/registration.html:81
+msgid ""
+"広報活動や記録を目的に、撮影した写真や映像を大会運営者のHPなどで使用すること"
+"があります。"
+msgstr ""
+"For the purpose of recording and PR, organizer may take photos / videos of "
+"the competition and use them on the website, SNS etc."
+
+#: templates/app/competition/registration.html:82
+msgid ""
+"各種メディアにより、大会の様子が撮影されたり、大会参加者が取材を受けることが"
+"あります。"
+msgstr ""
+"Competition may be filmed, and competitor may be interviewed by some media."
+
+#: templates/app/competition/registration.html:83
+msgid ""
+"COVID-19感染予防対策により、大会の中止がイベント直前に告知される場合がありま"
+"す。"
+msgstr ""
+"Competition may be canceled even after your registration is approved from "
+"some reason related to COVID-19."
+
+#: templates/app/competition/registration.html:90
+msgid "COVID-19対策"
+msgstr "Countermeasures for COVID-19"
+
+#: templates/app/competition/registration.html:93
+msgid "この情報は後日更新される可能性があります。"
+msgstr "This information may be updated later."
+
+#: templates/app/competition/registration.html:94
+#, python-format
+msgid ""
+"<a href=\"%(safety_policy_url)s\" target=\"%(target)s\">WCA Competition "
+"Safety Policy(英語原典)</a>&nbsp;と<a href="
+"\"%(safety_policy_unofficial_ja_url)s\" target=\"%(target)s\">非公式日本語訳"
+"</a>を基本原則とし、さらに以下の項目を必ず守っていただきます。"
+msgstr ""
+"Competitors must follow <a href=\"%(safety_policy_url)s\" target=\"%(target)s"
+"\">WCA Competition Safety Policy</a>, <a href="
+"\"%(safety_policy_unofficial_ja_url)s\" target=\"%(target)s\">Unofficial "
+"Japanese translation</a> and additional countermeasures as follows."
+
+#: templates/app/competition/registration.html:96
+msgid "参加者同士が十分な距離を保つことのできるよう、ご協力をお願いします。"
+msgstr "Please keep enough distance with other attendees."
+
+#: templates/app/competition/registration.html:97
+msgid ""
+"会場内には消毒液を設置します。会場への入場時や大会の最中に、必要に応じてお使"
+"いください。"
+msgstr ""
+"We will set hand-sanitizers in the venue. Please sanitize your hands when "
+"you enter the competing room and at regular intervals throughout the "
+"competition."
+
+#: templates/app/competition/registration.html:98
+msgid ""
+"会場では常にマスクの着用をお願いいたします。顔に密着しないタイプのフェイス"
+"ガードは、飛沫拡散防止効果が低いためマスクの代替として認めません。"
+msgstr ""
+"Please wear facial masks at the venue. Some kind of face guards which have "
+"clearance from your skin is not permitted."
+
+#: templates/app/competition/registration.html:99
+msgid ""
+"風邪の症状が見られたり、発熱があったりした場合には、来場をお控えください。"
+msgstr ""
+"Please don't come to the venue if you show any symptoms of sickness "
+"including COVID-19."
+
+#: templates/app/competition/registration.html:100
+msgid ""
+"競技に使用するパズルを提出する前に、ウェットティッシュなどで表面の消毒を行っ"
+"てください。"
+msgstr ""
+"Please disinfect your puzzles before submitting, at the start of the round."
+
+#: templates/app/competition/registration.html:101
+msgid ""
+"大会当日、競技者間で競技に必要なパズルの貸し借りを行うことはできません。競技"
+"に必要なパズルは必ず持参してください。"
+msgstr ""
+"All the competitors must bring your own puzzles and must not borrow puzzles "
+"from other attendees."
+
+#: templates/app/competition/registration.html:102
+msgid "大会当日は競技時の署名等に使用する自分専用の筆記具をご持参ください。"
+msgstr "All the attendees must bring their own pens."
+
+#: templates/app/competition/registration.html:104
+msgid "また、以下に特にご注意ください。"
+msgstr "And, additional notes as below."
+
+#: templates/app/competition/registration.html:106
+#, python-format
+msgid ""
+"スマートフォンをお持ちの場合、<a href=\"%(url)s\" target=\"%(target)s\">新型"
+"コロナウイルス接触確認アプリ（COCOA)</a>のインストールを推奨します。"
+msgstr ""
+"Please install <a href=\"%(url)s\" target=\"%(target)s\">COCOA</a>, contact-"
+"confirming application by Japanese goverment."
+
+#: templates/app/competition/registration.html:107
+msgid "同伴者は事前申請制で、競技参加者1人につき1名のみ可能です。"
+msgstr ""
+"One Guest is only permitted for each competitor, and should be informed in "
+"advance."
+
+#: templates/app/competition/registration.html:109
+msgid "この他、安全保障のための実行委員の指示に従ってください。"
+msgstr "In addition to this, please follow the instructions of organiser."
+
+#: templates/app/competition/registration.html:115
+msgid "キャンセル待ちリスト"
+msgstr "Waiting List"
+
+#: templates/app/competition/registration.html:118
+msgid ""
+"参加申し込み後に「参加申請を受理しました。」という旨のメールが届きますが、こ"
+"の時点ではまだ参加申し込みは確定していません。"
+msgstr ""
+"Upon registering you will receive an email stating \"参加申請を受理しまし"
+"た。\". This does NOT mean that you are on the registration list"
+
+#: templates/app/competition/registration.html:119
+msgid ""
+"実行委員会の承認後に、正式に参加が承認されたことを伝えるメールが改めて届きま"
+"す。"
+msgstr ""
+"You will be on the registration list after the registration is approved."
+
+#: templates/app/competition/registration.html:120
+msgid ""
+"申し込み時点で定員に達していた場合はキャンセル待ちリストに追加され、参加承認"
+"済みの誰かがキャンセルした場合にリストの先着順で承認されます。"
+msgstr ""
+"Once the competitor limit has filled, the waiting list will be opened. New "
+"registrations will be added to a waiting list and sorted in the order of "
+"registration too. Waitlisted competitors will only be accepted provided one "
+"of the accepted competitors withdraw from the competition. "
+
+#: templates/app/competition/registration.html:121
+msgid ""
+"この繰り上げ措置は、規定の参加申し込み期間までとなります。締め切り後の繰り上"
+"げは行いません。"
+msgstr ""
+"All competitors still on the waiting list after registration limit will be "
+"canceled."
+
+#: templates/app/competition/registration.html:122
+#, python-format
+msgid ""
+"ご自身のキャンセル待ちリスト内での順番を知りたい方は、<a href=\"mailto:"
+"%(competition_email)s\">%(competition_email)s</a>までお問い合わせください。"
+msgstr ""
+" You may enquire about your position on the waiting list by emailing the "
+"organization team at <a href=\"mailto:%(competition_email)s\">"
+"%(competition_email)s</a>"
+
+#: templates/app/competition/registration.html:127
+msgid "参加申し込みの内容変更・取り消し"
+msgstr "Changing/Deleting Registration"
+
+#: templates/app/competition/registration.html:130
+#, python-format
+msgid ""
+"申し込み承認後に参加申込の内容を変更したい場合（例：申込種目の追加、同伴者人"
+"数の変更など）、または大会に参加できなくなった場合は、<a href=\"mailto:"
+"%(competition_email)s\">%(competition_email)s</a>まで必ず連絡してください。"
+msgstr ""
+"If you can no longer make the competition you may request to withdraw. If "
+"you would like to change your registration (e.g. changing events you "
+"compete, number of guests) or withdraw from the competition, please email "
+"the organization team at <a href=\"mailto:%(competition_email)s\">"
+"%(competition_email)s</a>"
+
+#: templates/app/competition/registration.html:131
+msgid ""
+"キャンセル待ちリストからの繰り上げは参加申し込み期間中にしか行えませんので、"
+"なるべく早めにお申し出ください。"
+msgstr ""
+"Withdrawing enables competitors on the waiting list to attend the "
+"competition."
+
+#: templates/app/competition/registration.html:137
+#, python-format
+msgid ""
+"%(competition_name)sに申し込むには<a href=\"%(login_url)s?next=%(path)s\">ロ"
+"グイン</a>が必要です。"
+msgstr ""
+"<a href=\"%(login_url)s?next=%(path)s\">Sign in</a> to register for "
+"%(competition_name)s."
+
+#: templates/app/competition/registration.html:141
+#, python-format
+msgid ""
+"%(competition_name)sに申し込むには<a href=\"%(wca_oauth_authorization)s?"
+"client_id=%(wca_client_id)s&redirect_uri="
+"%(redirect_uri)s&response_type=code&scope=public email\">WCA認証</a>が必要で"
+"す。"
+msgstr ""
+"<a href=\"%(wca_oauth_authorization)s?client_id="
+"%(wca_client_id)s&redirect_uri="
+"%(redirect_uri)s&response_type=code&scope=public email\">WCA authentication</"
+"a> to register for %(competition_name)s."
+
+#: templates/app/competition/registration.html:148
+msgid "申し込み完了しました。承認されるまでお待ち下さい。"
+msgstr ""
+"Your registration has been completed. Please wait until your registration is "
+"approved."
+
+#: templates/app/competition/registration.html:155
+msgid "既に申し込み済みです。キャンセルされる方は主催者までご連絡ください。"
+msgstr ""
+"You have already registered. If you want to cancel, please contact the "
+"organizer."
+
+#: templates/app/competition/registration.html:159
+#, python-format
+msgid "申し込みは&nbsp;%(rest_time)s後&nbsp;%(date)sに開始します。"
+msgstr "Registration will open in about %(rest_time)s later on %(date)s"
+
+#: templates/app/competition/registration.html:163
+#, python-format
+msgid "申し込みは&nbsp;%(rest_time)s前&nbsp;%(date)sに終了しました。"
+msgstr "Registration closed about %(rest_time)s ago on %(date)s"
+
+#: templates/app/competition/registration.html:168
+#, python-format
+msgid ""
+"本大会の定員は %(competition.limit)s 人であり、すでに定員に達しています。今参"
+"加申し込みされると、キャンセル待ちとして扱われます。"
+msgstr ""
+"The competitor limit for this competition is %(competition.limit)s and it "
+"has already been reached. If you register, your registration will be placed "
+"on a waiting list. It may not be approved unless a spot frees up."
+
+#: templates/app/competition/registration.html:183
+msgid "免責事項と参加要件に同意します"
+msgstr "I agree to the disclaimer and requirements."
+
+#: templates/app/competition/registration.html:185
+msgid "免責事項に同意します"
+msgstr "I agree to the disclaimer."
+
+#: templates/app/competition/registration.html:193
+#: templates/app/registration/input.html:43
+msgid "登録"
+msgstr "Register"
+
+#: templates/app/competition/registration.html:199
+#, python-format
+msgid "申し込みは%(rest_time)s後&nbsp;%(date)sに終了します。"
+msgstr "Registration closes in about %(rest_time)s later on %(date)s"
+
+#: templates/app/competition/schedule.html:18
+#: templates/app/competition/schedule.html:37
+msgid "ラウンド"
+msgstr "Round"
+
+#: templates/app/competition/schedule.html:34
+msgid "開始"
+msgstr "Begin"
+
+#: templates/app/competition/schedule.html:35
+msgid "終了"
+msgstr "End"
+
+#: templates/app/competition/schedule.html:38
+msgid "形式"
+msgstr "Format"
+
+#: templates/app/competition/schedule.html:39
+#: templates/app/competition/schedule.html:97
+msgid "カットオフ"
+msgstr "Cutoff"
+
+#: templates/app/competition/schedule.html:40
+msgid "制限"
+msgstr "Time Limit"
+
+#: templates/app/competition/schedule.html:41
+msgid "進出人数"
+msgstr "Competitors"
+
+#: templates/app/competition/schedule.html:57
+msgid "試技目"
+msgstr "Attempt"
+
+#: templates/app/competition/schedule.html:58
+#: templates/app/competition/schedule.html:59
+msgid "秒"
+msgstr "seconds"
+
+#: templates/app/competition/schedule.html:77
+msgid "制限タイム"
+msgstr "Time Limit"
+
+#: templates/app/competition/schedule.html:83
+#, python-format
+msgid ""
+"試技中に制限タイムを超過した場合、ジャッジは試技を中断し、その試技の記録は"
+"DNF(記録なし)となります(<a href=\"%(url)s\" target=\"%(target)s\">大会規則"
+"A1a4</a>参照)。"
+msgstr ""
+"If you reach the time limit during your solve, the judge will stop you and "
+"your result will be DNF (see Regulation <a href=\"%(url)s\" target="
+"\"%(target)s\">A1a4</a>)."
+
+#: templates/app/competition/schedule.html:84
+#, python-format
+msgid ""
+"累積制限タイムが採用される場合があります(<a href=\"%(url)s\" target="
+"\"%(target)s\">大会規則A1a2</a>参照)。"
+msgstr ""
+"For events other than 3x3x3 Fewest Moves and 3x3x3 Multi-Blind, the "
+"organization team may define a cumulative time limit (see Regulation <a href="
+"\"%(url)s\" target=\"%(target)s\">A1a2</a>)."
+
+#: templates/app/competition/schedule.html:87
+#: templates/app/competition/schedule.html:106
+msgid "閉じる"
+msgstr "Close"
+
+#: templates/app/competition/schedule.html:103
+#, python-format
+msgid ""
+"最初の指定された回数の試技までに基準タイムを超えない場合、残りの試技を行うこ"
+"とができません(<a href=\"%(url)s\" target=\"%(target)s\">大会規則9g</a>参"
+"照)。"
+msgstr ""
+"The result to beat to proceed to the second phase of a combined round (see "
+"Regulation <a href=\"%(url)s\" target=\"%(target)s\">9g</a>)."
+
+#: templates/app/competition/status.html:6
+msgid "あなたの申し込みは承認待ちです。"
+msgstr "Your registration is awaiting approval."
+
+#: templates/app/competition/status.html:10
+msgid "あなたの申し込みは承認されました。"
+msgstr "Your registration has been approved."
+
+#: templates/app/competition/status.html:14
+msgid "あなたの申し込みはキャンセルされました。"
+msgstr "Your registration has been cancelled."
+
+#: templates/app/entrance/login.html:7 templates/app/entrance/login.html:16
+msgid "ログイン"
+msgstr "Sign in"
+
+#: templates/app/entrance/login.html:23
+#, python-format
+msgid "アカウントをお持ちでない方は<a href=\"%(url)s\">こちら</a>から"
+msgstr ""
+"If you do not have an SCJ account. <a href=\"%(url)s\">Sign up</a> please."
+
+#: templates/app/entrance/login.html:24
+#, python-format
+msgid "パスワードを忘れた方は<a href=\"%(url)s\">こちら</a>から"
+msgstr ""
+"If you have forgotten your password, click <a href=\"%(url)s\">here</a>."
+
 #: templates/app/registration/confirm.html:6
 msgid "確認"
 msgstr "Confirmation"
 
-#: templates/app/registration/confirm.html:15
+#: templates/app/registration/confirm.html:16
 msgid "私はロボットではありませんにチェックを入れてください。"
 msgstr "Please check the box."
 
-#: templates/app/registration/confirm.html:18
+#: templates/app/registration/confirm.html:19
 msgid "この内容で登録します。よろしければチェックをいれて送信してください。"
 msgstr ""
 "We register with this information. If you are satisfied, please check the "
 "box and submit."
 
-#: templates/app/registration/confirm.html:48
+#: templates/app/registration/confirm.html:49
 msgid "送信"
 msgstr "Submit"
 
-#: templates/app/registration/confirm.html:49
+#: templates/app/registration/confirm.html:50
 msgid "戻る"
 msgstr "Back"
 
@@ -52,23 +695,23 @@ msgstr "Back"
 msgid "ユーザー新規登録"
 msgstr "Sign up"
 
-#: templates/app/registration/input.html:19
+#: templates/app/registration/input.html:20
 msgid "利用規約"
 msgstr "Terms of Use"
 
-#: templates/app/registration/input.html:20
+#: templates/app/registration/input.html:21
 msgid "プライバシーポリシー"
 msgstr "Privacy Policy"
 
-#: templates/app/registration/input.html:24
+#: templates/app/registration/input.html:25
 msgid "利用規約に同意します"
 msgstr "I agree to the Terms of Use."
 
-#: templates/app/registration/input.html:30
+#: templates/app/registration/input.html:31
 msgid "プライバシーポリシーに同意します"
 msgstr "I agree to the Privacy Policy."
 
-#: templates/app/registration/input.html:35
+#: templates/app/registration/input.html:36
 msgid ""
 "アカウント登録後にSCJ大会に参加した場合、登録した生年月日に基づいて年代別ラン"
 "キングが作成され、あなたの記録とその時点での年齢が使用されます。"
@@ -77,14 +720,10 @@ msgstr ""
 "records and your age at that time will be used to age ranking based on your "
 "registered birth date."
 
-#: templates/app/registration/input.html:38
+#: templates/app/registration/input.html:39
 msgid ""
 "一旦掲載された大会記録は、後から削除することはできません。利用規約とプライバ"
 "シーポリシーを必ず確認してください。"
 msgstr ""
 "Once a your competition record is posted, it cannot be deleted later. Be "
 "sure to review the Terms of Use and Privacy Policy."
-
-#: templates/app/registration/input.html:42
-msgid "登録"
-msgstr "Submit"

@@ -1,12 +1,10 @@
 from django import template
 from app.defines.define import OUTLIERS
-import pprint
 
 register = template.Library()
 
 def mbf_convert(value):
     value = str(int(value))
-    pprint.pprint(value)
     difference = 99 - int(value[0:2])
     seconds = value[2:7]
     missed = value[7:9]
