@@ -45,4 +45,14 @@ class WebhookConnect(View):
             stripe_progress.pay_at = datetime.datetime.fromtimestamp(charges.created, tz=datetime.timezone.utc)
             stripe_progress.save()
 
+            competitor = Competitor.objects.get(pk=charges.metadata.competitor_id)
+            competition = Competition.objects.get(pk=charges.metadata.competition_id)
+
+            send_mail(request,
+                competitor.person.user,
+                competition,
+                'app/mail/competition/registration_payment_subject.txt',
+                'app/mail/competition/registration_payment_message.txt',
+                price=charges.amount)
+
         return HttpResponse(status=200)
