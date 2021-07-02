@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-02 15:28+0000\n"
+"POT-Creation-Date: 2021-07-02 15:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,41 +99,32 @@ msgstr "Event"
 msgid "定員"
 msgstr "Limit"
 
-#: templates/app/competition/detail.html:93
-#: templates/app/competition/fee.html:21
-msgid "参加費支払い方法"
-msgstr "Fee payment location"
-
-#: templates/app/competition/detail.html:99
-msgid "参加費計算"
-msgstr "Fee payment calc method"
-
-#: templates/app/competition/detail.html:110
+#: templates/app/competition/detail.html:98
 msgid "その他"
 msgstr "Other"
 
-#: templates/app/competition/detail.html:114
+#: templates/app/competition/detail.html:102
 msgid "申し込み日時"
 msgstr "Registration period"
 
-#: templates/app/competition/detail.html:120
+#: templates/app/competition/detail.html:108
 msgid "お知らせ"
 msgstr "Information"
 
-#: templates/app/competition/detail.html:133
+#: templates/app/competition/detail.html:121
 #: templates/app/competition/registration.html:45
 msgid "参加要件"
 msgstr "Requirements"
 
-#: templates/app/competition/detail.html:148
+#: templates/app/competition/detail.html:136
 msgid "WCA Delegate"
 msgstr ""
 
-#: templates/app/competition/detail.html:150
+#: templates/app/competition/detail.html:138
 msgid "SCJ 審判員"
 msgstr "SCJ Judge"
 
-#: templates/app/competition/detail.html:160
+#: templates/app/competition/detail.html:148
 msgid "主催者"
 msgstr "Organiser"
 
@@ -141,6 +132,10 @@ msgstr "Organiser"
 #, python-format
 msgid "事前支払い期日は&nbsp;%(rest_time)s後&nbsp;%(date)sです。"
 msgstr "Payment closes in about %(rest_time)s later on %(date)s"
+
+#: templates/app/competition/fee.html:21
+msgid "参加費支払い方法"
+msgstr "Fee payment location"
 
 #: templates/app/competition/fee.html:25
 msgid ""
@@ -533,8 +528,8 @@ msgid ""
 "既に申し込み済みです。キャンセルされる方は<a href=\"mailto:%(email)s\">主催者"
 "</a>までご連絡ください。\""
 msgstr ""
-"You have already registered. If you want to cancel, please contact the "
-"<a href=\"mailto:%(email)s\">organizer</a>."
+"You have already registered. If you want to cancel, please contact the <a "
+"href=\"mailto:%(email)s\">organizer</a>."
 
 #: templates/app/competition/registration.html:160
 #, python-format
