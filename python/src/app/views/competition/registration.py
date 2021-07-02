@@ -80,7 +80,8 @@ class Registration(TemplateView):
                 'app/mail/competition/registration_submit_subject.txt',
                 'app/mail/competition/registration_submit_message.txt')
 
-            context['is_just_offer'] = True
+            context['notification'] = 'is_just_competition_register'
+            context['is_offer'] = True
 
             return render(request, 'app/competition/registration.html', context)
 
@@ -148,7 +149,6 @@ class Registration(TemplateView):
             'is_limit': is_limit,
             'is_offer': is_offer,
             'is_prepaid': is_prepaid,
-            'is_just_offer': False,
             'competition': competition,
             'now': now,
             'registration_open_timedelta': registration_open_timedelta,

@@ -141,13 +141,6 @@
       <div class="alert alert-light" role="alert">
         {% blocktrans with competition_name=competition.name wca_oauth_authorization=wca_oauth_authorization wca_client_id=wca_client_id redirect_uri=redirect_uri %}{{ competition_name }}に申し込むには<a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email">WCA認証</a>が必要です。{% endblocktrans %}
       </div>
-    {% elif is_just_offer %}
-      {% if not is_prepaid %}
-        {% include "app/competition/fee_alert.html" %}
-      {% endif %}
-      <div class="alert alert-success" role="alert">
-        {% trans "申し込み完了しました。承認されるまでお待ち下さい。" %}
-      </div>
     {% elif is_offer %}
       {% if not is_prepaid %}
         {% include "app/competition/fee_alert.html" %}
