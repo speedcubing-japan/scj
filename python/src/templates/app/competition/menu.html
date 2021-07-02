@@ -13,7 +13,7 @@
     {% endif %}
   {% endif %}
   {% if competition.type == competition_type.WCA.value %}
-    <form method="POST" action="{% url 'set_language' %}">
+    <form method="POST" id="language_select" action="{% url 'set_language' %}">
       {% csrf_token %}
       {% if LANGUAGE_CODE == 'en' %}
         <input name="language" type="hidden" value="ja">

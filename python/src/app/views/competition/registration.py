@@ -52,6 +52,9 @@ class Registration(TemplateView):
                 return redirect('competition_index')
             competition = competition.first()
 
+            if not competition.is_registration_open() and not competition.is_superuser(request.user):
+                return redirect('competition_detail', name_id=name_id)
+
             competitor = Competitor.objects.filter(
                 competition_id=competition.id,
                 person_id=request.user.person.id

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-02 14:03+0000\n"
+"POT-Creation-Date: 2021-07-02 15:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -100,7 +100,7 @@ msgid "定員"
 msgstr "Limit"
 
 #: templates/app/competition/detail.html:93
-#: templates/app/competition/fee.html:17
+#: templates/app/competition/fee.html:21
 msgid "参加費支払い方法"
 msgstr "Fee payment location"
 
@@ -137,66 +137,75 @@ msgstr "SCJ Judge"
 msgid "主催者"
 msgstr "Organiser"
 
-#: templates/app/competition/fee.html:21
+#: templates/app/competition/fee.html:17
+#, python-format
+msgid "事前支払い期日は&nbsp;%(rest_time)s後&nbsp;%(date)sです。"
+msgstr "Payment closes in about %(rest_time)s later on %(date)s"
+
+#: templates/app/competition/fee.html:25
 msgid ""
 "現地支払いにのみ対応しております。なるべくお釣りのでないよう事前にご準備下さ"
 "い。"
 msgstr "We accept payment at the venue only."
 
-#: templates/app/competition/fee.html:23
+#: templates/app/competition/fee.html:27
 msgid ""
 "事前支払いならびに現地支払いに対応しております。事前支払いを推奨します。"
 msgstr ""
 "We accept payment of fee on the site and at the venue. On the site is "
 "recommended."
 
-#: templates/app/competition/fee.html:25
+#: templates/app/competition/fee.html:29
 msgid ""
 "事前支払いにのみ対応しております。事前にお支払いいただけないと大会参加が承認"
 "されません。"
 msgstr "We accept payment on the site only."
 
-#: templates/app/competition/fee.html:33
+#: templates/app/competition/fee.html:37
 msgid "参加費支払い"
 msgstr "Fee payment"
 
-#: templates/app/competition/fee.html:33
+#: templates/app/competition/fee.html:37
 msgid "デバッグモード"
 msgstr "Debug mode"
 
-#: templates/app/competition/fee.html:37
+#: templates/app/competition/fee.html:41
 msgid "参加費の支払いを停止中です。"
 msgstr "We are suspending payment of the registration fee."
 
-#: templates/app/competition/fee.html:39
+#: templates/app/competition/fee.html:43
+msgid "支払い期日を過ぎています。"
+msgstr "Payment due date has passed."
+
+#: templates/app/competition/fee.html:45
 msgid "計"
 msgstr "Total"
 
-#: templates/app/competition/fee.html:39 templates/app/competition/fee.html:57
-#: templates/app/competition/fee.html:69 templates/app/competition/fee.html:84
-#: templates/app/competition/fee.html:96
+#: templates/app/competition/fee.html:45 templates/app/competition/fee.html:63
+#: templates/app/competition/fee.html:75 templates/app/competition/fee.html:90
+#: templates/app/competition/fee.html:102
 msgid "円"
 msgstr "Yen"
 
-#: templates/app/competition/fee.html:40
+#: templates/app/competition/fee.html:46
 msgid "支払う"
 msgstr "Pay"
 
-#: templates/app/competition/fee.html:42
+#: templates/app/competition/fee.html:48
 msgid "支払い済み"
 msgstr "You've paid."
 
-#: templates/app/competition/fee.html:55 templates/app/competition/fee.html:67
+#: templates/app/competition/fee.html:61 templates/app/competition/fee.html:73
 msgid "事前支払い料金"
 msgstr "Payment fees on the site"
 
-#: templates/app/competition/fee.html:67 templates/app/competition/fee.html:82
-#: templates/app/competition/fee.html:94
+#: templates/app/competition/fee.html:73 templates/app/competition/fee.html:88
+#: templates/app/competition/fee.html:100
 #: templates/app/competition/schedule.html:36
 msgid "種目"
 msgstr "Events"
 
-#: templates/app/competition/fee.html:82 templates/app/competition/fee.html:94
+#: templates/app/competition/fee.html:88 templates/app/competition/fee.html:100
 msgid "現地支払い料金"
 msgstr "Payment fees at the venue"
 
@@ -519,10 +528,13 @@ msgstr ""
 "approved."
 
 #: templates/app/competition/registration.html:156
-msgid "既に申し込み済みです。キャンセルされる方は主催者までご連絡ください。"
+#, python-format
+msgid ""
+"既に申し込み済みです。キャンセルされる方は<a href=\"mailto:%(email)s\">主催者"
+"</a>までご連絡ください。\""
 msgstr ""
 "You have already registered. If you want to cancel, please contact the "
-"organizer."
+"<a href=\"mailto:%(email)s\">organizer</a>."
 
 #: templates/app/competition/registration.html:160
 #, python-format
@@ -559,7 +571,7 @@ msgstr "Register"
 
 #: templates/app/competition/registration.html:200
 #, python-format
-msgid "申し込みは%(rest_time)s後&nbsp;%(date)sに終了します。"
+msgid "申し込みは&nbsp;%(rest_time)s後&nbsp;%(date)sに終了します。"
 msgstr "Registration closes in about %(rest_time)s later on %(date)s"
 
 #: templates/app/competition/schedule.html:18

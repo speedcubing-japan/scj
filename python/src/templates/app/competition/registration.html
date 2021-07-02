@@ -153,9 +153,9 @@
         {% include "app/competition/fee_alert.html" %}
       {% endif %}
       <div class="alert alert-info" role="alert">
-        {% trans "既に申し込み済みです。キャンセルされる方は主催者までご連絡ください。" %}
+        {% blocktrans with email=competition.email %}既に申し込み済みです。キャンセルされる方は<a href="mailto:{{ email }}">主催者</a>までご連絡ください。"{% endblocktrans %}
       </div>
-    {% elif competition.registration_open_at > now %}
+    {% elif competition.registration_open_at > now and not is_superuser %}
       <div class="alert alert-info" role="alert">
         {% blocktrans with rest_time=registration_open_timedelta|rest_time date=competition.registration_open_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}後&nbsp;{{ date }}に開始します。{% endblocktrans %}
       </div>  
@@ -197,7 +197,7 @@
           </form>
         </div>
         <div class="card-footer">
-          {% blocktrans with rest_time=registration_close_before_timedelta|rest_time date=competition.registration_close_at|date:"Y年m月d日 H:i:s" %}申し込みは{{ rest_time }}後&nbsp;{{ date }}に終了します。{% endblocktrans %}
+          {% blocktrans with rest_time=registration_close_before_timedelta|rest_time date=competition.registration_close_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}後&nbsp;{{ date }}に終了します。{% endblocktrans %}
         </div>
       </div>
     {% endif %}

@@ -1,6 +1,7 @@
 {% extends "app/common/base.html" %}
 {% load event_name %}
 {% load event_id_name %}
+{% load rest_time %}
 {% load i18n %}
 
 {% block content %}
@@ -12,6 +13,9 @@
     {% include "app/competition/menu.html" with active='fee' %}
   </div>
   <div class="col-lg-10">
+    <div class="alert alert-info" role="alert">
+      {% blocktrans with rest_time=fee_pay_close_at_timedelta|rest_time date=competition.fee_pay_close_at|date:"Y年m月d日 H:i:s" %}事前支払い期日は&nbsp;{{ rest_time }}後&nbsp;{{ date }}です。{% endblocktrans %}
+    </div>  
     <div class="card mb-3">
       <div class="card-header lead">
         {% trans "参加費支払い方法" %}
@@ -35,6 +39,8 @@
           <div class="card-body">
             {% if not is_payment %}
               <h5>{% trans "参加費の支払いを停止中です。" %}</h5>
+            {% elif competition.fee_pay_close_at <= now %}
+              <h5>{% trans "支払い期日を過ぎています。" %}</h5>
             {% elif not paid %}
               <h3 class="mb-3">{% trans "計" %}&nbsp;{{ price }}&nbsp;{% trans "円" %}</h3>
               <button type="button" class="btn bg-primary text-white" id="checkout">{% trans "支払う" %}</button>

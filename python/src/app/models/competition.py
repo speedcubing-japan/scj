@@ -34,6 +34,7 @@ class Competition(models.Model):
     is_display_pending_competitor = models.BooleanField('承認前の競技者の一覧表示フラグ', default=False)
     fee_pay_type = models.SmallIntegerField('参加費支払いタイプ', default=0, choices=FeePayType.choices())
     fee_calc_type = models.SmallIntegerField('参加費計算タイプ', default=0, choices=FeeCalcType.choices())
+    fee_pay_close_at = models.DateTimeField('参加費支払い期限', default=None, null=True)
     twin_competition_id = models.IntegerField('双子大会ID', default=0)
     description = models.TextField('大会説明', default='')
     description_en = models.TextField('大会説明(英文)', default='')
@@ -58,6 +59,12 @@ class Competition(models.Model):
         now = localtime(datetime.datetime.now(tz=datetime.timezone.utc))
         close_at = localtime(self.close_at)
         return close_at.date() < now.date()
+
+    def is_registration_open(self):
+        now = localtime(datetime.datetime.now(tz=datetime.timezone.utc))
+        registration_open_at = localtime(self.registration_open_at)
+        registration_close_at = localtime(self.registration_close_at)
+        return registration_open_at <= now and registration_close_at >= now
 
     def is_superuser(self, user):
         is_superuser = False

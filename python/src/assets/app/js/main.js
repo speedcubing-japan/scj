@@ -45,7 +45,7 @@ $(function(){
 
   // 翻訳ボタン
   $('.language').click(function() {
-    $('form').submit();
+    $('#language_select').submit();
   });
 
   // Ranking検索

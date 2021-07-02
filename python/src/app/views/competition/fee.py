@@ -1,3 +1,4 @@
+import datetime
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
@@ -54,9 +55,13 @@ class Fee(TemplateView):
         elif status == 'success':
             notification = 'is_just_payment_success'
 
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
+        fee_pay_close_at_timedelta = competition.fee_pay_close_at - now
+
         context = {
             'competition': competition,
             'competitor': competitor,
+            'fee_pay_close_at_timedelta': fee_pay_close_at_timedelta,
             'fees': amount['fees'],
             'prepaid_fees': amount['prepaid_fees'],
             'price': amount['price'],
@@ -64,6 +69,7 @@ class Fee(TemplateView):
             'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
             'stripe_user_id': stripe_user_id,
             'notification': notification,
+            'now': now,
             'is_payment': competition.is_payment or competition.is_superuser(request.user),
             'is_superuser': competition.is_superuser(request.user),
             'is_refunder': competition.is_refunder(request.user)

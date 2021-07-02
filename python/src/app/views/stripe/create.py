@@ -1,6 +1,7 @@
 import json
 import stripe
 import requests
+import datetime
 from django.conf import settings
 from django.views.generic import View
 from django.urls import reverse
@@ -23,6 +24,10 @@ class Create(View):
         competition = Competition.objects.get(pk=datas['competition_id'])
         if not competition or competition.is_close():
             return JsonResponse({'error': '大会が終了しています。'})
+
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
+        if competition.fee_pay_close_at <= now:
+            return JsonResponse({'error': '支払い期日を過ぎています。'})
 
         if not competition.is_payment and not is_superuser(self, request, competition):
             return JsonResponse({'error': '現在支払えません。'})
