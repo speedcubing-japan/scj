@@ -211,7 +211,7 @@ class CompetitionRegistrationForm(forms.Form):
           })
     )
     guest_count = forms.fields.ChoiceField(
-        label=_('見学者数'),
+        label=_('同伴者数'),
         required=True,
         widget=forms.widgets.Select,
     )

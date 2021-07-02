@@ -10,7 +10,7 @@ class Competitor(models.Model):
     competition_id = models.IntegerField("大会ID")
     status = models.SmallIntegerField('状態', choices=CompetitorStatus.choices())
     event_ids = JSONField('申し込み種目ID')
-    guest_count = models.SmallIntegerField('見学者数')
+    guest_count = models.SmallIntegerField('同伴者数')
     comment = models.TextField('コメント')
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     created_at = models.DateTimeField('作成日時', auto_now_add=True)
