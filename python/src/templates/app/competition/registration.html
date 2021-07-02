@@ -1,9 +1,12 @@
 {% extends "app/common/base.html" %}
 {% load bootstrap4 %}
 {% load rest_time %}
+{% load strip %}
+{% load i18n %}
 
 {% block content %}
 {% include "app/common/competition_title.html" %}
+{% include "app/common/notification.html" %}
 
 <div class="row">
   <div class="col-lg-2 mb-3">
@@ -12,101 +15,163 @@
   <div class="col-lg-10 mb-3">
     <div class="card mb-3">
       <div class="card-header lead">
-        前提要件
+        {% trans "前提要件" %}
       </div>
       <div class="card-body">
         {% if not user.is_authenticated %}
           <div>
-            SCJ アカウントをお持ちでない方は<a href="{% url 'registration_input' %}">ユーザー新規登録</a>より作成してください。
+            {% url 'registration_input' as registration_input %}
+            {% blocktrans with url=registration_input %}アカウントをお持ちでない方は<a href="{{ url }}">ユーザー新規登録</a>より作成してください。{% endblocktrans %}
           </div>
         {% endif %}
         <div>
-          申し込みを完了し定員に達していない場合かつ主催者に認められた場合に限り申し込みが承認されます。
+          {% trans "申し込みを完了し定員に達していない場合かつ主催者に認められた場合に限り申し込みが承認されます。" %}
         </div>
-        <div>
-          申し込み定員まで申し込みを受け入れますが、会場の定員の関係上、見学者定員を超えた場合、申し込み順で都度調整させていただきます。
-        </div>
+        {% if competition.type == competition_type.WCA.value %}
+          <div>
+            {% url 'wca_regulation' as url %}
+            {% blocktrans with url=url %}<a href="https://www.worldcubeassociation.org/" target="_blank">World Cube Association</a>が認める大会です。そのため参加される前に<a href="{{ url }}">WCA大会規則</a>をご理解いただくようお願いします。{% endblocktrans %}
+          </div>
+        {% elif competition.type == competition_type.SCJ.value %}
+          <div>
+            申し込み定員まで申し込みを受け入れますが、会場の定員の関係上、見学者定員を超えた場合、申し込み順で都度調整させていただきます。
+          </div>
+        {% endif %}
       </div>
     </div>
-    {% if competition.requirement %}
+    {% if competition.requirement or competition.requirement_en %}
       <div class="card mb-3">
         <div class="card-header lead">
-          参加要件
+          {% trans "参加要件" %}
         </div>
         <div class="card-body">
-          {{ competition.requirement | safe }}
+          {% if not competition.requirement_en %}
+            {{ competition.requirement | strip | safe }}
+          {% elif request.LANGUAGE_CODE == 'en' %}
+            {{ competition.requirement_en | strip | safe }}
+          {% else %}
+            {{ competition.requirement | strip | safe }}
+          {% endif %}
         </div>
       </div>
     {% endif %}
     <div class="card mb-3">
       <div class="card-header lead">
-        免責事項
+        {% trans "免責事項" %}
       </div>
       <div class="card-body">
-        <div class="mb-3">大会に申込みをする前に、以下をご了承ください。</div>
+        <div class="mb-3">{% trans "大会に申込みをする前に、以下をご了承ください。" %}</div>
         <ul>
-          <li>18歳未満の方の参加には、保護者の同意が必要です。</li>
-          <li>大会開催中における18歳未満の参加者の保護責任は保護者にあります。</li>
+          <li>{% trans "18歳未満の方の参加には、保護者の同意が必要です。" %}</li>
           <li>
             {% if competition.type == competition_type.WCA.value %}
-              個人情報の取扱は、<a href="https://www.worldcubeassociation.org/privacy" target="_blank">WCAプライバシーポリシー</a>に準じます。
+              {% blocktrans with url="https://www.worldcubeassociation.org/privacy" target="_blank" %}個人情報の取扱は、<a href="{{ url }}" target="{{ target }}">WCAプライバシーポリシー</a>に準じます。{% endblocktrans %}
             {% elif competition.type == competition_type.SCJ.value %}
               個人情報の取扱は、<a href="https://speedcubing.or.jp/privacy_policy/" target="_blank">SCJプライバシーポリシー</a>に準じます。
             {% endif %}
           </li>
           {% if competition.type == competition_type.WCA.value %}
-            <li>参加者の計測結果、名前、国籍、性別はインターネット上に公開されます。</li>
+            <li>{% trans "参加者の計測結果、名前、国籍、性別はインターネット上に公開されます。" %}</li>
           {% elif competition.type == competition_type.SCJ.value %}
+            <li>会開催中における18歳未満の参加者の保護責任は保護者にあります。</li>
             <li>参加者の計測結果、名前、都道府県、その他ランキングで必要となる情報はインターネット上に公開されます。</li>
           {% endif %}
           {% if competition.type == competition_type.WCA.value %}
-            <li>生年月日および連絡先は、本人の同意なく公開されません。</li>
+            <li>{% trans "生年月日および連絡先は、本人の同意なく公開されません。" %}</li>
           {% endif %}
-          <li>広報活動や記録を目的に、撮影した写真や映像を大会運営者のHPなどで使用することがあります。</li>
-          <li>各種メディアにより、大会の様子が撮影されたり、大会参加者が取材を受けることがあります。</li>
-          <li>COVID-19感染予防対策により、大会の中止がイベント直前に告知される場合があります。</li>
+          <li>{% trans "広報活動や記録を目的に、撮影した写真や映像を大会運営者のHPなどで使用することがあります。" %}</li>
+          <li>{% trans "各種メディアにより、大会の様子が撮影されたり、大会参加者が取材を受けることがあります。" %}</li>
+          <li>{% trans "COVID-19感染予防対策により、大会の中止がイベント直前に告知される場合があります。" %}</li>
         </ul>
+      </div>
+    </div>
+    {% if competition.type == competition_type.WCA.value %}
+      <div class="card mb-3">
+        <div class="card-header lead">
+          {% trans "COVID-19対策" %}
+        </div>
+        <div class="card-body">
+          <div class="mb-3">{% trans "この情報は後日更新される可能性があります。" %}</div>
+          <div>{% blocktrans with safety_policy_url="https://www.worldcubeassociation.org/documents/policies/external/Competition%20Safety.pdf" safety_policy_unofficial_ja_url="https://kawam1123.github.io/competition-safety-policy" target="_blank" %}<a href="{{ safety_policy_url }}" target="{{ target }}">WCA Competition Safety Policy(英語原典)</a>&nbsp;と<a href="{{ safety_policy_unofficial_ja_url }}" target="{{ target }}">非公式日本語訳</a>を基本原則とし、さらに以下の項目を必ず守っていただきます。{% endblocktrans %}</div>
+          <ul>
+            <li>{% trans "参加者同士が十分な距離を保つことのできるよう、ご協力をお願いします。" %}</li>
+            <li>{% trans "会場内には消毒液を設置します。会場への入場時や大会の最中に、必要に応じてお使いください。" %}</li>
+            <li>{% trans "会場では常にマスクの着用をお願いいたします。顔に密着しないタイプのフェイスガードは、飛沫拡散防止効果が低いためマスクの代替として認めません。" %}</li>
+            <li>{% trans "風邪の症状が見られたり、発熱があったりした場合には、来場をお控えください。" %}</li>
+            <li>{% trans "競技に使用するパズルを提出する前に、ウェットティッシュなどで表面の消毒を行ってください。" %}</li>
+            <li>{% trans "大会当日、競技者間で競技に必要なパズルの貸し借りを行うことはできません。競技に必要なパズルは必ず持参してください。" %}</li>
+            <li>{% trans "大会当日は競技時の署名等に使用する自分専用の筆記具をご持参ください。" %}</li>
+          </ul>
+          <div>{% trans "また、以下に特にご注意ください。" %}</div>
+          <ul>
+            <li>{% blocktrans with url="https://www.worldcubeassociation.org/documents/policies/external/Competition%20Safety.pdf" target="_blank"%}スマートフォンをお持ちの場合、<a href="{{ url }}" target="{{ target }}">新型コロナウイルス接触確認アプリ（COCOA)</a>のインストールを推奨します。{% endblocktrans %}</li>
+            <li>{% trans "同伴者は事前申請制で、競技参加者1人につき1名のみ可能です。" %}</li>
+          </ul>
+          <div>{% trans "この他、安全保障のための実行委員の指示に従ってください。" %}</div>
+        </div>
+      </div>
+    {% endif %}
+    <div class="card mb-3">
+      <div class="card-header lead">
+        {% trans "キャンセル待ちリスト" %}
+      </div>
+      <div class="card-body">
+        <div>{% trans "参加申し込み後に「参加申請を受理しました。」という旨のメールが届きますが、この時点ではまだ参加申し込みは確定していません。" %}</div>
+        <div>{% trans "実行委員会の承認後に、正式に参加が承認されたことを伝えるメールが改めて届きます。" %}</div>
+        <div>{% trans "申し込み時点で定員に達していた場合はキャンセル待ちリストに追加され、参加承認済みの誰かがキャンセルした場合にリストの先着順で承認されます。" %}</div>
+        <div>{% trans "この繰り上げ措置は、規定の参加申し込み期間までとなります。締め切り後の繰り上げは行いません。" %}</div>
+        <div>{% blocktrans with competition_email=competition.email %}ご自身のキャンセル待ちリスト内での順番を知りたい方は、<a href="mailto:{{ competition_email }}">{{ competition_email }}</a>までお問い合わせください。{% endblocktrans %}</div>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header lead">
+        {% trans "参加申し込みの内容変更・取り消し" %}
+      </div>
+      <div class="card-body">
+        <div>{% blocktrans with competition_email=competition.email %}申し込み承認後に参加申込の内容を変更したい場合（例：申込種目の追加、同伴者人数の変更など）、または大会に参加できなくなった場合は、<a href="mailto:{{ competition_email }}">{{ competition_email }}</a>まで必ず連絡してください。{% endblocktrans %}</div>
+        <div>{% trans "キャンセル待ちリストからの繰り上げは参加申し込み期間中にしか行えませんので、なるべく早めにお申し出ください。" %}</div>
       </div>
     </div>
     {% if not user.is_authenticated %}
       <div class="alert alert-light" role="alert">
-        {{ competition.name }}に申し込むには<a href="{% url 'login' %}?next={{ request.path }}">ログイン</a>が必要です。
+        {% url "login" as login_url %}
+        {% blocktrans with competition_name=competition.name login_url=login_url path=request.path %}{{ competition_name }}に申し込むには<a href="{{ login_url }}?next={{ path }}">ログイン</a>が必要です。{% endblocktrans %}
       </div>
     {% elif competition.type == competition_type.WCA.value and not is_wca_authenticated %}
       <div class="alert alert-light" role="alert">
-        {{ competition.name }}に申し込むには<a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email"><i class="fas fa-sign-in-alt"></i>WCA認証</a>が必要です。
+        {% blocktrans with competition_name=competition.name wca_oauth_authorization=wca_oauth_authorization wca_client_id=wca_client_id redirect_uri=redirect_uri %}{{ competition_name }}に申し込むには<a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email">WCA認証</a>が必要です。{% endblocktrans %}
       </div>
     {% elif is_just_offer %}
       {% if not is_prepaid %}
         {% include "app/competition/fee_alert.html" %}
       {% endif %}
       <div class="alert alert-success" role="alert">
-        申し込み完了しました。承認されるまでお待ち下さい。
+        {% trans "申し込み完了しました。承認されるまでお待ち下さい。" %}
       </div>
     {% elif is_offer %}
       {% if not is_prepaid %}
         {% include "app/competition/fee_alert.html" %}
       {% endif %}
       <div class="alert alert-info" role="alert">
-        既に申し込み済みです。キャンセルされる方は主催者までご連絡ください。
+        {% trans "既に申し込み済みです。キャンセルされる方は主催者までご連絡ください。" %}
       </div>
     {% elif competition.registration_open_at > now %}
       <div class="alert alert-info" role="alert">
-        申し込みは{{ registration_open_timedelta|rest_time:"後" }}&nbsp;{{ competition.registration_open_at | date:"Y年m月d日 H:i:s" }}に開始します。
+        {% blocktrans with rest_time=registration_open_timedelta|rest_time date=competition.registration_open_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}後&nbsp;{{ date }}に開始します。{% endblocktrans %}
       </div>  
     {% elif competition.registration_close_at <= now %}
       <div class="alert alert-danger" role="alert">
-        申し込みは{{ registration_close_after_timedelta|rest_time:"前" }}&nbsp;{{ competition.registration_close_at | date:"Y年m月d日 H:i:s" }}に終了しました。
+        {% blocktrans with rest_time=registration_close_after_timedelta|rest_time date=competition.registration_close_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}前&nbsp;{{ date }}に終了しました。{% endblocktrans %}
       </div>  
     {% else %}
       {% if is_limit %}
         <div class="alert alert-warning" role="alert">
-          本大会の定員は {{ competition.limit }} 人であり、すでに定員に達しています。今参加申し込みされると、キャンセル待ちとして扱われます。
+          {% blocktrans %}本大会の定員は {{ competition.limit }} 人であり、すでに定員に達しています。今参加申し込みされると、キャンセル待ちとして扱われます。{% endblocktrans %}
         </div>  
       {% endif %}
       <div class="card border-dark">
         <div class="card-header text-white bg-dark lead">
-          申し込み
+          {% trans "申し込み" %}
         </div>
         <div class="card-body">
           <form action="" method="POST">
@@ -115,20 +180,24 @@
             <div class="ml-3">
               <div class="form-group row offset-md-3 col-md-9">
                 <label class="form-check-label" for="competition_registration_confirm">
-                  免責事項{% if competition.requirement %}と参加要件{% endif %}に同意します
+                  {% if competition.requirement %}
+                    {% trans "免責事項と参加要件に同意します" %}
+                  {% else %}
+                    {% trans "免責事項に同意します" %}
+                  {% endif %}
                 </label>
                 <input class="form-check-input competition_registration_confirm" type="checkbox" value="">
               </div>
             </div>
             <div class="form-group row">
               <div class="offset-md-3 col-md-9">
-                <input class="btn btn-dark competition_registration" type="submit" value="送信" disabled>
+                <input class="btn btn-dark competition_registration" type="submit" value="{% trans "登録" %}" disabled>
               </div>
             </div>
           </form>
         </div>
         <div class="card-footer">
-          申し込みは{{ registration_close_before_timedelta|rest_time:"後" }}&nbsp;{{ competition.registration_close_at | date:"Y年m月d日 H:i:s" }}に終了します。
+          {% blocktrans with rest_time=registration_close_before_timedelta|rest_time date=competition.registration_close_at|date:"Y年m月d日 H:i:s" %}申し込みは{{ rest_time }}後&nbsp;{{ date }}に終了します。{% endblocktrans %}
         </div>
       </div>
     {% endif %}

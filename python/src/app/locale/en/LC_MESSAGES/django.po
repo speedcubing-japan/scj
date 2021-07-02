@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-26 17:07+0000\n"
+"POT-Creation-Date: 2021-06-30 10:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,6 +29,118 @@ msgstr ""
 #: app/admin.py:29 app/admin.py:62
 msgid "Important dates"
 msgstr ""
+
+#: app/defines/competition.py:15
+msgid "予選"
+msgstr "First round"
+
+#: app/defines/competition.py:16
+msgid "二次予選"
+msgstr "Second round"
+
+#: app/defines/competition.py:17
+msgid "準決勝"
+msgstr "Semi Final"
+
+#: app/defines/competition.py:18
+msgid "決勝"
+msgstr "Final"
+
+#: app/defines/event.py:21
+msgid "3x3x3 キューブ"
+msgstr "3x3x3 Cube"
+
+#: app/defines/event.py:22
+msgid "2x2x2 キューブ"
+msgstr "2x2x2 Cube"
+
+#: app/defines/event.py:23
+msgid "4x4x4 キューブ"
+msgstr "4x4x4 Cube"
+
+#: app/defines/event.py:24
+msgid "5x5x5 キューブ"
+msgstr "5x5x5 Cube"
+
+#: app/defines/event.py:25
+msgid "6x6x6 キューブ"
+msgstr "6x6x6 Cube"
+
+#: app/defines/event.py:26
+msgid "7x7x7 キューブ"
+msgstr "7x7x7 Cube"
+
+#: app/defines/event.py:27
+msgid "3x3x3 目隠し"
+msgstr "3x3x3 Blindfolded"
+
+#: app/defines/event.py:28
+msgid "3x3x3 最少手数"
+msgstr "3x3x3 Fewest Moves"
+
+#: app/defines/event.py:29
+msgid "3x3x3 片手"
+msgstr "3x3x3 One-Handed"
+
+#: app/defines/event.py:30
+msgid "クロック"
+msgstr "Clock"
+
+#: app/defines/event.py:31
+msgid "メガミンクス"
+msgstr "Megaminx"
+
+#: app/defines/event.py:32
+msgid "ピラミンクス"
+msgstr "Pyraminx"
+
+#: app/defines/event.py:33
+msgid "スキューブ"
+msgstr "Skewb"
+
+#: app/defines/event.py:34
+msgid "スクエア1"
+msgstr "Square-1"
+
+#: app/defines/event.py:35
+msgid "4x4x4 目隠し"
+msgstr "4x4x4 Blindfolded"
+
+#: app/defines/event.py:36
+msgid "5x5x5 目隠し"
+msgstr "5x5x5 Blindfolded"
+
+#: app/defines/event.py:37
+msgid "3x3x3 複数目隠し"
+msgstr "3x3x3 Multi-Blind"
+
+#: app/defines/fee.py:8
+msgid "現地支払"
+msgstr "At the venue only"
+
+#: app/defines/fee.py:9
+msgid "事前支払または現地支払"
+msgstr "On the site and at the venue"
+
+#: app/defines/fee.py:10
+msgid "事前支払"
+msgstr "On the site only"
+
+#: app/defines/fee.py:31
+msgid "種目別"
+msgstr "By events"
+
+#: app/defines/fee.py:32
+msgid "種目数"
+msgstr "Number of events"
+
+#: app/defines/gender.py:8
+msgid "男性"
+msgstr "Male"
+
+#: app/defines/gender.py:9
+msgid "女性"
+msgstr "Female"
 
 #: app/forms.py:25
 msgid "使用可能なメールアドレスを入力してください。"
@@ -113,6 +225,18 @@ msgstr ""
 msgid "アルファベットでない文字が含まれています。"
 msgstr "Contains non-alphabetic characters."
 
+#: app/forms.py:207
+msgid "参加種目"
+msgstr "Events"
+
+#: app/forms.py:215
+msgid "見学者数"
+msgstr "Number of Guests"
+
+#: app/forms.py:220
+msgid "コメント"
+msgstr "Comments"
+
 #: app/models/person.py:9 app/models/user.py:39
 msgid "名"
 msgstr "First name"
@@ -187,8 +311,22 @@ msgstr ""
 msgid "users"
 msgstr ""
 
-#~ msgid "男性"
-#~ msgstr "Male"
+#: app/templatetags/rest_time.py:16
+msgid "ヶ月"
+msgstr "months"
 
-#~ msgid "女性"
-#~ msgstr "Female"
+#: app/templatetags/rest_time.py:18
+msgid "日"
+msgstr "days"
+
+#: app/templatetags/rest_time.py:21
+msgid "時間"
+msgstr "hours"
+
+#: app/templatetags/rest_time.py:23
+msgid "分"
+msgstr "minutes"
+
+#: app/templatetags/rest_time.py:25
+msgid "秒"
+msgstr "seconds"

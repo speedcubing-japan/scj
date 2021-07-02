@@ -43,6 +43,11 @@ $(function(){
     $('form').submit();
   });
 
+  // 翻訳ボタン
+  $('.language').click(function() {
+    $('form').submit();
+  });
+
   // Ranking検索
   $('.ranking_search').click(function() {
     var value = $(this).val();

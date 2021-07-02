@@ -2,6 +2,7 @@
 {% load bootstrap4 %}
 {% load key %}
 {% load result_convert %}
+{% load i18n %}
 
 {% block content %}
 {% include "app/common/competition_title.html" %}
@@ -12,7 +13,7 @@
   </div>
   <div class="col-lg-10 mb-3">
     <select class="competition_competitor">
-      <option value="{% url 'competition_competitor' competition.name_id 'list' %}" {% if event_name == 'list' %}selected{% endif %}>全競技者</option>
+      <option value="{% url 'competition_competitor' competition.name_id 'list' %}" {% if event_name == 'list' %}selected{% endif %}>{% trans "全競技者" %}</option>
       {% for name in event_names %}
         <option value="{% url 'competition_competitor' competition.name_id name %}" {% if event_name == name %}selected{% endif %}>{{ name }}</option>
       {% endfor %}
@@ -22,23 +23,27 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">氏名</th>
+            <th scope="col">{% trans "氏名" %}</th>
             {% if competition.type == competition_type.SCJ.value %}
-              <th scope="col">都道府県</th>
+              <th scope="col">{% trans "都道府県" %}</th>
+            {% elif competition.type == competition_type.WCA.value %}
+              <th scope="col">{% trans "国" %}</th>
             {% endif %}
             {% if event_name != 'list' %}
-              <th scope="col">ベスト</th>
-              <th scope="col">平均</th>
+              <th scope="col">{% trans "ベスト" %}</th>
+              <th scope="col">{% trans "平均" %}</th>
             {% endif %}
           </tr>
         </thead>
         <tbody>
           {% for competitor in competitors %}
             <tr{% if competitor.status == competitor_status.PENDING.value %} class="bg-light"{% endif %}>
-              <th scope="row">{% if competitor.status == competitor_status.PENDING.value %}未承認{% else %}{{ forloop.counter }}{% endif %}</th>
+              <th scope="row">{% if competitor.status == competitor_status.PENDING.value %}{% trans "未承認" %}{% else %}{{ forloop.counter }}{% endif %}</th>
               <td>{{ competitor.name }}</td>
               {% if competition.type == competition_type.SCJ.value %}
                 <td>{{ competitor.prefecture }}</td>
+              {% elif competition.type == competition_type.WCA.value %}
+                <td>{{ competitor.country }}</td>
               {% endif %}
               {% if event_name != 'list' %}
                 <td class="text-monospace">{{ competitor.best | result_convert:event_id }}</td>

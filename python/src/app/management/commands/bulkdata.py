@@ -5,7 +5,6 @@ from app.models import Person, Competition, Competitor, Round, Result, AverageRa
 import os
 import requests
 import json
-import pprint
 import subprocess
 
 
@@ -161,6 +160,7 @@ class Command(BaseCommand):
                     judge_person_ids=record['fields']['judge_person_ids'],
                     event_ids=record['fields']['event_ids'],
                     prefecture_id=record['fields']['prefecture_id'],
+                    email=record['fields']['email'],
                     organizer_person_ids=record['fields']['organizer_person_ids'],
                     venue_name=record['fields']['venue_name'],
                     venue_address=record['fields']['venue_address'],
@@ -171,8 +171,11 @@ class Command(BaseCommand):
                     is_display_pending_competitor=record['fields']['is_display_pending_competitor'],
                     fee_pay_type=record['fields']['fee_pay_type'],
                     fee_calc_type=record['fields']['fee_calc_type'],
+                    twin_competition_id=record['fields']['twin_competition_id'],
                     description=record['fields']['description'],
+                    description_en=record['fields']['description_en'],
                     requirement=record['fields']['requirement'],
+                    requirement_en=record['fields']['requirement_en'],
                     is_cancel=record['fields']['is_cancel'],
                     is_payment=record['fields']['is_payment'],
                     is_display=record['fields']['is_display'],

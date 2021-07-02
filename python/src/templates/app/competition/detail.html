@@ -2,6 +2,10 @@
 {% load strip %}
 {% load event_name %}
 {% load event_id_name %}
+{% load i18n %}
+{% load competition_logo %}
+{% load static %}
+
 
 {% block content %}
 {% include "app/common/competition_title.html" %}
@@ -16,11 +20,11 @@
 
     {% if not has_results and not competition.is_cancel %}
       <div class="card">
-        <div class="card-header lead">
-          現在の承認者数
+        <div class="text-center card-header">
+          {% trans "承認者数" %}
         </div>
         <div class="text-center mt-2 mr-2 ml-2 mb-3">
-          <div class="mb-2"><span class="h1">{{ competitor_registration_count }} / {{ competition.limit }}</span>名</div>
+          <div class="mb-2"><span class="h1">{{ competitor_registration_count }} / {{ competition.limit }}</span></div>
           {% include "app/competition/progress.html" with rate=competitor_registration_rate %}
         </div>
       </div>
@@ -29,11 +33,22 @@
   <div class="col-md mb-3">
     <div class="card">
       <div class="card-header lead">
-        詳細
+        {% trans "詳細" %}
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
-          <h6>日付</h6>
+          <h6>{% trans "種別" %}</h6>
+          {% with path=competition|competition_logo %}
+            <img width="20" src="{% static path %}">
+          {% endwith %}
+          {% if competition.type == competition_type.WCA.value %}
+          <a href="https://www.worldcubeassociation.org/competitions/{{ competition.name_id }}" target="_blank">{% trans "WCA大会" %}</a>
+          {% elif competition.type == competition_type.SCJ.value %}
+            {% trans "SCJ大会" %}
+          {% endif %}
+        </li>
+        <li class="list-group-item">
+          <h6>{% trans "日付" %}</h6>
           <div>
             {% if competition_day_count == 0 %}
               {{ competition.open_at | date:'Y年m月d日' }}&nbsp;({{ competition.open_at | date:"l" }})
@@ -41,16 +56,16 @@
               {{ competition.open_at | date:'Y年m月d日' }}&nbsp;({{ competition.open_at | date:"l" }}) - {{ competition.close_at | date:'Y年m月d日' }}&nbsp;({{ competition.close_at | date:"l" }})
             {% endif %}
           </div>
-          <div><a href="{{ google_calendar_url }}?action=TEMPLATE&text={{ competition.name }}&dates={{ google_calendar_date_param }}&location={{ competition.venue_address }}&details={{ competition.description | strip }}" target="_blank"><i class="fas fa-calendar-alt mr-1"></i>Google Calendarに追加</a></div>
+          <div><a href="{{ google_calendar_url }}?action=TEMPLATE&text={{ competition.name }}&dates={{ google_calendar_date_param }}&location={{ competition.venue_address }}&details={{ competition.description | strip }}" target="_blank"><i class="fas fa-calendar-alt mr-1"></i>{% trans "Google Calendarに追加" %}</a></div>
         </li>
         <li class="list-group-item">
-          <h6>会場</h6>
+          <h6>{% trans "会場" %}</h6>
           <div>
             {{ competition.venue_name }}
           </div>
         </li>
         <li class="list-group-item">
-          <h6>会場住所</h6>
+          <h6>{% trans "会場住所" %}</h6>
           <div>
             {{ competition.venue_address }}
           </div>
@@ -59,7 +74,7 @@
           </div>
         </li>
         <li class="list-group-item">
-        <h6>開催イベント</h6>
+        <h6>{% trans "開催イベント" %}</h6>
           <div>
             {% for event_id in competition.event_ids %}
               <div>
@@ -69,19 +84,19 @@
           </div>
         </li>
         <li class="list-group-item">
-          <h6>定員</h6>
+          <h6>{% trans "定員" %}</h6>
           <div>
-            {{ competition.limit }}名
+            {{ competition.limit }}
           </div>
         </li>
         <li class="list-group-item">
-          <h6>参加費支払い方法</h6>
+          <h6>{% trans "参加費支払い方法" %}</h6>
           <div>
             {{ fee_pay_type_text }}
           </div>
         </li>
         <li class="list-group-item">
-          <h6>参加費計算</h6>
+          <h6>{% trans "参加費計算" %}</h6>
           <div>
             {{ fee_calc_type_text }}
           </div>
@@ -92,35 +107,47 @@
   <div class="col-md mb-3">
     <div class="card mb-3">
       <div class="card-header lead">
-        その他
+        {% trans "その他" %}
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
-          <h6>申し込み日時</h6>
+          <h6>{% trans "申し込み日時" %}</h6>
           <div>
             {{ competition.registration_open_at | date:'Y年m月d日 H:i' }}&nbsp;-&nbsp;{{ competition.registration_close_at | date:'Y年m月d日 H:i' }}
           </div>
         </li>
         <li class="list-group-item">
-          <h6>お知らせ</h6>
+          <h6>{% trans "お知らせ" %}</h6>
           <div>
-            {{ competition.description | strip | safe }}
+            {% if not competition.description_en %}
+              {{ competition.description | strip | safe }}
+            {% elif request.LANGUAGE_CODE == 'en' %}
+              {{ competition.description_en | strip | safe }}
+            {% else %}
+              {{ competition.description | strip | safe }}
+            {% endif %}
           </div>
         </li>
-        {% if competition.requirement %}
+        {% if competition.requirement or competition.requirement_en %}
           <li class="list-group-item">
-            <h6>参加要件</h6>
+            <h6>{% trans "参加要件" %}</h6>
             <div>
-              {{ competition.requirement | strip | safe }}
+              {% if not competition.requirement_en %}
+                {{ competition.requirement | strip | safe }}
+              {% elif request.LANGUAGE_CODE == 'en' %}
+                {{ competition.requirement_en | strip | safe }}
+              {% else %}
+                {{ competition.requirement | strip | safe }}
+              {% endif %}
             </div>
           </li>
         {% endif %}
         <li class="list-group-item">
           <h6>
             {% if competition.type == competition_type.WCA.value %}
-              WCA Delegate
+              {% trans "WCA Delegate" %}
             {% elif competition.type == competition_type.SCJ.value %}
-              SCJ 審判員
+              {% trans "SCJ 審判員" %}
             {% endif %}
           </h6>
           <div>
@@ -130,7 +157,7 @@
           </div>
         </li>
         <li class="list-group-item">
-          <h6>主催者</h6>
+          <h6>{% trans "主催者" %}</h6>
           <div class="mb-2">
             {% for organizer in organizers %}
               <a href="mailto:{{ organizer.user.email }}"><button type="button" class="btn btn-dark mb-2"><i class="far fa-envelope mr-2"></i>{{ organizer.get_full_name }}</button></a>

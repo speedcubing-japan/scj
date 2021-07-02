@@ -1,5 +1,6 @@
 from app.defines.define import Define
 from enum import unique
+from django.utils.translation import gettext_lazy as _
 
 
 # 空白文字をnameに使えないので参照時にreplaceする。
@@ -17,23 +18,23 @@ class Format(Define):
 
 # nameをイベント名にすると数字のリテラルは先頭では使えないので苦肉の策。
 class Event(Define):
-    EVENT1 = (1, '3x3x3 キューブ', '333', True)
-    EVENT2 = (2, '2x2x2 キューブ', '222', True)
-    EVENT3 = (3, '4x4x4 キューブ', '444', True)
-    EVENT4 = (4, '5x5x5 キューブ', '555', True)
-    EVENT5 = (5, '6x6x6 キューブ', '666', True)
-    EVENT6 = (6, '7x7x7 キューブ', '777', True)
-    EVENT7 = (7, '3x3x3 目隠し', '333bf', True)
-    EVENT8 = (8, '3x3x3 最少手数', '333fm', True)
-    EVENT9 = (9, '3x3x3 片手', '333oh', True)
-    EVENT10 = (10, 'クロック', 'clock', True)
-    EVENT11 = (11, 'メガミンクス', 'minx', True)
-    EVENT12 = (12, 'ピラミンクス', 'pyram', True)
-    EVENT13 = (13, 'スキューブ', 'skewb', True)
-    EVENT14 = (14, 'スクエア1', 'sq1', True)
-    EVENT15 = (15, '4x4x4 目隠し', '444bf', False)
-    EVENT16 = (16, '5x5x5 目隠し', '555bf', False)
-    EVENT17 = (17, '3x3x3 複数目隠し', '333mbf', False)
+    EVENT1 = (1, _('3x3x3 キューブ'), '333', True)
+    EVENT2 = (2, _('2x2x2 キューブ'), '222', True)
+    EVENT3 = (3, _('4x4x4 キューブ'), '444', True)
+    EVENT4 = (4, _('5x5x5 キューブ'), '555', True)
+    EVENT5 = (5, _('6x6x6 キューブ'), '666', True)
+    EVENT6 = (6, _('7x7x7 キューブ'), '777', True)
+    EVENT7 = (7, _('3x3x3 目隠し'), '333bf', True)
+    EVENT8 = (8, _('3x3x3 最少手数'), '333fm', True)
+    EVENT9 = (9, _('3x3x3 片手'), '333oh', True)
+    EVENT10 = (10, _('クロック'), 'clock', True)
+    EVENT11 = (11, _('メガミンクス'), 'minx', True)
+    EVENT12 = (12, _('ピラミンクス'), 'pyram', True)
+    EVENT13 = (13, _('スキューブ'), 'skewb', True)
+    EVENT14 = (14, _('スクエア1'), 'sq1', True)
+    EVENT15 = (15, _('4x4x4 目隠し'), '444bf', False)
+    EVENT16 = (16, _('5x5x5 目隠し'), '555bf', False)
+    EVENT17 = (17, _('3x3x3 複数目隠し'), '333mbf', False)
 
     def __init__(self, event_id, event_name, event_id_name, is_best_and_average_event):
         self.event_id = event_id

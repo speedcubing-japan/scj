@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from app.models import Competition, Competitor, Result, BestRank, AverageRank, WcaBestRank, WcaAverageRank
 from app.defines.event import Event
+from app.defines.country import Country
 from app.defines.define import OUTLIERS
 from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
@@ -63,14 +64,15 @@ class Competitor(TemplateView):
 
                 wca_best_ranks = WcaBestRank.objects.filter(event_id=event_id, wca_id__in=wca_ids)
                 for wca_best_rank in wca_best_ranks:
-                    bests[wca_best_rank.wca_id] = wca_best_ranks.best
+                    bests[wca_best_rank.wca_id] = wca_best_rank.best / 100
 
                 wca_average_ranks = WcaAverageRank.objects.filter(event_id=event_id, wca_id__in=wca_ids)
                 for wca_average_rank in wca_average_ranks:
-                    averages[wca_average_rank.wca_id] = wca_average_rank.best
+                    averages[wca_average_rank.wca_id] = wca_average_rank.best / 100
 
         competitor_list = []
         name = ''
+        country = ''
         prefecture = ''
         for competitor in competitors:
             if competition.type == CompetitionType.SCJ.value:
@@ -80,12 +82,15 @@ class Competitor(TemplateView):
                 average = averages[competitor.person.id] if competitor.person.id in averages else OUTLIERS
             elif competition.type == CompetitionType.WCA.value:
                 name = competitor.person.wca_name
+                country_names = dict(Country.choices())
+                country = country_names[competitor.person.wca_country_iso2]
                 best = bests[competitor.person.wca_id] if competitor.person.wca_id in bests else OUTLIERS
                 average = averages[competitor.person.wca_id] if competitor.person.wca_id in averages else OUTLIERS
 
             competitor_list.append({
                 'status': competitor.status,
                 'name': name,
+                'country': country,
                 'prefecture': prefecture,
                 'best': best,
                 'average': average,

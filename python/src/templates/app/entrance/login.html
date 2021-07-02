@@ -1,8 +1,11 @@
 {% extends "app/common/base.html" %}
 {% load bootstrap4 %}
+{% load i18n %}
+
 
 {% block content %}
-{% include "app/common/title.html" with title="ログイン" %}
+{% trans "ログイン" as title %}
+{% include "app/common/title.html" with title=title %}
 <div class="card">
   <div class="card-body">
     <form action="" method="POST">
@@ -10,13 +13,15 @@
       {% bootstrap_form form layout='horizontal' %}
       <div class="form-group row">
         <div class="offset-md-3 col-md-9">
-          <button class="btn btn-primary" type="submit" value="ログイン"><i class="fas fa-sign-in-alt mr-2"></i>ログイン</button>
+          <button class="btn btn-primary" type="submit" value="ログイン"><i class="fas fa-sign-in-alt mr-2"></i>{% trans "ログイン" %}</button>
         </div>
       </div>
       <div class="form-group row">
         <div class="offset-md-3 col-md-9">
-          <div>アカウントをお持ちでない方は<a href="{% url 'registration_input' %}">こちら</a>から</div>
-          <div>パスワードを忘れた方は<a href="{% url 'password_reset' %}">こちら</a>から</div>
+          {% url 'registration_input' as registration_input %}
+          {% url 'password_reset' as password_reset %}
+          <div>{% blocktrans with url=registration_input %}アカウントをお持ちでない方は<a href="{{ url }}">こちら</a>から{% endblocktrans %}</div>
+          <div>{% blocktrans with url=password_reset %}パスワードを忘れた方は<a href="{{ url }}">こちら</a>から{% endblocktrans %}</div>
         </div>
       </div>
     </form>

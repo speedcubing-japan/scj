@@ -12,7 +12,6 @@ from django.core import serializers
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from app.models import Person
-from pprint import pprint
 
 
 class Command(BaseCommand):

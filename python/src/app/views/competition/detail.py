@@ -1,6 +1,6 @@
 import datetime
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.timezone import localtime
 from django.views.generic import TemplateView
 from app.models import Competition, Person, Competitor, Result
@@ -80,7 +80,8 @@ class Detail(TemplateView):
             'is_refunder': competition.is_refunder(request.user),
             'now': now,
             'has_results': has_results,
-            'notification': notification
+            'notification': notification,
+            'is_noindex_nofollow': not competition.is_display
         }
 
         return render(request, 'app/competition/detail.html', context)

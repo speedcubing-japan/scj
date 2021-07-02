@@ -1,7 +1,10 @@
+{% load i18n %}
+
 <div class="alert alert-light" role="alert">
-    {% if competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value %}
-      参加費は現地支払いならびに事前支払いが可能性です。<a href="{% url 'competition_fee' competition.name_id %}">事前支払い</a>を推奨します。
-    {% elif competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
-      <a href="{% url 'competition_fee' competition.name_id %}">事前支払い</a>にのみ対応しております。事前にお支払いいただけないと大会参加が承認されません。
-    {% endif %}
-  </div>
+  {% url 'competition_fee' competition.name_id as url %}
+  {% if competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value %}
+    {% blocktrans with url=url %}参加費は現地支払いならびに事前支払いが可能です。<a href="{{ url }}">事前支払い</a>を推奨します。{% endblocktrans %}
+  {% elif competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
+    {% blocktrans with url=url %}<a href="{{ url }}">事前支払い</a>にのみ対応しております。事前にお支払いいただけないと大会参加が承認されません。{% endblocktrans %}
+  {% endif %}
+</div>

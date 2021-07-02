@@ -6,12 +6,12 @@
     <strong>更新しました。</strong>
   </div>
 {% endif %}
-{% if notification == 'is_just_not_selected' %}
+{% if notification == 'is_just_not_updated' %}
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
-    <strong>選択されていません。</strong>
+    <strong>変更されていません。</strong>
   </div>
 {% endif %}
 {% if notification == 'is_just_registration' %}
@@ -124,6 +124,14 @@
       <span aria-hidden="true">&times;</span>
     </button>
     <strong>WCA認証が完了しました。</strong>
+  </div>
+{% endif %}
+{% if notification == 'is_just_wca_authorization_duplicated' %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>WCA IDが他アカウントと重複しています。認証に失敗しました。</strong>
   </div>
 {% endif %}
 {% if notification == 'is_just_stripe_authorization_complete' %}

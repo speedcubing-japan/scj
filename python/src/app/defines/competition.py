@@ -1,5 +1,7 @@
 from app.defines.define import Define
 from enum import unique
+from django.utils.translation import gettext_lazy as _
+
 
 SCJ_COMPETITON_FIRST_YEAR = 2020
 
@@ -10,13 +12,14 @@ class Type(Define):
 
 @unique
 class RoundType(Define):
-    予選 = 1
-    二次予選 = 2
-    準決勝 = 3
-    決勝 = 4
-    複合予選 = 5
-    複合二次予選 = 6
-    複合決勝 = 7
+    予選 = (1, _('予選'))
+    二次予選 = (2, _('二次予選'))
+    準決勝 = (3, _('準決勝'))
+    決勝 = (4, _('決勝'))
+
+    @classmethod
+    def choices(cls):
+        return tuple((x.value[0], x.value[1]) for x in cls)
 
 @unique
 class RoundLimitType(Define):
