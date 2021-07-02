@@ -87,6 +87,11 @@ load-proddata:
 bulkdata:
 	docker-compose run python ./manage.py bulkdata
 
+direct-bulkdata:
+	scp python/src/app/fixtures/*.json scj:~/fixtures
+	ssh scj cp fixtures/* scj/python/src/app/fixtures/
+	ssh scj cd scj; make prod-bulkdata
+
 prod-bulkdata:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py bulkdata
 
