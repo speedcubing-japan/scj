@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-03 14:09+0000\n"
+"POT-Creation-Date: 2021-07-03 16:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,49 +192,53 @@ msgstr ""
 "\">register</a> for the competition."
 
 #: templates/app/competition/fee.html:67
+msgid "申し込みが承認されていないため、参加費を支払うことはできません。"
+msgstr "You cannot pay the registration fee because your registration has not been approved."
+
+#: templates/app/competition/fee.html:69
 msgid "キャンセルされましたので、参加費を支払うことはできません。"
 msgstr "You have cancelled and will not be able to pay the registration fee."
 
-#: templates/app/competition/fee.html:69
+#: templates/app/competition/fee.html:71
 msgid "参加費の支払いを停止中です。"
 msgstr "We are suspending payment of the registration fee."
 
-#: templates/app/competition/fee.html:72
+#: templates/app/competition/fee.html:74
 msgid "支払い期日を過ぎています。"
 msgstr "Payment due date has passed."
 
-#: templates/app/competition/fee.html:74
+#: templates/app/competition/fee.html:76
 msgid "計"
 msgstr "Total"
 
-#: templates/app/competition/fee.html:74 templates/app/competition/fee.html:91
-#: templates/app/competition/fee.html:103
-#: templates/app/competition/fee.html:118
-#: templates/app/competition/fee.html:130
+#: templates/app/competition/fee.html:76 templates/app/competition/fee.html:93
+#: templates/app/competition/fee.html:105
+#: templates/app/competition/fee.html:120
+#: templates/app/competition/fee.html:132
 msgid "円"
 msgstr "Yen"
 
-#: templates/app/competition/fee.html:75
+#: templates/app/competition/fee.html:77
 msgid "支払う"
 msgstr "Pay"
 
-#: templates/app/competition/fee.html:78
+#: templates/app/competition/fee.html:80
 msgid "支払い済み"
 msgstr "You've paid."
 
-#: templates/app/competition/fee.html:89 templates/app/competition/fee.html:101
+#: templates/app/competition/fee.html:91 templates/app/competition/fee.html:103
 msgid "事前支払い料金"
 msgstr "Payment fees on the site"
 
-#: templates/app/competition/fee.html:101
-#: templates/app/competition/fee.html:116
-#: templates/app/competition/fee.html:128
+#: templates/app/competition/fee.html:103
+#: templates/app/competition/fee.html:118
+#: templates/app/competition/fee.html:130
 #: templates/app/competition/schedule.html:36
 msgid "種目"
 msgstr "Events"
 
-#: templates/app/competition/fee.html:116
-#: templates/app/competition/fee.html:128
+#: templates/app/competition/fee.html:118
+#: templates/app/competition/fee.html:130
 msgid "現地支払い料金"
 msgstr "Payment fees at the venue"
 
