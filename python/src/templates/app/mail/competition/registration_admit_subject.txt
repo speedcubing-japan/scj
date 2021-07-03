@@ -1,1 +1,1 @@
-{{ competition.name }}への参加申請を承認しました。
+{{ competition.name }}への申し込みを承認しました。

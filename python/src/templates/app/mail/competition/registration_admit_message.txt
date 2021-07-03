@@ -2,7 +2,7 @@
 
 {{ competition.name }}
 {{ protocol}}://{{ domain }}{% url 'competition_detail' competition.name_id %}
-への参加申請を承認しました。
+への申し込みを承認しました。
 
 なにかご不明な点があれば、大会運営にお問い合わせください。
 

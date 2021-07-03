@@ -1,1 +1,1 @@
-{{ competition.name }}への参加申請を受理しました。現在承認待ちです。
+{{ competition.name }}への申し込みを受け付けました。
