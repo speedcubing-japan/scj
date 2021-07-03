@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <clipPath id="clip-Web_1920_1">
+      <rect width="1920" height="1080"/>
+    </clipPath>
+  </defs>
+  <g id="Web_1920_1" data-name="Web 1920 – 1" clip-path="url(#clip-Web_1920_1)">
+    <rect width="1920" height="1080" fill="#fff"/>
+    <line id="線_1" data-name="線 1" y2="709.5" transform="translate(934.5 187)" fill="none" stroke="#5c5c5c" stroke-width="4"/>
+    <line id="線_2" data-name="線 2" x2="48" transform="translate(1176 519)" fill="none" stroke="#5c5c5c" stroke-width="4"/>
+    <line id="線_5" data-name="線 5" y2="77" transform="translate(1464 816)" fill="none" stroke="#5c5c5c" stroke-width="4"/>
+    <line id="線_6" data-name="線 6" y2="77" transform="translate(432 816)" fill="none" stroke="#5c5c5c" stroke-width="4"/>
+    <line id="線_3" data-name="線 3" x2="289" transform="translate(935 689)" fill="none" stroke="#5c5c5c" stroke-width="4"/>
+    <line id="線_4" data-name="線 4" x2="1035" transform="translate(431 818)" fill="none" stroke="#5c5c5c" stroke-width="4"/>
+    <g id="グループ_1" data-name="グループ 1" transform="translate(692 65)">
+      <rect id="長方形_1" data-name="長方形 1" width="484" height="122" rx="8" fill="#5c5c5c"/>
+      <text id="社員総会" transform="translate(243 78)" fill="#fff" font-size="44" font-family="NotoSansJP-Bold, Noto Sans JP" font-weight="700"><tspan x="-88" y="0">社員総会</tspan></text>
+    </g>
+    <g id="グループ_2" data-name="グループ 2" transform="translate(692 458)">
+      <rect id="長方形_1-2" data-name="長方形 1" width="484" height="122" rx="8" fill="#5c5c5c"/>
+      <text id="理事" transform="translate(243 78)" fill="#fff" font-size="44" font-family="NotoSansJP-Bold, Noto Sans JP" font-weight="700"><tspan x="-44" y="0">理事</tspan></text>
+    </g>
+    <g id="グループ_5" data-name="グループ 5" transform="translate(692.169 893)">
+      <rect id="長方形_1-3" data-name="長方形 1" width="484" height="122" rx="8" transform="translate(-0.169)" fill="#5c5c5c"/>
+      <text id="コミュニティ事業" transform="translate(241.831 78)" fill="#fff" font-size="44" font-family="NotoSansJP-Bold, Noto Sans JP" font-weight="700"><tspan x="-174.68" y="0">コミュニティ</tspan><tspan y="0">事業</tspan></text>
+    </g>
+    <g id="グループ_7" data-name="グループ 7" transform="translate(1224 893)">
+      <rect id="長方形_1-4" data-name="長方形 1" width="479" height="122" rx="8" transform="translate(0)" fill="#5c5c5c"/>
+      <text id="SCJ大会事業" transform="translate(240 78)" fill="#fff" font-size="44" font-family="NotoSansJP-Bold, Noto Sans JP" font-weight="700"><tspan x="-128.414" y="0">SCJ</tspan><tspan y="0">大会事業</tspan></text>
+    </g>
+    <g id="グループ_6" data-name="グループ 6" transform="translate(217.441 893)">
+      <rect id="長方形_1-5" data-name="長方形 1" width="427" height="122" rx="8" transform="translate(-0.441)" fill="#5c5c5c"/>
+      <text id="WCA大会事業" transform="translate(213.559 80)" fill="#fff" font-size="44" font-family="NotoSansJP-Bold, Noto Sans JP" font-weight="700"><tspan x="-136.62" y="0">WCA</tspan><tspan y="0">大会事業</tspan></text>
+    </g>
+    <g id="グループ_3" data-name="グループ 3" transform="translate(692 288)">
+      <rect id="長方形_1-6" data-name="長方形 1" width="484" height="122" rx="8" fill="#5c5c5c"/>
+      <text id="代表理事" transform="translate(243 78)" fill="#fff" font-size="44" font-family="NotoSansJP-Bold, Noto Sans JP" font-weight="700"><tspan x="-88" y="0">代表理事</tspan></text>
+    </g>
+    <g id="グループ_4" data-name="グループ 4" transform="translate(111 298)">
+      <rect id="長方形_1-7" data-name="長方形 1" width="385" height="122" rx="8" transform="translate(1113 160)" fill="#5c5c5c"/>
+      <text id="顧問" transform="translate(1306 240)" fill="#fff" font-size="44" font-family="NotoSansJP-Bold, Noto Sans JP" font-weight="700"><tspan x="-44" y="0">顧問</tspan></text>
+    </g>
+    <g id="グループ_8" data-name="グループ 8" transform="translate(111 468)">
+      <rect id="長方形_1-8" data-name="長方形 1" width="385" height="122" rx="8" transform="translate(1113 160)" fill="#5c5c5c"/>
+      <text id="事務局" transform="translate(1306 240)" fill="#fff" font-size="44" font-family="NotoSansJP-Bold, Noto Sans JP" font-weight="700"><tspan x="-66" y="0">事務局</tspan></text>
+    </g>
+  </g>
+</svg>
