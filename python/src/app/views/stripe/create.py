@@ -42,8 +42,8 @@ class Create(View):
                 person_id=request.user.person.id
             ).first()
 
-        if competitor.status == CompetitorStatus.CANCEL.value:
-            return JsonResponse({'error': 'キャンセルされているので支払えません。'})
+        if competitor.status != CompetitorStatus.REGISTRATION.value:
+            return JsonResponse({'error': '申し込みが承認されていない、またはキャンセルされているので支払えません。'})
 
         amount = calc_fee(competition, competitor)
 
