@@ -23,6 +23,7 @@ class Competition(models.Model):
     stripe_user_person_id = models.IntegerField('Stripe使用者ID', default=0)
     event_ids = JSONField('イベントID')
     prefecture_id = models.SmallIntegerField('都道府県ID', choices=PrefectureAndOversea.choices())
+    organizer_name = models.CharField('主催者名', default='', max_length=64)
     email = models.EmailField('メールアドレス', default='')
     organizer_person_ids = JSONField('主催者SCJID')
     venue_name = models.CharField('開催地名', max_length=256)

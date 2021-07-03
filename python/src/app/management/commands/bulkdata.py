@@ -160,6 +160,7 @@ class Command(BaseCommand):
                     judge_person_ids=record['fields']['judge_person_ids'],
                     event_ids=record['fields']['event_ids'],
                     prefecture_id=record['fields']['prefecture_id'],
+                    organizer_name=record['fields']['organizer_name'],
                     email=record['fields']['email'],
                     organizer_person_ids=record['fields']['organizer_person_ids'],
                     venue_name=record['fields']['venue_name'],
