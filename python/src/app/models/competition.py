@@ -41,6 +41,8 @@ class Competition(models.Model):
     description_en = models.TextField('大会説明(英文)', default='')
     requirement = models.TextField('参加要件', default='')
     requirement_en = models.TextField('参加要件(英文)', default='')
+    refund_description = models.TextField('返金ポリシー', default='')
+    refund_description_en = models.TextField('返金ポリシー(英文)', default='')
     is_cancel = models.BooleanField('キャンセル可否', default=False)
     is_payment = models.BooleanField('課金可否', default=False)
     is_display = models.BooleanField('表示可否', default=False)

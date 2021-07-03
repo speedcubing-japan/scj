@@ -56,7 +56,7 @@ class Fee(TemplateView):
             notification = 'is_just_payment_success'
 
         now = datetime.datetime.now(tz=datetime.timezone.utc)
-        fee_pay_close_at_timedelta = competition.fee_pay_close_at - now
+        fee_pay_close_at_timedelta = abs(competition.fee_pay_close_at - now)
 
         context = {
             'competition': competition,

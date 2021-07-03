@@ -2,7 +2,9 @@
 {% load event_name %}
 {% load event_id_name %}
 {% load rest_time %}
+{% load strip %}
 {% load i18n %}
+
 
 {% block content %}
 {% include "app/common/competition_title.html" %}
@@ -14,7 +16,11 @@
   </div>
   <div class="col-lg-10">
     <div class="alert alert-info" role="alert">
-      {% blocktrans with rest_time=fee_pay_close_at_timedelta|rest_time date=competition.fee_pay_close_at|date:"Y年m月d日 H:i:s" %}事前支払い期日は&nbsp;{{ rest_time }}後&nbsp;{{ date }}です。{% endblocktrans %}
+      {% if competition.fee_pay_close_at > now %}
+        {% blocktrans with rest_time=fee_pay_close_at_timedelta|rest_time date=competition.fee_pay_close_at|date:"Y年m月d日 H:i:s" %}事前支払い期日は&nbsp;{{ rest_time }}後&nbsp;{{ date }}です。{% endblocktrans %}
+      {% else %}
+        {% blocktrans with rest_time=fee_pay_close_at_timedelta|rest_time date=competition.fee_pay_close_at|date:"Y年m月d日 H:i:s" %}事前支払い期日は&nbsp;{{ rest_time }}前&nbsp;{{ date }}に終了しました。{% endblocktrans %}
+      {% endif %}
     </div>  
     <div class="card mb-3">
       <div class="card-header lead">
@@ -30,27 +36,49 @@
         {% endif %}
       </div>
     </div>
-    {% if competitor and competition.fee_pay_type != fee_pay_type.LOCAL_ONLY.value %}
-      {% if competitor and competitor.status != competitor_status.CANCEL.value %}
-        <div class="card mb-3">
-          <div class="card-header text-white bg-dark lead">
-            {% trans "参加費支払い" %}{% if is_superuser and not competition.is_payment %}<span class="text-danger font-weight-bold">&nbsp;({% trans "デバッグモード" %})</span>{% endif %}
-          </div>
-          <div class="card-body">
-            {% if not is_payment %}
-              <h5>{% trans "参加費の支払いを停止中です。" %}</h5>
-            {% elif competition.fee_pay_close_at <= now %}
-              <h5>{% trans "支払い期日を過ぎています。" %}</h5>
-            {% elif not paid %}
-              <h3 class="mb-3">{% trans "計" %}&nbsp;{{ price }}&nbsp;{% trans "円" %}</h3>
-              <button type="button" class="btn bg-primary text-white" id="checkout">{% trans "支払う" %}</button>
-            {% else %}
-              <h5 class="mb-2"><i class="fas fa-check fa-fw mr-2"></i>{% trans "支払い済み" %}</h5>
-            {% endif %}
-          </div>
-        </div>
-      {% endif %}
-    {% endif %}
+    <div class="card mb-3">
+      <div class="card-header lead">
+        {% trans "返金ポリシー" %}
+      </div>
+      <div class="card-body">
+        {% if not competition.refund_description_en %}
+          {{ competition.refund_description | strip | safe }}
+        {% elif request.LANGUAGE_CODE == 'en' %}
+          {{ competition.refund_description_en | strip | safe }}
+        {% else %}
+          {{ competition.refund_description | strip | safe }}
+        {% endif %}
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header text-white bg-dark lead">
+        {% trans "参加費支払い" %}{% if is_superuser and not competition.is_payment %}<span class="text-danger font-weight-bold">&nbsp;({% trans "デバッグモード" %})</span>{% endif %}
+      </div>
+      <div class="card-body">
+        {% if not request.user.is_authenticated %}
+          {% url "login" as login_url %}
+          <h5>{% blocktrans with login_url=login_url path=request.path %}参加費を支払うには<a href="{{ login_url }}?next={{ path }}">ログイン</a>してください。{% endblocktrans %}</h5>
+        {% elif not competitor %}
+          {% url "competition_registration" competition.name_id as registration_url %}
+          <h5>{% blocktrans with registration_url=registration_url %}参加費の支払いは大会の<a href="{{ registration_url }}">申し込み</a>後に可能です。{% endblocktrans %}</h5>
+        {% elif competition.fee_pay_type == fee_pay_type.LOCAL_ONLY.value %}
+          <h5>{% trans "現地支払いにのみ対応しております。なるべくお釣りのでないよう事前にご準備下さい。" %}</h5>
+        {% elif competitor.status == competitor_status.CANCEL.value %}
+          <h5>{% trans "キャンセルされましたので、参加費を支払うことはできません。" %}</h5>
+        {% elif not is_payment %}
+          <h5>{% trans "参加費の支払いを停止中です。" %}</h5>
+        {% elif not paid %}
+          {% if competition.fee_pay_close_at <= now %}
+            <h5>{% trans "支払い期日を過ぎています。" %}</h5>
+          {% else %}
+            <h3 class="mb-3">{% trans "計" %}&nbsp;{{ price }}&nbsp;{% trans "円" %}</h3>
+            <button type="button" class="btn bg-primary text-white" id="checkout">{% trans "支払う" %}</button>
+          {% endif %}
+        {% elif paid %}
+          <h5 class="mb-2"><i class="fas fa-check fa-fw mr-2"></i>{% trans "支払い済み" %}</h5>
+        {% endif %}
+      </div>
+    </div>
     <div class="card-deck mb-5">
       {% if competition.fee_pay_type != fee_pay_type.LOCAL_ONLY.value %}
         {% if competition.fee_calc_type == fee_calc_type.EVENT.value %}

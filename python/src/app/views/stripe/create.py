@@ -9,6 +9,8 @@ from django.http import JsonResponse
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from app.defines.competition import Type as CompetitionType
+from app.defines.competitor import Status as CompetitorStatus
+from app.defines.fee import PayTypeEn as FeePayType
 from app.models import Competition, Competitor, Person
 from app.views.competition.util import calc_fee
 
@@ -23,7 +25,10 @@ class Create(View):
 
         competition = Competition.objects.get(pk=datas['competition_id'])
         if not competition or competition.is_close():
-            return JsonResponse({'error': '大会が終了しています。'})
+            return JsonResponse({'error': '大会が存在しないか大会が終了しています。'})
+
+        if competition.fee_pay_type == FeePayType.LOCAL_ONLY.value:
+            return JsonResponse({'error': '支払いは現地のみです。'})
 
         now = datetime.datetime.now(tz=datetime.timezone.utc)
         if competition.fee_pay_close_at <= now:
@@ -36,6 +41,9 @@ class Create(View):
                 competition_id=competition.id,
                 person_id=request.user.person.id
             ).first()
+
+        if competitor.status == CompetitorStatus.CANCEL.value:
+            return JsonResponse({'error': 'キャンセルされているので支払えません。'})
 
         amount = calc_fee(competition, competitor)
 
