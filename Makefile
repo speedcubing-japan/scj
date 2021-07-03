@@ -89,8 +89,7 @@ bulkdata:
 
 direct-bulkdata:
 	scp python/src/app/fixtures/*.json scj:~/fixtures
-	ssh scj cp fixtures/* scj/python/src/app/fixtures/
-	ssh scj cd scj; make prod-bulkdata
+	ssh scj sh direct.sh
 
 prod-bulkdata:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py bulkdata
