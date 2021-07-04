@@ -140,7 +140,7 @@
           </h6>
           <div>
             {% for judge in judges %}
-              <a href="mailto:{{ judge.user.email }}"><button type="button" class="btn btn-dark mb-2"><i class="far fa-envelope mr-2"></i>{{ judge.get_full_name }}</button></a>
+              <div>{{ judge.get_full_name }}</div>
             {% endfor %}
           </div>
         </li>
