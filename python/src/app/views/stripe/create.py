@@ -145,7 +145,7 @@ class Create(View):
                         'person_id': request.user.person.id,
                         'event_ids': json.dumps(competitor.event_ids),
                         'guest_count': competitor.guest_count,
-                        'comment': comment,
+                        'comment': competitor.comment,
                         'name': name,
                         'email': request.user.email
                     }
