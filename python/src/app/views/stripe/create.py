@@ -37,13 +37,35 @@ class Create(View):
         if not competition.is_payment and not is_superuser(self, request, competition):
             return JsonResponse({'error': '現在支払えません。'})
 
-        competitor = Competitor.objects.filter(
-                competition_id=competition.id,
-                person_id=request.user.person.id
-            ).first()
+        if competition.fee_pay_type == FeePayType.REMOTE_ONLY.value:
+            competition = Competition.objects.get(pk=datas['competition_id'])
+            event_ids = datas['event_ids']
+            guest_count = datas['guest_count']
+            comment = datas['comment']
 
-        if competitor.status != CompetitorStatus.REGISTRATION.value:
-            return JsonResponse({'error': '申し込みが承認されていない、またはキャンセルされているので支払えません。'})
+            # 仮生成
+            competitor = Competitor()
+            competitor.competition_id = competition.id
+            competitor.status = CompetitorStatus.REGISTRATION.value
+            competitor.event_ids = event_ids
+            competitor.guest_count = guest_count
+            competitor.comment = comment
+            competitor.person = request.user.person
+
+            success_url = request.build_absolute_uri(reverse('competition_registration', args=[competition.name_id])) + '?status=success'
+            cancel_url = request.build_absolute_uri(reverse('competition_registration', args=[competition.name_id])) + '?status=cancel'
+
+        elif competition.fee_pay_type == FeePayType.LOCAL_AND_REMOTE.value:
+            competitor = Competitor.objects.filter(
+                    competition_id=competition.id,
+                    person_id=request.user.person.id
+                ).first()
+
+            if competitor.status != CompetitorStatus.REGISTRATION.value:
+                return JsonResponse({'error': '申し込みが承認されていない、またはキャンセルされているので支払えません。'})
+
+            success_url = request.build_absolute_uri(reverse('competition_fee', args=[competition.name_id])) + '?status=success'
+            cancel_url = request.build_absolute_uri(reverse('competition_fee', args=[competition.name_id])) + '?status=cancel'
 
         amount = calc_fee(competition, competitor)
 
@@ -120,7 +142,10 @@ class Create(View):
                         'competition_id': competition.id,
                         'competition_name': competition.name,
                         'competitor_id': competitor.id,
-                        'spcific_id': spcific_id,
+                        'person_id': request.user.person.id,
+                        'event_ids': json.dumps(competitor.event_ids),
+                        'guest_count': competitor.guest_count,
+                        'comment': comment,
                         'name': name,
                         'email': request.user.email
                     }
@@ -129,8 +154,8 @@ class Create(View):
                 client_reference_id=competitor.id,
                 mode='payment',
                 stripe_account=stripe_user_id,
-                success_url=request.build_absolute_uri(reverse('competition_fee', args=[competition.name_id])) + '?status=success',
-                cancel_url=request.build_absolute_uri(reverse('competition_fee', args=[competition.name_id])) + '?status=cancel'
+                success_url=success_url,
+                cancel_url=cancel_url
             )
             return JsonResponse({'id': session.id})
 

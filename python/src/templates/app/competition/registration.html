@@ -2,6 +2,8 @@
 {% load bootstrap4 %}
 {% load rest_time %}
 {% load strip %}
+{% load event_name %}
+{% load event_id_name %}
 {% load i18n %}
 
 {% block content %}
@@ -162,13 +164,41 @@
           {% blocktrans %}本大会の定員は {{ competition.limit }} 人であり、すでに定員に達しています。今参加申し込みされると、キャンセル待ちとして扱われます。{% endblocktrans %}
         </div>  
       {% endif %}
+
+      {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
+        {% if competition.fee_calc_type == fee_calc_type.EVENT.value %}
+        <div class="card mb-3">
+          <ul class="list-group">
+            {% for item, price in prepaid_fees.items %}
+              <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
+                <span>{% if item == 0 %}{% trans "支払い料金" %}{% else %}<span class="cubing-icon event-{{ item | event_id_name }} mr-2 md-2 h5"></span>{{ item | event_name }}{% endif %}
+                </span>
+                <span class="float-right">{% if item != 0 %}+{% endif %}{{ price }}&nbsp;{% trans "円" %}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% elif competition.fee_calc_type == fee_calc_type.EVENT_COUNT.value %}
+        <div class="card mb-3">
+          <ul class="list-group">
+            {% for item, price in prepaid_fees.items %}
+              <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
+                <span>{% if item == 0 %}{% trans "支払い料金" %}{% else %}{{ item }}&nbsp;{% trans "種目" %}{% endif %}
+                </span>
+                {% if price != 0 %}<span class="float-right">{{ price }}&nbsp;{% trans "円" %}</span>{% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+      {% endif %}
+
       <div class="card border-dark">
         <div class="card-header text-white bg-dark lead">
           {% trans "申し込み" %}
         </div>
         <div class="card-body">
-          <form action="" method="POST">
-            {% csrf_token %}
+          {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
             {% bootstrap_form form layout='horizontal' %}
             <div class="ml-3">
               <div class="form-group row offset-md-3 col-md-9">
@@ -184,10 +214,32 @@
             </div>
             <div class="form-group row">
               <div class="offset-md-3 col-md-9">
-                <input class="btn btn-dark competition_registration" type="submit" value="{% trans "登録" %}" disabled>
+                <input id="checkout" class="btn btn-dark competition_registration" value="{% trans "参加費支払い" %}" disabled>
               </div>
             </div>
-          </form>
+          {% elif competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value %}
+            <form action="" method="POST">
+              {% csrf_token %}
+              {% bootstrap_form form layout='horizontal' %}
+              <div class="ml-3">
+                <div class="form-group row offset-md-3 col-md-9">
+                  <label class="form-check-label" for="competition_registration_confirm">
+                    {% if competition.requirement %}
+                      {% trans "免責事項と参加要件に同意します" %}
+                    {% else %}
+                      {% trans "免責事項に同意します" %}
+                    {% endif %}
+                  </label>
+                  <input class="form-check-input competition_registration_confirm" type="checkbox" value="">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="offset-md-3 col-md-9">
+                  <input class="btn btn-dark competition_registration" type="submit" value="{% trans "登録" %}" disabled>
+                </div>
+              </div>
+            </form>
+          {% endif %}
         </div>
         <div class="card-footer">
           {% blocktrans with rest_time=registration_close_before_timedelta|rest_time date=competition.registration_close_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}後&nbsp;{{ date }}に終了します。{% endblocktrans %}
@@ -196,4 +248,69 @@
     {% endif %}
   </div>
 </div>
+
+<script type="text/javascript">
+  // Create an instance of the Stripe object with your publishable API key
+  var stripe = Stripe('{{ stripe_public_key }}', {
+    stripeAccount: '{{ stripe_user_id }}'
+  });
+  var checkoutButton = document.getElementById("checkout");
+
+  checkoutButton.addEventListener("click", function () {
+    
+    const event_id_list = [];
+    const eventIds = document.getElementsByName("event_ids");
+    for (let i = 0, size = eventIds.length; i < size; i++) {
+      if (eventIds[i].checked) {
+        event_id_list.push(parseInt(eventIds[i].value));
+      }
+    }
+
+    const guestElement = document.getElementById("id_guest_count");
+    const guestElements = guestElement.options;
+    var guest_count = 0;
+    for (let i = 0, size = guestElements.length; i < size; i++) {
+    	if (guestElements[i].selected) {
+        guest_count = parseInt(guestElements[i].value);
+    	}
+    }
+
+    const comment = document.getElementById("id_comment").value;
+
+    const data = { 
+        competition_id: '{{ competition.id }}', 
+        event_ids: event_id_list,
+        guest_count: guest_count,
+        comment: comment
+    };
+
+    fetch("{% url 'stripe_create' %}", {
+      method: "POST",
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+          'X-CSRFToken': '{{ csrf_token }}'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (session) {
+      return stripe.redirectToCheckout({ sessionId: session.id });
+    })
+    .then(function (result) {
+      // If redirectToCheckout fails due to a browser or network
+      // error, you should display the localized error message to your
+      // customer using error.message.
+      if (result.error) {
+        alert(result.error.message);
+      }
+    })
+    .catch(function (error) {
+      console.error("Error:", error);
+    });
+  });
+</script>
+
 {% endblock %}

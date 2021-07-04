@@ -206,3 +206,19 @@
     <strong>申し込み完了しました。承認されるまでお待ち下さい。</strong>
   </div>
 {% endif %}
+{% if notification == 'is_just_prepaid_only_registration_success' %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>支払いが完了しました。承認されるまでお待ち下さい。</strong>
+  </div>
+{% endif %}
+{% if notification == 'is_just_prepaid_only_registration_cancel' %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>申し込みがキャンセルされました。</strong>
+  </div>
+{% endif %}

@@ -3,11 +3,12 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.contrib.sites.shortcuts import get_current_site
-from app.models import Competition, Competitor, Result, StripeProgress
+from app.models import Competition, Competitor, Result, StripeProgress, Person
 from app.forms import CompetitionRegistrationForm
 from app.defines.event import Event
 from app.defines.competitor import Status as CompetitorStatus
 from .util import send_mail
+from .util import calc_fee
 
 
 class Registration(TemplateView):
@@ -17,9 +18,21 @@ class Registration(TemplateView):
             return redirect('competition_index')
         name_id = kwargs.get('name_id')
 
+        status = ''
+        if 'status' in request.GET:
+            status = request.GET.get('status')
+
         context = self.create_context(request, form, name_id)
         if not context:
             return redirect('competition_detail', name_id=name_id)
+
+        # 事前決済オンリーのときのnotification設定
+        notification = ''
+        if status == 'cancel':
+            notification = 'is_just_prepaid_only_registration_cancel'
+        elif status == 'success':
+            notification = 'is_just_prepaid_only_registration_success'
+        context['notification'] = notification
 
         return render(request, 'app/competition/registration.html', context)
 
@@ -68,10 +81,7 @@ class Registration(TemplateView):
             competitor.event_ids = event_ids
             competitor.guest_count = guest_count
             competitor.comment = comment
-            competitor.competition = competition
             competitor.person = request.user.person
-            competitor.pay_at = None
-            competitor.refund_at = None
             competitor.save()
 
             send_mail(request,
@@ -144,6 +154,14 @@ class Registration(TemplateView):
         if self.request.session.get('notification') is not None:
             del self.request.session['notification']
 
+        stripe_user_id = ''
+        if competition.stripe_user_person_id != 0:
+            person = Person.objects.get(pk=competition.stripe_user_person_id)
+            stripe_user_id = person.stripe_user_id
+
+        # 事前決済オンリーのため計算
+        amount = calc_fee(competition, None)
+
         context = {
             'form': form,
             'is_limit': is_limit,
@@ -156,8 +174,11 @@ class Registration(TemplateView):
             'registration_close_before_timedelta': abs(registration_close_timedelta),
             'wca_oauth_authorization': settings.WCA_OAUTH_AUTHORIZATION,
             'wca_client_id': settings.WCA_CLIENT_ID,
+            'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+            'stripe_user_id': stripe_user_id,
             'redirect_uri': redirect_uri,
             'is_wca_authenticated': is_wca_authenticated,
+            'prepaid_fees': amount['prepaid_fees'],
             'notification': notification,
             'is_superuser': competition.is_superuser(request.user),
             'is_refunder': competition.is_refunder(request.user)
