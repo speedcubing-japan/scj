@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <div class="list-group mb-3">
-  <a href="{% url 'competition_detail' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'detail' %}active{% endif %}"><i class="fas fa-info-circle fa-fw mr-2"></i>{% trans "詳細" %}</button></a>
+  <a href="{% url 'competition_detail' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'detail' %}active{% endif %}"><i class="fas fa-info-circle fa-fw mr-2"></i>{% trans "基本情報" %}</button></a>
   {% if not competition.is_cancel %}
     {% if has_results %}
       <a href="{% url 'competition_result' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'result' %}active{% endif %}"><i class="fas fa-list-ol fa-fw mr-2"></i>{% trans "結果" %}</button></a>
