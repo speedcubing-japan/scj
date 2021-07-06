@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-06 13:48+0000\n"
+"POT-Creation-Date: 2021-07-06 14:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -338,21 +338,21 @@ msgid "users"
 msgstr ""
 
 #: app/templatetags/rest_time.py:16
-msgid "ヶ月"
-msgstr "months"
+msgid " ヶ月"
+msgstr " months"
 
 #: app/templatetags/rest_time.py:18
-msgid "日"
-msgstr "days"
+msgid " 日"
+msgstr " days"
 
 #: app/templatetags/rest_time.py:21
-msgid "時間"
-msgstr "hours"
+msgid " 時間"
+msgstr " hours"
 
 #: app/templatetags/rest_time.py:23
-msgid "分"
-msgstr "minutes"
+msgid " 分"
+msgstr " minutes"
 
 #: app/templatetags/rest_time.py:25
-msgid "秒"
-msgstr "seconds"
+msgid " 秒"
+msgstr " seconds"
