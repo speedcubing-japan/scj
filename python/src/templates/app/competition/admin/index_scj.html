@@ -44,7 +44,7 @@
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     <td>{{ competitor.person.get_prefecture_id_display }}</td>
                     <td>{{ competitor.guest_count }}</td>
-                    <td>{% if competitor.stripe_progress %}<i class="fas fa-check fa-fw"></i>{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
+                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_at | date:"Y年m月d日 H:i:s" }}{% endif %}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
                   </tr>
@@ -83,7 +83,7 @@
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     <td>{{ competitor.person.get_prefecture_id_display }}</td>
                     <td>{{ competitor.guest_count }}</td>
-                    <td>{% if competitor.stripe_progress %}<i class="fas fa-check fa-fw"></i>{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
+                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_at | date:"Y年m月d日 H:i:s" }}{% endif %}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
                   </tr>
@@ -124,7 +124,7 @@
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     <td>{{ competitor.person.get_prefecture_id_display }}</td>
                     <td>{{ competitor.guest_count }}</td>
-                    <td>{% if competitor.stripe_progress %}<i class="fas fa-check fa-fw"></i>{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
+                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_at | date:"Y年m月d日 H:i:s" }}{% endif %}</td>
                     <td>{% if competitor.stripe_progress.refund_price > 0 %}{{ competitor.stripe_progress.refund_price }}円{% endif %}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.refund_at | date:"Y年m月d日 H:i:s" }}{% endif %}</td>
