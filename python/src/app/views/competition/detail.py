@@ -8,6 +8,7 @@ from app.defines.fee import PayType as FeePayType
 from app.defines.fee import CalcType as FeeCalcType
 from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
+from app.defines.session import Notification
 
 
 class Detail(TemplateView):
@@ -33,9 +34,11 @@ class Detail(TemplateView):
         fee_pay_type_text = FeePayType.get_name(competition.fee_pay_type)
         fee_calc_type_text = FeeCalcType.get_name(competition.fee_calc_type)
 
-        notification = ''
-        if competition.is_cancel:
-            notification = 'is_canceled_competition'
+        # 現在時刻
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
+
+        # 結果があるか
+        has_results = Result.objects.filter(competition_id=competition.id).exists()
 
         competitor = None
         if request.user.is_authenticated:
@@ -44,6 +47,25 @@ class Detail(TemplateView):
                 person_id=request.user.person.id
             )
             competitor = competitor.first()
+
+        notification = ''
+        if competition.is_cancel:
+            notification = Notification.COMPETITION_CANCELED
+        elif competition.registration_close_at < now:
+            if competition.type == CompetitionType.SCJ.value:
+                if has_results:
+                    notification = Notification.COMPETITION_SCJ_HAS_RESULT_END
+                else:
+                    notification = Notification.COMPETITION_END
+            elif competition.type == CompetitionType.WCA.value:
+                notification = Notification.COMPETITION_WCA_END
+        elif competitor:
+            if competitor.status == CompetitorStatus.PENDING.value:
+                notification = Notification.COMPETITOR_PENGING
+            elif competitor.status == CompetitorStatus.REGISTRATION.value:
+                notification = Notification.COMPETITOR_REGISTRATION
+            elif competitor.status == CompetitorStatus.CANCEL.value:
+                notification = Notification.COMPETITOR_CANCEL
 
         # 承認者数
         competitor_registration_count = Competitor.objects.filter(
@@ -55,11 +77,6 @@ class Detail(TemplateView):
         open_at = localtime(competition.open_at).strftime('%Y%m%d')
         close_at = localtime(competition.close_at).strftime('%Y%m%d')
         google_calendar_date_param = open_at + '/' + close_at
-
-        # 結果があるか
-        has_results = Result.objects.filter(competition_id=competition.id).count() > 0
-        # 現在時刻
-        now = datetime.datetime.now(tz=datetime.timezone.utc)
 
         context = {
             'title': competition.name,

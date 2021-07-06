@@ -22,7 +22,7 @@ class Competitor(TemplateView):
             return redirect('competition_index')
         competition = competition.first()
 
-        has_results = Result.objects.filter(competition_id=competition.id).count() > 0
+        has_results = Result.objects.filter(competition_id=competition.id).exists()
         if has_results:
             return redirect('competition_detail', name_id=name_id)
 

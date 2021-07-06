@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-05 16:27+0000\n"
+"POT-Creation-Date: 2021-07-06 12:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,77 +54,77 @@ msgstr "Average"
 msgid "未承認"
 msgstr "Not approved"
 
-#: templates/app/competition/detail.html:24
+#: templates/app/competition/detail.html:21
 msgid "承認者数"
 msgstr "Number of approved"
 
-#: templates/app/competition/detail.html:36
+#: templates/app/competition/detail.html:33
 #: templates/app/competition/menu.html:4
 msgid "基本情報"
 msgstr "General info"
 
-#: templates/app/competition/detail.html:40
+#: templates/app/competition/detail.html:37
 msgid "種別"
 msgstr "Type"
 
-#: templates/app/competition/detail.html:45
+#: templates/app/competition/detail.html:42
 msgid "WCA大会"
 msgstr "WCA competition"
 
-#: templates/app/competition/detail.html:47
+#: templates/app/competition/detail.html:44
 msgid "SCJ大会"
 msgstr "SCJ competition"
 
-#: templates/app/competition/detail.html:51
+#: templates/app/competition/detail.html:48
 msgid "日付"
 msgstr "Date"
 
-#: templates/app/competition/detail.html:59
+#: templates/app/competition/detail.html:56
 msgid "Google Calendarに追加"
 msgstr "Add to Google Calendar"
 
-#: templates/app/competition/detail.html:62
+#: templates/app/competition/detail.html:59
 msgid "会場"
 msgstr "Venue"
 
-#: templates/app/competition/detail.html:68
+#: templates/app/competition/detail.html:65
 msgid "会場住所"
 msgstr "Address"
 
-#: templates/app/competition/detail.html:77
+#: templates/app/competition/detail.html:74
 msgid "開催イベント"
 msgstr "Event"
 
-#: templates/app/competition/detail.html:87
+#: templates/app/competition/detail.html:84
 msgid "定員"
 msgstr "Limit"
 
-#: templates/app/competition/detail.html:98
+#: templates/app/competition/detail.html:95
 msgid "その他"
 msgstr "Other"
 
-#: templates/app/competition/detail.html:102
+#: templates/app/competition/detail.html:99
 msgid "申し込み日時"
 msgstr "Registration period"
 
-#: templates/app/competition/detail.html:108
+#: templates/app/competition/detail.html:105
 msgid "お知らせ"
 msgstr "Information"
 
-#: templates/app/competition/detail.html:121
+#: templates/app/competition/detail.html:118
 #: templates/app/competition/registration.html:47
 msgid "参加要件"
 msgstr "Requirements"
 
-#: templates/app/competition/detail.html:136
+#: templates/app/competition/detail.html:133
 msgid "WCA Delegate"
 msgstr ""
 
-#: templates/app/competition/detail.html:138
+#: templates/app/competition/detail.html:135
 msgid "SCJ 審判員"
 msgstr "SCJ Judge"
 
-#: templates/app/competition/detail.html:148
+#: templates/app/competition/detail.html:145
 msgid "主催者"
 msgstr "Organiser"
 
@@ -571,7 +571,7 @@ msgstr ""
 #, python-format
 msgid ""
 "既に申し込み済みです。キャンセルされる方は<a href=\"mailto:%(email)s\">主催者"
-"</a>までご連絡ください。\""
+"</a>までご連絡ください。"
 msgstr ""
 "You have already registered. If you want to cancel, please contact the <a "
 "href=\"mailto:%(email)s\">organizer</a>."
@@ -589,12 +589,12 @@ msgstr "Registration closed about %(rest_time)s ago on %(date)s"
 #: templates/app/competition/registration.html:164
 #, python-format
 msgid ""
-"本大会の定員は %(competition.limit)s 人であり、すでに定員に達しています。今参"
-"加申し込みされると、キャンセル待ちとして扱われます。"
+"本大会の定員は %(limit)s 人であり、すでに定員に達しています。今参加申し込みさ"
+"れると、キャンセル待ちとして扱われます。"
 msgstr ""
-"The competitor limit for this competition is %(competition.limit)s and it "
-"has already been reached. If you register, your registration will be placed "
-"on a waiting list. It may not be approved unless a spot frees up."
+"The competitor limit for this competition is %(limit)s and it has already "
+"been reached. If you register, your registration will be placed on a waiting "
+"list. It may not be approved unless a spot frees up."
 
 #: templates/app/competition/registration.html:207
 #: templates/app/competition/registration.html:228
@@ -695,18 +695,6 @@ msgstr ""
 "The result to beat to proceed to the second phase of a combined round (see "
 "Regulation <a href=\"%(url)s\" target=\"%(target)s\">9g</a>)."
 
-#: templates/app/competition/status.html:6
-msgid "あなたの申し込みは承認待ちです。"
-msgstr "Your registration is awaiting approval."
-
-#: templates/app/competition/status.html:10
-msgid "あなたの申し込みは承認されました。"
-msgstr "Your registration has been approved."
-
-#: templates/app/competition/status.html:14
-msgid "あなたの申し込みはキャンセルされました。"
-msgstr "Your registration has been cancelled."
-
 #: templates/app/entrance/login.html:7 templates/app/entrance/login.html:16
 msgid "ログイン"
 msgstr "Sign in"
@@ -727,21 +715,11 @@ msgstr ""
 msgid "確認"
 msgstr "Confirmation"
 
-#: templates/app/registration/confirm.html:16
-msgid "私はロボットではありませんにチェックを入れてください。"
-msgstr "Please check the box."
-
-#: templates/app/registration/confirm.html:19
-msgid "この内容で登録します。よろしければチェックをいれて送信してください。"
-msgstr ""
-"We register with this information. If you are satisfied, please check the "
-"box and submit."
-
-#: templates/app/registration/confirm.html:49
+#: templates/app/registration/confirm.html:40
 msgid "送信"
 msgstr "Submit"
 
-#: templates/app/registration/confirm.html:50
+#: templates/app/registration/confirm.html:41
 msgid "戻る"
 msgstr "Back"
 

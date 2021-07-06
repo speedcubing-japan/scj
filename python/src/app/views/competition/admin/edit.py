@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.models import Competition, Competitor
 from app.defines.event import Event
+from app.defines.session import Notification
 
 
 class Edit(LoginRequiredMixin, TemplateView):
@@ -67,9 +68,9 @@ class Edit(LoginRequiredMixin, TemplateView):
                     'guest_count',
                     'updated_at'
                 ])
-                notification = 'is_just_update'
+                notification = Notification.UPDATE
             else:
-                notification = 'is_just_admin_competitor_event_not_selected'
+                notification = Notification.COMPETITOR_EVENT_NOT_SELECTED
 
         context = {
             'events': events,

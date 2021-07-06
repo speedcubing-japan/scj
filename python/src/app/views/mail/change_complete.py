@@ -6,6 +6,7 @@ from django.http import HttpResponseBadRequest
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.signing import BadSignature, SignatureExpired, loads
 from app.models import User
+from app.defines.session import Notification
 
 
 class ChangeComplete(LoginRequiredMixin, View):
@@ -29,7 +30,7 @@ class ChangeComplete(LoginRequiredMixin, View):
 
             login(request, request.user)
 
-            self.request.session['notification'] = 'is_just_mail_change_complete'
+            self.request.session['notification'] = Notification.MAIL_CHANGE_COMPLETE
 
             return redirect('index')
 

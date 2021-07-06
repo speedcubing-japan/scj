@@ -1,6 +1,7 @@
+import app.models
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from app.models import Competition, Competitor, Result, Round
+from app.models import Competition, Competitor, Round
 from app.defines.event import Event
 
 
@@ -17,7 +18,7 @@ class Result(TemplateView):
         competition = competition.first()
 
         competitors = Competitor.objects.filter(competition_id=competition.id)
-        results = Result.objects.filter(competition_id=competition.id)
+        results = app.models.Result.objects.filter(competition_id=competition.id)
         rounds = Round.objects.filter(competition_id=competition.id)
 
         results = sorted(results, key=lambda x: x.rank)

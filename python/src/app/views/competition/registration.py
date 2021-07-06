@@ -7,6 +7,7 @@ from app.models import Competition, Competitor, Result, StripeProgress, Person
 from app.forms import CompetitionRegistrationForm
 from app.defines.event import Event
 from app.defines.competitor import Status as CompetitorStatus
+from app.defines.session import Notification
 from .util import send_mail
 from .util import calc_fee
 
@@ -29,9 +30,9 @@ class Registration(TemplateView):
         # 事前決済オンリーのときのnotification設定
         notification = ''
         if status == 'cancel':
-            notification = 'is_just_prepaid_only_registration_cancel'
+            notification = Notification.REGISTRATION_CANCEL
         elif status == 'success':
-            notification = 'is_just_prepaid_only_registration_success'
+            notification = Notification.COMPETITION_REGISTER
         context['notification'] = notification
 
         return render(request, 'app/competition/registration.html', context)
@@ -90,7 +91,7 @@ class Registration(TemplateView):
                 'app/mail/competition/registration_submit_subject.txt',
                 'app/mail/competition/registration_submit_message.txt')
 
-            context['notification'] = 'is_just_competition_register'
+            context['notification'] = Notification.COMPETITION_REGISTER
             context['is_offer'] = True
 
             return render(request, 'app/competition/registration.html', context)
@@ -101,7 +102,7 @@ class Registration(TemplateView):
             return None
         competition = competition.first()
 
-        has_results = Result.objects.filter(competition_id=competition.id).count() > 0
+        has_results = Result.objects.filter(competition_id=competition.id).exists()
         if has_results:
             return None
 

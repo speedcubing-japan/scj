@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.signing import dumps
 from app.forms import PersonCreateForm, UserCreateForm
+from app.defines.session import Notification
 
 
 class Execute(View):
@@ -56,7 +57,7 @@ class Execute(View):
             message = render_to_string('app/mail/registration_message.txt', context).strip()
             user.email_user(subject, message, settings.EMAIL_HOST_USER)
 
-            request.session['notification'] = 'is_just_registration'
+            request.session['notification'] = Notification.REGISTRATION_CONFIRM
 
             return redirect('index')
 

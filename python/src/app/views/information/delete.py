@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from app.models import Information
+from app.defines.session import Notification
 
 
 class Delete(LoginRequiredMixin, TemplateView):
@@ -35,6 +36,6 @@ class Delete(LoginRequiredMixin, TemplateView):
 
         Information.objects.filter(id=id).delete()
 
-        request.session['notification'] = 'is_just_information_delete'
+        request.session['notification'] = Notification.INFORMATION_DELETE
 
         return redirect('post_list')

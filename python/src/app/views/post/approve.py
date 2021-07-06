@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.models import Post, Information
+from app.defines.session import Notification
 
 
 class Approve(LoginRequiredMixin, View):
@@ -27,6 +28,6 @@ class Approve(LoginRequiredMixin, View):
         # 削除
         Post.objects.filter(id=id).delete()
 
-        request.session['notification'] = 'is_just_post_approve'
+        request.session['notification'] = Notification.POST_APPROVE
 
         return redirect('post_list')

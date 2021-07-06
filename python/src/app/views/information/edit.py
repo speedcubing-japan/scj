@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from app.models import Information
 from app.forms import InformationForm
+from app.defines.session import Notification
 
 
 class Edit(LoginRequiredMixin, TemplateView):
@@ -79,7 +80,7 @@ class Edit(LoginRequiredMixin, TemplateView):
             context = {
                 'form': form,
                 'information': information,
-                'notification': 'is_just_update'
+                'notification': Notification.UPDATE
             }
 
             return render(request, 'app/information/edit.html', context)

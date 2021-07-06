@@ -8,10 +8,10 @@
 {% include "app/common/competition_title.html" %}
 
 <div class="row">
-  <div class="col-sm-3 mb-3">
+  <div class="col-lg-2 mb-3">
     {% include "app/competition/menu.html" with active='result' %}
   </div>
-  <div class="col-sm-9 mb-3">
+  <div class="col-sm-10 mb-3">
     {% for event in events %}
       {% for event_id, round_names in rounds.items %}
         {% if event_id == event.event_id %}

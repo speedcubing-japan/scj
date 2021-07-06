@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from app.forms import ProfileForm
+from app.defines.session import Notification
 
 
 class Profile(LoginRequiredMixin, TemplateView):
@@ -44,6 +45,6 @@ class Profile(LoginRequiredMixin, TemplateView):
                 'prefecture_id',
                 'updated_at'
             ])
-            request.session['notification'] = 'is_just_profile_change'
+            request.session['notification'] = Notification.PROFILE_CHANGE
 
             return redirect('profile')

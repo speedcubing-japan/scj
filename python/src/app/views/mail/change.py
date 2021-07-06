@@ -7,6 +7,7 @@ from django.views.generic import FormView
 from django.template.loader import render_to_string
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
+from app.defines.session import Notification
 
 
 class Change(LoginRequiredMixin, FormView):
@@ -30,6 +31,6 @@ class Change(LoginRequiredMixin, FormView):
         message = render_to_string('app/mail/mail_change_message.txt', context).strip()
         send_mail(subject, message, settings.EMAIL_HOST_USER, [new_email])
 
-        self.request.session['notification'] = 'is_just_mail_change'
+        self.request.session['notification'] = Notification.MAIL_CHANGE
 
         return redirect('index')

@@ -7,6 +7,7 @@ from django.http import HttpResponseBadRequest
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.signing import BadSignature, SignatureExpired, loads
 from app.models import User
+from app.defines.session import Notification
 
 
 class Complete(View):
@@ -35,7 +36,7 @@ class Complete(View):
 
                     login(request, user)
 
-                    request.session['notification'] = 'is_just_registration_complete'
+                    request.session['notification'] = Notification.REGISTRATION_COMPLETE
 
                     return redirect('index')
 

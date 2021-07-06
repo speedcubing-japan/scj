@@ -3,6 +3,7 @@ from django.views.generic import FormView
 from django.conf import settings
 from app.forms import ContactForm
 from django.shortcuts import redirect
+from app.defines.session import Notification
 
 
 class Contact(FormView):
@@ -22,7 +23,7 @@ class Contact(FormView):
             response = requests.get(auth_url)
             if response.json().get('success'):
                 form.send_email()
-                self.request.session['notification'] = 'is_just_contact'
+                self.request.session['notification'] = Notification.CONTACT
                 return redirect('index')
 
         form.add_error(None, '私はロボットではありませんにチェックを入れてください。')

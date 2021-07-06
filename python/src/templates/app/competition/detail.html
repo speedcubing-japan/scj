@@ -11,9 +11,6 @@
 {% include "app/common/competition_title.html" %}
 {% include "app/common/notification.html" %}
 
-{% if competitor and competition.registration_close_at > now and not competition.is_cancel %}
-  {% include "app/competition/status.html" %}
-{% endif %}
 <div class="row">
   <div class="col-lg-2 mb-3">
     {% include "app/competition/menu.html" with active='detail' %}

@@ -9,6 +9,7 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.tokens import default_token_generator
 from app.models import User
+from app.defines.session import Notification
 
 
 class Reset(FormView):
@@ -33,5 +34,5 @@ class Reset(FormView):
         message = render_to_string('app/mail/password_reset_message.txt', context).strip()
         send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
 
-        self.request.session['notification'] = 'is_just_password_reset'
+        self.request.session['notification'] = Notification.PASSWORD_RESET
         return redirect('index')

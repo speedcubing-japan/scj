@@ -5,6 +5,7 @@ from app.models import Competition, Competitor, Result, StripeProgress
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.competition import Type as CompetitionType
 from app.views.competition.util import send_mail
+from app.defines.session import Notification
 
 
 class Index(LoginRequiredMixin, TemplateView):
@@ -61,9 +62,15 @@ class Index(LoginRequiredMixin, TemplateView):
                 if type == 'cancel' and competitor.status != CompetitorStatus.CANCEL.value:
                     registration_count -= 1
 
+        competition_type = ''
+        if competition.type == CompetitionType.SCJ.value:
+            competition_type = CompetitionType.SCJ.name.lower()
+        elif competition.type == CompetitionType.WCA.value:
+            competition_type = CompetitionType.WCA.name.lower()
+
         if registration_count > competition.limit:
-            context['notification'] = 'is_just_admin_competition_limit'
-            return render(request, 'app/competition/admin/index.html', context)
+            context['notification'] = Notification.COMPETITION_LIMIT
+            return render(request, 'app/competition/admin/index_' + competition_type + '.html', context)
 
         is_updated = False
         for competitor in competitors:
@@ -101,15 +108,9 @@ class Index(LoginRequiredMixin, TemplateView):
         context = self.create_context(request, competition, competitors)
 
         if is_updated:
-            context['notification'] = 'is_just_update'
+            context['notification'] = Notification.UPDATE
         else:
-            context['notification'] = 'is_just_not_updated'
-
-        competition_type = ''
-        if competition.type == CompetitionType.SCJ.value:
-            competition_type = CompetitionType.SCJ.name.lower()
-        elif competition.type == CompetitionType.WCA.value:
-            competition_type = CompetitionType.WCA.name.lower()
+            context['notification'] = Notification.NOT_UPDATE
 
         return render(request, 'app/competition/admin/index_' + competition_type + '.html', context)
 
@@ -144,7 +145,7 @@ class Index(LoginRequiredMixin, TemplateView):
             if competitor.status == CompetitorStatus.CANCEL.value:
                 cancel_competitors.append(competitor)
 
-        has_results = Result.objects.filter(competition_id=competition.id).count() > 0
+        has_results = Result.objects.filter(competition_id=competition.id).exists()
 
         context = {
             'competition': competition,

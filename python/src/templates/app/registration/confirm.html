@@ -5,19 +5,10 @@
 {% block content %}
 {% trans "確認" as title %}
 {% include "app/common/title.html" with title=title %}
+{% include "app/common/notification.html" %}
 
 <div class="card">
   <div class="card-body">
-    {% if recaptcha %}
-       <div class="alert alert-danger alert-dismissible fade show" role="alert">
-         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-           <span aria-hidden="true">&times;</span>
-         </button>
-         <strong>{% trans "私はロボットではありませんにチェックを入れてください。" %}</strong>
-       </div>
-    {% else %}
-      <strong>{% trans "この内容で登録します。よろしければチェックをいれて送信してください。" %}</strong>
-    {% endif %}
     <div class="mb-3 text-nowrap table-responsive col-lg-6">
       <table class="table table-bordered">
         <tbody>

@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 from app.models import Competition, Person, Competitor, Result, StripeProgress
 from app.defines.event import Event
 from app.defines.competition import Type as CompetitionType
+from app.defines.session import Notification
 from .util import calc_fee
 
 
@@ -28,7 +29,7 @@ class Fee(TemplateView):
             person = Person.objects.get(pk=competition.stripe_user_person_id)
             stripe_user_id = person.stripe_user_id
 
-        has_results = Result.objects.filter(competition_id=competition.id).count() > 0
+        has_results = Result.objects.filter(competition_id=competition.id).exists()
         if has_results:
             return redirect('competition_detail', name_id=name_id)
 
@@ -51,9 +52,9 @@ class Fee(TemplateView):
 
         notification = ''
         if status == 'cancel':
-            notification = 'is_just_payment_cancel'
+            notification = Notification.PAYMENT_CANCEL
         elif status == 'success':
-            notification = 'is_just_payment_success'
+            notification = Notification.PAYMENT_SUCCESS
 
         now = datetime.datetime.now(tz=datetime.timezone.utc)
         fee_pay_close_at_timedelta = abs(competition.fee_pay_close_at - now)

@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from app.models import Post
 from app.forms import PostEditForm
 from app.defines.information import TypeEn as InformationTypeEn
+from app.defines.session import Notification
 
 
 class Edit(LoginRequiredMixin, TemplateView):
@@ -61,7 +62,7 @@ class Edit(LoginRequiredMixin, TemplateView):
             context = {
                 'form': form,
                 'post': post,
-                'notification': 'is_just_update'
+                'notification': Notification.UPDATE
             }
 
             return render(request, 'app/post/edit.html', context)

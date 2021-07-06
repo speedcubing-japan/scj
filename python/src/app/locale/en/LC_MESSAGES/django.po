@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-05 16:27+0000\n"
+"POT-Creation-Date: 2021-07-06 12:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,6 +141,32 @@ msgstr "Male"
 #: app/defines/gender.py:9
 msgid "女性"
 msgstr "Female"
+
+#: app/defines/session.py:17
+msgid "私はロボットではありませんにチェックを入れてください。"
+msgstr "Please check the box."
+
+#: app/defines/session.py:18
+msgid "この内容で登録します。よろしければチェックをいれて送信してください。"
+msgstr ""
+"We register with this information. If you are satisfied, please check the "
+"box and submit."
+
+#: app/defines/session.py:41
+msgid "この大会は終了しました。"
+msgstr "This competition is over."
+
+#: app/defines/session.py:42
+msgid "あなたの申し込みは承認待ちです。"
+msgstr "Your registration is awaiting approval."
+
+#: app/defines/session.py:43
+msgid "あなたの申し込みは承認されました。"
+msgstr "Your registration has been approved."
+
+#: app/defines/session.py:44
+msgid "あなたの申し込みはキャンセルされました。"
+msgstr "Your registration has been cancelled."
 
 #: app/forms.py:24
 msgid "使用可能なメールアドレスを入力してください。"

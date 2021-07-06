@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from app.models import Competition, Person, Competitor, Result, StripeProgress
 from app.defines.competitor import Status as CompetitorStatus
 from app.views.competition.util import send_mail, calc_fee
+from app.defines.session import Notification
 
 
 class Refund(LoginRequiredMixin, TemplateView):
@@ -34,7 +35,7 @@ class Refund(LoginRequiredMixin, TemplateView):
                     competitor.set_stripe_progress(stripe_progress)
                     competitor_list.append(competitor)
 
-        has_results = Result.objects.filter(competition_id=competition.id).count() > 0
+        has_results = Result.objects.filter(competition_id=competition.id).exists()
 
         notification = self.request.session.get('notification')
         if self.request.session.get('notification') is not None:
@@ -87,7 +88,7 @@ class Refund(LoginRequiredMixin, TemplateView):
                 if request.POST.get('competitor_refund_' + str(competitor.id)):
                     part_amount = int(request.POST.get('competitor_refund_' + str(competitor.id)))
                     if amount < part_amount:
-                        request.session['notification'] = 'is_just_over_refund_amount'
+                        request.session['notification'] = Notification.REFUND_AMOUNT_OVER
                         return redirect('competition_admin_refund', name_id=name_id)
                     amount = part_amount
 
@@ -130,7 +131,7 @@ class Refund(LoginRequiredMixin, TemplateView):
             if competitor.stripe_progress:
                 competitor_list.append(competitor)
 
-        has_results = Result.objects.filter(competition_id=competition.id).count() > 0
+        has_results = Result.objects.filter(competition_id=competition.id).exists()
 
         context = {
             'competition': competition,

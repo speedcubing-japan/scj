@@ -10,7 +10,7 @@
       下記内容で{% if user.person.is_community_posting_offer %}申請{% elif user.is_superuser or user.is_staff %}{% if form.is_public.value %}公開{% else %}登録{% endif %}{% endif %}しますか？
     </div>
     <form action="{% url 'post_complete' %}" method="POST">
-      <button type="submit" class="btn btn-danger mr-3">{% if user.person.is_community_posting_offer %}申請{% elif user.is_superuser or user.is_staff %}{% if form.is_public.value %}公開{% else %}登録{% endif %}{% endif %}</button>
+      <button type="submit" class="btn btn-success mr-3">{% if user.person.is_community_posting_offer %}申請{% elif user.is_superuser or user.is_staff %}{% if form.is_public.value %}公開{% else %}登録{% endif %}{% endif %}</button>
       {% csrf_token %}
       <a href="{% url 'post_input' format %}" class="btn btn-dark">戻る</a>
     </form>

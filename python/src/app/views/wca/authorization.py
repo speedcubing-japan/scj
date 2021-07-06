@@ -6,6 +6,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from app.models import Person
+from app.defines.session import Notification
 
 
 class Authorization(View):
@@ -53,7 +54,7 @@ class Authorization(View):
                     person = Person.objects.get(wca_id=wca_id)
                     if person.id != request.user.person.id:
                         is_duplicated = True
-                        request.session['notification'] = 'is_just_wca_authorization_duplicated'
+                        request.session['notification'] = Notification.WCA_AUTHORIZATION_DUPLICATED
 
                 if not is_duplicated and request.user.is_authenticated and request.user.person:
                     person = request.user.person
@@ -78,7 +79,7 @@ class Authorization(View):
                         'wca_avatar_thumb_url',
                         'updated_at'
                     ])
-                    request.session['notification'] = 'is_just_wca_authorization_complete'
+                    request.session['notification'] = Notification.STRIPE_AUTHORIZATION_COMPLETE
 
                 if type == 'competition':
                     return redirect('competition_registration', name_id=name_id)      

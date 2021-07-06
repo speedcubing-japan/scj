@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from app.forms import SetPasswordForm
 from django.contrib.auth.views import PasswordResetConfirmView
+from app.defines.session import Notification
 
 
 class ResetComplete(PasswordResetConfirmView):
@@ -10,5 +11,5 @@ class ResetComplete(PasswordResetConfirmView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        self.request.session['notification'] = 'is_just_password_reset_complete'
+        self.request.session['notification'] = Notification.PASSWORD_CHANGE
         return context

@@ -2,6 +2,7 @@ import requests
 from django.conf import settings
 from django.shortcuts import redirect
 from django.views.generic import View
+from app.defines.session import Notification
 
 
 class Authorization(View):
@@ -31,6 +32,6 @@ class Authorization(View):
                 'updated_at'
             ])
 
-            request.session['notification'] = 'is_just_stripe_authorization_complete'
+            request.session['notification'] = Notification.STRIPE_AUTHORIZATION_COMPLETE
 
         return redirect('profile')

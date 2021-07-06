@@ -9,6 +9,7 @@ from app.models import Post, Information
 from app.defines.information import TypeEn as InformationTypeEn
 from app.forms import PostForm, InformationForm
 from .util import make_post_text
+from app.defines.session import Notification
 
 
 class Complete(LoginRequiredMixin, View):
@@ -57,7 +58,7 @@ class Complete(LoginRequiredMixin, View):
                 message = render_to_string('app/mail/post_confirm_message.txt', context).strip()
                 send_mail(subject, message, settings.EMAIL_HOST_USER, ['info@speedcubing.or.jp'])
 
-                request.session['notification'] = 'is_just_post_offer'
+                request.session['notification'] = Notification.POST_OFFER
             elif request.user.is_superuser:
                 information = Information(
                     type=type,
@@ -67,7 +68,7 @@ class Complete(LoginRequiredMixin, View):
                     is_public=form.cleaned_data['is_public']
                 )
                 information.save()
-                request.session['notification'] = 'is_just_post'
+                request.session['notification'] = Notification.POST
             elif request.user.is_staff:
                 information = Information(
                     type=type,
@@ -77,7 +78,7 @@ class Complete(LoginRequiredMixin, View):
                     is_public=False
                 )
                 information.save()
-                request.session['notification'] = 'is_just_post'
+                request.session['notification'] = Notification.POST
 
             return redirect('post_list')
 
