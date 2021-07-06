@@ -71,7 +71,7 @@ class Refund(LoginRequiredMixin, TemplateView):
 
         competitor_ids = []
         stripe_progresses = StripeProgress.objects.filter(competition_id=competition.id, refund_price=0)
-        competitors = Competitor.objects.filter(competition_id=competition.id)
+        competitors = Competitor.objects.filter(competition_id=competition.id).order_by('created_at')
 
         competitor_list = []
         for competitor in competitors:

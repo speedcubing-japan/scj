@@ -22,7 +22,7 @@ class Index(LoginRequiredMixin, TemplateView):
         if not competition.is_superuser(request.user):
             return redirect('competition_index')
 
-        competitors = Competitor.objects.filter(competition_id=competition.id)
+        competitors = Competitor.objects.filter(competition_id=competition.id).order_by('created_at')
 
         context = self.create_context(request, competition, competitors)
 
@@ -47,7 +47,7 @@ class Index(LoginRequiredMixin, TemplateView):
         if not competition.is_superuser(request.user):
             return redirect('competition_index')
 
-        competitors = Competitor.objects.filter(competition_id=competition.id)
+        competitors = Competitor.objects.filter(competition_id=competition.id).order_by('created_at')
 
         context = self.create_context(request, competition, competitors)
         registration_count = len(context['registration_competitors'])
