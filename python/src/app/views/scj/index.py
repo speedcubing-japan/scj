@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 from django.views.generic import TemplateView
-from app.models import Person, Information
+from app.models import Person, Information, Competition
 
 
 class Index(TemplateView):
@@ -29,9 +29,16 @@ class Index(TemplateView):
         if self.request.session.get('notification') is not None:
             del self.request.session['notification']
 
+        competition_list = []
+        competitions = Competition.objects.filter(is_display=True).order_by('open_at').reverse()
+        for competition in competitions:
+            if competition.is_open() or not competition.is_close():
+                competition_list.append(competition)
+
         context = {
             'informations': informations,
             'name': name,
+            'competitions': competition_list,
             'notification': notification
         }
 

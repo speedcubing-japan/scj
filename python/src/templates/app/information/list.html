@@ -4,13 +4,16 @@
 {% block content %}
 <div class="row">
   <div class="col-sm-12">
+    <div class="card-header lead">
+      お知らせ
+    </div>
 
     <ul class="nav nav-tabs flex-lg-row" id="myTab" role="tablist">
       <li class="nav-item">
         <a class="nav-link {% if type == 'all' %}active{% endif %}" href="{% url 'information_list' 'all' %}">すべて</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link {% if type == 'information' %}active{% endif %}" href="{% url 'information_list' 'information' %}">お知らせ</a>
+        <a class="nav-link {% if type == 'information' %}active{% endif %}" href="{% url 'information_list' 'information' %}">全般</a>
       </li>
       <li class="nav-item">
         <a class="nav-link {% if type == 'wca_competition' %}active{% endif %}" href="{% url 'information_list' 'wca_competition' %}">WCA大会</a>
