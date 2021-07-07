@@ -30,15 +30,19 @@ class Index(TemplateView):
             del self.request.session['notification']
 
         competition_list = []
+        finish_competition_list = []
         competitions = Competition.objects.filter(is_display=True).order_by('open_at').reverse()
         for competition in competitions:
             if competition.is_open() or not competition.is_close():
                 competition_list.append(competition)
+            else:
+                finish_competition_list.append(competition)
 
         context = {
             'informations': informations,
             'name': name,
             'competitions': competition_list,
+            'finish_competitions': finish_competition_list,
             'notification': notification
         }
 
