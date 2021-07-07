@@ -137,7 +137,19 @@
           </h6>
           <div>
             {% for judge in judges %}
-              <div>{{ judge.get_full_name }}</div>
+              {% if request.LANGUAGE_CODE == 'ja' %}
+                {% if judge.wca_id and competition.type == competition_type.WCA.value %}
+                  <div><a href="https://www.worldcubeassociation.org/persons/{{ judge.wca_id }}">{{ judge.get_full_name }}</a></div>
+                {% else %}
+                  <div>{{ judge.get_full_name }}</div>
+                {% endif %}
+              {% elif request.LANGUAGE_CODE == 'en' %}
+                {% if judge.wca_id and competition.type == competition_type.WCA.value %}
+                  <div><a href="https://www.worldcubeassociation.org/persons/{{ judge.wca_id }}">{{ judge.get_full_name_roma }}</a></div>
+                {% else %}
+                  <div>{{ judge.get_full_name_roma }}</div>
+                {% endif %}
+              {% endif %}
             {% endfor %}
           </div>
         </li>

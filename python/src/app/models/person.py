@@ -48,7 +48,7 @@ class Person(models.Model):
         return self.last_name_kana + ' ' + self.first_name_kana
 
     def get_full_name_roma(self):
-        return self.last_name_roma + ' ' + self.first_name_roma
+        return self.first_name_roma + ' ' + self.last_name_roma
 
     def __str__(self):
         return self.get_full_name()

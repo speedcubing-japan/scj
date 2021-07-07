@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-06 14:01+0000\n"
+"POT-Creation-Date: 2021-07-07 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -166,7 +166,7 @@ msgid "返金ポリシー"
 msgstr "Refund policy"
 
 #: templates/app/competition/fee.html:58
-#: templates/app/competition/registration.html:217
+#: templates/app/competition/registration.html:218
 msgid "参加費支払い"
 msgstr "Fee payment"
 
@@ -218,8 +218,8 @@ msgstr "Total"
 #: templates/app/competition/fee.html:127
 #: templates/app/competition/fee.html:142
 #: templates/app/competition/fee.html:154
-#: templates/app/competition/registration.html:176
-#: templates/app/competition/registration.html:188
+#: templates/app/competition/registration.html:177
+#: templates/app/competition/registration.html:189
 msgid "円"
 msgstr "Yen"
 
@@ -232,8 +232,8 @@ msgid "支払い済み"
 msgstr "You've paid."
 
 #: templates/app/competition/fee.html:98 templates/app/competition/fee.html:119
-#: templates/app/competition/registration.html:174
-#: templates/app/competition/registration.html:186
+#: templates/app/competition/registration.html:175
+#: templates/app/competition/registration.html:187
 msgid "支払い料金"
 msgstr "Payment fees"
 
@@ -245,7 +245,7 @@ msgstr "Payment fees on the site"
 #: templates/app/competition/fee.html:124
 #: templates/app/competition/fee.html:140
 #: templates/app/competition/fee.html:152
-#: templates/app/competition/registration.html:186
+#: templates/app/competition/registration.html:187
 #: templates/app/competition/schedule.html:36
 msgid "種目"
 msgstr "Events"
@@ -284,7 +284,7 @@ msgid "スケジュール"
 msgstr "Schedule"
 
 #: templates/app/competition/menu.html:11
-#: templates/app/competition/registration.html:198
+#: templates/app/competition/registration.html:199
 msgid "申し込み"
 msgstr "Registration"
 
@@ -511,33 +511,42 @@ msgstr ""
 "canceled."
 
 #: templates/app/competition/registration.html:125
+msgid ""
+"そのため、大会を辞退する場合は、可能であれば申し込み期限までに申し込みをキャ"
+"ンセルしていただけると幸いです。"
+msgstr ""
+"Therefore, if you wish to withdraw from the competition, we would appreciate "
+"it if you could cancel your registration before the registration deadline, "
+"if possible."
+
+#: templates/app/competition/registration.html:126
 #, python-format
 msgid ""
 "ご自身のキャンセル待ちリスト内での順番を知りたい方は、<a href=\"mailto:"
-"%(competition_email)s\">%(competition_email)s</a>までお問い合わせください。"
+"%(competition_email)s\">%(organizer_name)s</a>までお問い合わせください。"
 msgstr ""
 " You may enquire about your position on the waiting list by emailing the "
 "organization team at <a href=\"mailto:%(competition_email)s\">"
-"%(competition_email)s</a>"
+"%(organizer_name)s</a>"
 
-#: templates/app/competition/registration.html:130
+#: templates/app/competition/registration.html:131
 msgid "参加申し込みの内容変更・取り消し"
 msgstr "Changing/Deleting Registration"
 
-#: templates/app/competition/registration.html:133
+#: templates/app/competition/registration.html:134
 #, python-format
 msgid ""
 "申し込み承認後に参加申込の内容を変更したい場合（例：申込種目の追加、同伴者人"
 "数の変更など）、または大会に参加できなくなった場合は、<a href=\"mailto:"
-"%(competition_email)s\">%(competition_email)s</a>まで必ず連絡してください。"
+"%(competition_email)s\">%(organizer_name)s</a>まで必ず連絡してください。"
 msgstr ""
 "If you can no longer make the competition you may request to withdraw. If "
 "you would like to change your registration (e.g. changing events you "
 "compete, number of guests) or withdraw from the competition, please email "
 "the organization team at <a href=\"mailto:%(competition_email)s\">"
-"%(competition_email)s</a>"
+"%(organizer_name)s</a>"
 
-#: templates/app/competition/registration.html:134
+#: templates/app/competition/registration.html:135
 msgid ""
 "キャンセル待ちリストからの繰り上げは参加申し込み期間中にしか行えませんので、"
 "なるべく早めにお申し出ください。"
@@ -545,7 +554,7 @@ msgstr ""
 "Withdrawing enables competitors on the waiting list to attend the "
 "competition."
 
-#: templates/app/competition/registration.html:140
+#: templates/app/competition/registration.html:141
 #, python-format
 msgid ""
 "%(competition_name)sに申し込むには<a href=\"%(login_url)s?next=%(path)s\">ロ"
@@ -554,7 +563,7 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(path)s\">Sign in</a> to register for "
 "%(competition_name)s."
 
-#: templates/app/competition/registration.html:144
+#: templates/app/competition/registration.html:145
 #, python-format
 msgid ""
 "%(competition_name)sに申し込むには<a href=\"%(wca_oauth_authorization)s?"
@@ -567,7 +576,7 @@ msgstr ""
 "%(redirect_uri)s&response_type=code&scope=public email\">WCA authentication</"
 "a> to register for %(competition_name)s."
 
-#: templates/app/competition/registration.html:151
+#: templates/app/competition/registration.html:152
 #, python-format
 msgid ""
 "既に申し込み済みです。キャンセルされる方は<a href=\"mailto:%(email)s\">主催者"
@@ -576,17 +585,17 @@ msgstr ""
 "You have already registered. If you want to cancel, please contact the <a "
 "href=\"mailto:%(email)s\">organizer</a>."
 
-#: templates/app/competition/registration.html:155
+#: templates/app/competition/registration.html:156
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s後&nbsp;%(date)sに開始します。"
 msgstr "Registration will open in about %(rest_time)s later on %(date)s"
 
-#: templates/app/competition/registration.html:159
+#: templates/app/competition/registration.html:160
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s前&nbsp;%(date)sに終了しました。"
 msgstr "Registration closed about %(rest_time)s ago on %(date)s"
 
-#: templates/app/competition/registration.html:164
+#: templates/app/competition/registration.html:165
 #, python-format
 msgid ""
 "本大会の定員は %(limit)s 人であり、すでに定員に達しています。今参加申し込みさ"
@@ -596,22 +605,22 @@ msgstr ""
 "been reached. If you register, your registration will be placed on a waiting "
 "list. It may not be approved unless a spot frees up."
 
-#: templates/app/competition/registration.html:207
-#: templates/app/competition/registration.html:228
+#: templates/app/competition/registration.html:208
+#: templates/app/competition/registration.html:229
 msgid "免責事項と参加要件に同意します"
 msgstr "I agree to the disclaimer and requirements."
 
-#: templates/app/competition/registration.html:209
-#: templates/app/competition/registration.html:230
+#: templates/app/competition/registration.html:210
+#: templates/app/competition/registration.html:231
 msgid "免責事項に同意します"
 msgstr "I agree to the disclaimer."
 
-#: templates/app/competition/registration.html:238
+#: templates/app/competition/registration.html:239
 #: templates/app/registration/input.html:43
 msgid "登録"
 msgstr "Register"
 
-#: templates/app/competition/registration.html:245
+#: templates/app/competition/registration.html:246
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s後&nbsp;%(date)sに終了します。"
 msgstr "Registration closes in about %(rest_time)s later on %(date)s"

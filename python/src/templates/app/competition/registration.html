@@ -122,7 +122,8 @@
         <div>{% trans "実行委員会の承認後に、正式に参加が承認されたことを伝えるメールが改めて届きます。" %}</div>
         <div>{% trans "申し込み時点で定員に達していた場合はキャンセル待ちリストに追加され、参加承認済みの誰かがキャンセルした場合にリストの先着順で承認されます。" %}</div>
         <div>{% trans "この繰り上げ措置は、規定の参加申し込み期間までとなります。締め切り後の繰り上げは行いません。" %}</div>
-        <div>{% blocktrans with competition_email=competition.email %}ご自身のキャンセル待ちリスト内での順番を知りたい方は、<a href="mailto:{{ competition_email }}">{{ competition_email }}</a>までお問い合わせください。{% endblocktrans %}</div>
+        <div>{% trans "そのため、大会を辞退する場合は、可能であれば申し込み期限までに申し込みをキャンセルしていただけると幸いです。" %}</div>
+        <div>{% blocktrans with organizer_name=competition.organizer_name competition_email=competition.email %}ご自身のキャンセル待ちリスト内での順番を知りたい方は、<a href="mailto:{{ competition_email }}">{{ organizer_name }}</a>までお問い合わせください。{% endblocktrans %}</div>
       </div>
     </div>
     <div class="card mb-3">
@@ -130,7 +131,7 @@
         {% trans "参加申し込みの内容変更・取り消し" %}
       </div>
       <div class="card-body">
-        <div>{% blocktrans with competition_email=competition.email %}申し込み承認後に参加申込の内容を変更したい場合（例：申込種目の追加、同伴者人数の変更など）、または大会に参加できなくなった場合は、<a href="mailto:{{ competition_email }}">{{ competition_email }}</a>まで必ず連絡してください。{% endblocktrans %}</div>
+        <div>{% blocktrans with organizer_name=competition.organizer_name competition_email=competition.email %}申し込み承認後に参加申込の内容を変更したい場合（例：申込種目の追加、同伴者人数の変更など）、または大会に参加できなくなった場合は、<a href="mailto:{{ competition_email }}">{{ organizer_name }}</a>まで必ず連絡してください。{% endblocktrans %}</div>
         <div>{% trans "キャンセル待ちリストからの繰り上げは参加申し込み期間中にしか行えませんので、なるべく早めにお申し出ください。" %}</div>
       </div>
     </div>
