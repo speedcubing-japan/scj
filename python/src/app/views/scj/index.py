@@ -8,6 +8,7 @@ class Index(TemplateView):
 
     def get_context_data(self):
         PAGE_SIZE = 10
+        COMPETITION_MAX_SIXE = 10
 
         page = self.request.GET.get(key='page', default=1)
 
@@ -31,7 +32,7 @@ class Index(TemplateView):
 
         competition_list = []
         finish_competition_list = []
-        competitions = Competition.objects.filter(is_display=True).order_by('open_at').reverse()
+        competitions = Competition.objects.filter(is_display=True).order_by('open_at').reverse()[:COMPETITION_MAX_SIXE]
         for competition in competitions:
             if competition.is_open() or not competition.is_close():
                 competition_list.append(competition)
