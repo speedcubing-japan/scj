@@ -3,7 +3,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.utils.timezone import localtime
 from django.views.generic import TemplateView
-from app.models import Competition, Person, Competitor, Result
+from app.models import Competition, Person, Competitor, Result, Round
 from app.defines.fee import PayType as FeePayType
 from app.defines.fee import CalcType as FeeCalcType
 from app.defines.competition import Type as CompetitionType
@@ -73,6 +73,11 @@ class Detail(TemplateView):
             status=CompetitorStatus.REGISTRATION.value).count()
         competitor_registration_rate = int(competitor_registration_count * 100 / competition.limit)
 
+        # 部屋を取得
+        rounds = Round.objects.filter(competition_id=competition.id)
+        room_names = set(map(lambda x: x.room_name, rounds))
+        room_name = ', '.join(room_names)
+
         # google calendar date params
         open_at = localtime(competition.open_at).strftime('%Y%m%d')
         close_at = localtime(competition.close_at).strftime('%Y%m%d')
@@ -81,6 +86,7 @@ class Detail(TemplateView):
         context = {
             'title': competition.name,
             'competition': competition,
+            'room_name': room_name,
             'competition_day_count': competition_day_count,
             'judges': judges,
             'organizers': organizers,
