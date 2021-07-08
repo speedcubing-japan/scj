@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-07 15:01+0000\n"
+"POT-Creation-Date: 2021-07-08 15:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,7 +124,7 @@ msgstr ""
 msgid "SCJ 審判員"
 msgstr "SCJ Judge"
 
-#: templates/app/competition/detail.html:145
+#: templates/app/competition/detail.html:157
 msgid "主催者"
 msgstr "Organiser"
 
@@ -516,8 +516,8 @@ msgid ""
 "ンセルしていただけると幸いです。"
 msgstr ""
 "Therefore, if you wish to withdraw from the competition, we would appreciate "
-"if you could cancel your registration before the registration deadline, "
-"if possible."
+"if you could cancel your registration before the registration deadline, if "
+"possible."
 
 #: templates/app/competition/registration.html:126
 #, python-format
