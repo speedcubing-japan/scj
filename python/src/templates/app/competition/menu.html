@@ -12,7 +12,16 @@
       <a href="{% url 'competition_competitor' competition.name_id 'list' %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'competitor' %}active{% endif %}"><i class="fas fa-users fa-fw mr-2"></i>{% trans "競技者一覧" %}</button></a>
     {% endif %}
   {% endif %}
-  {% if competition.type == competition_type.WCA.value %}
+  {% if is_superuser %}
+    <a href="{% url 'competition_admin_index' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'admin' %}active{% endif %}"><i class="fas fa-cog fa-fw mr-2"></i>管理</button></a>
+  {% endif %}
+  {% if is_refunder %}
+    <a href="{% url 'competition_admin_refund' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'refund' %}active{% endif %}"><i class="fas fa-undo-alt fa-fw mr-2"></i>返金</button></a>
+  {% endif %}
+</div>
+
+{% if competition.type == competition_type.WCA.value %}
+  <div class="list-group mb-3">
     <form method="POST" id="language_select" action="{% url 'set_language' %}">
       {% csrf_token %}
       {% if LANGUAGE_CODE == 'en' %}
@@ -22,11 +31,5 @@
       {% endif %}
       <button type="button" class="language list-group-item list-group-item-action"><i class="fas fa-language mr-2"></i>{% if LANGUAGE_CODE == 'en' %}日本語{% else %}English{% endif %}</button></a>
     </form>
-  {% endif %}
-  {% if is_superuser %}
-    <a href="{% url 'competition_admin_index' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'admin' %}active{% endif %}"><i class="fas fa-cog fa-fw mr-2"></i>管理</button></a>
-  {% endif %}
-  {% if is_refunder %}
-    <a href="{% url 'competition_admin_refund' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'refund' %}active{% endif %}"><i class="fas fa-undo-alt fa-fw mr-2"></i>返金</button></a>
-  {% endif %}
-</div>
+  </div>
+{% endif %}
