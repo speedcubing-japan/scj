@@ -102,6 +102,9 @@ class Registration(TemplateView):
             return None
         competition = competition.first()
 
+        if competition.is_private and not competition.is_superuser(request.user):
+            return None
+
         has_results = Result.objects.filter(competition_id=competition.id).exists()
         if has_results:
             return None

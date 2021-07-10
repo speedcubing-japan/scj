@@ -23,6 +23,9 @@ class Detail(TemplateView):
             return redirect('competition_index')
         competition = competition.first()
 
+        if competition.is_private and not competition.is_superuser(request.user):
+            return redirect('competition_index')
+
         # 日付計算
         timedelta = competition.close_at - competition.open_at
         competition_day_count = timedelta.days

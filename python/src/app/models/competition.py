@@ -46,6 +46,7 @@ class Competition(models.Model):
     is_cancel = models.BooleanField('キャンセル可否', default=False)
     is_payment = models.BooleanField('課金可否', default=False)
     is_display = models.BooleanField('表示可否', default=False)
+    is_private = models.BooleanField('プライベート可否', default=False)
 
     class Meta:
         indexes = [
@@ -58,7 +59,7 @@ class Competition(models.Model):
         close_at = localtime(self.close_at)
         return open_at.date() <= now.date() and close_at.date() >= now.date()
 
-    def is_close(self):
+    def is_finish(self):
         now = localtime(datetime.datetime.now(tz=datetime.timezone.utc))
         close_at = localtime(self.close_at)
         return close_at.date() < now.date()
@@ -68,6 +69,12 @@ class Competition(models.Model):
         registration_open_at = localtime(self.registration_open_at)
         registration_close_at = localtime(self.registration_close_at)
         return registration_open_at <= now and registration_close_at >= now
+
+    def is_registration_open_to_close(self):
+        now = localtime(datetime.datetime.now(tz=datetime.timezone.utc))
+        registration_open_at = localtime(self.registration_open_at)
+        close_at = localtime(self.close_at)
+        return registration_open_at <= now and close_at.date() >= now.date()
 
     def is_superuser(self, user):
         is_superuser = False

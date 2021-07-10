@@ -68,6 +68,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-address-card fa-fw mr-2"></i>プロフィール</a>
+            <a class="dropdown-item" href="{% url 'competition_mine' %}"><i class="fas fa-tasks fa-fw mr-2"></i>自分の大会</a>
             <a class="dropdown-item" href="{% url 'password_change' %}"><i class="fas fa-key fa-fw mr-2"></i>パスワード変更</a>
             <a class="dropdown-item" href="{% url 'mail_change' %}"><i class="fas fa-at fa-fw mr-2"></i>メールアドレス変更</a>
             <a class="dropdown-item" href="{% url 'logout' %}?next={{ request.path }}"><i class="fas fa-sign-out-alt fa-fw mr-2"></i>ログアウト</a>

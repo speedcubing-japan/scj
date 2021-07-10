@@ -217,6 +217,7 @@
               <div class="offset-md-3 col-md-9">
                 <input id="checkout" class="btn btn-dark competition_registration" value="{% trans "参加費支払い" %}" disabled>
               </div>
+              <div id="error" class="text-danger font-weight-bold"></div>
             </div>
           {% elif competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value %}
             <form action="" method="POST">
@@ -298,6 +299,10 @@
       return response.json();
     })
     .then(function (session) {
+      if (session['error']) {
+        document.getElementById("error").textContent = session['error'];
+        return session['error'];
+      }
       return stripe.redirectToCheckout({ sessionId: session.id });
     })
     .then(function (result) {

@@ -16,6 +16,9 @@ class Schedule(TemplateView):
             return redirect('competition_index')
         competition = competition.first()
 
+        if competition.is_private and not competition.is_superuser(request.user):
+            return redirect('competition_index')
+
         has_results = Result.objects.filter(competition_id=competition.id).exists()
         if has_results:
             return redirect('competition_detail', name_id=name_id)

@@ -24,8 +24,11 @@ class Create(View):
         datas = json.loads(request.body)
 
         competition = Competition.objects.get(pk=datas['competition_id'])
-        if not competition or competition.is_close():
+        if not competition or competition.is_finish():
             return JsonResponse({'error': '大会が存在しないか大会が終了しています。'})
+
+        if competition.is_private and not competition.is_superuser(request.user):
+            return JsonResponse({'error': '大会が非公開です。'})
 
         if competition.fee_pay_type == FeePayType.LOCAL_ONLY.value:
             return JsonResponse({'error': '支払いは現地のみです。'})

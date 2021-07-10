@@ -1,0 +1,26 @@
+{% extends "app/common/base.html" %}
+
+{% block content %}
+{% include "app/common/title.html" with title="自分の大会" %}
+{% if not private_competitions and not hide_competitions and not current_competitions and not participate_competitions %}
+  <span>イベントはありません。</span>
+{% endif %}
+{% if private_competitions %}
+  {% include "app/scj/mine_list.html" with competitions=private_competitions header_bg_color="danger" header_text_color="white" title="非公開の大会" %}
+  <div class="alert alert-light" role="alert">
+    <div>審判員ならびに運営のみ閲覧可能です。</div>
+  </div>
+{% endif %}
+{% if hide_competitions %}
+  {% include "app/scj/mine_list.html" with competitions=hide_competitions header_bg_color="warning" header_text_color="white" title="非表示の大会" %}
+  <div class="alert alert-light" role="alert">
+    <div>WCATへの大会申請用のため、各ページはURLにて直接アクセスが可能です。管理等十分にお気をつけ下さい。</div>
+  </div>
+{% endif %}
+{% if current_competitions %}
+  {% include "app/scj/mine_list.html" with competitions=current_competitions header_bg_color="success" header_text_color="white" title="現在申し込み中の大会" %}
+{% endif %}
+{% if participate_competitions %}
+  {% include "app/scj/mine_list.html" with competitions=participate_competitions header_bg_color="info" header_text_color="white" title="過去の大会" %}
+{% endif %}
+{% endblock content %}

@@ -55,6 +55,7 @@ from .views.password.reset_complete import ResetComplete as PasswordResetComplet
 from .views.mail.change import Change as MailChange
 from .views.mail.change_complete import ChangeComplete as MailChangeComplete
 
+from .views.competition.mine import Mine as CompetitionMine
 from .views.competition.about import About as CompetitionAbout
 from .views.competition.regulation import Regulation as CompetitionRegulation
 from .views.competition.index import Index as CompetitionIndex
@@ -129,6 +130,8 @@ urlpatterns = [
     path('mail/change/', MailChange.as_view(), name='mail_change'),
     path('mail/change/complete/<str:token>/', MailChangeComplete.as_view(), name='mail_change_complete'),
 
+
+    path('competition_mine/', CompetitionMine.as_view(), name='competition_mine'),
     path('competition_about/', CompetitionAbout.as_view(), name="competition_about"),
     path('competition_regulation/', CompetitionRegulation.as_view(), name="competition_regulation"),
     path('competition/', CompetitionIndex.as_view(), name="competition_index"),

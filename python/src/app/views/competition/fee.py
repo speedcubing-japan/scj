@@ -24,6 +24,9 @@ class Fee(TemplateView):
             return redirect('competition_detail', name_id=name_id)
         competition = competition.first()
 
+        if competition.is_private and not competition.is_superuser(request.user):
+            return redirect('competition_index')
+
         stripe_user_id = ''
         if competition.stripe_user_person_id != 0:
             person = Person.objects.get(pk=competition.stripe_user_person_id)

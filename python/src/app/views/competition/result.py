@@ -17,6 +17,9 @@ class Result(TemplateView):
             return redirect('competition_index')
         competition = competition.first()
 
+        if competition.is_private and not competition.is_superuser(request.user):
+            return redirect('competition_index')
+
         competitors = Competitor.objects.filter(competition_id=competition.id)
         results = app.models.Result.objects.filter(competition_id=competition.id)
         rounds = Round.objects.filter(competition_id=competition.id)

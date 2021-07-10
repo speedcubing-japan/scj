@@ -32,9 +32,10 @@ class Index(TemplateView):
 
         competition_list = []
         finish_competition_list = []
-        competitions = Competition.objects.filter(is_display=True).order_by('open_at').reverse()[:COMPETITION_MAX_SIXE]
+        competitions = Competition.objects.filter(is_display=True, is_private=False).order_by('open_at').reverse()[:COMPETITION_MAX_SIXE]
+
         for competition in competitions:
-            if competition.is_open() or not competition.is_close():
+            if competition.is_open() or not competition.is_finish():
                 competition_list.append(competition)
             else:
                 finish_competition_list.append(competition)

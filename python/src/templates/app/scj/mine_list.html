@@ -1,0 +1,36 @@
+{% load competition_logo %}
+{% load static %}
+
+{% if competitions %}
+  <div class="card mb-3">
+    <div class="card-header bg-{{ header_bg_color }} text-{{ header_text_color }} lead">
+      {{ title }}
+    </div>
+    <div class="text-nowrap table-responsive">
+      <table class="table">
+	<thead>
+	  <tr>
+	    <th scope="col" style="width: 25%;">大会名</th>
+	    <th scope="col" style="width: 25%;">都道府県</th>
+	    <th scope="col" style="width: 25%;">会場</th>
+	    <th scope="col" style="width: 25%;">開催日</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {% for competition in competitions %}
+	    <tr>
+              <td>
+		{% with path=competition|competition_logo %}
+		  <span class="competition-name text-primary mr-4"><img class="mr-2" width="20" src="{% static path %}"><a href="{% url 'competition_detail' competition.name_id %}">{{ competition.name }}</a></span>
+	        {% endwith %}      
+	      </td>
+              <td>{{ competition.get_prefecture_id_display }}</td>
+              <td>{{ competition.venue_name }}</td>
+              <td>{{ competition.open_at | date:"Y年m月d日" }}</td>
+	    </tr>
+	  {% endfor %}
+	</tbody>
+      </table>
+    </div>
+  </div>
+{% endif %}

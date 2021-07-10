@@ -51,7 +51,7 @@ class Event(models.Model):
         close_at = localtime(self.close_at)
         return open_at.date() <= now.date() and close_at.date() >= now.date()
 
-    def is_close(self):
+    def is_finish(self):
         now = localtime(datetime.datetime.now(tz=datetime.timezone.utc))
         close_at = localtime(self.close_at)
         return close_at.date() < now.date()
