@@ -58,7 +58,7 @@ class Detail(TemplateView):
             if competition.type == CompetitionType.SCJ.value:
                 if has_results:
                     notification = Notification.COMPETITION_SCJ_HAS_RESULT_END
-                else:
+                elif competition.is_finish():
                     notification = Notification.COMPETITION_END
             elif competition.type == CompetitionType.WCA.value:
                 notification = Notification.COMPETITION_WCA_END
