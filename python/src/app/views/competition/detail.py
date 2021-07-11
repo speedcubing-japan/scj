@@ -52,7 +52,11 @@ class Detail(TemplateView):
             competitor = competitor.first()
 
         notification = ''
-        if competition.is_cancel:
+        if competition.is_private:
+            notification = Notification.COMPETITION_PRIVATE
+        elif not competition.is_display:
+            notification = Notification.COMPETITION_NOT_DISPLAY
+        elif competition.is_cancel:
             notification = Notification.COMPETITION_CANCELED
         elif competition.registration_close_at < now:
             if competition.type == CompetitionType.SCJ.value:

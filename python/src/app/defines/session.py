@@ -34,6 +34,8 @@ class Notification(Define):
     PAYMENT_SUCCESS = (Status.SUCCESS.value, '支払いが完了しました。')
     PAYMENT_CANCEL = (Status.WARNING.value, '支払いがキャンセルされました。')
     COMPETITION_LIMIT = (Status.DANGER.value, '承認人数が大会制限人数を超過しています。却下するか定員を増やしてください。')
+    COMPETITION_PRIVATE = (Status.DANGER.value, _('この大会は非公開です。関係者のみ表示されます。'))
+    COMPETITION_NOT_DISPLAY = (Status.WARNING.value, _('この大会は非表示です。一覧には表示されませんが、直接アクセスは可能です。管理等十分にお気をつけ下さい。'))
     COMPETITION_CANCELED = (Status.DANGER.value, 'この大会は中止になりました。')
     COMPETITION_REGISTER = (Status.SUCCESS.value, '申し込み完了しました。承認されるまでお待ち下さい。')
     COMPETITION_SCJ_END = (Status.INFO.value, 'この大会は終了しました。結果が出るまでお待ち下さい。')
