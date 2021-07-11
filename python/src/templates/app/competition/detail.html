@@ -58,7 +58,7 @@
         <li class="list-group-item">
           <h6>{% trans "会場" %}</h6>
           <div>
-            {{ competition.venue_name }}&nbsp;{{ room_name }}
+            <a href="{{ competition.venue_url }}" target="_blank">{{ competition.venue_name }}</a>&nbsp;{{ room_name }}
           </div>
         </li>
         <li class="list-group-item">

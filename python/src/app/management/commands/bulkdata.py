@@ -165,6 +165,7 @@ class Command(BaseCommand):
                     organizer_person_ids=record['fields']['organizer_person_ids'],
                     venue_name=record['fields']['venue_name'],
                     venue_address=record['fields']['venue_address'],
+                    venue_url=record['fields']['venue_url'],
                     latitude=record['fields']['latitude'],
                     longitude=record['fields']['longitude'],
                     limit=record['fields']['limit'],

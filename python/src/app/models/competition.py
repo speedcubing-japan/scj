@@ -28,6 +28,7 @@ class Competition(models.Model):
     organizer_person_ids = JSONField('主催者SCJID')
     venue_name = models.CharField('開催地名', max_length=256)
     venue_address = models.CharField('開催地住所', max_length=256)
+    venue_url = models.CharField('開催地URL', default='', max_length=256)
     latitude = models.FloatField('開催地緯度')
     longitude = models.FloatField('開催地経度')
     limit = models.IntegerField('制限人数')
