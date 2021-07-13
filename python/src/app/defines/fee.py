@@ -18,6 +18,13 @@ class PayType(Define):
     @classmethod
     def choices(cls):
         return tuple((x.value[0], x.name) for x in cls)
+    
+    @classmethod
+    def has(cls, value):
+        for x in cls:
+            if x.value[0] == value:
+                return True
+        return False
 
 # 参照用
 @unique
@@ -40,6 +47,13 @@ class CalcType(Define):
     @classmethod
     def choices(cls):
         return tuple((x.value[0], x.name) for x in cls)
+    
+    @classmethod
+    def has(cls, value):
+        for x in cls:
+            if x.value[0] == value:
+                return True
+        return False
 
 # 参照用
 @unique

@@ -105,7 +105,6 @@ class Index(LoginRequiredMixin, Base):
         context['pending_competitors'] = pending_competitors
         context['registration_competitors'] = registration_competitors
         context['cancel_competitors'] = cancel_competitors
-        context['notification'] = self.notification
 
         return context
 

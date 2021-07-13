@@ -25,6 +25,7 @@ class Mine(LoginRequiredMixin, TemplateView):
         participate_competition_ids = set(map(lambda x:x.competition_id, competitors))
 
         for competition in competitions:
+            competition.set_is_superuser(request.user)
 
             # 非公開の企画している大会
             if competition.is_private \

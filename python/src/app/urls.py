@@ -58,6 +58,7 @@ from .views.mail.change_complete import ChangeComplete as MailChangeComplete
 from .views.competition.mine import Mine as CompetitionMine
 from .views.competition.about import About as CompetitionAbout
 from .views.competition.regulation import Regulation as CompetitionRegulation
+from .views.competition.create import Create as CompetitionCreate
 from .views.competition.index import Index as CompetitionIndex
 from .views.competition.detail import Detail as CompetitionDetail
 from .views.competition.registration import Registration as CompetitionRegistration
@@ -68,9 +69,13 @@ from .views.competition.fee import Fee as CompetitionFee
 from .views.competition.cancel import Cancel as CompetitionCancel
 from .views.competition.admin.index import Index as CompetitionAdminIndex
 from .views.competition.admin.refund import Refund as CompetitionAdminRefund
-from .views.competition.admin.edit import Edit as CompetitionAdminEdit
+from .views.competition.admin.competitor import Competitor as CompetitionAdminCompetitor
 from .views.competition.admin.csv import Csv as CompetitionAdminCsv
 from .views.competition.admin.wca_csv import WcaCsv as CompetitionAdminWcaCsv
+from .views.competition.admin.delete import Delete as CompetitionAdminDelete
+from .views.competition.admin.edit import Edit as CompetitionAdminEdit
+from .views.competition.admin.hidden import Hidden as CompetitionAdminHidden
+from .views.competition.admin.publish import Publish as CompetitionAdminPublish
 
 from .views.ranking.index import Index as RankingIndex
 
@@ -106,7 +111,7 @@ urlpatterns = [
     path('community/posting_request/', CommunityPostingRequest.as_view(), name='community_posting_request'),
     path('community/question_and_answer/', CommunityQuestionAndAnswer.as_view(), name='community_question_and_answer'),
     path('community/advise/', CommunityAdvise.as_view(), name='community_advise'),
-    
+
     path('post/input/<str:format>/', PostInput.as_view(), name='post_input'),
     path('post/confirm/', PostConfirm.as_view(), name='post_confirm'),
     path('post/complete/', PostComplete.as_view(), name='post_complete'),
@@ -131,23 +136,27 @@ urlpatterns = [
     path('mail/change/', MailChange.as_view(), name='mail_change'),
     path('mail/change/complete/<str:token>/', MailChangeComplete.as_view(), name='mail_change_complete'),
 
-
     path('competition_mine/', CompetitionMine.as_view(), name='competition_mine'),
-    path('competition_about/', CompetitionAbout.as_view(), name="competition_about"),
-    path('competition_regulation/', CompetitionRegulation.as_view(), name="competition_regulation"),
-    path('competition/', CompetitionIndex.as_view(), name="competition_index"),
-    path('competition/<str:name_id>/', CompetitionDetail.as_view(), name="competition_detail"),
-    path('competition/<str:name_id>/registration/', CompetitionRegistration.as_view(), name="competition_registration"),
-    path('competition/<str:name_id>/competitior/<str:event_name>/', CompetitionCompetitor.as_view(), name="competition_competitor"),
-    path('competition/<str:name_id>/result/', CompetitionResult.as_view(), name="competition_result"),
-    path('competition/<str:name_id>/schedule/', CompetitionSchedule.as_view(), name="competition_schedule"),
-    path('competition/<str:name_id>/fee/', CompetitionFee.as_view(), name="competition_fee"),
+    path('competition_about/', CompetitionAbout.as_view(), name='competition_about'),
+    path('competition_regulation/', CompetitionRegulation.as_view(), name='competition_regulation'),
+    path('competition_create/', CompetitionCreate.as_view(), name='competition_create'),
+    path('competition/', CompetitionIndex.as_view(), name='competition_index'),
+    path('competition/<str:name_id>/', CompetitionDetail.as_view(), name='competition_detail'),
+    path('competition/<str:name_id>/registration/', CompetitionRegistration.as_view(), name='competition_registration'),
+    path('competition/<str:name_id>/competitior/<str:event_name>/', CompetitionCompetitor.as_view(), name='competition_competitor'),
+    path('competition/<str:name_id>/result/', CompetitionResult.as_view(), name='competition_result'),
+    path('competition/<str:name_id>/schedule/', CompetitionSchedule.as_view(), name='competition_schedule'),
+    path('competition/<str:name_id>/fee/', CompetitionFee.as_view(), name='competition_fee'),
     path('competition/<str:name_id>/cancel/', CompetitionCancel.as_view(), name="competition_cancel"),
-    path('competition/<str:name_id>/admin/', CompetitionAdminIndex.as_view(), name="competition_admin_index"),
-    path('competition/<str:name_id>/admin/refund/', CompetitionAdminRefund.as_view(), name="competition_admin_refund"),
-    path('competition/<str:name_id>/admin/edit/<int:competitor_id>/', CompetitionAdminEdit.as_view(), name="competition_admin_edit"),
-    path('competition/<str:name_id>/admin/csv/', CompetitionAdminCsv.as_view(), name="competition_admin_csv"),
-    path('competition/<str:name_id>/admin/wca_csv/', CompetitionAdminWcaCsv.as_view(), name="competition_admin_wca_csv"),
+    path('competition/<str:name_id>/admin/', CompetitionAdminIndex.as_view(), name='competition_admin_index'),
+    path('competition/<str:name_id>/admin/refund/', CompetitionAdminRefund.as_view(), name='competition_admin_refund'),
+    path('competition/<str:name_id>/admin/competitor/<int:competitor_id>/', CompetitionAdminCompetitor.as_view(), name='competition_admin_competitor'),
+    path('competition/<str:name_id>/admin/csv/', CompetitionAdminCsv.as_view(), name='competition_admin_csv'),
+    path('competition/<str:name_id>/admin/wca_csv/', CompetitionAdminWcaCsv.as_view(), name='competition_admin_wca_csv'),
+    path('competition/<str:name_id>/admin/delete/', CompetitionAdminDelete.as_view(), name='competition_admin_delete'),
+    path('competition/<str:name_id>/admin/edit/', CompetitionAdminEdit.as_view(), name='competition_admin_edit'),
+    path('competition/<str:name_id>/admin/hidden/', CompetitionAdminHidden.as_view(), name='competition_admin_hidden'),
+    path('competition/<str:name_id>/admin/publish/', CompetitionAdminPublish.as_view(), name='competition_admin_publish'),
 
-    path('ranking/', RankingIndex.as_view(), name="ranking_index"),
+    path('ranking/', RankingIndex.as_view(), name='ranking_index'),
 ]

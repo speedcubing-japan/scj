@@ -27,6 +27,13 @@ class Define(Enum):
         for x in cls:
             if x.value == value:
                 return x.name
+    
+    @classmethod
+    def has(cls, value):
+        for x in cls:
+            if x.value == value:
+                return True
+        return False
 
     @classmethod
     def count(cls):

@@ -8,7 +8,7 @@
 {% if private_competitions %}
   {% include "app/scj/mine_list.html" with competitions=private_competitions header_bg_color="danger" header_text_color="white" title="非公開の大会" %}
   <div class="alert alert-light" role="alert">
-    <div>審判員ならびに運営のみ閲覧可能です。</div>
+    <div>SCJ理事、WCA Delegate、審判員ならびに運営のみ閲覧可能です。</div>
   </div>
 {% endif %}
 {% if hide_competitions %}

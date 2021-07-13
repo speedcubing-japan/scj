@@ -142,6 +142,10 @@ $(function(){
 
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="popover"]').popover();
-
   $('.form-control').removeClass('is-valid');
+  $('.dropify').dropify({messages: {'default': ''}});
+  $('.dropify').change(function() {
+    $('.file').submit();
+    $('.dropify').value('')
+  });
 });

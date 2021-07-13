@@ -1,0 +1,23 @@
+{% extends "app/common/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+{% include "app/common/title.html" with title="大会の編集" %}
+{% if errors %}
+  <div class="alert alert-danger" role="alert">
+    {% for error in errors %}
+      <div>{{ error }}</div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-light" role="alert">
+    <div>UTF-8でエンコードされたCSVファイルに対応しています。ヘッダー(カラム名の行)も必要です。</div>
+  </div>
+{% endif %}
+
+<form action="" class="mb-3" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="file" class="dropify h5" data-default-file="ファイルを選択してください" name="file">
+  <button type="submit" class="btn btn-dark mt-3" name="button">アップロード</button>
+</form>
+{% endblock %}

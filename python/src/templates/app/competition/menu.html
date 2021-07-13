@@ -36,3 +36,98 @@
     </form>
   </div>
 {% endif %}
+
+{% if is_judge %}
+  {% if competition.is_private or not competition.is_display %}
+    <div class="list-group mb-3">
+      <form method="POST" class="file" action="{% url 'competition_admin_edit' competition.name_id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" class="dropify list-group-item list-group-item-action" data-default-file="ファイルを選択してください" name="file">
+      </form>
+      <button type="button" class="bg-danger text-white list-group-item list-group-item-action" data-toggle="modal" data-target="#delete"><i class="fas fa-trash fa-fw mr-2"></i>削除</button>
+    </div>
+
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">大会の削除</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&#10005;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+            大会の削除を行います。これはやり直すことはできません。
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+            <form method="POST" action="{% url 'competition_admin_delete' competition.name_id %}">
+              {% csrf_token %}
+              <button type="submit button" class="btn btn-danger"><i class="fas fa-trash fa-fw mr-2"></i>削除</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endif %}
+
+{% if user.is_superuser %}
+  <div class="list-group mb-3">
+    {% if competition.is_private %}
+      <button type="button" class="bg-warning text-white list-group-item list-group-item-action" data-toggle="modal" data-target="#hidden"><i class="far fa-eye-slash fa-fw mr-2"></i>非表示</button>
+      <button type="button" class="bg-success text-white list-group-item list-group-item-action" data-toggle="modal" data-target="#publish"><i class="far fa-eye fa-fw mr-2"></i>公開</button>
+    {% elif not competition.is_display %}
+      <button type="button" class="bg-success text-white list-group-item list-group-item-action" data-toggle="modal" data-target="#publish"><i class="far fa-eye fa-fw mr-2"></i>公開</button>
+    {% endif %}
+  </div>
+
+  {% if competition.is_private or not competition.is_display %}
+    <div class="modal fade" id="hidden" tabindex="-1" role="dialog" aria-labelledby="hiddenModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">大会の非表示</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&#10005;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div>大会の非表示を行います。これはやり直すことはできません。</div>
+            <div>この操作を行うことにより、公開はされませんがURLにて直接アクセスが可能になります。</div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+            <form method="POST" action="{% url 'competition_admin_hidden' competition.name_id %}">
+              {% csrf_token %}
+              <button type="submit button" class="btn btn-warning"><i class="far fa-eye-slash fa-fw mr-2"></i>非表示</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="publish" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">大会の公開</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&#10005;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div>大会の公開を行います。これはやり直すことはできません。</div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+            <form method="POST" action="{% url 'competition_admin_publish' competition.name_id %}">
+              {% csrf_token %}
+              <button type="submit button" class="btn btn-success"><i class="far fa-eye fa-fw mr-2"></i>公開</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endif %}

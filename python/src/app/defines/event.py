@@ -16,6 +16,12 @@ class Format(Define):
     def choices(cls):
         return tuple((x.value[0], x.value[1]) for x in cls)
 
+    @classmethod
+    def get_name(cls, value):
+        for x in cls:
+            if x.value[0] == value:
+                return x.value[1]
+
 # nameをイベント名にすると数字のリテラルは先頭では使えないので苦肉の策。
 class Event(Define):
     EVENT1 = (1, _('3x3x3 キューブ'), '333', True)
@@ -101,3 +107,9 @@ class Event(Define):
     @classmethod
     def choices(cls):
         return tuple((x.value[0], x.value[1]) for x in cls)
+
+    @classmethod
+    def has(cls, event_ids):
+        values = set(map(lambda x: x.value[0], cls))
+        # 差集合でevent_idsにしかないものが1件以上あればFalse
+        return not len(event_ids - values) > 0

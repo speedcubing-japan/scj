@@ -5,6 +5,14 @@
 
 {% block content %}
 {% include "app/common/competition_title.html" %}
+{% include "app/common/notification.html" %}
+{% if admin_errors %}
+  <div class="alert alert-danger" role="alert">
+    {% for error in admin_errors %}
+      <div>{{ error }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
 
 <div class="row mb-3">
   <div class="col-lg-2 mb-3">

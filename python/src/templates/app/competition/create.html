@@ -1,0 +1,23 @@
+{% extends "app/common/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+{% include "app/common/title.html" with title="大会の新規作成" %}
+{% if errors %}
+  <div class="alert alert-danger" role="alert">
+    {% for error in errors %}
+      <div>{{ error }}</div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-light" role="alert">
+    <div>UTF-8でエンコードされたCSVファイルに対応しています。ファイル名はcompetition.csvでお願いします。またヘッダー(カラム名の行)も必要です。</div>
+    <div>name_id及びjudge_person_idsは後で変更ができません。変更する場合は作成後に大会を削除して作り直してください。</div>
+  </div>
+{% endif %}
+
+<form action="" class="file mb-3" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="file" class="dropify h5" data-default-file="ファイルを選択してください" name="file">
+</form>
+{% endblock %}

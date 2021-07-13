@@ -39,7 +39,7 @@
                 {% for competitor in pending_competitors %}
                   <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_pending" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}">
-                    <td><a href="{% url 'competition_admin_edit' competition.name_id competitor.id %}">編集</a></td>
+                    <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{{ competitor.person.id }}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     <td>{{ competitor.person.get_prefecture_id_display }}</td>
@@ -78,7 +78,7 @@
                 {% for competitor in registration_competitors %}
                   <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_admit" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}">
-                    <td><a href="{% url 'competition_admin_edit' competition.name_id competitor.id %}">編集</a></td>
+                    <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{{ competitor.person.id }}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     <td>{{ competitor.person.get_prefecture_id_display }}</td>
@@ -119,7 +119,7 @@
                 {% for competitor in cancel_competitors %}
                   <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_cancel" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}">
-                    <td><a href="{% url 'competition_admin_edit' competition.name_id competitor.id %}">編集</a></td>
+                    <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{{ competitor.person.id }}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     <td>{{ competitor.person.get_prefecture_id_display }}</td>

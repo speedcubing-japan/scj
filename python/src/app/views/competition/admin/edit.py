@@ -1,69 +1,127 @@
+import os
+import csv
+from io import TextIOWrapper, StringIO
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from app.models import Competition, Competitor, StripeProgress
-from app.defines.event import Event
-from app.views.competition.base import Base
+from app.models import Competition, Round, FeePerEvent, FeePerEventCount
+from app.defines.fee import CalcTypeEn as FeeCalcType
 from app.defines.session import Notification
+from app.views.competition.base import Base
+from app.views.competition.util import check_competition, check_round, check_feeperevent, check_feepereventcount
 
 
 class Edit(LoginRequiredMixin, Base):
-
-    template_name = 'app/competition/admin/edit.html'
-    target_competitor = None
+    errors = []
 
     def get(self, request, **kwargs):
-        if not self.competition.is_superuser(request.user):
-            return redirect('competition_detail', name_id=self.name_id)
-
-        if not 'competitor_id' in kwargs:
-            return redirect('competition_detail', name_id=self.name_id)
-
-        competitor_id = kwargs.get('competitor_id')
-        self.target_competitor = Competitor.objects.get(pk=competitor_id)
-
-        return render(request, self.template_name, self.get_context())
+        return redirect('competition_detail', name_id=self.name_id)
 
     def post(self, request, **kwargs):
-        if not self.competition.is_superuser(request.user):
-            return redirect('competition_detail', name_id=self.name_id)
+        self.errors = []
 
-        if not 'competitor_id' in request.POST:
-            return redirect('competition_detail', name_id=self.name_id)
+        for file in request.FILES.getlist('file'):
+            form_data = TextIOWrapper(file.file, encoding='utf-8')
+            reader = csv.DictReader(form_data)
+            datas = [row for row in reader]
 
-        competitor_id = request.POST.get(key='competitor_id')
-        self.target_competitor = Competitor.objects.get(pk=competitor_id)
-        if not self.target_competitor:
-            return redirect('competition_detail', name_id=self.name_id)
+            if 'competition.csv' in file.name:
+                if len(datas) != 1:
+                    self.errors.append('csvファイルが2行でないです。ヘッダーも含めます。')
+                else:
+                    data = datas[0]
 
-        event_ids = []
-        for event_id in self.competition.event_ids:
-            if request.POST.get('event_id_' + str(event_id)):
-                event_ids.append(event_id)
+                    self.errors.extend(check_competition(data, 'update'))
+                    if data['name_id'] != self.name_id:
+                        self.errors.append('name_idが一致しません。csvファイルが間違っている可能性があります。name_idを変更する場合は、削除して作り直して下さい。')
 
-        guest_count = 0
-        if request.POST.get('guest_count'):
-            guest_count = int(request.POST.get('guest_count'))
+                if self.errors:
+                    request.session['competition_admin_errors'] = set(self.errors)
+                else:
+                    competition = Competition.objects.get(name_id=self.name_id)
+                    competition.update(data)
+                    self.save_notification(Notification.UPDATE)
 
-        if event_ids:
-            self.target_competitor.update_event_ids_and_guest_count(event_ids, guest_count)
-            self.notification = Notification.UPDATE
-        else:
-            self.notification = Notification.COMPETITOR_EVENT_NOT_SELECTED
+                return redirect('competition_detail', name_id=self.name_id)
 
-        return render(request, self.template_name, self.get_context())
+            if 'round.csv' in file.name:
+                for line, data in enumerate(datas):
+                    self.errors.extend(check_round(line, data, self.competition.event_ids))
 
-    def get_context(self):
+                if self.errors:
+                    request.session['competition_admin_errors'] = set(self.errors)
+                else:
+                    # 全消しして再度追加する
+                    Round.delete(self.competition.id)
+                    for data in datas:
+                        round = Round()
+                        round.create(data, self.competition.id)
 
-        is_prepaid = False
-        if self.competitor:
-            is_prepaid = StripeProgress.objects.filter(competitor_id=self.competitor.id).exists()
+                    self.save_notification(Notification.UPDATE)
 
-        context = super().get_context()
-        context['events'] = Event.get_events(self.competition.event_ids)
-        context['competitor'] = self.target_competitor
-        context['guest_counts'] = range(self.competition.guest_limit + 1)
-        context['is_prepaid'] = is_prepaid
-        context['notification'] = self.notification
+                return redirect('competition_schedule', name_id=self.name_id)
 
-        return context
+            if 'feeperevent.csv' in file.name:
+                if self.competition.fee_calc_type == FeeCalcType.EVENT.value:
+                    for line, data in enumerate(datas):
+                        self.errors.extend(check_feeperevent(line, data, self.competition.event_ids))
+
+                    # 全体チェック
+                    contains_base_fee = False
+                    for data in datas:
+                        if int(data['event_id']) == 0:
+                            contains_base_fee = True
+
+                    if not contains_base_fee:
+                        self.errors.append('base_fee(event_id = 0)が設定されていません。')
+                else:
+                    self.errors.append('competitionのfee_calc_typeがEVENTではないです。')
+
+                if self.errors:
+                    request.session['competition_admin_errors'] = set(self.errors)
+                else:
+                    # 全消しして再度追加する
+                    FeePerEvent.delete(self.competition.id)
+                    FeePerEventCount.delete(self.competition.id)
+                    for data in datas:
+                        feeperevent = FeePerEvent()
+                        feeperevent.create(data, self.competition.id)
+
+                    self.save_notification(Notification.UPDATE)
+
+                return redirect('competition_fee', name_id=self.name_id)
+
+            if 'feepereventcount.csv' in file.name:
+                if self.competition.fee_calc_type == FeeCalcType.EVENT_COUNT.value:
+                    for line, data in enumerate(datas):
+                        self.errors.extend(check_feepereventcount(line, data))
+
+                    # 全体チェック
+                    contains_base_fee = False
+                    for data in datas:
+                        if int(data['event_count']) == 0:
+                            contains_base_fee = True
+
+                    if not contains_base_fee:
+                        self.errors.append('base_fee(event_count = 0)が設定されていません。')
+                else:
+                    self.errors.append('competitionのfee_calc_typeがEVENT_COUNTではないです。')
+
+                if self.errors:
+                    request.session['competition_admin_errors'] = set(self.errors)
+                else:
+                    # 全消しして再度追加する
+                    FeePerEvent.delete(self.competition.id)
+                    FeePerEventCount.delete(self.competition.id)
+                    for data in datas:
+                        feepereventcount = FeePerEventCount()
+                        feepereventcount.create(data, self.competition.id)
+
+                    self.save_notification(Notification.UPDATE)
+
+                return redirect('competition_fee', name_id=self.name_id)
+
+            self.errors.append('ファイル名が規定外です。大会データはcompetition.csv、スケジュールラウンドデータはround.csv、料金データはfeeperevent.csvまたはfeepereventcount.csvをアップロードしてください。')
+            request.session['competition_admin_errors'] = set(self.errors)
+
+        return redirect('competition_detail', name_id=self.name_id)

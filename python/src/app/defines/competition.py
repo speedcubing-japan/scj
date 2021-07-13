@@ -25,6 +25,12 @@ class RoundType(Define):
     def choices(cls):
         return tuple((x.value[0], x.value[1]) for x in cls)
 
+    @classmethod
+    def get_name(cls, value):
+        for x in cls:
+            if x.value[0] == value:
+                return x.value[1]
+
 @unique
 class RoundLimitType(Define):
     時間制限 = 1

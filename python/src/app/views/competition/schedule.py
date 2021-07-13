@@ -39,7 +39,13 @@ class Schedule(Base):
         for event_id, round_types in event_round_types.items():
             event_round_count_dict[event_id] = len(round_types)
 
+        # 作成時のエラー
+        admin_errors = self.request.session.get('competition_admin_errors')
+        if self.request.session.get('competition_admin_errors') is not None:
+            del self.request.session['competition_admin_errors']
+
         context['round_dict'] = round_dict
         context['event_round_count_dict'] = event_round_count_dict
+        context['admin_errors'] = admin_errors
 
         return context

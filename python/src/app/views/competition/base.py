@@ -45,9 +45,14 @@ class Base(TemplateView):
         context['competitor'] = self.competitor
         context['has_results'] = self.has_results
         context['pending_competitor_count'] = self.pending_competitor_count
+        # 理事/運営/WCA Delegate or SCJ Judge
         context['is_superuser'] = self.competition.is_superuser(self.user)
+        # 理事/WCA Delegate or SCJ Judge
+        context['is_judge'] = self.competition.is_judge(self.user)
+        # 理事/Stripeアカウント所持者
         context['is_refunder'] = self.competition.is_refunder(self.user)
         context['is_wca_authenticated'] = self.is_wca_authenticated()
+        context['notification'] = self.notification
         return context
 
     def set_name_id(self, request, kwargs):

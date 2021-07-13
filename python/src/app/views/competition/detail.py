@@ -39,28 +39,28 @@ class Detail(Base):
         # 結果があるか
         has_results = Result.objects.filter(competition_id=self.competition.id).exists()
 
-        self.notification = ''
+        notification = ''
         if self.competition.is_private:
-            self.notification = Notification.COMPETITION_PRIVATE
+            notification = Notification.COMPETITION_PRIVATE
         elif not self.competition.is_display:
-            self.notification = Notification.COMPETITION_NOT_DISPLAY
+            notification = Notification.COMPETITION_NOT_DISPLAY
         elif self.competition.is_cancel:
-            self.notification = Notification.COMPETITION_CANCELED
+            notification = Notification.COMPETITION_CANCELED
         elif self.competition.registration_close_at < now:
             if self.competition.type == CompetitionType.SCJ.value:
                 if has_results:
-                    self.notification = Notification.COMPETITION_SCJ_HAS_RESULT_END
+                    notification = Notification.COMPETITION_SCJ_HAS_RESULT_END
                 elif self.competition.is_finish():
-                    self.notification = Notification.COMPETITION_END
+                    notification = Notification.COMPETITION_END
             elif self.competition.type == CompetitionType.WCA.value:
-                self.notification = Notification.COMPETITION_WCA_END
+                notification = Notification.COMPETITION_WCA_END
         elif self.competitor:
             if self.competitor.status == CompetitorStatus.PENDING.value:
-                self.notification = Notification.COMPETITOR_PENGING
+                notification = Notification.COMPETITOR_PENGING
             elif self.competitor.status == CompetitorStatus.REGISTRATION.value:
-                self.notification = Notification.COMPETITOR_REGISTRATION
+                notification = Notification.COMPETITOR_REGISTRATION
             elif self.competitor.status == CompetitorStatus.CANCEL.value:
-                self.notification = Notification.COMPETITOR_CANCEL
+                notification = Notification.COMPETITOR_CANCEL
 
         # 承認者数
         competitor_registration_count = Competitor.objects.filter(
@@ -78,6 +78,11 @@ class Detail(Base):
         close_at = localtime(self.competition.close_at).strftime('%Y%m%d')
         google_calendar_date_param = open_at + '/' + close_at
 
+        # 作成時のエラー
+        admin_errors = self.request.session.get('competition_admin_errors')
+        if self.request.session.get('competition_admin_errors') is not None:
+            del self.request.session['competition_admin_errors']
+
         context['title'] = self.competition.name
         context['room_name'] = room_name
         context['competition_day_count'] = competition_day_count
@@ -93,5 +98,8 @@ class Detail(Base):
         context['google_calendar_date_param'] = google_calendar_date_param
         context['now'] = now
         context['is_noindex_nofollow'] = not self.competition.is_display
+        context['admin_errors'] = admin_errors
+        if not self.notification:
+            context['notification'] = notification
 
         return context

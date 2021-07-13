@@ -46,6 +46,11 @@ class Fee(Base):
         now = datetime.datetime.now(tz=datetime.timezone.utc)
         fee_pay_close_at_timedelta = abs(self.competition.fee_pay_close_at - now)
 
+        # 作成時のエラー
+        admin_errors = self.request.session.get('competition_admin_errors')
+        if self.request.session.get('competition_admin_errors') is not None:
+            del self.request.session['competition_admin_errors']
+
         context['fee_pay_close_at_timedelta'] = fee_pay_close_at_timedelta
         context['fees'] = amount['fees']
         context['prepaid_fees'] = amount['prepaid_fees']
@@ -53,8 +58,8 @@ class Fee(Base):
         context['paid'] = paid
         context['stripe_public_key'] = settings.STRIPE_PUBLIC_KEY
         context['stripe_user_id'] = stripe_user_id
-        context['notification'] = self.notification
         context['now'] = now
         context['is_payment'] = self.competition.is_payment or self.competition.is_superuser(request.user)
+        context['admin_errors'] = admin_errors
 
         return context

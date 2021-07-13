@@ -6,7 +6,6 @@ from app.defines.competition import RoundType, RoundLimitType
 
 class Round(models.Model):
 
-    id = models.IntegerField('ラウンドID', primary_key=True)
     competition_id = models.IntegerField('大会ID')
     event_id = models.SmallIntegerField('イベントID', choices=Event.choices())
     event_name = models.CharField('イベント名', max_length=64, default='')
@@ -21,3 +20,23 @@ class Round(models.Model):
     room_name = models.CharField('会場名', max_length=64, default='')
     begin_at = models.DateTimeField('開始時刻', default=timezone.now)
     end_at = models.DateTimeField('終了時刻', default=timezone.now)
+
+    def create(self, round, competition_id):
+        self.competition_id = competition_id
+        self.event_id = round['event_id']
+        self.event_name = round['event_name']
+        self.attempt_count = round['attempt_count']
+        self.type = round['type']
+        self.format_id = round['format_id']
+        self.limit_type = round['limit_type']
+        self.limit_time = round['limit_time']
+        self.cutoff_attempt_count = round['cutoff_attempt_count']
+        self.cutoff_time = round['cutoff_time']
+        self.proceed_count = round['proceed_count']
+        self.room_name = round['room_name']
+        self.begin_at = round['begin_at']
+        self.end_at = round['end_at']
+        self.save()
+
+    def delete(competition_id):
+        Round.objects.filter(competition_id=competition_id).delete()

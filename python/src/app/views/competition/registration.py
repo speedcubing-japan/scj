@@ -151,7 +151,6 @@ class Registration(Base):
         context['stripe_user_id'] = stripe_user_id
         context['prepaid_fees'] = amount['prepaid_fees']
         context['is_registration_only_has_wca_id'] = self.competition.is_registration_only_has_wca_id()
-        context['notification'] = self.notification
 
         return context
 

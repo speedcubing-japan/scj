@@ -104,5 +104,4 @@ class Refund(LoginRequiredMixin, Base):
     def get_context(self):
         context = super().get_context()
         context['competitors'] = self.competitor_list
-        context['notification'] = self.notification
         return context
