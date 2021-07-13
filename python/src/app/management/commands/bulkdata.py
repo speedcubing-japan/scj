@@ -161,7 +161,7 @@ class Command(BaseCommand):
                     event_ids=record['fields']['event_ids'],
                     prefecture_id=record['fields']['prefecture_id'],
                     organizer_name=record['fields']['organizer_name'],
-                    email=record['fields']['email'],
+                    organizer_email=record['fields']['organizer_email'],
                     organizer_person_ids=record['fields']['organizer_person_ids'],
                     venue_name=record['fields']['venue_name'],
                     venue_address=record['fields']['venue_address'],

@@ -24,7 +24,7 @@ class Competition(models.Model):
     event_ids = JSONField('イベントID')
     prefecture_id = models.SmallIntegerField('都道府県ID', choices=PrefectureAndOversea.choices())
     organizer_name = models.CharField('主催者名', default='', max_length=64)
-    email = models.EmailField('メールアドレス', default='')
+    organizer_email = models.EmailField('メールアドレス', default='')
     organizer_person_ids = JSONField('主催者SCJID')
     venue_name = models.CharField('開催地名', max_length=256)
     venue_address = models.CharField('開催地住所', max_length=256)
