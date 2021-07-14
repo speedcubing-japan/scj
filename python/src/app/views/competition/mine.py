@@ -36,7 +36,7 @@ class Mine(LoginRequiredMixin, TemplateView):
                 hide_competition_list.append(competition)
 
             elif not competition.is_private and competition.is_display and competition.id in participate_competition_ids:
-                if competition.is_registration_open_to_close():
+                if not competition.is_finish():
                     current_competition_list.append(competition)
                 else:
                     participate_competition_list.append(competition)
