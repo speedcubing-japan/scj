@@ -6,6 +6,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from app.models import Competition, Competitor, Result, StripeProgress, Person
 from app.forms import CompetitionRegistrationForm
 from app.defines.event import Event
+from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.session import Notification
 from .util import send_mail
@@ -67,6 +68,9 @@ class Registration(TemplateView):
             competition = competition.first()
 
             if not competition.is_registration_open() and not competition.is_superuser(request.user):
+                return redirect('competition_detail', name_id=name_id)
+            
+            if competition.type == CompetitionType.WCA.value and not context['is_wca_authenticated']:
                 return redirect('competition_detail', name_id=name_id)
 
             competitor = Competitor.objects.filter(
