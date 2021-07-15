@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-08 15:10+0000\n"
+"POT-Creation-Date: 2021-07-15 04:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,6 +70,10 @@ msgstr "Type"
 #: templates/app/competition/detail.html:42
 msgid "WCA大会"
 msgstr "WCA competition"
+
+#: templates/app/competition/detail.html:42
+msgid "WCA大会ページ"
+msgstr "WCA competition page"
 
 #: templates/app/competition/detail.html:44
 msgid "SCJ大会"
@@ -214,10 +218,10 @@ msgstr "Payment due date has passed."
 msgid "計"
 msgstr "Total"
 
-#: templates/app/competition/fee.html:79 templates/app/competition/fee.html:106
-#: templates/app/competition/fee.html:127
-#: templates/app/competition/fee.html:142
-#: templates/app/competition/fee.html:154
+#: templates/app/competition/fee.html:79 templates/app/competition/fee.html:107
+#: templates/app/competition/fee.html:128
+#: templates/app/competition/fee.html:143
+#: templates/app/competition/fee.html:155
 #: templates/app/competition/registration.html:177
 #: templates/app/competition/registration.html:189
 msgid "円"
@@ -227,31 +231,31 @@ msgstr "Yen"
 msgid "支払う"
 msgstr "Pay"
 
-#: templates/app/competition/fee.html:83
+#: templates/app/competition/fee.html:84
 msgid "支払い済み"
 msgstr "You've paid."
 
-#: templates/app/competition/fee.html:98 templates/app/competition/fee.html:119
+#: templates/app/competition/fee.html:99 templates/app/competition/fee.html:120
 #: templates/app/competition/registration.html:175
 #: templates/app/competition/registration.html:187
 msgid "支払い料金"
 msgstr "Payment fees"
 
-#: templates/app/competition/fee.html:100
-#: templates/app/competition/fee.html:121
+#: templates/app/competition/fee.html:101
+#: templates/app/competition/fee.html:122
 msgid "事前支払い料金"
 msgstr "Payment fees on the site"
 
-#: templates/app/competition/fee.html:124
-#: templates/app/competition/fee.html:140
-#: templates/app/competition/fee.html:152
+#: templates/app/competition/fee.html:125
+#: templates/app/competition/fee.html:141
+#: templates/app/competition/fee.html:153
 #: templates/app/competition/registration.html:187
 #: templates/app/competition/schedule.html:36
 msgid "種目"
 msgstr "Events"
 
-#: templates/app/competition/fee.html:140
-#: templates/app/competition/fee.html:152
+#: templates/app/competition/fee.html:141
+#: templates/app/competition/fee.html:153
 msgid "現地支払い料金"
 msgstr "Payment fees at the venue"
 
@@ -605,21 +609,21 @@ msgstr ""
 "list. It may not be approved unless a spot frees up."
 
 #: templates/app/competition/registration.html:208
-#: templates/app/competition/registration.html:229
+#: templates/app/competition/registration.html:230
 msgid "免責事項と参加要件に同意します"
 msgstr "I agree to the disclaimer and requirements."
 
 #: templates/app/competition/registration.html:210
-#: templates/app/competition/registration.html:231
+#: templates/app/competition/registration.html:232
 msgid "免責事項に同意します"
 msgstr "I agree to the disclaimer."
 
-#: templates/app/competition/registration.html:239
+#: templates/app/competition/registration.html:240
 #: templates/app/registration/input.html:43
 msgid "登録"
 msgstr "Register"
 
-#: templates/app/competition/registration.html:246
+#: templates/app/competition/registration.html:247
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s後&nbsp;%(date)sに終了します。"
 msgstr "Registration closes in about %(rest_time)s later on %(date)s"

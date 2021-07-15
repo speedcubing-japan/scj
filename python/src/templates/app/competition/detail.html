@@ -39,7 +39,7 @@
             <img width="20" src="{% static path %}">
           {% endwith %}
           {% if competition.type == competition_type.WCA.value %}
-          <a href="https://www.worldcubeassociation.org/competitions/{{ competition.name_id }}" target="_blank">{% trans "WCA大会" %}</a>
+          {% trans "WCA大会" %}&nbsp;(<a href="https://www.worldcubeassociation.org/competitions/{{ competition.name_id }}" target="_blank">{% trans "WCA大会ページ" %}</a>)
           {% elif competition.type == competition_type.SCJ.value %}
             {% trans "SCJ大会" %}
           {% endif %}
