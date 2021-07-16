@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.models import Competition, Competitor
+from app.defines.competitor import Status as CompetitorStatus
 
 
 # 参加する大会、企画している大会(公開/非表示/非公開)
@@ -20,7 +21,7 @@ class Mine(LoginRequiredMixin, TemplateView):
         competitions = Competition.objects.order_by('open_at').reverse()
 
 	    # 参加した大会
-        competitors = Competitor.objects.filter(person__id=person_id)
+        competitors = Competitor.objects.filter(person__id=person_id).exclude(status=CompetitorStatus.CANCEL.value)
         participate_competition_ids = set(map(lambda x:x.competition_id, competitors))
 
         for competition in competitions:
