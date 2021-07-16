@@ -79,15 +79,21 @@ class Registration(TemplateView):
             if competitor.exists():
                 competitor = competitor.first()
                 before_status = competitor.status
+
                 competitor.status = CompetitorStatus.PENDING.value
                 competitor.event_ids = event_ids
                 competitor.guest_count = guest_count
                 competitor.comment = comment
+                # CANCEL時だけ新規保存扱いのため、作成時間を更新する。
+                if before_status == CompetitorStatus.CANCEL.value:
+                    competitor.created_at = datetime.datetime.now(tz=datetime.timezone.utc)
+
                 competitor.save(update_fields=[
                     'event_ids',
                     'guest_count',
                     'comment',
                     'status',
+                    'created_at',
                     'updated_at'
                 ])
                 if before_status == CompetitorStatus.PENDING.value:
