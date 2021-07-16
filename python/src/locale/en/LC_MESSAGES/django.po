@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-16 17:23+0000\n"
+"POT-Creation-Date: 2021-07-16 17:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -589,11 +589,11 @@ msgstr "Registration details"
 
 #: templates/app/competition/registration.html:166
 msgid "更新"
-msgstr "Registration Update"
+msgstr "Update"
 
 #: templates/app/competition/registration.html:167
-msgid "削除"
-msgstr "Delete"
+msgid "申し込みキャンセル"
+msgstr "Registration Cancel"
 
 #: templates/app/competition/registration.html:176
 #, python-format
@@ -778,6 +778,9 @@ msgid ""
 msgstr ""
 "Once a your competition record is posted, it cannot be deleted later. Be "
 "sure to review the Terms of Use and Privacy Policy."
+
+#~ msgid "削除"
+#~ msgstr "Delete"
 
 #~ msgid "申し込み修正 "
 #~ msgstr "Registration"

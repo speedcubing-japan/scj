@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-16 17:23+0000\n"
+"POT-Creation-Date: 2021-07-16 17:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -164,11 +164,13 @@ msgstr ""
 
 #: app/defines/session.py:40
 msgid "申し込み完了しました。承認されるまでお待ち下さい。"
-msgstr "Your registration has been completed. Please wait until it is approved."
+msgstr ""
+"Your registration has been completed. Please wait until it is approved."
 
 #: app/defines/session.py:41
 msgid "申し込み内容を更新しました。承認されるまでお待ち下さい。"
-msgstr "Registration details have been updated. Please wait until it is approved."
+msgstr ""
+"Registration details have been updated. Please wait until it is approved."
 
 #: app/defines/session.py:44
 msgid "この大会は終了しました。"
