@@ -78,6 +78,11 @@ class Registration(TemplateView):
 
             if competitor.exists():
                 competitor = competitor.first()
+                
+                # REGISTRATIONはもう申し込み/変更等はできない。
+                if competitor.status == CompetitorStatus.REGISTRATION.value:
+                    return redirect('competition_detail', name_id=name_id)
+                
                 before_status = competitor.status
 
                 competitor.status = CompetitorStatus.PENDING.value
