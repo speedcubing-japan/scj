@@ -46,8 +46,11 @@ class Authorization(View):
             if response.status_code == requests.codes.ok:
 
                 wca_id = ''
+                wca_user_id = 0
                 if response.json()['me']['wca_id']:
                     wca_id = response.json()['me']['wca_id']
+                if response.json()['me']['id']:
+                    wca_user_id = response.json()['me']['id']
 
                 is_duplicated = False
                 if wca_id and Person.objects.filter(wca_id=wca_id).exists():
@@ -55,11 +58,17 @@ class Authorization(View):
                     if person.id != request.user.person.id:
                         is_duplicated = True
                         request.session['notification'] = Notification.WCA_AUTHORIZATION_DUPLICATED
+                        
+                if Person.objects.filter(wca_user_id=wca_user_id).exists():
+                    person = Person.objects.get(wca_user_id=wca_user_id)
+                    if person.id != request.user.person.id:
+                        is_duplicated = True
+                        request.session['notification'] = Notification.WCA_AUTHORIZATION_DUPLICATED
 
                 if not is_duplicated and request.user.is_authenticated and request.user.person:
                     person = request.user.person
                     person.wca_id = wca_id
-                    person.wca_user_id = response.json()['me']['id']
+                    person.wca_user_id = wca_user_id
                     person.wca_email = response.json()['me']['email']
                     person.wca_name = response.json()['me']['name']
                     person.wca_country_iso2 = response.json()['me']['country_iso2']
