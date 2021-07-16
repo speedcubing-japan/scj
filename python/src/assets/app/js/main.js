@@ -142,4 +142,6 @@ $(function(){
 
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="popover"]').popover();
+
+  $('.form-control').removeClass('is-valid');
 });

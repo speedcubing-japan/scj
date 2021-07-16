@@ -2,8 +2,8 @@
 
 {{ competition.name }}
 {{ protocol}}://{{ domain }}{% url 'competition_detail' competition.name_id %}
-への参加承認を取消しました。
+への参加申し込みを取り消しました。
 
-取消しの詳しい詳細につきましては、大会運営にお問い合わせください。
+取り消しの詳しい詳細につきましては、大会運営にお問い合わせください。
 
 Speedcubing Japan

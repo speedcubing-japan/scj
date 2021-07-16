@@ -61,15 +61,13 @@
           {% if not request.user.is_authenticated %}
             {% url "login" as login_url %}
             <h5>{% blocktrans with login_url=login_url path=request.path %}参加費を支払うには<a href="{{ login_url }}?next={{ path }}">ログイン</a>してください。{% endblocktrans %}</h5>
-          {% elif not competitor %}
+          {% elif not competitor or competitor.status == competitor_status.CANCEL.value %}
             {% url "competition_registration" competition.name_id as registration_url %}
             <h5>{% blocktrans with registration_url=registration_url %}参加費の支払いは大会の<a href="{{ registration_url }}">申し込み</a>後に可能です。{% endblocktrans %}</h5>
           {% elif competition.fee_pay_type == fee_pay_type.LOCAL_ONLY.value %}
             <h5>{% trans "現地支払いにのみ対応しております。なるべくお釣りのでないよう事前にご準備下さい。" %}</h5>
           {% elif competitor.status == competitor_status.PENDING.value %}
             <h5>{% trans "申し込みが承認されていないため、参加費を支払うことはできません。" %}</h5>
-          {% elif competitor.status == competitor_status.CANCEL.value %}
-            <h5>{% trans "キャンセルされましたので、参加費を支払うことはできません。" %}</h5>
           {% elif not is_payment %}
             <h5>{% trans "参加費の支払いを停止中です。" %}</h5>
           {% elif not paid %}

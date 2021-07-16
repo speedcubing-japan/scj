@@ -65,6 +65,7 @@ from .views.competition.competitor import Competitor as CompetitionCompetitor
 from .views.competition.result import Result as CompetitionResult
 from .views.competition.schedule import Schedule as CompetitionSchedule
 from .views.competition.fee import Fee as CompetitionFee
+from .views.competition.cancel import Cancel as CompetitionCancel
 from .views.competition.admin.index import Index as CompetitionAdminIndex
 from .views.competition.admin.refund import Refund as CompetitionAdminRefund
 from .views.competition.admin.edit import Edit as CompetitionAdminEdit
@@ -141,6 +142,7 @@ urlpatterns = [
     path('competition/<str:name_id>/result/', CompetitionResult.as_view(), name="competition_result"),
     path('competition/<str:name_id>/schedule/', CompetitionSchedule.as_view(), name="competition_schedule"),
     path('competition/<str:name_id>/fee/', CompetitionFee.as_view(), name="competition_fee"),
+    path('competition/<str:name_id>/cancel/', CompetitionCancel.as_view(), name="competition_cancel"),
     path('competition/<str:name_id>/admin/', CompetitionAdminIndex.as_view(), name="competition_admin_index"),
     path('competition/<str:name_id>/admin/refund/', CompetitionAdminRefund.as_view(), name="competition_admin_refund"),
     path('competition/<str:name_id>/admin/edit/<int:competitor_id>/', CompetitionAdminEdit.as_view(), name="competition_admin_edit"),

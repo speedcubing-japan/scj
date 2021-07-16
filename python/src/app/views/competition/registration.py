@@ -29,12 +29,10 @@ class Registration(TemplateView):
             return redirect('competition_detail', name_id=name_id)
 
         # 事前決済オンリーのときのnotification設定
-        notification = ''
         if status == 'cancel':
-            notification = Notification.REGISTRATION_CANCEL
+            context['notification'] = Notification.REGISTRATION_CANCEL
         elif status == 'success':
-            notification = Notification.COMPETITION_REGISTER
-        context['notification'] = notification
+            context['notification'] = Notification.COMPETITION_REGISTER
 
         return render(request, 'app/competition/registration.html', context)
 
@@ -77,17 +75,36 @@ class Registration(TemplateView):
                 competition_id=competition.id,
                 person_id=request.user.person.id
             )
-            if competitor.exists():
-                return redirect('competition_registration', name_id=name_id)
 
-            competitor = Competitor()
-            competitor.competition_id = competition.id
-            competitor.status = CompetitorStatus.PENDING.value
-            competitor.event_ids = event_ids
-            competitor.guest_count = guest_count
-            competitor.comment = comment
-            competitor.person = request.user.person
-            competitor.save()
+            if competitor.exists():
+                competitor = competitor.first()
+                before_status = competitor.status
+                competitor.status = CompetitorStatus.PENDING.value
+                competitor.event_ids = event_ids
+                competitor.guest_count = guest_count
+                competitor.comment = comment
+                competitor.save(update_fields=[
+                    'event_ids',
+                    'guest_count',
+                    'comment',
+                    'status',
+                    'updated_at'
+                ])
+                if before_status == CompetitorStatus.PENDING.value:
+                    context['notification'] = Notification.COMPETITION_REGISTER_EDIT
+                elif before_status == CompetitorStatus.CANCEL.value:
+                    context['notification'] = Notification.COMPETITION_REGISTER
+            else:
+                competitor = Competitor()
+                competitor.competition_id = competition.id
+                competitor.status = CompetitorStatus.PENDING.value
+                competitor.event_ids = event_ids
+                competitor.guest_count = guest_count
+                competitor.comment = comment
+                competitor.person = request.user.person
+                competitor.save()
+
+                context['notification'] = Notification.COMPETITION_REGISTER
 
             send_mail(request,
                 request.user,
@@ -95,8 +112,7 @@ class Registration(TemplateView):
                 'app/mail/competition/registration_submit_subject.txt',
                 'app/mail/competition/registration_submit_message.txt')
 
-            context['notification'] = Notification.COMPETITION_REGISTER
-            context['is_offer'] = True
+            context['competitor'] = competitor
 
             return render(request, 'app/competition/registration.html', context)
 
@@ -113,7 +129,7 @@ class Registration(TemplateView):
         if has_results:
             return None
 
-        is_offer = False
+        competitor = None
         is_prepaid = False
         is_wca_authenticated = False
         if self.request.user.is_authenticated:
@@ -121,7 +137,6 @@ class Registration(TemplateView):
                 competition_id=competition.id,
                 person_id=self.request.user.person.id)
             if competitor.exists():
-                is_offer = True
                 competitor = competitor.first()
                 is_prepaid = StripeProgress.objects.filter(competitor_id=competitor.id).exists()
             if request.user.person.is_wca_authenticated() and request.user.person.is_wca_email_authenticated():
@@ -151,6 +166,11 @@ class Registration(TemplateView):
 
         form.fields['name_id'].initial = name_id
 
+        if competitor:
+            form.fields['event_ids'].initial = competitor.event_ids
+            form.fields['guest_count'].initial = competitor.guest_count
+            form.fields['comment'].initial = competitor.comment
+
         protocol = 'https' if request.is_secure() else 'http'
         current_site = get_current_site(request)
         domain = current_site.domain
@@ -173,9 +193,9 @@ class Registration(TemplateView):
         context = {
             'form': form,
             'is_limit': is_limit,
-            'is_offer': is_offer,
             'is_prepaid': is_prepaid,
             'competition': competition,
+            'competitor': competitor,
             'now': now,
             'registration_open_timedelta': registration_open_timedelta,
             'registration_close_after_timedelta': registration_close_timedelta,

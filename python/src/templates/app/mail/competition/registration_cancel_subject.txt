@@ -1,1 +1,1 @@
-{{ competition.name }}への参加承認を取消しました。
+{{ competition.name }}への参加申し込みを取り消しました。
