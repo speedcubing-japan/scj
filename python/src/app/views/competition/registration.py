@@ -105,6 +105,12 @@ class Registration(TemplateView):
                     context['notification'] = Notification.COMPETITION_REGISTER_EDIT
                 elif before_status == CompetitorStatus.CANCEL.value:
                     context['notification'] = Notification.COMPETITION_REGISTER
+
+                    send_mail(request,
+                        request.user,
+                        competition,
+                        'app/mail/competition/registration_submit_subject.txt',
+                        'app/mail/competition/registration_submit_message.txt')
             else:
                 competitor = Competitor()
                 competitor.competition_id = competition.id
@@ -117,11 +123,11 @@ class Registration(TemplateView):
 
                 context['notification'] = Notification.COMPETITION_REGISTER
 
-            send_mail(request,
-                request.user,
-                competition,
-                'app/mail/competition/registration_submit_subject.txt',
-                'app/mail/competition/registration_submit_message.txt')
+                send_mail(request,
+                    request.user,
+                    competition,
+                    'app/mail/competition/registration_submit_subject.txt',
+                    'app/mail/competition/registration_submit_message.txt')
 
             context['competitor'] = competitor
 
