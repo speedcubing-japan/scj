@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-16 17:31+0000\n"
+"POT-Creation-Date: 2021-07-17 09:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -575,13 +575,8 @@ msgstr ""
 "a> to register for %(competition_name)s."
 
 #: templates/app/competition/registration.html:153
-#, python-format
-msgid ""
-"既に申し込み済みです。キャンセルされる方は<a href=\"mailto:%(email)s\">主催者"
-"</a>までご連絡ください。"
-msgstr ""
-"You have already registered. If you want to cancel, please contact the <a "
-"href=\"mailto:%(email)s\">organizer</a>."
+msgid "既に申し込みが承認されています。"
+msgstr "Your registration has already been approved."
 
 #: templates/app/competition/registration.html:158
 msgid "申し込み詳細 "
@@ -778,18 +773,3 @@ msgid ""
 msgstr ""
 "Once a your competition record is posted, it cannot be deleted later. Be "
 "sure to review the Terms of Use and Privacy Policy."
-
-#~ msgid "削除"
-#~ msgstr "Delete"
-
-#~ msgid "申し込み修正 "
-#~ msgstr "Registration"
-
-#, fuzzy
-#~| msgid "参加申し込みの内容変更・取り消し"
-#~ msgid "申し込み内容変更"
-#~ msgstr "Changing/Deleting Registration"
-
-#~ msgid "キャンセルされましたので、参加費を支払うことはできません。"
-#~ msgstr ""
-#~ "You have cancelled and will not be able to pay the registration fee."

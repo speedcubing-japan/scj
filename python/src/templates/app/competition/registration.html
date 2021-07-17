@@ -150,7 +150,7 @@
       {% endif %}
       {% if competitor.status == competitor_status.REGISTRATION.value %}
         <div class="alert alert-success" role="alert">
-          {% blocktrans with email=competition.organizer_email %}既に申し込み済みです。キャンセルされる方は<a href="mailto:{{ email }}">主催者</a>までご連絡ください。{% endblocktrans %}
+          {% trans "既に申し込みが承認されています。" %}
         </div>
       {% elif competitor.status == competitor_status.PENDING.value %}
       <div class="card border-dark">
