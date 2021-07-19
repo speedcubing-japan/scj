@@ -7,39 +7,34 @@ from app.defines.country import Country
 from app.defines.define import OUTLIERS
 from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
+from .base import Base
 
 
-class Competitor(TemplateView):
+class Competitor(Base):
+
+    template_name = 'app/competition/competitor.html'
+    event_name = ''
+
     def get(self, request, **kwargs):
-        if 'name_id' not in kwargs:
-            return redirect('competition_index')
         if 'event_name' not in kwargs:
             return redirect('competition_index')
-        name_id = kwargs.get('name_id')
+        self.event_name = kwargs.get('name_id')
 
-        competition = Competition.objects.filter(name_id=name_id)
-        if not competition.exists():
-            return redirect('competition_index')
-        competition = competition.first()
+        return render(request, self.template_name, self.get_context())
 
-        if competition.is_private and not competition.is_superuser(request.user):
-            return redirect('competition_index')
-
-        has_results = Result.objects.filter(competition_id=competition.id).exists()
-        if has_results:
-            return redirect('competition_detail', name_id=name_id)
+    def get_context(self):
+        context = super().get_context()
 
         event_id = 0
-        event_name = kwargs.get('event_name')
-        if event_name != 'list':
-            event_id = Event.get_value(event_name)
+        if self.event_name != 'list':
+            event_id = Event.get_value(self.event_name)
 
         if event_id:
-            competitors = app.models.Competitor.objects.filter(competition_id=competition.id, event_ids__contains=event_id)
+            competitors = app.models.Competitor.objects.filter(competition_id=self.competition.id, event_ids__contains=event_id)
         else:
-            competitors = app.models.Competitor.objects.filter(competition_id=competition.id)
+            competitors = app.models.Competitor.objects.filter(competition_id=self.competition.id)
 
-        if competition.is_display_pending_competitor:
+        if self.competition.is_display_pending_competitor:
             competitors = competitors.exclude(status=CompetitorStatus.CANCEL.value).order_by('created_at')
         else:
             competitors = competitors.filter(status=CompetitorStatus.REGISTRATION.value).order_by('created_at')
@@ -47,7 +42,7 @@ class Competitor(TemplateView):
         bests = {}
         averages = {}
         if event_id:
-            if competition.type == CompetitionType.SCJ.value:
+            if self.competition.type == CompetitionType.SCJ.value:
                 person_ids = []
                 for competitor in competitors:
                     person_ids.append(competitor.person.id)
@@ -60,7 +55,7 @@ class Competitor(TemplateView):
                 for average_rank in average_ranks:
                     averages[average_rank.person.id] = average_rank.best
 
-            elif competition.type == CompetitionType.WCA.value:
+            elif self.competition.type == CompetitionType.WCA.value:
                 wca_ids = []
                 for competitor in competitors:
                     wca_ids.append(competitor.person.wca_id)
@@ -78,12 +73,12 @@ class Competitor(TemplateView):
         country = ''
         prefecture = ''
         for competitor in competitors:
-            if competition.type == CompetitionType.SCJ.value:
+            if self.competition.type == CompetitionType.SCJ.value:
                 name = competitor.person.get_full_name()
                 prefecture = competitor.person.get_prefecture_id_display()
                 best = bests[competitor.person.id] if competitor.person.id in bests else OUTLIERS
                 average = averages[competitor.person.id] if competitor.person.id in averages else OUTLIERS
-            elif competition.type == CompetitionType.WCA.value:
+            elif self.competition.type == CompetitionType.WCA.value:
                 name = competitor.person.wca_name
                 country_names = dict(Country.choices())
                 country = country_names[competitor.person.wca_country_iso2]
@@ -100,16 +95,11 @@ class Competitor(TemplateView):
             })
 
         competitor_list = sorted(competitor_list, key=lambda x: x['average'])
-        event_names = Event.get_names(competition.event_ids)
-        context = {
-            'competition': competition,
-            'competitors': competitor_list,
-            'event_id': event_id,
-            'event_name': event_name,
-            'event_names': event_names,
-            'name_id': name_id,
-            'is_superuser': competition.is_superuser(request.user),
-            'is_refunder': competition.is_refunder(request.user)
-        }
+        event_names = Event.get_names(self.competition.event_ids)
 
-        return render(request, 'app/competition/competitor.html', context)
+        context['competitors'] = competitor_list
+        context['event_id'] = event_id
+        context['event_name'] = self.event_name
+        context['event_names'] = event_names
+
+        return context

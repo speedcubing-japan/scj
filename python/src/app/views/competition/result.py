@@ -3,26 +3,26 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from app.models import Competition, Competitor, Round
 from app.defines.event import Event
+from .base import Base
 
 
+class Result(Base):
 
-class Result(TemplateView):
+    template_name = 'app/competition/result.html'
+
     def get(self, request, **kwargs):
-        if 'name_id' not in kwargs:
-            return redirect('competition_index')
-        name_id = kwargs.get('name_id')
 
-        competition = Competition.objects.filter(name_id=name_id)
-        if not competition.exists():
-            return redirect('competition_index')
-        competition = competition.first()
-
-        if competition.is_private and not competition.is_superuser(request.user):
+        if self.competition.is_private and not self.competition.is_superuser(request.user):
             return redirect('competition_index')
 
-        competitors = Competitor.objects.filter(competition_id=competition.id)
-        results = app.models.Result.objects.filter(competition_id=competition.id)
-        rounds = Round.objects.filter(competition_id=competition.id)
+        return render(request, self.template_name, self.get_context())
+
+    def get_context(self):
+        context = super().get_context()
+
+        competitors = Competitor.objects.filter(competition_id=self.competition.id)
+        results = app.models.Result.objects.filter(competition_id=self.competition.id)
+        rounds = Round.objects.filter(competition_id=self.competition.id)
 
         results = sorted(results, key=lambda x: x.rank)
         rounds = sorted(rounds, key=lambda x: x.type, reverse=True)
@@ -34,7 +34,7 @@ class Result(TemplateView):
             else:
                 competition_rounds[round.event_id] = [round.get_type_display()]
 
-        events = list({'event_id': k, 'event_name': v} for k, v in Event.get_events(competition.event_ids).items())
+        events = list({'event_id': k, 'event_name': v} for k, v in Event.get_events(self.competition.event_ids).items())
 
         competitor_names = {}
         for competitor in competitors:
@@ -48,18 +48,12 @@ class Result(TemplateView):
         for competitor in competitors:
             competitor_prefectures[competitor.person.id] = competitor.person.get_prefecture_id_display()
 
-        context = {
-            'competition': competition,
-            'competitor_names': competitor_names,
-            'competitor_wca_names': competitor_wca_names,
-            'competitor_prefectures': competitor_prefectures,
-            'events': events,
-            'rounds': competition_rounds,
-            'results': results,
-            'best_only_event_ids': Event.get_best_only_values(),
-            'has_results': True,
-            'is_superuser': competition.is_superuser(request.user),
-            'is_refunder': competition.is_refunder(request.user)
-        }
+        context['competitor_names'] = competitor_names
+        context['competitor_wca_names'] = competitor_wca_names
+        context['competitor_prefectures'] = competitor_prefectures
+        context['events'] = events
+        context['rounds'] = competition_rounds
+        context['results'] = results
+        context['best_only_event_ids'] = Event.get_best_only_values()
 
-        return render(request, 'app/competition/result.html', context)
+        return context

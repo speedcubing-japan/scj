@@ -43,6 +43,9 @@ class Competitor(models.Model):
             specific_id = self.person.wca_id
         return specific_id
 
+    def get_count_by_status(self, competition_id, status):
+        return Competitor.objects.filter(competition_id=competition_id, status=status).count()
+
     def set_stripe_progress(self, stripe_progress):
         self.stripe_progress = stripe_progress
 
@@ -75,6 +78,22 @@ class Competitor(models.Model):
                 'status',
                 'created_at',
                 'updated_at'
+        ])
+
+    def update_status(self, status):
+        self.status = status
+        self.save(update_fields=[
+            'status',
+            'updated_at'
+        ])
+
+    def update_event_ids_and_guest_count(self, event_ids, guest_count):
+        self.event_ids = event_ids
+        self.guest_count = guest_count
+        self.save(update_fields=[
+            'event_ids',
+            'guest_count',
+            'updated_at'
         ])
 
     def __str__(self):

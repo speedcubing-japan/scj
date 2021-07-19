@@ -41,7 +41,7 @@ class Mine(LoginRequiredMixin, TemplateView):
                     current_competition_list.append(competition)
                 else:
                     participate_competition_list.append(competition)
-            
+
         context = {
             'current_competitions': current_competition_list,
             'participate_competitions': participate_competition_list,

@@ -174,16 +174,16 @@
     {% elif competition.registration_open_at > now and not is_superuser %}
       <div class="alert alert-info" role="alert">
         {% blocktrans with rest_time=registration_open_timedelta|rest_time date=competition.registration_open_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}後&nbsp;{{ date }}に開始します。{% endblocktrans %}
-      </div>  
+      </div>
     {% elif competition.registration_close_at <= now %}
       <div class="alert alert-danger" role="alert">
         {% blocktrans with rest_time=registration_close_after_timedelta|rest_time date=competition.registration_close_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}前&nbsp;{{ date }}に終了しました。{% endblocktrans %}
-      </div>  
+      </div>
     {% else %}
       {% if is_limit %}
         <div class="alert alert-warning" role="alert">
           {% blocktrans with limit=competition.limit %}本大会の定員は {{ limit }} 人であり、すでに定員に達しています。今参加申し込みされると、キャンセル待ちとして扱われます。{% endblocktrans %}
-        </div>  
+        </div>
       {% endif %}
 
       {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
@@ -278,9 +278,9 @@
       stripeAccount: '{{ stripe_user_id }}'
     });
     var checkoutButton = document.getElementById("checkout");
-  
+
     checkoutButton.addEventListener("click", function () {
-      
+
       const event_id_list = [];
       const eventIds = document.getElementsByName("event_ids");
       for (let i = 0, size = eventIds.length; i < size; i++) {
@@ -288,7 +288,7 @@
           event_id_list.push(parseInt(eventIds[i].value));
         }
       }
-  
+
       const guestElement = document.getElementById("id_guest_count");
       const guestElements = guestElement.options;
       var guest_count = 0;
@@ -297,16 +297,16 @@
           guest_count = parseInt(guestElements[i].value);
       	}
       }
-  
+
       const comment = document.getElementById("id_comment").value;
-  
-      const data = { 
-          competition_id: '{{ competition.id }}', 
+
+      const data = {
+          competition_id: '{{ competition.id }}',
           event_ids: event_id_list,
           guest_count: guest_count,
           comment: comment
       };
-  
+
       fetch("{% url 'stripe_create' %}", {
         method: "POST",
         headers: {

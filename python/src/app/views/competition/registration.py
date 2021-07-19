@@ -24,6 +24,9 @@ class Registration(Base):
         self.form = CompetitionRegistrationForm()
         self.create_form()
 
+        if self.competition.is_private and not self.competition.is_superuser(request.user):
+            return redirect('competition_index')
+
         status = ''
         if 'status' in request.GET:
             status = request.GET.get('status')
@@ -40,10 +43,13 @@ class Registration(Base):
         self.form = CompetitionRegistrationForm(request.POST)
         self.create_form()
 
+        if self.competition.is_private and not self.competition.is_superuser(request.user):
+            return redirect('competition_index')
+
         if not self.competition.is_registration_open() and not self.competition.is_superuser(request.user):
             return redirect('competition_detail', name_id=name_id)
 
-        if self.competition.type == CompetitionType.WCA.value and not super().is_wca_authenticated():
+        if self.competition.type == CompetitionType.WCA.value and not self.is_wca_authenticated():
             return redirect('competition_detail', name_id=name_id)
 
         if not self.form.is_valid():
@@ -77,12 +83,8 @@ class Registration(Base):
                     self.notification = Notification.COMPETITION_REGISTER_EDIT
                 elif before_status == CompetitorStatus.CANCEL.value:
                     self.notification = Notification.COMPETITION_REGISTER
-
-                    send_mail(request,
-                        request.user,
-                        self.competition,
-                        'app/mail/competition/registration_submit_subject.txt',
-                        'app/mail/competition/registration_submit_message.txt')
+                    self.send_mail('registration_submit')
+                    self.set_pending_competitor_count()
             else:
                 self.competitor = Competitor()
                 self.competitor.create(
@@ -93,23 +95,16 @@ class Registration(Base):
                     comment,
                     request.user.person
                 )
-
                 self.notification = Notification.COMPETITION_REGISTER
-
-                send_mail(request,
-                    request.user,
-                    self.competition,
-                    'app/mail/competition/registration_submit_subject.txt',
-                    'app/mail/competition/registration_submit_message.txt')
+                self.send_mail('registration_submit')
+                self.set_pending_competitor_count()
 
         return render(request, self.template_name, self.get_context())
 
     def get_context(self):
         context = super().get_context()
 
-        registration_competitor_count = Competitor.objects.filter(
-            competition_id=self.competition.id,
-            status=CompetitorStatus.REGISTRATION.value).count()
+        registration_competitor_count = Competitor.get_count_by_status(self, self.competition.id, CompetitorStatus.REGISTRATION.value)
         is_limit = registration_competitor_count >= self.competition.limit
 
         is_prepaid = False
@@ -144,7 +139,6 @@ class Registration(Base):
         context['form'] = self.form
         context['is_limit'] = is_limit
         context['is_prepaid'] = is_prepaid
-        context['competitor'] = self.competitor
         context['now'] = now
         context['registration_open_timedelta'] = registration_open_timedelta
         context['registration_close_after_timedelta'] = registration_close_timedelta

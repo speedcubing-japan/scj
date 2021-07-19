@@ -6,74 +6,47 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.models import Competition, Person, Competitor, Result, StripeProgress
 from app.defines.competitor import Status as CompetitorStatus
-from app.views.competition.util import send_mail, calc_fee
+from app.views.competition.base import Base
+from app.views.competition.util import calc_fee
 from app.defines.session import Notification
 
 
-class Refund(LoginRequiredMixin, TemplateView):
+class Refund(LoginRequiredMixin, Base):
+
+    template_name = 'app/competition/admin/refund.html'
+    competitor_list = []
+
     def get(self, request, **kwargs):
-        if 'name_id' not in kwargs:
-            return redirect('competition_index')
-        name_id = kwargs.get('name_id')
-
-        competition = Competition.objects.filter(name_id=name_id)
-        if not competition.exists():
-            return redirect('competition_index')
-        competition = competition.first()
-
-        if not competition.is_refunder(request.user):
-            return redirect('competition_index')
+        if not self.competition.is_refunder(request.user):
+            return redirect('competition_detail', name_id=self.name_id)
 
         competitor_ids = []
-        stripe_progresses = StripeProgress.objects.filter(competition_id=competition.id, refund_price=0)
-        competitors = Competitor.objects.filter(competition_id=competition.id)
+        stripe_progresses = StripeProgress.objects.filter(competition_id=self.competition.id, refund_price=0)
+        competitors = Competitor.objects.filter(competition_id=self.competition.id)
 
-        competitor_list = []
+        self.competitor_list = []
         for competitor in competitors:
             for stripe_progress in stripe_progresses:
                 if competitor.id == stripe_progress.competitor_id:
                     competitor.set_stripe_progress(stripe_progress)
-                    competitor_list.append(competitor)
+                    self.competitor_list.append(competitor)
 
-        has_results = Result.objects.filter(competition_id=competition.id).exists()
-
-        notification = self.request.session.get('notification')
-        if self.request.session.get('notification') is not None:
-            del self.request.session['notification']
-
-        context = {
-            'competition': competition,
-            'has_results': has_results,
-            'competitors': competitor_list,
-            'notification': notification,
-            'is_superuser': competition.is_superuser(request.user),
-            'is_refunder': competition.is_refunder(request.user)
-        }
-        return render(request, 'app/competition/admin/refund.html', context)
+        return render(request, self.template_name, self.get_context())
 
     def post(self, request, **kwargs):
-        if 'name_id' not in kwargs:
-            return redirect('competition_index')
-        name_id = kwargs.get('name_id')
-
-        competition = Competition.objects.filter(name_id=name_id)
-        if not competition.exists():
-            return redirect('competition_index')
-        competition = competition.first()
-
-        if not competition.is_refunder(request.user):
-            return redirect('competition_index')
+        if not self.competition.is_refunder(request.user):
+            return redirect('competition_detail', name_id=self.name_id)
 
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe_user_person = None
-        if competition.stripe_user_person_id > 0:
-            stripe_user_person = Person.objects.get(pk=competition.stripe_user_person_id)
+        if self.competition.stripe_user_person_id > 0:
+            stripe_user_person = Person.objects.get(pk=self.competition.stripe_user_person_id)
 
         competitor_ids = []
-        stripe_progresses = StripeProgress.objects.filter(competition_id=competition.id, refund_price=0)
-        competitors = Competitor.objects.filter(competition_id=competition.id).order_by('created_at')
+        stripe_progresses = StripeProgress.objects.filter(competition_id=self.competition.id, refund_price=0)
+        competitors = Competitor.objects.filter(competition_id=self.competition.id).order_by('created_at')
 
-        competitor_list = []
+        self.competitor_list = []
         for competitor in competitors:
 
             for stripe_progress in stripe_progresses:
@@ -83,7 +56,7 @@ class Refund(LoginRequiredMixin, TemplateView):
             if request.POST.get('competitor_id_' + str(competitor.id)):
                 stripe_progress = competitor.stripe_progress
 
-                fee = calc_fee(competition, competitor)
+                fee = calc_fee(self.competition, competitor)
                 amount = int(fee['price'])
                 if request.POST.get('competitor_refund_' + str(competitor.id)):
                     part_amount = int(request.POST.get('competitor_refund_' + str(competitor.id)))
@@ -121,23 +94,15 @@ class Refund(LoginRequiredMixin, TemplateView):
                 ])
                 competitor.unset_stripe_progress()
 
-                send_mail(request,
-                    competitor.person.user,
-                    competition,
-                    'app/mail/competition/registration_refund_subject.txt',
-                    'app/mail/competition/registration_refund_message.txt',
-                    price=amount)
+                self.send_mail_refund('registration_refund', price=amount)
 
             if competitor.stripe_progress:
-                competitor_list.append(competitor)
+                self.competitor_list.append(competitor)
 
-        has_results = Result.objects.filter(competition_id=competition.id).exists()
+        return render(request, self.template_name, self.get_context())
 
-        context = {
-            'competition': competition,
-            'has_results': has_results,
-            'competitors': competitor_list,
-            'is_superuser': competition.is_superuser(request.user),
-            'is_refunder': competition.is_refunder(request.user)
-        }
-        return render(request, 'app/competition/admin/refund.html', context)
+    def get_context(self):
+        context = super().get_context()
+        context['competitors'] = self.competitor_list
+        context['notification'] = self.notification
+        return context

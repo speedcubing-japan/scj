@@ -13,7 +13,10 @@
     {% endif %}
   {% endif %}
   {% if is_superuser %}
-    <a href="{% url 'competition_admin_index' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'admin' %}active{% endif %}"><i class="fas fa-cog fa-fw mr-2"></i>管理</button></a>
+    <a class="text-dark" href="{% url 'competition_admin_index' competition.name_id %}">
+    <li class="list-group-item d-flex justify-content-between {% if active == 'admin' %}active{% endif %} align-items-center">
+      <span><i class="fas fa-cog mr-2 fa-fw"></i>管理</span>{% if pending_competitor_count > 0 %}<span class="badge badge-dark badge-pill">{{ pending_competitor_count }}</span>{% endif %}
+    </li>
   {% endif %}
   {% if is_refunder %}
     <a href="{% url 'competition_admin_refund' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'refund' %}active{% endif %}"><i class="fas fa-undo-alt fa-fw mr-2"></i>返金</button></a>
