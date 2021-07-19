@@ -2,7 +2,7 @@ from django.db import models
 from django_mysql.models import JSONField
 from .person import Person
 from app.defines.competitor import Status as CompetitorStatus
-from app.defines.competition import Type as CompetitionType 
+from app.defines.competition import Type as CompetitionType
 
 
 class Competitor(models.Model):
@@ -23,7 +23,18 @@ class Competitor(models.Model):
         indexes = [
             models.Index(name='idx_competition_id_person', fields=['competition_id', 'person'])
         ]
-    
+
+    def get_competitor(self, competition_id, person_id):
+        competitor = Competitor.objects.filter(
+            competition_id=competition_id,
+            person_id=person_id
+        )
+
+        if competitor.exists():
+            return competitor.first()
+
+        return None
+
     def get_specific_id(self, competition_type):
         specific_id = None
         if competition_type == CompetitionType.SCJ.value:
@@ -41,5 +52,30 @@ class Competitor(models.Model):
     def set_is_duplicated_twin_competitions(self):
         self.is_duplicated_twin_competitions = True
 
+    def create(self, competition_id, status, event_ids, guest_count, comment, person):
+        self.competition_id = competition_id
+        self.status = status
+        self.event_ids = event_ids
+        self.guest_count = guest_count
+        self.comment = comment
+        self.person = person
+        self.save()
+
+    def update(self, status, event_ids, guest_count, comment, is_update_created_at, now):
+        self.status = status
+        self.event_ids = event_ids
+        self.guest_count = guest_count
+        self.comment = comment
+        if is_update_created_at:
+            self.created_at = now
+        self.save(update_fields=[
+                'event_ids',
+                'guest_count',
+                'comment',
+                'status',
+                'created_at',
+                'updated_at'
+        ])
+
     def __str__(self):
-        return self.competition.name + ' [' + self.person.get_full_name() + ']'
+        return self.competition_id + ' [' + self.person.get_full_name() + ']'

@@ -220,9 +220,6 @@ class CompetitionRegistrationForm(forms.Form):
         required=False,
         widget=forms.Textarea(attrs={'cols': '80', 'rows': '5'}),
     )
-    name_id = forms.fields.CharField(
-        widget=forms.HiddenInput()
-    )
 
 class PostForm(forms.Form):
     title = forms.CharField(
