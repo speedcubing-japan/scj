@@ -21,8 +21,8 @@
 	    <tr>
               <td>
 		{% with path=competition|competition_logo %}
-		  <span class="competition-name text-primary mr-4"><img class="mr-2" width="20" src="{% static path %}"><a href="{% url 'competition_detail' competition.name_id %}">{{ competition.name }}</a></span>
-	        {% endwith %}      
+		  <span class="competition-name text-primary mr-4"><img class="mr-2" width="20" src="{% static path %}"><a href="{% url 'competition_detail' competition.name_id %}">{{ competition.name }}{% if competition.is_cancel %}&nbsp;[中止]{% endif %}</a></span>
+	        {% endwith %}
 	      </td>
               <td>{{ competition.get_prefecture_id_display }}</td>
               <td>{{ competition.venue_name }}</td>

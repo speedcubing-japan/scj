@@ -25,6 +25,9 @@ class Base(TemplateView):
             return redirect('competition_index')
 
         self.set_competition()
+        if not self.competition:
+            return redirect('competition_index')
+
         self.set_competitor()
         self.set_has_results()
         self.set_pending_competitor_count()
@@ -53,7 +56,9 @@ class Base(TemplateView):
                 self.name_id = kwargs.get('name_id')
 
     def set_competition(self):
-        self.competition = Competition.objects.get(name_id=self.name_id)
+        competition = Competition.objects.filter(name_id=self.name_id)
+        if competition.exists():
+            self.competition = competition.first()
 
     def set_competitor(self):
         if self.user.is_authenticated:

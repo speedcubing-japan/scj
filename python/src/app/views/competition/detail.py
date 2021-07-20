@@ -17,7 +17,6 @@ class Detail(Base):
     template_name = 'app/competition/detail.html'
 
     def get(self, request, **kwargs):
-
         if self.competition.is_private and not self.competition.is_superuser(request.user):
             return redirect('competition_index')
 

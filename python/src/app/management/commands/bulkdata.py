@@ -20,7 +20,7 @@ class Command(BaseCommand):
         persons = Person.objects.all()
         for person in persons:
             person_list[person.id] = person
-        
+
         with open(self.get_fixtures_path('round')) as file:
             json_round = json.loads(file.read())
             rounds = []
@@ -43,7 +43,7 @@ class Command(BaseCommand):
                     end_at=record['fields']['end_at']
                 )
                 rounds.append(round)
-            
+
             cursor = connection.cursor()
             cursor.execute('SET FOREIGN_KEY_CHECKS = 0')
             cursor.execute('TRUNCATE TABLE app_round')
@@ -55,7 +55,7 @@ class Command(BaseCommand):
             tmpRounds = {}
             for round in rounds:
                 tmpRounds[round.id] = round
-        
+
         with open(self.get_fixtures_path('result')) as file:
             json_result = json.loads(file.read())
             results = []
@@ -76,12 +76,12 @@ class Command(BaseCommand):
                     value5=record['fields']['value5'],
                 )
                 results.append(result)
-            
+
             cursor = connection.cursor()
             cursor.execute('TRUNCATE TABLE app_result')
 
             Result.objects.bulk_create(results)
-        
+
         with open(self.get_fixtures_path('averagerank')) as file:
             json_average_rank = json.loads(file.read())
             average_ranks = []
@@ -109,7 +109,7 @@ class Command(BaseCommand):
                     prefecture_rank=record['fields']['prefecture_rank']
                 )
                 average_ranks.append(average_rank)
-            
+
             cursor = connection.cursor()
             cursor.execute('TRUNCATE TABLE app_averagerank')
 
@@ -137,12 +137,12 @@ class Command(BaseCommand):
                     prefecture_rank=record['fields']['prefecture_rank']
                 )
                 best_ranks.append(best_rank)
-            
+
             cursor = connection.cursor()
             cursor.execute('TRUNCATE TABLE app_bestrank')
 
             BestRank.objects.bulk_create(best_ranks)
-        
+
         with open(self.get_fixtures_path('competition')) as file:
             json_competition = json.loads(file.read())
             competitions = []
@@ -192,7 +192,7 @@ class Command(BaseCommand):
             cursor.execute('TRUNCATE TABLE app_competition')
 
             Competition.objects.bulk_create(competitions)
-        
+
         with open(self.get_fixtures_path('scramble')) as file:
             json_scramble = json.loads(file.read())
             scrambles = []
@@ -206,7 +206,7 @@ class Command(BaseCommand):
                     scramble=record['fields']['scramble'],
                 )
                 scrambles.append(scramble)
-            
+
             cursor = connection.cursor()
             cursor.execute('TRUNCATE TABLE app_scramble')
 
