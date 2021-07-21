@@ -135,6 +135,19 @@
         <div>{% trans "キャンセル待ちリストからの繰り上げは参加申し込み期間中にしか行えませんので、なるべく早めにお申し出ください。" %}</div>
       </div>
     </div>
+    {% if competition.type == competition_type.WCA.value and not user.person.wca_id %}
+      <div class="card mb-3">
+        <div class="card-header text-white bg-warning lead">
+          {% trans "WCA ID連携" %}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{% trans "WCA大会初参加の方" %}</h5>
+          <p class="card-text">{% trans "このままでかまいません。大会終了後にWCA ID連携の案内が届きます。" %}</p>
+          <h5 class="card-title">{% trans "WCA大会2回目以降の方" %}</h5>
+          <p class="card-text">{% blocktrans with url="https://www.worldcubeassociation.org/profile/claim_wca_id" %}<a href="{{ url }}" target="_blank">WCA ID連携</a>を行って下さい。{% endblocktrans %}</p>
+        </div>
+      </div>
+    {% endif %}
     {% if not user.is_authenticated %}
       <div class="alert alert-light" role="alert">
         {% url "login" as login_url %}
@@ -178,6 +191,10 @@
     {% elif competition.registration_close_at <= now %}
       <div class="alert alert-danger" role="alert">
         {% blocktrans with rest_time=registration_close_after_timedelta|rest_time date=competition.registration_close_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}前&nbsp;{{ date }}に終了しました。{% endblocktrans %}
+      </div>
+    {% elif competition.type == competition_type.WCA.value and is_registration_only_has_wca_id and not user.person.wca_id %}
+      <div class="alert alert-danger" role="alert">
+        {% trans "WCA大会に参加していない、またはWCA IDがアカウントに紐付いていないため、申し込みできません。" %}
       </div>
     {% else %}
       {% if is_limit %}

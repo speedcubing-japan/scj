@@ -47,10 +47,16 @@ class Registration(Base):
             return redirect('competition_index')
 
         if not self.competition.is_registration_open() and not self.competition.is_superuser(request.user):
-            return redirect('competition_detail', name_id=name_id)
+            return redirect('competition_detail', name_id=self.name_id)
+
+        if not request.user.is_authenticated:
+            return redirect('competition_detail', name_id=self.name_id)
 
         if self.competition.type == CompetitionType.WCA.value and not self.is_wca_authenticated():
-            return redirect('competition_detail', name_id=name_id)
+            return redirect('competition_detail', name_id=self.name_id)
+
+        if self.competition.type == CompetitionType.WCA.value and not request.user.person.wca_id and self.competition.is_registration_only_has_wca_id():
+            return redirect('competition_detail', name_id=self.name_id)
 
         if not self.form.is_valid():
             return render(request, self.template_name, self.get_context())
@@ -150,6 +156,7 @@ class Registration(Base):
         context['stripe_public_key'] = settings.STRIPE_PUBLIC_KEY
         context['stripe_user_id'] = stripe_user_id
         context['prepaid_fees'] = amount['prepaid_fees']
+        context['is_registration_only_has_wca_id'] = self.competition.is_registration_only_has_wca_id()
         context['notification'] = self.notification
 
         return context

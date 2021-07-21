@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-17 09:47+0000\n"
+"POT-Creation-Date: 2021-07-21 10:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,19 +30,19 @@ msgstr ""
 msgid "Important dates"
 msgstr ""
 
-#: app/defines/competition.py:15
+#: app/defines/competition.py:19
 msgid "予選"
 msgstr "First round"
 
-#: app/defines/competition.py:16
+#: app/defines/competition.py:20
 msgid "二次予選"
 msgstr "Second round"
 
-#: app/defines/competition.py:17
+#: app/defines/competition.py:21
 msgid "準決勝"
 msgstr "Semi Final"
 
-#: app/defines/competition.py:18
+#: app/defines/competition.py:22
 msgid "決勝"
 msgstr "Final"
 

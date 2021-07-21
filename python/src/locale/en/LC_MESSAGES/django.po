@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-17 09:47+0000\n"
+"POT-Creation-Date: 2021-07-21 10:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -170,7 +170,7 @@ msgid "返金ポリシー"
 msgstr "Refund policy"
 
 #: templates/app/competition/fee.html:58
-#: templates/app/competition/registration.html:238
+#: templates/app/competition/registration.html:255
 msgid "参加費支払い"
 msgstr "Fee payment"
 
@@ -218,8 +218,8 @@ msgstr "Total"
 #: templates/app/competition/fee.html:126
 #: templates/app/competition/fee.html:141
 #: templates/app/competition/fee.html:153
-#: templates/app/competition/registration.html:197
-#: templates/app/competition/registration.html:209
+#: templates/app/competition/registration.html:214
+#: templates/app/competition/registration.html:226
 msgid "円"
 msgstr "Yen"
 
@@ -232,8 +232,8 @@ msgid "支払い済み"
 msgstr "You've paid."
 
 #: templates/app/competition/fee.html:97 templates/app/competition/fee.html:118
-#: templates/app/competition/registration.html:195
-#: templates/app/competition/registration.html:207
+#: templates/app/competition/registration.html:212
+#: templates/app/competition/registration.html:224
 msgid "支払い料金"
 msgstr "Payment fees"
 
@@ -244,7 +244,7 @@ msgstr "Payment fees on the site"
 #: templates/app/competition/fee.html:123
 #: templates/app/competition/fee.html:139
 #: templates/app/competition/fee.html:151
-#: templates/app/competition/registration.html:207
+#: templates/app/competition/registration.html:224
 #: templates/app/competition/schedule.html:36
 msgid "種目"
 msgstr "Events"
@@ -283,7 +283,7 @@ msgid "スケジュール"
 msgstr "Schedule"
 
 #: templates/app/competition/menu.html:11
-#: templates/app/competition/registration.html:219
+#: templates/app/competition/registration.html:236
 msgid "申し込み"
 msgstr "Registration"
 
@@ -553,6 +553,29 @@ msgstr ""
 "competition."
 
 #: templates/app/competition/registration.html:141
+msgid "WCA ID連携"
+msgstr "Claim WCA ID"
+
+#: templates/app/competition/registration.html:144
+msgid "WCA大会初参加の方"
+msgstr "First-time participants in the WCA competition"
+
+#: templates/app/competition/registration.html:145
+msgid "このままでかまいません。大会終了後にWCA ID連携の案内が届きます。"
+msgstr ""
+"You can leave it as it is. You will receive an mail to claim your WCA ID "
+"after the competition."
+
+#: templates/app/competition/registration.html:146
+msgid "WCA大会2回目以降の方"
+msgstr "Second or later WCA Competition"
+
+#: templates/app/competition/registration.html:147
+#, python-format
+msgid "<a href=\"%(url)s\" target=\"_blank\">WCA ID連携</a>を行って下さい。"
+msgstr "Please <a href=\"%(url)s\" target=\"_blank\">claim your WCA ID</a>."
+
+#: templates/app/competition/registration.html:154
 #, python-format
 msgid ""
 "%(competition_name)sに申し込むには<a href=\"%(login_url)s?next=%(path)s\">ロ"
@@ -561,7 +584,7 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(path)s\">Sign in</a> to register for "
 "%(competition_name)s."
 
-#: templates/app/competition/registration.html:145
+#: templates/app/competition/registration.html:158
 #, python-format
 msgid ""
 "%(competition_name)sに申し込むには<a href=\"%(wca_oauth_authorization)s?"
@@ -574,33 +597,41 @@ msgstr ""
 "%(redirect_uri)s&response_type=code&scope=public email\">WCA authentication</"
 "a> to register for %(competition_name)s."
 
-#: templates/app/competition/registration.html:153
+#: templates/app/competition/registration.html:166
 msgid "既に申し込みが承認されています。"
 msgstr "Your registration has already been approved."
 
-#: templates/app/competition/registration.html:158
+#: templates/app/competition/registration.html:171
 msgid "申し込み詳細 "
 msgstr "Registration details"
 
-#: templates/app/competition/registration.html:166
+#: templates/app/competition/registration.html:179
 msgid "更新"
 msgstr "Update"
 
-#: templates/app/competition/registration.html:167
+#: templates/app/competition/registration.html:180
 msgid "申し込みキャンセル"
 msgstr "Registration Cancel"
 
-#: templates/app/competition/registration.html:176
+#: templates/app/competition/registration.html:189
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s後&nbsp;%(date)sに開始します。"
 msgstr "Registration will open in about %(rest_time)s later on %(date)s"
 
-#: templates/app/competition/registration.html:180
+#: templates/app/competition/registration.html:193
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s前&nbsp;%(date)sに終了しました。"
 msgstr "Registration closed about %(rest_time)s ago on %(date)s"
 
-#: templates/app/competition/registration.html:185
+#: templates/app/competition/registration.html:197
+msgid ""
+"WCA大会に参加していない、またはWCA IDがアカウントに紐付いていないため、申し込"
+"みできません。"
+msgstr ""
+"You cannot registration because you are not participated in the WCA "
+"Competition or your WCA ID is not linked with your account."
+
+#: templates/app/competition/registration.html:202
 #, python-format
 msgid ""
 "本大会の定員は %(limit)s 人であり、すでに定員に達しています。今参加申し込みさ"
@@ -610,22 +641,22 @@ msgstr ""
 "been reached. If you register, your registration will be placed on a waiting "
 "list. It may not be approved unless a spot frees up."
 
-#: templates/app/competition/registration.html:228
-#: templates/app/competition/registration.html:250
+#: templates/app/competition/registration.html:245
+#: templates/app/competition/registration.html:267
 msgid "免責事項と参加要件に同意します"
 msgstr "I agree to the disclaimer and requirements."
 
-#: templates/app/competition/registration.html:230
-#: templates/app/competition/registration.html:252
+#: templates/app/competition/registration.html:247
+#: templates/app/competition/registration.html:269
 msgid "免責事項に同意します"
 msgstr "I agree to the disclaimer."
 
-#: templates/app/competition/registration.html:260
+#: templates/app/competition/registration.html:277
 #: templates/app/registration/input.html:43
 msgid "登録"
 msgstr "Register"
 
-#: templates/app/competition/registration.html:267
+#: templates/app/competition/registration.html:284
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s後&nbsp;%(date)sに終了します。"
 msgstr "Registration closes in about %(rest_time)s later on %(date)s"
