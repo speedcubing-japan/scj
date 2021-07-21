@@ -135,7 +135,7 @@
         <div>{% trans "キャンセル待ちリストからの繰り上げは参加申し込み期間中にしか行えませんので、なるべく早めにお申し出ください。" %}</div>
       </div>
     </div>
-    {% if competition.type == competition_type.WCA.value and not user.person.wca_id %}
+    {% if competition.type == competition_type.WCA.value and user.is_authenticated and not user.person.wca_id %}
       <div class="card mb-3">
         <div class="card-header text-white bg-warning lead">
           {% trans "WCA ID連携" %}
