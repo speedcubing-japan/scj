@@ -58,7 +58,7 @@ class Authorization(View):
                     if person.id != request.user.person.id:
                         is_duplicated = True
                         request.session['notification'] = Notification.WCA_AUTHORIZATION_DUPLICATED
-                        
+
                 if Person.objects.filter(wca_user_id=wca_user_id).exists():
                     person = Person.objects.get(wca_user_id=wca_user_id)
                     if person.id != request.user.person.id:
@@ -88,11 +88,12 @@ class Authorization(View):
                         'wca_avatar_thumb_url',
                         'updated_at'
                     ])
+                    request.session['is_wca_authenticated'] = True
                     request.session['notification'] = Notification.WCA_AUTHORIZATION_COMPLETE
 
                 if type == 'competition':
-                    return redirect('competition_registration', name_id=name_id)      
+                    return redirect('competition_registration', name_id=name_id)
 
                 return redirect(type)
 
-        return redirect('index') 
+        return redirect('index')

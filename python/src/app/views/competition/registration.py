@@ -98,6 +98,7 @@ class Registration(Base):
                 self.notification = Notification.COMPETITION_REGISTER
                 self.send_mail('registration_submit')
                 self.set_pending_competitor_count()
+                self.delete_is_wca_authenticated()
 
         return render(request, self.template_name, self.get_context())
 

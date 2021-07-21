@@ -96,7 +96,12 @@ class Base(TemplateView):
         )
 
     def is_wca_authenticated(self):
-        if self.user.is_authenticated:
-            if self.user.person.is_wca_authenticated() and self.user.person.is_wca_email_authenticated():
-                return True
+        if self.competitor:
+            return True
+        if self.request.session.get('is_wca_authenticated') is not None:
+            return True
         return False
+
+    def delete_is_wca_authenticated(self):
+        if self.request.session.get('is_wca_authenticated') is not None:
+            del self.request.session['is_wca_authenticated']
