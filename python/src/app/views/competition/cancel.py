@@ -11,9 +11,6 @@ from .base import Base
 class Cancel(LoginRequiredMixin, Base):
     def post(self, request, **kwargs):
 
-        if self.competition.is_private and not self.competition.is_superuser(request.user):
-            return redirect('competition_index')
-
         if not self.competition.is_registration_open() and not self.competition.is_superuser(request.user):
             return redirect('competition_detail', name_id=self.name_id)
 

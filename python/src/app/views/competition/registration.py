@@ -24,9 +24,6 @@ class Registration(Base):
         self.form = CompetitionRegistrationForm()
         self.create_form()
 
-        if self.competition.is_private and not self.competition.is_superuser(request.user):
-            return redirect('competition_index')
-
         status = ''
         if 'status' in request.GET:
             status = request.GET.get('status')
@@ -42,9 +39,6 @@ class Registration(Base):
     def post(self, request, **kwargs):
         self.form = CompetitionRegistrationForm(request.POST)
         self.create_form()
-
-        if self.competition.is_private and not self.competition.is_superuser(request.user):
-            return redirect('competition_index')
 
         if not self.competition.is_registration_open() and not self.competition.is_superuser(request.user):
             return redirect('competition_detail', name_id=self.name_id)

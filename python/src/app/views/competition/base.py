@@ -28,6 +28,9 @@ class Base(TemplateView):
         if not self.competition:
             return redirect('competition_index')
 
+        if self.competition.is_private and not self.competition.is_superuser(request.user):
+            return redirect('competition_index')
+
         self.set_competitor()
         self.set_has_results()
         self.set_pending_competitor_count()

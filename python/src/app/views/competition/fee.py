@@ -19,9 +19,6 @@ class Fee(Base):
         if 'status' in request.GET:
             self.status = request.GET.get('status')
 
-        if self.competition.is_private and not self.competition.is_superuser(request.user):
-            return redirect('competition_index')
-
         if self.status == 'cancel':
             self.notification = Notification.PAYMENT_CANCEL
         elif self.status == 'success':

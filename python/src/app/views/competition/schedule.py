@@ -11,10 +11,6 @@ class Schedule(Base):
     template_name = 'app/competition/schedule.html'
 
     def get(self, request, **kwargs):
-
-        if self.competition.is_private and not self.competition.is_superuser(request.user):
-            return redirect('competition_index')
-
         return render(request, self.template_name, self.get_context())
 
     def get_context(self):
