@@ -17,7 +17,7 @@ class Competitor(Base):
     def get(self, request, **kwargs):
         if 'event_name' not in kwargs:
             return redirect('competition_index')
-        self.event_name = kwargs.get('name_id')
+        self.event_name = kwargs.get('event_name')
 
         return render(request, self.template_name, self.get_context())
 
