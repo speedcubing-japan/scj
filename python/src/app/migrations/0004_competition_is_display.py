@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0003_auto_20210624_2057'),
+        ("app", "0003_auto_20210624_2057"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='competition',
-            name='is_display',
-            field=models.BooleanField(default=False, verbose_name='表示可否'),
+            model_name="competition",
+            name="is_display",
+            field=models.BooleanField(default=False, verbose_name="表示可否"),
         ),
     ]

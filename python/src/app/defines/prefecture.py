@@ -52,6 +52,7 @@ class Prefecture(Define):
     鹿児島 = 46
     沖縄県 = 47
 
+
 @unique
 class PrefectureAndOversea(Define):
     北海道 = 1

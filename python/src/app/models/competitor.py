@@ -8,26 +8,27 @@ from app.defines.competition import Type as CompetitionType
 class Competitor(models.Model):
 
     competition_id = models.IntegerField("大会ID")
-    status = models.SmallIntegerField('状態', choices=CompetitorStatus.choices())
-    event_ids = JSONField('申し込み種目ID')
-    guest_count = models.SmallIntegerField('同伴者数')
-    comment = models.TextField('コメント')
+    status = models.SmallIntegerField("状態", choices=CompetitorStatus.choices())
+    event_ids = JSONField("申し込み種目ID")
+    guest_count = models.SmallIntegerField("同伴者数")
+    comment = models.TextField("コメント")
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    created_at = models.DateTimeField('作成日時', auto_now_add=True)
-    updated_at = models.DateTimeField('更新日時', auto_now=True)
+    created_at = models.DateTimeField("作成日時", auto_now_add=True)
+    updated_at = models.DateTimeField("更新日時", auto_now=True)
 
     stripe_progress = None
     is_duplicated_twin_competitions = False
 
     class Meta:
         indexes = [
-            models.Index(name='idx_competition_id_person', fields=['competition_id', 'person'])
+            models.Index(
+                name="idx_competition_id_person", fields=["competition_id", "person"]
+            )
         ]
 
     def get_competitor(self, competition_id, person_id):
         competitor = Competitor.objects.filter(
-            competition_id=competition_id,
-            person_id=person_id
+            competition_id=competition_id, person_id=person_id
         )
 
         if competitor.exists():
@@ -44,7 +45,9 @@ class Competitor(models.Model):
         return specific_id
 
     def get_count_by_status(self, competition_id, status):
-        return Competitor.objects.filter(competition_id=competition_id, status=status).count()
+        return Competitor.objects.filter(
+            competition_id=competition_id, status=status
+        ).count()
 
     def set_stripe_progress(self, stripe_progress):
         self.stripe_progress = stripe_progress
@@ -64,37 +67,34 @@ class Competitor(models.Model):
         self.person = person
         self.save()
 
-    def update(self, status, event_ids, guest_count, comment, is_update_created_at, now):
+    def update(
+        self, status, event_ids, guest_count, comment, is_update_created_at, now
+    ):
         self.status = status
         self.event_ids = event_ids
         self.guest_count = guest_count
         self.comment = comment
         if is_update_created_at:
             self.created_at = now
-        self.save(update_fields=[
-            'event_ids',
-            'guest_count',
-            'comment',
-            'status',
-            'created_at',
-            'updated_at'
-        ])
+        self.save(
+            update_fields=[
+                "event_ids",
+                "guest_count",
+                "comment",
+                "status",
+                "created_at",
+                "updated_at",
+            ]
+        )
 
     def update_status(self, status):
         self.status = status
-        self.save(update_fields=[
-            'status',
-            'updated_at'
-        ])
+        self.save(update_fields=["status", "updated_at"])
 
     def update_event_ids_and_guest_count(self, event_ids, guest_count):
         self.event_ids = event_ids
         self.guest_count = guest_count
-        self.save(update_fields=[
-            'event_ids',
-            'guest_count',
-            'updated_at'
-        ])
+        self.save(update_fields=["event_ids", "guest_count", "updated_at"])
 
     def __str__(self):
-        return self.competition_id + ' [' + self.person.get_full_name() + ']'
+        return self.competition_id + " [" + self.person.get_full_name() + "]"

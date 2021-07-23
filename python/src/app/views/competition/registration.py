@@ -14,21 +14,21 @@ from .util import calc_fee
 
 class Registration(Base):
 
-    template_name = 'app/competition/registration.html'
+    template_name = "app/competition/registration.html"
     form = None
 
     def get(self, request, **kwargs):
         self.form = CompetitionRegistrationForm()
         self.create_form()
 
-        status = ''
-        if 'status' in request.GET:
-            status = request.GET.get('status')
+        status = ""
+        if "status" in request.GET:
+            status = request.GET.get("status")
 
         # 事前決済オンリーのときのnotification設定
-        if status == 'cancel':
+        if status == "cancel":
             self.notification = Notification.REGISTRATION_CANCEL
-        elif status == 'success':
+        elif status == "success":
             self.notification = Notification.COMPETITION_REGISTER
 
         return render(request, self.template_name, self.get_context())
@@ -37,36 +37,45 @@ class Registration(Base):
         self.form = CompetitionRegistrationForm(request.POST)
         self.create_form()
 
-        if not self.competition.is_registration_open() and not self.competition.is_superuser(request.user):
-            return redirect('competition_detail', name_id=self.name_id)
+        if (
+            not self.competition.is_registration_open()
+            and not self.competition.is_superuser(request.user)
+        ):
+            return redirect("competition_detail", name_id=self.name_id)
 
         if not request.user.is_authenticated:
-            return redirect('competition_detail', name_id=self.name_id)
+            return redirect("competition_detail", name_id=self.name_id)
 
-        if self.competition.type == CompetitionType.WCA.value and not self.is_wca_authenticated():
-            return redirect('competition_detail', name_id=self.name_id)
+        if (
+            self.competition.type == CompetitionType.WCA.value
+            and not self.is_wca_authenticated()
+        ):
+            return redirect("competition_detail", name_id=self.name_id)
 
-        if self.competition.type == CompetitionType.WCA.value and \
-                not request.user.person.wca_id and self.competition.is_registration_only_has_wca_id():
-            return redirect('competition_detail', name_id=self.name_id)
+        if (
+            self.competition.type == CompetitionType.WCA.value
+            and not request.user.person.wca_id
+            and self.competition.is_registration_only_has_wca_id()
+        ):
+            return redirect("competition_detail", name_id=self.name_id)
 
         if not self.form.is_valid():
             return render(request, self.template_name, self.get_context())
 
         elif self.form.is_valid():
-            event_ids = [int(x) for x in self.form.cleaned_data['event_ids']]
-            guest_count = self.form.cleaned_data['guest_count']
-            comment = self.form.cleaned_data['comment']
+            event_ids = [int(x) for x in self.form.cleaned_data["event_ids"]]
+            guest_count = self.form.cleaned_data["guest_count"]
+            comment = self.form.cleaned_data["comment"]
 
             if not request.user.is_authenticated:
-                return redirect('competiion_index')
+                return redirect("competiion_index")
 
             if self.competitor:
                 before_status = self.competitor.status
 
                 # REGISTRATIONはもう申し込み/変更等はできない。
                 if self.competitor.status == CompetitorStatus.REGISTRATION.value:
-                    return redirect('competition_detail', name_id=self.name_id)
+                    return redirect("competition_detail", name_id=self.name_id)
 
                 self.competitor.update(
                     CompetitorStatus.PENDING.value,
@@ -74,14 +83,14 @@ class Registration(Base):
                     guest_count,
                     comment,
                     before_status == CompetitorStatus.CANCEL.value,
-                    datetime.datetime.now(tz=datetime.timezone.utc)
+                    datetime.datetime.now(tz=datetime.timezone.utc),
                 )
 
                 if before_status == CompetitorStatus.PENDING.value:
                     self.notification = Notification.COMPETITION_REGISTER_EDIT
                 elif before_status == CompetitorStatus.CANCEL.value:
                     self.notification = Notification.COMPETITION_REGISTER
-                    self.send_mail('registration_submit')
+                    self.send_mail("registration_submit")
                     self.set_pending_competitor_count()
             else:
                 self.competitor = Competitor()
@@ -91,10 +100,10 @@ class Registration(Base):
                     event_ids,
                     guest_count,
                     comment,
-                    request.user.person
+                    request.user.person,
                 )
                 self.notification = Notification.COMPETITION_REGISTER
-                self.send_mail('registration_submit')
+                self.send_mail("registration_submit")
                 self.set_pending_competitor_count()
                 self.delete_is_wca_authenticated()
 
@@ -103,17 +112,22 @@ class Registration(Base):
     def get_context(self):
         context = super().get_context()
 
-        registration_competitor_count = Competitor.get_count_by_status(self, self.competition.id, CompetitorStatus.REGISTRATION.value)
+        registration_competitor_count = Competitor.get_count_by_status(
+            self, self.competition.id, CompetitorStatus.REGISTRATION.value
+        )
         is_limit = registration_competitor_count >= self.competition.limit
 
         is_prepaid = False
         if self.request.user.is_authenticated:
             competitor = Competitor.objects.filter(
                 competition_id=self.competition.id,
-                person_id=self.request.user.person.id)
+                person_id=self.request.user.person.id,
+            )
             if competitor.exists():
                 competitor = competitor.first()
-                is_prepaid = StripeProgress.objects.filter(competitor_id=competitor.id).exists()
+                is_prepaid = StripeProgress.objects.filter(
+                    competitor_id=competitor.id
+                ).exists()
 
         now = datetime.datetime.now(tz=datetime.timezone.utc)
         registration_open_at = self.competition.registration_open_at
@@ -121,50 +135,56 @@ class Registration(Base):
         registration_open_timedelta = registration_open_at - now
         registration_close_timedelta = now - registration_close_at
 
-        stripe_user_id = ''
+        stripe_user_id = ""
         if self.competition.stripe_user_person_id != 0:
             person = Person.objects.get(pk=self.competition.stripe_user_person_id)
             stripe_user_id = person.stripe_user_id
 
-        protocol = 'https' if self.request.is_secure() else 'http'
+        protocol = "https" if self.request.is_secure() else "http"
         current_site = get_current_site(self.request)
         domain = current_site.domain
-        redirect_uri = protocol + '://' + domain + '/wca/authorization/?type=competition'
+        redirect_uri = (
+            protocol + "://" + domain + "/wca/authorization/?type=competition"
+        )
         # WCA認証で2つ以上のパラメータを渡せないため、セッションで管理。
-        self.request.session['wca_authorization_name_id'] = self.name_id
+        self.request.session["wca_authorization_name_id"] = self.name_id
 
         amount = calc_fee(self.competition, None)
 
-        context['form'] = self.form
-        context['is_limit'] = is_limit
-        context['is_prepaid'] = is_prepaid
-        context['now'] = now
-        context['registration_open_timedelta'] = registration_open_timedelta
-        context['registration_close_after_timedelta'] = registration_close_timedelta
-        context['registration_close_before_timedelta'] = abs(registration_close_timedelta)
-        context['wca_oauth_authorization'] = settings.WCA_OAUTH_AUTHORIZATION
-        context['wca_client_id'] = settings.WCA_CLIENT_ID
-        context['redirect_uri'] = redirect_uri
-        context['stripe_public_key'] = settings.STRIPE_PUBLIC_KEY
-        context['stripe_user_id'] = stripe_user_id
-        context['prepaid_fees'] = amount['prepaid_fees']
-        context['is_registration_only_has_wca_id'] = self.competition.is_registration_only_has_wca_id()
+        context["form"] = self.form
+        context["is_limit"] = is_limit
+        context["is_prepaid"] = is_prepaid
+        context["now"] = now
+        context["registration_open_timedelta"] = registration_open_timedelta
+        context["registration_close_after_timedelta"] = registration_close_timedelta
+        context["registration_close_before_timedelta"] = abs(
+            registration_close_timedelta
+        )
+        context["wca_oauth_authorization"] = settings.WCA_OAUTH_AUTHORIZATION
+        context["wca_client_id"] = settings.WCA_CLIENT_ID
+        context["redirect_uri"] = redirect_uri
+        context["stripe_public_key"] = settings.STRIPE_PUBLIC_KEY
+        context["stripe_user_id"] = stripe_user_id
+        context["prepaid_fees"] = amount["prepaid_fees"]
+        context[
+            "is_registration_only_has_wca_id"
+        ] = self.competition.is_registration_only_has_wca_id()
 
         return context
 
     def create_form(self):
         guests = []
         for guest_count in range(self.competition.guest_limit + 1):
-            guests.append((int(guest_count), str(guest_count) + '人'))
-        self.form.fields['guest_count'].choices = guests
+            guests.append((int(guest_count), str(guest_count) + "人"))
+        self.form.fields["guest_count"].choices = guests
 
         events = []
         for event_id in self.competition.event_ids:
             if event_id in dict(Event.choices()):
                 events.append((str(event_id), Event.get_name(event_id)))
-        self.form.fields['event_ids'].choices = events
+        self.form.fields["event_ids"].choices = events
 
         if self.competitor is not None:
-            self.form.fields['event_ids'].initial = self.competitor.event_ids
-            self.form.fields['guest_count'].initial = self.competitor.guest_count
-            self.form.fields['comment'].initial = self.competitor.comment
+            self.form.fields["event_ids"].initial = self.competitor.event_ids
+            self.form.fields["guest_count"].initial = self.competitor.guest_count
+            self.form.fields["comment"].initial = self.competitor.comment

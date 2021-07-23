@@ -16,21 +16,29 @@ def mbf_convert(value):
     minutes = int(seconds) // 60
     seconds = int(seconds) - minutes * 60
 
-    return str(solved) + '/' + str(attempted) + ' ' + str(minutes) + ':' + str(seconds).zfill(2)
+    return (
+        str(solved)
+        + "/"
+        + str(attempted)
+        + " "
+        + str(minutes)
+        + ":"
+        + str(seconds).zfill(2)
+    )
 
 
 @register.filter
 def result_convert(result, event_id):
 
     if result == -1:
-        return 'DNF'
+        return "DNF"
     elif result == -2:
-        return 'DNS'
+        return "DNS"
     elif result == 0:
         pass
     elif result == OUTLIERS:
-        return 'n/a'
+        return "n/a"
     elif event_id == 17:
         return mbf_convert(result)
     else:
-        return str('{:.02f}'.format(result))
+        return str("{:.02f}".format(result))

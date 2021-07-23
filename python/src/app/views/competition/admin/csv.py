@@ -12,28 +12,32 @@ from app.models import Competition, Competitor, StripeProgress
 
 class Csv(LoginRequiredMixin, View):
     def post(self, request, **kwargs):
-        if 'name_id' not in kwargs:
-            return redirect('competition_index')
-        name_id = kwargs.get('name_id')
+        if "name_id" not in kwargs:
+            return redirect("competition_index")
+        name_id = kwargs.get("name_id")
 
         competition = Competition.objects.filter(name_id=name_id)
         if not competition.exists():
-            return redirect('competition_index')
+            return redirect("competition_index")
         competition = competition.first()
 
         if not competition.is_superuser(request.user):
-            return redirect('competition_index')
+            return redirect("competition_index")
 
         competitors = Competitor.objects.filter(competition_id=competition.id)
-        stripe_progresses = StripeProgress.objects.filter(competition_id=competition.id, refund_price=0)
+        stripe_progresses = StripeProgress.objects.filter(
+            competition_id=competition.id, refund_price=0
+        )
         for competitor in competitors:
             for stripe_progress in stripe_progresses:
                 if competitor.id == stripe_progress.competitor_id:
                     competitor.set_stripe_progress(stripe_progress)
 
-        response = HttpResponse(content_type='text/csv; charset=Shift-JIS')
-        filename = urllib.parse.quote((name_id + '_competitor.csv').encode('utf8'))
-        response['Content-Disposition'] = 'attachment; filename*=UTF-8\'\'{}'.format(filename)
+        response = HttpResponse(content_type="text/csv; charset=Shift-JIS")
+        filename = urllib.parse.quote((name_id + "_competitor.csv").encode("utf8"))
+        response["Content-Disposition"] = "attachment; filename*=UTF-8''{}".format(
+            filename
+        )
         writer = csv.writer(response)
 
         event_name_dict = {}
@@ -42,33 +46,18 @@ class Csv(LoginRequiredMixin, View):
             event_name_dict[event_id] = event_id_names[event_id]
 
         if competition.type == CompetitionType.WCA.value:
-            row = [
-                'wca_id',
-                'wca_user_id',
-                'name',
-                'email'
-            ]
+            row = ["wca_id", "wca_user_id", "name", "email"]
         elif competition.type == CompetitionType.SCJ.value:
-            row = [
-                'scj_id',
-                'full_name',
-                'full_name_kana',
-                'full_name_rome',
-                'email'
-            ]
+            row = ["scj_id", "full_name", "full_name_kana", "full_name_rome", "email"]
 
         row.extend(list(event_name_dict.values()))
-        row.extend([
-            'guest_count',
-            'stripe_charge_id',
-            'comment',
-            'pay_at',
-            'created_at'
-        ])
+        row.extend(
+            ["guest_count", "stripe_charge_id", "comment", "pay_at", "created_at"]
+        )
         writer.writerow(row)
 
         for index, competitor in enumerate(competitors):
-            if request.POST.get('competitor_id_' + str(competitor.id)):
+            if request.POST.get("competitor_id_" + str(competitor.id)):
                 event_join_list = []
                 for event_id in event_name_dict.keys():
                     if event_id in competitor.event_ids:
@@ -91,17 +80,23 @@ class Csv(LoginRequiredMixin, View):
                         competitor.person.get_full_name(),
                         competitor.person.get_full_name_kana(),
                         competitor.person.get_full_name_roma(),
-                        competitor.person.user.email
+                        competitor.person.user.email,
                     ]
 
                 row.extend(event_join_list)
-                row.extend([
-                    competitor.guest_count,
-                    competitor.stripe_progress.charge_id if competitor.stripe_progress is not None else '',
-                    competitor.comment,
-                    localtime(competitor.stripe_progress.pay_at) if competitor.stripe_progress is not None else '',
-                    localtime(competitor.created_at),
-                ])
+                row.extend(
+                    [
+                        competitor.guest_count,
+                        competitor.stripe_progress.charge_id
+                        if competitor.stripe_progress is not None
+                        else "",
+                        competitor.comment,
+                        localtime(competitor.stripe_progress.pay_at)
+                        if competitor.stripe_progress is not None
+                        else "",
+                        localtime(competitor.created_at),
+                    ]
+                )
 
                 writer.writerow(row)
 

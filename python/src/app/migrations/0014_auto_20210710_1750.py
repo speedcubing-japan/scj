@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0013_competition_is_enabled'),
+        ("app", "0013_competition_is_enabled"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='competition',
-            name='is_enabled',
+            model_name="competition",
+            name="is_enabled",
         ),
         migrations.AddField(
-            model_name='competition',
-            name='is_private',
-            field=models.BooleanField(default=False, verbose_name='プライベート可否'),
+            model_name="competition",
+            name="is_private",
+            field=models.BooleanField(default=False, verbose_name="プライベート可否"),
         ),
     ]

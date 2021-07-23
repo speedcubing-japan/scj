@@ -19,6 +19,7 @@ from django.utils.translation import ugettext_lazy as _
 with open("secrets.json") as f:
     secrets = json.loads(f.read())
 
+
 def get_secret(setting, secrets=secrets):
     """Get the secret variable or return explicit exception."""
     try:
@@ -27,6 +28,7 @@ def get_secret(setting, secrets=secrets):
         error_msg = "Set the {0} environment variable".format(setting)
         raise ImproperlyConfigured(error_msg)
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -34,93 +36,91 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_secret('SECRET_KEY')
+SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_secret('DEBUG')
+DEBUG = get_secret("DEBUG")
 
-ALLOWED_HOSTS = get_secret('ALLOWED_HOSTS')
+ALLOWED_HOSTS = get_secret("ALLOWED_HOSTS")
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django_mysql',
-    'bootstrap4',
-    'widget_tweaks',
-    'app',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django_mysql",
+    "bootstrap4",
+    "widget_tweaks",
+    "app",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'locale'),
-)
+LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
 
 LANGUAGES = [
-    ('en', _('English')),
-    ('ja', _('Japanese')),
+    ("en", _("English")),
+    ("ja", _("Japanese")),
 ]
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
-ROOT_URLCONF = 'scj.urls'
+ROOT_URLCONF = "scj.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
         # 各アプリケーションの共通templateディレクトリ。
         # 実装上アプリケーション単位で分離することはないのでこちらのみで運用する
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'app.context_processors.context_processor'
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "app.context_processors.context_processor",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'scj.wsgi.application'
+WSGI_APPLICATION = "scj.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'scj_db',
-        'USER': 'admin',
-        'PASSWORD': get_secret('MYSQL_ADMIN_PASSWORD'),
-        'PORT': '3306',
-        'HOST': 'db',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "scj_db",
+        "USER": "admin",
+        "PASSWORD": get_secret("MYSQL_ADMIN_PASSWORD"),
+        "PORT": "3306",
+        "HOST": "db",
+        "OPTIONS": {
+            "charset": "utf8mb4",
         },
-        'TEST': {
-            'CHARSET': 'utf8mb4',
-            'COLLATION': 'utf8mb4_unicode_ci',
-        }
+        "TEST": {
+            "CHARSET": "utf8mb4",
+            "COLLATION": "utf8mb4_unicode_ci",
+        },
     }
 }
 
@@ -129,16 +129,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -146,9 +146,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'ja'
+LANGUAGE_CODE = "ja"
 
-TIME_ZONE = 'Asia/Tokyo'
+TIME_ZONE = "Asia/Tokyo"
 
 USE_I18N = True
 
@@ -162,124 +162,123 @@ USE_TZ = True
 
 # 各アプリケーションの共通staticディレクトリ。
 # 実装上アプリケーション単位で分離することはないのでこちらのみで運用する
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'assets')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets")]
 
 # nginxのために静的ファイルを集約する場所
 # manage.py collectstaticで集約される場所
-STATIC_ROOT = '/static/'
+STATIC_ROOT = "/static/"
 
 # 静的ファイルのパス
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 # Google API Key
-GOOGLE_API_KEY = get_secret('GOOGLE_API_KEY')
+GOOGLE_API_KEY = get_secret("GOOGLE_API_KEY")
 
 # GAS
-GAS_URL = get_secret('GAS_URL')
+GAS_URL = get_secret("GAS_URL")
 
-GOOGLE_CALENDAR_URL = 'https://www.google.com/calendar/event'
-GOOGLE_MAP_URL = 'https://www.google.com/maps/embed/v1/place'
+GOOGLE_CALENDAR_URL = "https://www.google.com/calendar/event"
+GOOGLE_MAP_URL = "https://www.google.com/maps/embed/v1/place"
 
-LOGIN_URL = '/login'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_URL = '/logout'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = "/login"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_URL = "/logout"
+LOGOUT_REDIRECT_URL = "/"
 
-AUTH_USER_MODEL = 'app.User'
-AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
+AUTH_USER_MODEL = "app.User"
+AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
 
 ACTIVATION_TIMEOUT_SECONDS = 60 * 60 * 24
 
-RECAPTCHA_PUBLIC_KEY = get_secret('RECAPTCHA_PUBLIC_KEY')
-RECAPTCHA_SECRET_KEY = get_secret('RECAPTCHA_SECRET_KEY')
+RECAPTCHA_PUBLIC_KEY = get_secret("RECAPTCHA_PUBLIC_KEY")
+RECAPTCHA_SECRET_KEY = get_secret("RECAPTCHA_SECRET_KEY")
 
-STRIPE_CLIENT_ID = get_secret('STRIPE_CLIENT_ID')
-STRIPE_OAUTH_AUTHORIZATION = 'https://connect.stripe.com/oauth/authorize'
-STRIPE_OAUTH_TOKEN_URL='https://connect.stripe.com/oauth/token'
-STRIPE_PUBLIC_KEY = get_secret('STRIPE_PUBLIC_KEY')
-STRIPE_SECRET_KEY = get_secret('STRIPE_SECRET_KEY')
-STRIPE_WEBHOOK_ENDPOINT_SECRET_KEY = get_secret('STRIPE_WEBHOOK_ENDPOINT_SECRET_KEY')
-STRIPE_WEBHOOK_CONNECT_ENDPOINT_SECRET_KEY = get_secret('STRIPE_WEBHOOK_CONNECT_ENDPOINT_SECRET_KEY')
+STRIPE_CLIENT_ID = get_secret("STRIPE_CLIENT_ID")
+STRIPE_OAUTH_AUTHORIZATION = "https://connect.stripe.com/oauth/authorize"
+STRIPE_OAUTH_TOKEN_URL = "https://connect.stripe.com/oauth/token"
+STRIPE_PUBLIC_KEY = get_secret("STRIPE_PUBLIC_KEY")
+STRIPE_SECRET_KEY = get_secret("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_ENDPOINT_SECRET_KEY = get_secret("STRIPE_WEBHOOK_ENDPOINT_SECRET_KEY")
+STRIPE_WEBHOOK_CONNECT_ENDPOINT_SECRET_KEY = get_secret(
+    "STRIPE_WEBHOOK_CONNECT_ENDPOINT_SECRET_KEY"
+)
 
-WCA_CLIENT_ID= get_secret('WCA_CLIENT_ID')
-WCA_CLIENT_SECRET= get_secret('WCA_CLIENT_SECRET')
-WCA_OAUTH_AUTHORIZATION ='https://www.worldcubeassociation.org/oauth/authorize'
-WCA_OAUTH_TOKEN_URL='https://www.worldcubeassociation.org/oauth/token'
-WCA_API_URL='https://www.worldcubeassociation.org/api/v0/me'
-WCA_TSV_URL='https://www.worldcubeassociation.org/results/misc/WCA_export.tsv.zip'
+WCA_CLIENT_ID = get_secret("WCA_CLIENT_ID")
+WCA_CLIENT_SECRET = get_secret("WCA_CLIENT_SECRET")
+WCA_OAUTH_AUTHORIZATION = "https://www.worldcubeassociation.org/oauth/authorize"
+WCA_OAUTH_TOKEN_URL = "https://www.worldcubeassociation.org/oauth/token"
+WCA_API_URL = "https://www.worldcubeassociation.org/api/v0/me"
+WCA_TSV_URL = "https://www.worldcubeassociation.org/results/misc/WCA_export.tsv.zip"
 
 
 # メールサーバーへの接続設定
-EMAIL_HOST = 'smtp.office365.com'
+EMAIL_HOST = "smtp.office365.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'admin@speedcubing.or.jp'
+EMAIL_HOST_USER = "admin@speedcubing.or.jp"
 EMAIL_HOST_PASSWORD = get_secret("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {
+        "require_debug_false": {
+            "()": "django.utils.log.RequireDebugFalse",
         },
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
         },
     },
-    'formatters': {
-        'django.server': {
-            '()': 'django.utils.log.ServerFormatter',
-            'format': '[%(server_time)s] %(message)s a',
+    "formatters": {
+        "django.server": {
+            "()": "django.utils.log.ServerFormatter",
+            "format": "[%(server_time)s] %(message)s a",
         },
         # プロジェクト用のフォーマットを追加
-        'heibon': {
-            'format': '\t'.join([
-                "[%(levelname)s]",
-                "%(asctime)s",
-                "%(name)s:%(lineno)d",
-                "%(message)s",
-                "%(threadName)s",
-            ])
+        "heibon": {
+            "format": "\t".join(
+                [
+                    "[%(levelname)s]",
+                    "%(asctime)s",
+                    "%(name)s:%(lineno)d",
+                    "%(message)s",
+                    "%(threadName)s",
+                ]
+            )
         },
     },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG', 
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-            'formatter': 'heibon'  # フォーマッター追加
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "filters": ["require_debug_true"],
+            "class": "logging.StreamHandler",
+            "formatter": "heibon",  # フォーマッター追加
         },
-        'django.server': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'django.server',
+        "django.server": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "django.server",
         },
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
+        "mail_admins": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "django.utils.log.AdminEmailHandler",
         },
     },
-    "root": {
-        "level": "DEBUG",
-        "handlers": [
-            "console"
-        ]
+    "root": {"level": "DEBUG", "handlers": ["console"]},
+    "loggers": {
+        "django": {
+            "handlers": ["console", "mail_admins"],
+            "level": "DEBUG",
+        },
+        "django.server": {
+            "handlers": ["django.server"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "django.template": {
+            "handlers": ["console", "mail_admins"],
+            "level": "INFO",
+        },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'DEBUG',
-        },
-        'django.server': {
-            'handlers': ['django.server'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-	'django.template': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'INFO',
-        }
-    }
 }

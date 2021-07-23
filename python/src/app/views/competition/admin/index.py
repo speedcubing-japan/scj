@@ -13,22 +13,26 @@ class Index(LoginRequiredMixin, Base):
 
     def get(self, request, **kwargs):
         if not self.competition.is_superuser(request.user):
-            return redirect('competition_index')
+            return redirect("competition_index")
 
-        self.competitors = Competitor.objects.filter(competition_id=self.competition.id).order_by('created_at')
+        self.competitors = Competitor.objects.filter(
+            competition_id=self.competition.id
+        ).order_by("created_at")
 
         return render(request, self.get_template_name(), self.get_context())
 
     def post(self, request, **kwargs):
         if not self.competition.is_superuser(request.user):
-            return redirect('competition_index')
+            return redirect("competition_index")
 
-        if 'type' not in request.POST:
-            return redirect('competition_index')
+        if "type" not in request.POST:
+            return redirect("competition_index")
 
-        type = request.POST.get('type')
+        type = request.POST.get("type")
 
-        self.competitors = Competitor.objects.filter(competition_id=self.competition.id).order_by('created_at')
+        self.competitors = Competitor.objects.filter(
+            competition_id=self.competition.id
+        ).order_by("created_at")
 
         registration_count = 0
         for competitor in self.competitors:
@@ -36,11 +40,17 @@ class Index(LoginRequiredMixin, Base):
                 registration_count += 1
 
         for competitor in self.competitors:
-            if request.POST.get('competitor_id_' + str(competitor.id)):
-                if type == 'admit' and competitor.status != CompetitorStatus.REGISTRATION.value:
+            if request.POST.get("competitor_id_" + str(competitor.id)):
+                if (
+                    type == "admit"
+                    and competitor.status != CompetitorStatus.REGISTRATION.value
+                ):
                     registration_count += 1
 
-                if type == 'cancel' and competitor.status != CompetitorStatus.CANCEL.value:
+                if (
+                    type == "cancel"
+                    and competitor.status != CompetitorStatus.CANCEL.value
+                ):
                     registration_count -= 1
 
         if registration_count > self.competition.limit:
@@ -49,15 +59,21 @@ class Index(LoginRequiredMixin, Base):
 
         is_updated = False
         for competitor in self.competitors:
-            if request.POST.get('competitor_id_' + str(competitor.id)):
-                if type == 'admit' and competitor.status != CompetitorStatus.REGISTRATION.value:
+            if request.POST.get("competitor_id_" + str(competitor.id)):
+                if (
+                    type == "admit"
+                    and competitor.status != CompetitorStatus.REGISTRATION.value
+                ):
                     competitor.update_status(CompetitorStatus.REGISTRATION.value)
-                    self.send_mail('registration_admit')
+                    self.send_mail("registration_admit")
                     is_updated = True
 
-                if type == 'cancel' and competitor.status != CompetitorStatus.CANCEL.value:
+                if (
+                    type == "cancel"
+                    and competitor.status != CompetitorStatus.CANCEL.value
+                ):
                     competitor.update_status(CompetitorStatus.CANCEL.value)
-                    self.send_mail('registration_cancel')
+                    self.send_mail("registration_cancel")
                     is_updated = True
 
         if is_updated:
@@ -74,23 +90,34 @@ class Index(LoginRequiredMixin, Base):
         # 重複確認
         twin_competition_competitor_specfic_ids = []
         if self.competition.twin_competition_id != 0:
-            twin_competition_competitors = Competitor.objects.filter(competition_id=self.competition.twin_competition_id)
+            twin_competition_competitors = Competitor.objects.filter(
+                competition_id=self.competition.twin_competition_id
+            )
             for twin_competition_competitor in twin_competition_competitors:
                 if twin_competition_competitor.status != CompetitorStatus.CANCEL.value:
-                    twin_competition_competitor_specfic_ids.append(twin_competition_competitor.get_specific_id(self.competition.type))
+                    twin_competition_competitor_specfic_ids.append(
+                        twin_competition_competitor.get_specific_id(
+                            self.competition.type
+                        )
+                    )
 
         pending_competitors = []
         registration_competitors = []
         cancel_competitors = []
 
-        stripe_progresses = StripeProgress.objects.filter(competition_id=self.competition.id)
+        stripe_progresses = StripeProgress.objects.filter(
+            competition_id=self.competition.id
+        )
         for competitor in self.competitors:
 
             for stripe_progress in stripe_progresses:
                 if competitor.id == stripe_progress.competitor_id:
                     competitor.set_stripe_progress(stripe_progress)
 
-            if competitor.get_specific_id(self.competition.type) in twin_competition_competitor_specfic_ids:
+            if (
+                competitor.get_specific_id(self.competition.type)
+                in twin_competition_competitor_specfic_ids
+            ):
                 competitor.set_is_duplicated_twin_competitions()
 
             if competitor.status == CompetitorStatus.PENDING.value:
@@ -100,17 +127,17 @@ class Index(LoginRequiredMixin, Base):
             if competitor.status == CompetitorStatus.CANCEL.value:
                 cancel_competitors.append(competitor)
 
-        context['pending_competitors'] = pending_competitors
-        context['registration_competitors'] = registration_competitors
-        context['cancel_competitors'] = cancel_competitors
+        context["pending_competitors"] = pending_competitors
+        context["registration_competitors"] = registration_competitors
+        context["cancel_competitors"] = cancel_competitors
 
         return context
 
     def get_template_name(self):
-        competition_type = ''
+        competition_type = ""
         if self.competition.type == CompetitionType.SCJ.value:
             competition_type = CompetitionType.SCJ.name.lower()
         elif self.competition.type == CompetitionType.WCA.value:
             competition_type = CompetitionType.WCA.name.lower()
 
-        return 'app/competition/admin/index_{}.html'.format(competition_type)
+        return "app/competition/admin/index_{}.html".format(competition_type)

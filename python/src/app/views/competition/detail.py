@@ -13,7 +13,7 @@ from .base import Base
 
 class Detail(Base):
 
-    template_name = 'app/competition/detail.html'
+    template_name = "app/competition/detail.html"
 
     def get(self, request, **kwargs):
         return render(request, self.template_name, self.get_context())
@@ -38,7 +38,7 @@ class Detail(Base):
         # 結果があるか
         has_results = Result.objects.filter(competition_id=self.competition.id).exists()
 
-        notification = ''
+        notification = ""
         if self.competition.is_private:
             notification = Notification.COMPETITION_PRIVATE
         elif not self.competition.is_display:
@@ -64,41 +64,44 @@ class Detail(Base):
         # 承認者数
         competitor_registration_count = Competitor.objects.filter(
             competition_id=self.competition.id,
-            status=CompetitorStatus.REGISTRATION.value).count()
-        competitor_registration_rate = int(competitor_registration_count * 100 / self.competition.limit)
+            status=CompetitorStatus.REGISTRATION.value,
+        ).count()
+        competitor_registration_rate = int(
+            competitor_registration_count * 100 / self.competition.limit
+        )
 
         # 部屋を取得
         rounds = Round.objects.filter(competition_id=self.competition.id)
         room_names = set(map(lambda x: x.room_name, rounds))
-        room_name = ', '.join(room_names)
+        room_name = ", ".join(room_names)
 
         # google calendar date params
-        open_at = localtime(self.competition.open_at).strftime('%Y%m%d')
-        close_at = localtime(self.competition.close_at).strftime('%Y%m%d')
-        google_calendar_date_param = open_at + '/' + close_at
+        open_at = localtime(self.competition.open_at).strftime("%Y%m%d")
+        close_at = localtime(self.competition.close_at).strftime("%Y%m%d")
+        google_calendar_date_param = open_at + "/" + close_at
 
         # 作成時のエラー
-        admin_errors = self.request.session.get('competition_admin_errors')
-        if self.request.session.get('competition_admin_errors') is not None:
-            del self.request.session['competition_admin_errors']
+        admin_errors = self.request.session.get("competition_admin_errors")
+        if self.request.session.get("competition_admin_errors") is not None:
+            del self.request.session["competition_admin_errors"]
 
-        context['title'] = self.competition.name
-        context['room_name'] = room_name
-        context['competition_day_count'] = competition_day_count
-        context['judges'] = judges
-        context['organizers'] = organizers
-        context['competitor_registration_count'] = competitor_registration_count
-        context['competitor_registration_rate'] = competitor_registration_rate
-        context['fee_pay_type_text'] = fee_pay_type_text
-        context['fee_calc_type_text'] = fee_calc_type_text
-        context['google_api_key'] = settings.GOOGLE_API_KEY
-        context['google_map_url'] = settings.GOOGLE_MAP_URL
-        context['google_calendar_url'] = settings.GOOGLE_CALENDAR_URL
-        context['google_calendar_date_param'] = google_calendar_date_param
-        context['now'] = now
-        context['is_noindex_nofollow'] = not self.competition.is_display
-        context['admin_errors'] = admin_errors
+        context["title"] = self.competition.name
+        context["room_name"] = room_name
+        context["competition_day_count"] = competition_day_count
+        context["judges"] = judges
+        context["organizers"] = organizers
+        context["competitor_registration_count"] = competitor_registration_count
+        context["competitor_registration_rate"] = competitor_registration_rate
+        context["fee_pay_type_text"] = fee_pay_type_text
+        context["fee_calc_type_text"] = fee_calc_type_text
+        context["google_api_key"] = settings.GOOGLE_API_KEY
+        context["google_map_url"] = settings.GOOGLE_MAP_URL
+        context["google_calendar_url"] = settings.GOOGLE_CALENDAR_URL
+        context["google_calendar_date_param"] = google_calendar_date_param
+        context["now"] = now
+        context["is_noindex_nofollow"] = not self.competition.is_display
+        context["admin_errors"] = admin_errors
         if not self.notification:
-            context['notification'] = notification
+            context["notification"] = notification
 
         return context

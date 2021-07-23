@@ -3,6 +3,7 @@ from enum import unique
 
 GENERATION_MAX = 10
 
+
 @unique
 class Status(Define):
     PENDING = 1

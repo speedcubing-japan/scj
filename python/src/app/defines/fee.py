@@ -5,9 +5,9 @@ from django.utils.translation import gettext_lazy as _
 
 @unique
 class PayType(Define):
-    現地支払 = (1, _('現地支払'))
-    事前支払または現地支払 = (2, _('事前支払または現地支払'))
-    事前支払 = (3, _('事前支払'))
+    現地支払 = (1, _("現地支払"))
+    事前支払または現地支払 = (2, _("事前支払または現地支払"))
+    事前支払 = (3, _("事前支払"))
 
     @classmethod
     def get_name(cls, value):
@@ -18,13 +18,14 @@ class PayType(Define):
     @classmethod
     def choices(cls):
         return tuple((x.value[0], x.name) for x in cls)
-    
+
     @classmethod
     def has(cls, value):
         for x in cls:
             if x.value[0] == value:
                 return True
         return False
+
 
 # 参照用
 @unique
@@ -33,10 +34,11 @@ class PayTypeEn(Define):
     LOCAL_AND_REMOTE = 2
     REMOTE_ONLY = 3
 
+
 @unique
 class CalcType(Define):
-    種目別 = (1, _('種目別'))
-    種目数 = (2, _('種目数'))
+    種目別 = (1, _("種目別"))
+    種目数 = (2, _("種目数"))
 
     @classmethod
     def get_name(cls, value):
@@ -47,13 +49,14 @@ class CalcType(Define):
     @classmethod
     def choices(cls):
         return tuple((x.value[0], x.name) for x in cls)
-    
+
     @classmethod
     def has(cls, value):
         for x in cls:
             if x.value[0] == value:
                 return True
         return False
+
 
 # 参照用
 @unique

@@ -9,34 +9,33 @@ class List(TemplateView):
     def get(self, request, **kwargs):
         PAGE_SIZE = 10
 
-        page = self.request.GET.get(key='page', default=1)
+        page = self.request.GET.get(key="page", default=1)
 
-        type = kwargs.get('type')
+        type = kwargs.get("type")
         if type == "":
-            return redirect('index')
+            return redirect("index")
 
-        if type == 'all':
-            all_informations = Information.objects \
-                .filter(is_public=True) \
-                .order_by('updated_at') \
+        if type == "all":
+            all_informations = (
+                Information.objects.filter(is_public=True)
+                .order_by("updated_at")
                 .reverse()
+            )
         else:
             if not InformationTypeEn.contains_name(type):
-                return redirect('index')
+                return redirect("index")
 
             type_id = InformationTypeEn.get_value(type)
-            all_informations = Information.objects \
-                .filter(type=type_id) \
-                .filter(is_public=True) \
-                .order_by('updated_at') \
+            all_informations = (
+                Information.objects.filter(type=type_id)
+                .filter(is_public=True)
+                .order_by("updated_at")
                 .reverse()
+            )
 
         pagenator = Paginator(all_informations, PAGE_SIZE)
         informations = pagenator.get_page(page)
 
-        context = {
-            'informations': informations,
-            'type': type
-        }
+        context = {"informations": informations, "type": type}
 
-        return render(request, 'app/information/list.html', context)
+        return render(request, "app/information/list.html", context)

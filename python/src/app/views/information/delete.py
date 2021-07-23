@@ -8,34 +8,34 @@ from app.defines.session import Notification
 class Delete(LoginRequiredMixin, TemplateView):
     def get(self, request, **kwargs):
         if not request.user.is_superuser and not request.user.is_staff:
-            return redirect('index')
+            return redirect("index")
 
-        id = kwargs.get('id')
+        id = kwargs.get("id")
 
         information = Information.objects.filter(id=id)
         if not information.exists():
-            return redirect('index')
+            return redirect("index")
         information = information.first()
 
         context = {
-            'information': information,
+            "information": information,
         }
 
-        return render(request, 'app/information/delete.html', context)
+        return render(request, "app/information/delete.html", context)
 
     def post(self, request, **kwargs):
         if not request.user.is_superuser and not request.user.is_staff:
-            return redirect('index')
+            return redirect("index")
 
-        id = kwargs.get('id')
+        id = kwargs.get("id")
 
         information = Information.objects.filter(id=id)
         information = information.first()
         if request.user.is_staff and information.person.user.id is not request.user.id:
-            return redirect('index')
+            return redirect("index")
 
         Information.objects.filter(id=id).delete()
 
-        request.session['notification'] = Notification.INFORMATION_DELETE
+        request.session["notification"] = Notification.INFORMATION_DELETE
 
-        return redirect('post_list')
+        return redirect("post_list")

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0011_auto_20210703_2217'),
+        ("app", "0011_auto_20210703_2217"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='person',
-            name='is_event_offerer',
-            field=models.BooleanField(default=False, verbose_name='イベント申請者フラグ'),
+            model_name="person",
+            name="is_event_offerer",
+            field=models.BooleanField(default=False, verbose_name="イベント申請者フラグ"),
         ),
     ]

@@ -11,14 +11,14 @@ from app.defines.fee import PayTypeEn as FeePayType
 from app.defines.competitor import Status as CompetitorStatus
 
 
-@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(csrf_exempt, name="dispatch")
 class Webhook(View):
     def post(self, request):
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe_webhook_endpoint_secret = settings.STRIPE_WEBHOOK_ENDPOINT_SECRET_KEY
 
-        payload = request.body.decode('utf-8')
-        sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+        payload = request.body.decode("utf-8")
+        sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
 
         event = None
 
@@ -33,7 +33,7 @@ class Webhook(View):
             # Invalid signature
             return HttpResponse(status=400)
 
-        if event.type == 'payment_intent.succeeded':
+        if event.type == "payment_intent.succeeded":
             payment_intent = event.data.object
             # 基本一つだけ。
             charges = payment_intent.charges.data[0]
@@ -61,14 +61,18 @@ class Webhook(View):
             stripe_progress.competitor_id = competitor.id
             stripe_progress.charge_id = charges.id
             stripe_progress.pay_price = charges.amount
-            stripe_progress.pay_at = datetime.datetime.fromtimestamp(charges.created, tz=datetime.timezone.utc)
+            stripe_progress.pay_at = datetime.datetime.fromtimestamp(
+                charges.created, tz=datetime.timezone.utc
+            )
             stripe_progress.save()
 
-            send_mail(request,
-                      competitor.person.user,
-                      competition,
-                      'app/mail/competition/registration_payment_subject.txt',
-                      'app/mail/competition/registration_payment_message.txt',
-                      price=charges.amount)
+            send_mail(
+                request,
+                competitor.person.user,
+                competition,
+                "app/mail/competition/registration_payment_subject.txt",
+                "app/mail/competition/registration_payment_message.txt",
+                price=charges.amount,
+            )
 
         return HttpResponse(status=200)

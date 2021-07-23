@@ -9,6 +9,6 @@ register = template.Library()
 def competition_logo(competition):
 
     if competition.type == CompetitionType.WCA.value:
-        return 'app/image/wca.svg'
+        return "app/image/wca.svg"
     elif competition.type == CompetitionType.SCJ.value:
-        return 'app/image/scj_logo_s.png'
+        return "app/image/scj_logo_s.png"

@@ -12,7 +12,7 @@ class Complete(View):
     timeout_seconds = settings.ACTIVATION_TIMEOUT_SECONDS
 
     def get(self, request, **kwargs):
-        token = kwargs.get('token')
+        token = kwargs.get("token")
         try:
             user_pk = loads(token, max_age=self.timeout_seconds)
 
@@ -34,8 +34,8 @@ class Complete(View):
 
                     login(request, user)
 
-                    request.session['notification'] = Notification.REGISTRATION_COMPLETE
+                    request.session["notification"] = Notification.REGISTRATION_COMPLETE
 
-                    return redirect('index')
+                    return redirect("index")
 
         return HttpResponseBadRequest()

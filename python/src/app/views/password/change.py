@@ -4,6 +4,6 @@ from app.forms import PasswordChangeForm
 
 
 class Change(PasswordChangeView):
-    template_name = 'app/password/change.html'
+    template_name = "app/password/change.html"
     form_class = PasswordChangeForm
-    success_url = reverse_lazy('password_change_complete')
+    success_url = reverse_lazy("password_change_complete")

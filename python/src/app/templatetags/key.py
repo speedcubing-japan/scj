@@ -9,4 +9,4 @@ def key(value, arg):
     if arg in value:
         return value[arg]
     else:
-        return ''
+        return ""

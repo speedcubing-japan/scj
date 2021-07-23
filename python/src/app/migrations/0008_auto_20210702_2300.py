@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0007_competition_twin_competition_id'),
+        ("app", "0007_competition_twin_competition_id"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='competitor',
-            name='guest_count',
-            field=models.SmallIntegerField(verbose_name='同伴者数'),
+            model_name="competitor",
+            name="guest_count",
+            field=models.SmallIntegerField(verbose_name="同伴者数"),
         ),
     ]

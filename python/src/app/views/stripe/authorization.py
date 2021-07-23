@@ -9,29 +9,26 @@ class Authorization(View):
     def get(self, request):
 
         if not request.user.is_authenticated or not request.user.person.is_judge:
-            return redirect('index')
+            return redirect("index")
 
-        code = self.request.GET.get('code')
+        code = self.request.GET.get("code")
         if not code:
-            return redirect('index')
+            return redirect("index")
 
         params = {
-            'grant_type': 'authorization_code',
-            'client_secret': settings.STRIPE_SECRET_KEY,
-            'code': code,
+            "grant_type": "authorization_code",
+            "client_secret": settings.STRIPE_SECRET_KEY,
+            "code": code,
         }
 
         response = requests.post(settings.STRIPE_OAUTH_TOKEN_URL, params)
         if response.status_code == requests.codes.ok:
-            stripe_user_id = response.json()['stripe_user_id']
+            stripe_user_id = response.json()["stripe_user_id"]
 
             person = request.user.person
             person.stripe_user_id = stripe_user_id
-            person.save(update_fields=[
-                'stripe_user_id',
-                'updated_at'
-            ])
+            person.save(update_fields=["stripe_user_id", "updated_at"])
 
-            request.session['notification'] = Notification.STRIPE_AUTHORIZATION_COMPLETE
+            request.session["notification"] = Notification.STRIPE_AUTHORIZATION_COMPLETE
 
-        return redirect('profile')
+        return redirect("profile")

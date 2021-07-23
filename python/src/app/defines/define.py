@@ -3,6 +3,7 @@ from enum import Enum
 
 OUTLIERS = 99999999999
 
+
 class Define(Enum):
     @classmethod
     def choices(cls):
@@ -27,7 +28,7 @@ class Define(Enum):
         for x in cls:
             if x.value == value:
                 return x.name
-    
+
     @classmethod
     def has(cls, value):
         for x in cls:

@@ -11,36 +11,49 @@ from app.defines.competition import SCJ_COMPETITON_FIRST_YEAR
 
 class Index(TemplateView):
     def get(self, request):
-        type = int(self.request.GET.get(key='type', default=0))
-        event_id = int(self.request.GET.get(key='event_id', default=0))
-        year = int(self.request.GET.get(key='year', default=0))
-        prefecture_id = int(self.request.GET.get(key='prefecture_id', default=0))
+        type = int(self.request.GET.get(key="type", default=0))
+        event_id = int(self.request.GET.get(key="event_id", default=0))
+        year = int(self.request.GET.get(key="year", default=0))
+        prefecture_id = int(self.request.GET.get(key="prefecture_id", default=0))
 
-        form = CompetitionForm(initial={
-            'type': type,
-            'event_id': event_id,
-            'year': year,
-            'prefecture_id': prefecture_id,
-        })
+        form = CompetitionForm(
+            initial={
+                "type": type,
+                "event_id": event_id,
+                "year": year,
+                "prefecture_id": prefecture_id,
+            }
+        )
 
-        competition_types = [(0, '全種別')]
-        competition_types += list(map(lambda x: (x[0], str(x[1]) + '大会'), CompetitionType.choices()))
-        form.fields['type'].choices = competition_types
+        competition_types = [(0, "全種別")]
+        competition_types += list(
+            map(lambda x: (x[0], str(x[1]) + "大会"), CompetitionType.choices())
+        )
+        form.fields["type"].choices = competition_types
 
-        events = [(0, '全種目')]
+        events = [(0, "全種目")]
         events += Event.choices()
-        form.fields['event_id'].choices = tuple(events)
+        form.fields["event_id"].choices = tuple(events)
 
-        years = [(0, '最新')]
+        years = [(0, "最新")]
         current_year = datetime.date.today().year
-        years += list(map(lambda x: (x, str(x) + '年'), reversed(range(SCJ_COMPETITON_FIRST_YEAR, current_year + 1))))
-        form.fields['year'].choices = tuple(years)
+        years += list(
+            map(
+                lambda x: (x, str(x) + "年"),
+                reversed(range(SCJ_COMPETITON_FIRST_YEAR, current_year + 1)),
+            )
+        )
+        form.fields["year"].choices = tuple(years)
 
-        prefectures = [(0, '全都道府県')]
+        prefectures = [(0, "全都道府県")]
         prefectures += list(map(lambda x: (x.value, x.name), Prefecture))
-        form.fields['prefecture_id'].choices = tuple(prefectures)
+        form.fields["prefecture_id"].choices = tuple(prefectures)
 
-        competitions = Competition.objects.filter(is_display=True, is_private=False).order_by('open_at').reverse()
+        competitions = (
+            Competition.objects.filter(is_display=True, is_private=False)
+            .order_by("open_at")
+            .reverse()
+        )
 
         if type != 0:
             competitions = competitions.filter(type=type)
@@ -64,9 +77,9 @@ class Index(TemplateView):
                 finish_competition_list.append(competition)
 
         context = {
-            'form': form,
-            'competitions': competition_list,
-            'finish_competitions': finish_competition_list
+            "form": form,
+            "competitions": competition_list,
+            "finish_competitions": finish_competition_list,
         }
 
-        return render(request, 'app/competition/index.html', context)
+        return render(request, "app/competition/index.html", context)

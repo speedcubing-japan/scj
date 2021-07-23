@@ -11,26 +11,26 @@ from app.defines.session import Notification
 
 
 class Change(LoginRequiredMixin, FormView):
-    template_name = 'app/mail/change.html'
+    template_name = "app/mail/change.html"
     form_class = MailChangeForm
 
     def form_valid(self, form):
         user = self.request.user
-        new_email = form.cleaned_data['email']
+        new_email = form.cleaned_data["email"]
 
         current_site = get_current_site(self.request)
         domain = current_site.domain
         context = {
-            'protocol': 'https' if self.request.is_secure() else 'http',
-            'domain': domain,
-            'token': dumps(new_email),
-            'user': user,
+            "protocol": "https" if self.request.is_secure() else "http",
+            "domain": domain,
+            "token": dumps(new_email),
+            "user": user,
         }
 
-        subject = render_to_string('app/mail/mail_change_subject.txt', context).strip()
-        message = render_to_string('app/mail/mail_change_message.txt', context).strip()
+        subject = render_to_string("app/mail/mail_change_subject.txt", context).strip()
+        message = render_to_string("app/mail/mail_change_message.txt", context).strip()
         send_mail(subject, message, settings.EMAIL_HOST_USER, [new_email])
 
-        self.request.session['notification'] = Notification.MAIL_CHANGE
+        self.request.session["notification"] = Notification.MAIL_CHANGE
 
-        return redirect('index')
+        return redirect("index")

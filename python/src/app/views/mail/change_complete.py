@@ -13,7 +13,7 @@ class ChangeComplete(LoginRequiredMixin, View):
     timeout_seconds = settings.ACTIVATION_TIMEOUT_SECONDS
 
     def get(self, request, **kwargs):
-        token = kwargs.get('token')
+        token = kwargs.get("token")
         try:
             new_email = loads(token, max_age=self.timeout_seconds)
 
@@ -30,6 +30,6 @@ class ChangeComplete(LoginRequiredMixin, View):
 
             login(request, request.user)
 
-            self.request.session['notification'] = Notification.MAIL_CHANGE_COMPLETE
+            self.request.session["notification"] = Notification.MAIL_CHANGE_COMPLETE
 
-            return redirect('index')
+            return redirect("index")

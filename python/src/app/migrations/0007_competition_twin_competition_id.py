@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0006_competition_email'),
+        ("app", "0006_competition_email"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='competition',
-            name='twin_competition_id',
-            field=models.IntegerField(default=0, verbose_name='双子大会ID'),
+            model_name="competition",
+            name="twin_competition_id",
+            field=models.IntegerField(default=0, verbose_name="双子大会ID"),
         ),
     ]

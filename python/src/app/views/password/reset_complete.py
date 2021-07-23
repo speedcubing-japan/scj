@@ -5,11 +5,11 @@ from app.defines.session import Notification
 
 
 class ResetComplete(PasswordResetConfirmView):
-    success_url = reverse_lazy('index')
-    template_name = 'app/password/reset_complete.html'
+    success_url = reverse_lazy("index")
+    template_name = "app/password/reset_complete.html"
     form_class = SetPasswordForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        self.request.session['notification'] = Notification.PASSWORD_CHANGE
+        self.request.session["notification"] = Notification.PASSWORD_CHANGE
         return context

@@ -6,48 +6,61 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0004_competition_is_display'),
+        ("app", "0004_competition_is_display"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='competition',
-            name='description_en',
-            field=models.TextField(default='', verbose_name='大会説明(英文)'),
+            model_name="competition",
+            name="description_en",
+            field=models.TextField(default="", verbose_name="大会説明(英文)"),
         ),
         migrations.AddField(
-            model_name='competition',
-            name='requirement_en',
-            field=models.TextField(default='', verbose_name='参加要件(英文)'),
+            model_name="competition",
+            name="requirement_en",
+            field=models.TextField(default="", verbose_name="参加要件(英文)"),
         ),
         migrations.AlterField(
-            model_name='round',
-            name='type',
-            field=models.SmallIntegerField(choices=[(1, '予選'), (2, '二次予選'), (3, '準決勝'), (4, '決勝')], verbose_name='ラウンドタイプ'),
+            model_name="round",
+            name="type",
+            field=models.SmallIntegerField(
+                choices=[(1, "予選"), (2, "二次予選"), (3, "準決勝"), (4, "決勝")],
+                verbose_name="ラウンドタイプ",
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='email',
-            field=models.EmailField(max_length=254, unique=True, verbose_name='メールアドレス'),
+            model_name="user",
+            name="email",
+            field=models.EmailField(
+                max_length=254, unique=True, verbose_name="メールアドレス"
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='first_name',
-            field=models.CharField(blank=True, max_length=30, verbose_name='名'),
+            model_name="user",
+            name="first_name",
+            field=models.CharField(blank=True, max_length=30, verbose_name="名"),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='is_active',
-            field=models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='アクティブ'),
+            model_name="user",
+            name="is_active",
+            field=models.BooleanField(
+                default=True,
+                help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
+                verbose_name="アクティブ",
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='is_staff',
-            field=models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='スタッフ可否'),
+            model_name="user",
+            name="is_staff",
+            field=models.BooleanField(
+                default=False,
+                help_text="Designates whether the user can log into this admin site.",
+                verbose_name="スタッフ可否",
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='last_name',
-            field=models.CharField(blank=True, max_length=150, verbose_name='性'),
+            model_name="user",
+            name="last_name",
+            field=models.CharField(blank=True, max_length=150, verbose_name="性"),
         ),
     ]

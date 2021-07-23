@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0009_competition_fee_pay_close_at'),
+        ("app", "0009_competition_fee_pay_close_at"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='competition',
-            name='organizer_name',
-            field=models.CharField(default='', max_length=64, verbose_name='主催者名'),
+            model_name="competition",
+            name="organizer_name",
+            field=models.CharField(default="", max_length=64, verbose_name="主催者名"),
         ),
     ]

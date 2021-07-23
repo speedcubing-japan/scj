@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0010_competition_organizer_name'),
+        ("app", "0010_competition_organizer_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='competition',
-            name='refund_description',
-            field=models.TextField(default='', verbose_name='返金ポリシー'),
+            model_name="competition",
+            name="refund_description",
+            field=models.TextField(default="", verbose_name="返金ポリシー"),
         ),
         migrations.AddField(
-            model_name='competition',
-            name='refund_description_en',
-            field=models.TextField(default='', verbose_name='返金ポリシー(英文)'),
+            model_name="competition",
+            name="refund_description_en",
+            field=models.TextField(default="", verbose_name="返金ポリシー(英文)"),
         ),
     ]

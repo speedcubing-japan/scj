@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0008_auto_20210702_2300'),
+        ("app", "0008_auto_20210702_2300"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='competition',
-            name='fee_pay_close_at',
-            field=models.DateTimeField(default=None, null=True, verbose_name='参加費支払い期限'),
+            model_name="competition",
+            name="fee_pay_close_at",
+            field=models.DateTimeField(
+                default=None, null=True, verbose_name="参加費支払い期限"
+            ),
         ),
     ]

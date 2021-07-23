@@ -7,27 +7,27 @@ from app.defines.session import Notification
 
 class Approve(LoginRequiredMixin, View):
     def get(self, request, **kwargs):
-        if request.user.person.is_community_posting_offer or not request.user.is_superuser:
-            return redirect('index')
+        if (
+            request.user.person.is_community_posting_offer
+            or not request.user.is_superuser
+        ):
+            return redirect("index")
 
-        id = kwargs.get('id')
+        id = kwargs.get("id")
 
         post = Post.objects.filter(id=id)
         if not post.exists():
-            return redirect('index')
+            return redirect("index")
         post = post.first()
 
         information = Information(
-            type=post.type,
-            title=post.title,
-            text=post.text,
-            is_public=False
+            type=post.type, title=post.title, text=post.text, is_public=False
         )
         information.person = request.user.person
         information.save()
         # 削除
         Post.objects.filter(id=id).delete()
 
-        request.session['notification'] = Notification.POST_APPROVE
+        request.session["notification"] = Notification.POST_APPROVE
 
-        return redirect('post_list')
+        return redirect("post_list")

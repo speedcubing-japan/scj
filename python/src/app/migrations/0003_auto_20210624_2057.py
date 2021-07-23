@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0002_person_stripe_customer_id'),
+        ("app", "0002_person_stripe_customer_id"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='feeperevent',
-            name='prepaid_price',
-            field=models.IntegerField(default=0, verbose_name='事前決済料金'),
+            model_name="feeperevent",
+            name="prepaid_price",
+            field=models.IntegerField(default=0, verbose_name="事前決済料金"),
         ),
         migrations.AddField(
-            model_name='feepereventcount',
-            name='prepaid_price',
-            field=models.IntegerField(default=0, verbose_name='事前決済料金'),
+            model_name="feepereventcount",
+            name="prepaid_price",
+            field=models.IntegerField(default=0, verbose_name="事前決済料金"),
         ),
     ]

@@ -16,7 +16,15 @@ def mbf_convert(value):
     minutes = int(seconds) // 60
     seconds = int(seconds) - minutes * 60
 
-    return str(solved) + '/' + str(attempted) + ' ' + str(minutes) + ':' + str(seconds).zfill(2)
+    return (
+        str(solved)
+        + "/"
+        + str(attempted)
+        + " "
+        + str(minutes)
+        + ":"
+        + str(seconds).zfill(2)
+    )
 
 
 @register.filter
@@ -38,30 +46,30 @@ def result_values(result):
         for value in values:
             if min(values) == value:
                 if value == -1:
-                    modify_list.append('(DNF)')
+                    modify_list.append("(DNF)")
                 elif value == -2:
-                    modify_list.append('(DNS)')
+                    modify_list.append("(DNS)")
                 else:
-                    modify_list.append('(' + '{:.02f}'.format(value) + ')')
+                    modify_list.append("(" + "{:.02f}".format(value) + ")")
             elif max(values) == value:
                 if value == -1:
-                    modify_list.append('(DNF)')
+                    modify_list.append("(DNF)")
                 elif value == -2:
-                    modify_list.append('(DNS)')
+                    modify_list.append("(DNS)")
                 else:
-                    modify_list.append('(' + '{:.02f}'.format(value) + ')')
+                    modify_list.append("(" + "{:.02f}".format(value) + ")")
             else:
-                modify_list.append(str('{:.02f}'.format(value)))
+                modify_list.append(str("{:.02f}".format(value)))
     else:
         for value in values:
             if value == -1:
-                modify_list.append('DNF')
+                modify_list.append("DNF")
             elif value == -2:
-                modify_list.append('DNS')
+                modify_list.append("DNS")
             else:
                 if result.event_id == 17:
                     modify_list.append(mbf_convert(value))
                 else:
-                    modify_list.append('{:.02f}'.format(value))
+                    modify_list.append("{:.02f}".format(value))
 
-    return ' '.join(modify_list)
+    return " ".join(modify_list)

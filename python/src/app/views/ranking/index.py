@@ -11,39 +11,43 @@ from app.models import BestRank, AverageRank
 class Index(TemplateView):
     def get(self, request):
 
-        type = self.request.GET.get(key='type', default='best')
-        event_id = int(self.request.GET.get(key='event_id', default=1))
-        gender_id = int(self.request.GET.get(key='gender_id', default=0))
-        generation_id = int(self.request.GET.get(key='generation_id', default=-1))
-        prefecture_id = int(self.request.GET.get(key='prefecture_id', default=0))
+        type = self.request.GET.get(key="type", default="best")
+        event_id = int(self.request.GET.get(key="event_id", default=1))
+        gender_id = int(self.request.GET.get(key="gender_id", default=0))
+        generation_id = int(self.request.GET.get(key="generation_id", default=-1))
+        prefecture_id = int(self.request.GET.get(key="prefecture_id", default=0))
 
-        form = RankingForm(initial={
-            'event_id': event_id,
-            'generation_id': generation_id,
-            'prefecture_id': prefecture_id,
-            'gender_id': gender_id
-        })
+        form = RankingForm(
+            initial={
+                "event_id": event_id,
+                "generation_id": generation_id,
+                "prefecture_id": prefecture_id,
+                "gender_id": gender_id,
+            }
+        )
 
-        form.fields['event_id'].choices = Event.choices()
+        form.fields["event_id"].choices = Event.choices()
 
         genders = [(0, "すべて")]
         genders += Gender.choices()
 
-        form.fields['gender_id'].choices = tuple(genders)
+        form.fields["gender_id"].choices = tuple(genders)
 
         generattions = [(-1, "全世代")]
         for generation in range(0, GENERATION_MAX + 1):
-            generattions.append((generation * GENERATION_MAX, str(generation * GENERATION_MAX) + "代"))
-        form.fields['generation_id'].choices = tuple(generattions)
+            generattions.append(
+                (generation * GENERATION_MAX, str(generation * GENERATION_MAX) + "代")
+            )
+        form.fields["generation_id"].choices = tuple(generattions)
 
         prefectures = [(0, "全都道府県")]
         prefectures += list(map(lambda x: (x.value, x.name), Prefecture))
-        form.fields['prefecture_id'].choices = tuple(prefectures)
+        form.fields["prefecture_id"].choices = tuple(prefectures)
 
-        if type == 'best':
-            ranks = BestRank.objects.order_by('rank')
-        elif type == 'average':
-            ranks = AverageRank.objects.order_by('rank')
+        if type == "best":
+            ranks = BestRank.objects.order_by("rank")
+        elif type == "average":
+            ranks = AverageRank.objects.order_by("rank")
 
         if event_id != 0:
             ranks = ranks.filter(event_id=event_id)
@@ -69,9 +73,9 @@ class Index(TemplateView):
             rank.rank = search_rank
 
         context = {
-            'ranks': ranks,
-            'type': type,
-            'form': form,
+            "ranks": ranks,
+            "type": type,
+            "form": form,
         }
 
-        return render(request, 'app/ranking/index.html', context)
+        return render(request, "app/ranking/index.html", context)

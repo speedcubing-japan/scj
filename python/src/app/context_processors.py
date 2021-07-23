@@ -6,8 +6,8 @@ from app.defines.competition import Type as CompetitionType
 
 def context_processor(req):
     return {
-        'competitor_status': CompetitorStatus.__members__,
-        'fee_pay_type': FeePayType.__members__,
-        'fee_calc_type': FeeCalcType.__members__,
-        'competition_type': CompetitionType.__members__
+        "competitor_status": CompetitorStatus.__members__,
+        "fee_pay_type": FeePayType.__members__,
+        "fee_calc_type": FeeCalcType.__members__,
+        "competition_type": CompetitionType.__members__,
     }

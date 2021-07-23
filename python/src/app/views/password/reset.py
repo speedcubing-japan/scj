@@ -13,26 +13,30 @@ from app.defines.session import Notification
 
 
 class Reset(FormView):
-    template_name = 'app/password/reset.html'
+    template_name = "app/password/reset.html"
     form_class = PasswordResetForm
 
     def form_valid(self, form):
-        email = form.cleaned_data['email']
+        email = form.cleaned_data["email"]
         user = User.objects.get(email=email)
 
         current_site = get_current_site(self.request)
         domain = current_site.domain
         context = {
-            'protocol': 'https' if self.request.is_secure() else 'http',
-            'domain': domain,
-            'token': default_token_generator.make_token(user),
-            'user': user,
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            "protocol": "https" if self.request.is_secure() else "http",
+            "domain": domain,
+            "token": default_token_generator.make_token(user),
+            "user": user,
+            "uid": urlsafe_base64_encode(force_bytes(user.pk)),
         }
 
-        subject = render_to_string('app/mail/password_reset_subject.txt', context).strip()
-        message = render_to_string('app/mail/password_reset_message.txt', context).strip()
+        subject = render_to_string(
+            "app/mail/password_reset_subject.txt", context
+        ).strip()
+        message = render_to_string(
+            "app/mail/password_reset_message.txt", context
+        ).strip()
         send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
 
-        self.request.session['notification'] = Notification.PASSWORD_RESET
-        return redirect('index')
+        self.request.session["notification"] = Notification.PASSWORD_RESET
+        return redirect("index")

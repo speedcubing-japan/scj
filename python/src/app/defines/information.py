@@ -9,6 +9,7 @@ class Type(Define):
     イベント = 3
     お知らせ = 4
 
+
 @unique
 class TypeEn(Define):
     wca_competition = 1
