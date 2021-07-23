@@ -1,11 +1,9 @@
 import json
-import datetime
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from app.models import Competition, Person, FeePerEvent, FeePerEventCount
 from app.defines.competition import Type as CompetitionType
-from app.defines.event import Event
 from app.defines.prefecture import Prefecture
 from app.defines.fee import PayType as FeePayType
 from app.defines.fee import CalcType as FeeCalcType
@@ -21,7 +19,7 @@ def send_mail(request, user, competition, subject_path, message_path, **kwargs):
         'protocol': 'https' if request.is_secure() else 'http',
         'domain': domain,
         'user': user,
-        'competition':  competition
+        'competition': competition
     }
 
     if 'price' in kwargs:
@@ -30,6 +28,7 @@ def send_mail(request, user, competition, subject_path, message_path, **kwargs):
     subject = render_to_string(subject_path, context).strip()
     message = render_to_string(message_path, context).strip()
     user.email_user(subject, message, settings.EMAIL_HOST_USER)
+
 
 def calc_fee(competition, competitor):
 
@@ -66,11 +65,13 @@ def calc_fee(competition, competitor):
 
     return {'fees': fees, 'prepaid_fees': prepaid_fees, 'price': price}
 
+
 def check_date(date, format):
     try:
         return True
     except ValueError:
         return False
+
 
 def check_competition(data, type):
     errors = []
@@ -114,6 +115,7 @@ def check_competition(data, type):
 
     return errors
 
+
 def check_round(line, data, event_ids):
     errors = []
 
@@ -129,17 +131,18 @@ def check_round(line, data, event_ids):
         if not int(data['event_id']) in event_ids:
             errors.append('event_idがcompetition.event_idsに含まれていません。' + line + '行目')
     if int(data['event_id']) == 0 and \
-        (int(data['attempt_count']) != 0 or \
-         int(data['type']) != 0 or \
-         int(data['format_id']) != 0 or \
-         int(data['limit_type']) != 0 or \
-         int(data['limit_time']) != 0 or \
-         int(data['cutoff_attempt_count']) != 0 or \
-         int(data['cutoff_time']) != 0 or \
+        (int(data['attempt_count']) != 0 or
+         int(data['type']) != 0 or
+         int(data['format_id']) != 0 or
+         int(data['limit_type']) != 0 or
+         int(data['limit_time']) != 0 or
+         int(data['cutoff_attempt_count']) != 0 or
+         int(data['cutoff_time']) != 0 or
          int(data['proceed_count']) != 0):
         errors.append('event_idが0のときはevent_name、room_name、begin_at, end_atが0でなければなりません。' + line + '行目')
 
     return errors
+
 
 def check_feeperevent(line, data, event_ids):
     errors = []
@@ -148,6 +151,7 @@ def check_feeperevent(line, data, event_ids):
         errors.append('event_idが規定外です。' + line + '行目 event_id: ' + data['event_id'])
 
     return errors
+
 
 def check_feepereventcount(line, data):
     return []

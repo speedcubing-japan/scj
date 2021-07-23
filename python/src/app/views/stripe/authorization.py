@@ -12,7 +12,7 @@ class Authorization(View):
             return redirect('index')
 
         code = self.request.GET.get('code')
-        if code == None:
+        if not code:
             return redirect('index')
 
         params = {

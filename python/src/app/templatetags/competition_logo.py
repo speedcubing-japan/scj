@@ -4,6 +4,7 @@ from app.defines.competition import Type as CompetitionType
 
 register = template.Library()
 
+
 @register.filter
 def competition_logo(competition):
 

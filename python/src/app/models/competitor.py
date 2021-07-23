@@ -72,12 +72,12 @@ class Competitor(models.Model):
         if is_update_created_at:
             self.created_at = now
         self.save(update_fields=[
-                'event_ids',
-                'guest_count',
-                'comment',
-                'status',
-                'created_at',
-                'updated_at'
+            'event_ids',
+            'guest_count',
+            'comment',
+            'status',
+            'created_at',
+            'updated_at'
         ])
 
     def update_status(self, status):

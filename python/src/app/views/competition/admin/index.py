@@ -1,11 +1,9 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from app.models import Competition, Competitor, Result, StripeProgress
+from app.models import Competitor, StripeProgress
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.competition import Type as CompetitionType
 from app.views.competition.base import Base
-from app.views.competition.util import send_mail
 from app.defines.session import Notification
 
 
@@ -25,7 +23,7 @@ class Index(LoginRequiredMixin, Base):
         if not self.competition.is_superuser(request.user):
             return redirect('competition_index')
 
-        if not 'type' in request.POST:
+        if 'type' not in request.POST:
             return redirect('competition_index')
 
         type = request.POST.get('type')

@@ -4,11 +4,9 @@ import json
 from app.defines.gender import Gender
 from app.defines.prefecture import PrefectureAndOversea
 from app.defines.competitor import GENERATION_MAX
-from datetime import date
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 from django.utils.timezone import localtime
-from django.core import serializers
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from app.models import Person
@@ -34,7 +32,7 @@ class Command(BaseCommand):
             # 記録にあるイベントIDを取得
             query = '[ .[].fields.event_id ] | unique | .[]'
             event_ids = pyjq.all(query, json_object)
-        
+
         with open(self.get_fixtures_path('competition')) as file:
             json_object = json.loads(file.read())
 
@@ -103,7 +101,8 @@ class Command(BaseCommand):
                         result['competition_id'] = result['competition_id']
                         result['competition_name_id'] = competiton_datas[result['competition_id']]['name_id']
                         result['competition_name'] = competiton_datas[result['competition_id']]['name']
-                        result['year'] = localtime(datetime.fromisoformat(competiton_datas[result['competition_id']]['open_at'].replace('Z', '+00:00'))).year
+                        result['year'] = localtime(datetime.fromisoformat(
+                            competiton_datas[result['competition_id']]['open_at'].replace('Z', '+00:00'))).year
                         result['gender'] = person_datas[result['person_id']].gender
                         result['generation'] = generation
                         result['prefecture_id'] = person_datas[result['person_id']].prefecture_id

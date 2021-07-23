@@ -1,7 +1,6 @@
 import app.models
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from app.models import Competition, Competitor, Round
+from django.shortcuts import render
+from app.models import Competitor, Round
 from app.defines.event import Event
 from .base import Base
 

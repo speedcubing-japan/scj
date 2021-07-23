@@ -7,7 +7,7 @@ from app.defines.prefecture import PrefectureAndOversea
 
 class AverageRank(models.Model):
 
-    person = models.ForeignKey(Person, on_delete=models.CASCADE, default=None) 
+    person = models.ForeignKey(Person, on_delete=models.CASCADE, default=None)
     event_id = models.SmallIntegerField('イベントID', choices=Event.choices())
     competition_id = models.IntegerField('大会ID')
     competition_name_id = models.CharField('大会名ID', max_length=64, default='')

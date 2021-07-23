@@ -1,8 +1,7 @@
 import app.models
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from app.models import Competition, Competitor, StripeProgress
+from app.models import StripeProgress
 from app.defines.event import Event
 from app.views.competition.base import Base
 from app.defines.session import Notification
@@ -17,7 +16,7 @@ class Competitor(LoginRequiredMixin, Base):
         if not self.competition.is_superuser(request.user):
             return redirect('competition_detail', name_id=self.name_id)
 
-        if not 'competitor_id' in kwargs:
+        if 'competitor_id' not in kwargs:
             return redirect('competition_detail', name_id=self.name_id)
 
         competitor_id = kwargs.get('competitor_id')
@@ -32,7 +31,7 @@ class Competitor(LoginRequiredMixin, Base):
         if not self.competition.is_superuser(request.user):
             return redirect('competition_detail', name_id=self.name_id)
 
-        if not 'competitor_id' in request.POST:
+        if 'competitor_id' not in request.POST:
             return redirect('competition_detail', name_id=self.name_id)
 
         competitor_id = request.POST.get(key='competitor_id')

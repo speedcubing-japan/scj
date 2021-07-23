@@ -1,6 +1,5 @@
-import os
 import csv
-from io import TextIOWrapper, StringIO
+from io import TextIOWrapper
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView

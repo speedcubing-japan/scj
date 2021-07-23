@@ -4,6 +4,7 @@ import datetime
 
 register = template.Library()
 
+
 @register.filter(expects_localtime=True)
 def is_today(value):
     if type(value) is datetime.datetime:

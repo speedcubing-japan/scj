@@ -2,7 +2,7 @@ import datetime
 import re
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
-from app.models import Person, User, Post, Information
+from app.models import Person, User, Information
 from django.conf import settings
 from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse
@@ -16,31 +16,32 @@ class UserCreateForm(UserCreationForm):
     class Meta:
         model = User
         fields = (
-            'email', 
-            'password1', 
+            'email',
+            'password1',
             'password2'
         )
         help_texts = {
             'email': _('使用可能なメールアドレスを入力してください。'),
         }
-    
+
     def clean_email(self):
         email = self.cleaned_data['email']
         User.objects.filter(email=email, is_active=False).delete()
         return email
+
 
 class PersonCreateForm(forms.ModelForm):
 
     class Meta:
         model = Person
         fields = (
-            'last_name', 
-            'last_name_kana', 
-            'last_name_roma', 
+            'last_name',
+            'last_name_kana',
+            'last_name_roma',
             'first_name',
             'first_name_kana',
             'first_name_roma',
-            'gender', 
+            'gender',
             'birth_at',
             'prefecture_id',
         )
@@ -93,7 +94,7 @@ class PersonCreateForm(forms.ModelForm):
 
     def clean_first_name_roma(self):
         first_name_roma = self.cleaned_data['first_name_roma']
-        if re.fullmatch('[a-zA-Z]+', first_name_roma) == None:
+        if re.fullmatch('[a-zA-Z]+', first_name_roma) is None:
             raise forms.ValidationError(_('半角アルファベットでない文字が含まれています。'))
         if first_name_roma != first_name_roma.capitalize():
             raise forms.ValidationError(_('先頭文字が大文字、それ以降の文字は小文字でお願いします。'))
@@ -101,25 +102,28 @@ class PersonCreateForm(forms.ModelForm):
 
     def clean_last_name_roma(self):
         last_name_roma = self.cleaned_data['last_name_roma']
-        if re.fullmatch('[a-zA-Z]+', last_name_roma) == None:
+        if re.fullmatch('[a-zA-Z]+', last_name_roma) is None:
             raise forms.ValidationError(_('アルファベットでない文字が含まれています。'))
         if last_name_roma != last_name_roma.capitalize():
             raise forms.ValidationError(_('先頭文字が大文字、それ以降の文字は小文字でお願いします。'))
         return last_name_roma
 
+
 class LoginForm(AuthenticationForm):
     pass
+
 
 class PasswordChangeForm(PasswordChangeForm):
 
     class Meta:
         model = User
 
+
 class PasswordResetForm(PasswordResetForm):
 
     class Meta:
         model = User
-    
+
     def clean_email(self):
         email = self.cleaned_data['email']
         query = User.objects.filter(email=email)
@@ -127,10 +131,12 @@ class PasswordResetForm(PasswordResetForm):
             raise forms.ValidationError('メールアドレスが存在しません。')
         return email
 
+
 class SetPasswordForm(SetPasswordForm):
-    
+
     class Meta:
         model = User
+
 
 class MailChangeForm(forms.ModelForm):
 
@@ -142,6 +148,7 @@ class MailChangeForm(forms.ModelForm):
         email = self.cleaned_data['email']
         User.objects.filter(email=email, is_active=False).delete()
         return email
+
 
 class ContactForm(forms.Form):
     name = forms.CharField(
@@ -161,7 +168,7 @@ class ContactForm(forms.Form):
         message = self.cleaned_data['message']
         name = self.cleaned_data['name']
         email = self.cleaned_data['email']
-        
+
         message = '名前: ' + name + '\r\n' + 'メールアドレス: ' + email + '\r\n\r\n' + message
 
         from_email = settings.EMAIL_HOST_USER
@@ -171,6 +178,7 @@ class ContactForm(forms.Form):
         except BadHeaderError:
             return HttpResponse('無効なヘッダが検出されました。')
 
+
 class ProfileForm(forms.Form):
     prefecture_id = forms.fields.ChoiceField(
         label='都道府県',
@@ -178,6 +186,7 @@ class ProfileForm(forms.Form):
         widget=forms.widgets.Select,
         choices=PrefectureAndOversea.choices()
     )
+
 
 class CompetitionForm(forms.Form):
     type = forms.fields.ChoiceField(
@@ -201,14 +210,12 @@ class CompetitionForm(forms.Form):
         widget=forms.widgets.Select
     )
 
+
 class CompetitionRegistrationForm(forms.Form):
     event_ids = forms.MultipleChoiceField(
-          label=_('参加種目'),
-          required=True,
-          widget=forms.CheckboxSelectMultiple(attrs=
-          {
-               'id': 'event_ids'
-          })
+        label=_('参加種目'),
+        required=True,
+        widget=forms.CheckboxSelectMultiple(attrs={'id': 'event_ids'})
     )
     guest_count = forms.fields.ChoiceField(
         label=_('同伴者数'),
@@ -220,6 +227,7 @@ class CompetitionRegistrationForm(forms.Form):
         required=False,
         widget=forms.Textarea(attrs={'cols': '80', 'rows': '5'}),
     )
+
 
 class PostForm(forms.Form):
     title = forms.CharField(
@@ -291,6 +299,7 @@ class PostForm(forms.Form):
         max_length=512,
     )
 
+
 class PostEditForm(forms.Form):
     title = forms.CharField(
         label='タイトル',
@@ -303,11 +312,13 @@ class PostEditForm(forms.Form):
         widget=forms.Textarea(attrs={'cols': '80', 'rows': '10'}),
     )
 
+
 class InformationForm(forms.ModelForm):
 
     class Meta:
         model = Information
         fields = ('type', 'title', 'text', 'is_public')
+
 
 class RankingForm(forms.Form):
     event_id = forms.fields.ChoiceField(

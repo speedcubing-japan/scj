@@ -3,7 +3,7 @@ from .person import Person
 from app.defines.information import Type as InformationType
 
 
-class Information(models.Model):    
+class Information(models.Model):
 
     type = models.IntegerField('種類', choices=InformationType.choices())
     title = models.CharField('タイトル', max_length=64)

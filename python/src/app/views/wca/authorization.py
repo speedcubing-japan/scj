@@ -1,9 +1,7 @@
-import json
-import pyjq
 import requests
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import View
 from app.models import Person
 from app.defines.session import Notification
@@ -15,7 +13,7 @@ class Authorization(View):
         code = self.request.GET.get('code')
         type = self.request.GET.get('type')
 
-        if code == None or type == None:
+        if not code or not type:
             return redirect('index')
 
         current_site = get_current_site(self.request)

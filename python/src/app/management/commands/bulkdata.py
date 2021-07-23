@@ -1,11 +1,9 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.db import connection
-from app.models import Person, Competition, Competitor, Round, Result, AverageRank, BestRank, Scramble, FeePerEvent, FeePerEventCount, WcaAverageRank, WcaBestRank
+from app.models import Person, Competition, Round, Result, AverageRank, BestRank, Scramble, FeePerEvent, FeePerEventCount
 import os
-import requests
 import json
-import subprocess
 
 
 class Command(BaseCommand):

@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from app.views.competition.base import Base
-from app.models import Competition, Round, FeePerEvent, FeePerEventCount
+from app.models import Round, FeePerEvent, FeePerEventCount
 
 
 class Hidden(LoginRequiredMixin, Base):
@@ -14,7 +14,8 @@ class Hidden(LoginRequiredMixin, Base):
             return redirect('competition_detail', name_id=self.name_id)
 
         is_round_exists = Round.objects.filter(competition_id=self.competition.id).exists()
-        is_fee_exists = FeePerEvent.objects.filter(competition_id=self.competition.id).exists() or FeePerEventCount.objects.filter(competition_id=self.competition.id).exists()
+        is_fee_exists = FeePerEvent.objects.filter(competition_id=self.competition.id).exists() or \
+            FeePerEventCount.objects.filter(competition_id=self.competition.id).exists()
         if not is_round_exists or not is_fee_exists:
             request.session['competition_admin_errors'] = set('round、feepereventまたはfeepereventcountデータが不足しているため非表示に変更できません。')
             return redirect('competition_detail', name_id=self.name_id)

@@ -1,6 +1,5 @@
 import json
 import stripe
-import requests
 import datetime
 from django.conf import settings
 from django.views.generic import View
@@ -13,6 +12,7 @@ from app.defines.competitor import Status as CompetitorStatus
 from app.defines.fee import PayTypeEn as FeePayType
 from app.models import Competition, Competitor, Person
 from app.views.competition.util import calc_fee
+
 
 class Create(View):
     def post(self, request):
@@ -37,7 +37,7 @@ class Create(View):
         if competition.fee_pay_close_at <= now:
             return JsonResponse({'error': '支払い期日を過ぎています。'})
 
-        if not competition.is_payment and not is_superuser(self, request, competition):
+        if not competition.is_payment and not competition.is_superuser(request.user):
             return JsonResponse({'error': '現在支払えません。'})
 
         if competition.fee_pay_type == FeePayType.REMOTE_ONLY.value:
@@ -59,10 +59,7 @@ class Create(View):
             cancel_url = request.build_absolute_uri(reverse('competition_registration', args=[competition.name_id])) + '?status=cancel'
 
         elif competition.fee_pay_type == FeePayType.LOCAL_AND_REMOTE.value:
-            competitor = Competitor.objects.filter(
-                    competition_id=competition.id,
-                    person_id=request.user.person.id
-                ).first()
+            competitor = Competitor.objects.filter(competition_id=competition.id, person_id=request.user.person.id).first()
 
             if competitor.status != CompetitorStatus.REGISTRATION.value:
                 return JsonResponse({'error': '申し込みが承認されていない、またはキャンセルされているので支払えません。'})
@@ -82,17 +79,13 @@ class Create(View):
             name = request.user.person.get_full_name()
             image_path = protocol + '://' + domain + static('app/image/scj_logo_s.png')
             spcific_id = request.user.person.id
-            description = 'SCJ_ID: {} 氏名: {}' \
-                    .format(request.user.person.id, \
-                    request.user.person.get_full_name())
+            description = 'SCJ_ID: {} 氏名: {}'.format(request.user.person.id, request.user.person.get_full_name())
 
         elif competition.type == CompetitionType.WCA.value:
             name = request.user.person.wca_name
             image_path = protocol + '://' + domain + static('app/image/wca.svg')
             spcific_id = request.user.person.wca_id
-            description = 'WCA_ID: {} 氏名: {}' \
-                .format(request.user.person.wca_id, \
-                request.user.person.get_full_name())
+            description = 'WCA_ID: {} 氏名: {}'.format(request.user.person.wca_id, request.user.person.get_full_name())
 
         stripe_user_id = ''
         if competition.stripe_user_person_id != 0:

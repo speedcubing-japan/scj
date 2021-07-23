@@ -1,6 +1,6 @@
 import requests
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import View
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site

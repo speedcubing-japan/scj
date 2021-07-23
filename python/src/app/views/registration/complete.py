@@ -2,9 +2,7 @@ from django.conf import settings
 from django.contrib.auth import login
 from django.shortcuts import redirect
 from django.views.generic import View
-from django.template.loader import render_to_string
 from django.http import HttpResponseBadRequest
-from django.contrib.sites.shortcuts import get_current_site
 from django.core.signing import BadSignature, SignatureExpired, loads
 from app.models import User
 from app.defines.session import Notification

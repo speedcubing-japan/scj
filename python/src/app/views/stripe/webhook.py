@@ -1,4 +1,3 @@
-import json
 import stripe
 import datetime
 from django.conf import settings
@@ -27,10 +26,10 @@ class Webhook(View):
             event = stripe.Webhook.construct_event(
                 payload, sig_header, stripe_webhook_endpoint_secret
             )
-        except ValueError as e:
+        except ValueError:
             # Invalid payload
             return HttpResponse(status=400)
-        except stripe.error.SignatureVerificationError as e:
+        except stripe.error.SignatureVerificationError:
             # Invalid signature
             return HttpResponse(status=400)
 
@@ -63,13 +62,13 @@ class Webhook(View):
             stripe_progress.charge_id = charges.id
             stripe_progress.pay_price = charges.amount
             stripe_progress.pay_at = datetime.datetime.fromtimestamp(charges.created, tz=datetime.timezone.utc)
-            stripe_progress.save()            
+            stripe_progress.save()
 
             send_mail(request,
-                competitor.person.user,
-                competition,
-                'app/mail/competition/registration_payment_subject.txt',
-                'app/mail/competition/registration_payment_message.txt',
-                price=charges.amount)
+                      competitor.person.user,
+                      competition,
+                      'app/mail/competition/registration_payment_subject.txt',
+                      'app/mail/competition/registration_payment_message.txt',
+                      price=charges.amount)
 
         return HttpResponse(status=200)

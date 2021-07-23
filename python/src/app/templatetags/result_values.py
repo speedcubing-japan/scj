@@ -3,6 +3,7 @@ from django import template
 
 register = template.Library()
 
+
 def mbf_convert(value):
     value = str(int(value))
     difference = 99 - int(value[0:2])
@@ -16,6 +17,7 @@ def mbf_convert(value):
     seconds = int(seconds) - minutes * 60
 
     return str(solved) + '/' + str(attempted) + ' ' + str(minutes) + ':' + str(seconds).zfill(2)
+
 
 @register.filter
 def result_values(result):

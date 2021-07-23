@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import TemplateView
 from app.views.competition.util import send_mail
 from app.models import Competition, Competitor, Result
@@ -88,20 +88,18 @@ class Base(TemplateView):
 
     def send_mail(self, type):
         send_mail(self.request,
-            self.user,
-            self.competition,
-            'app/mail/competition/{}_subject.txt'.format(type),
-            'app/mail/competition/{}_message.txt'.format(type)
-        )
+                  self.user,
+                  self.competition,
+                  'app/mail/competition/{}_subject.txt'.format(type),
+                  'app/mail/competition/{}_message.txt'.format(type))
 
     def send_mail_refund(self, type, price):
         send_mail(self.request,
-            self.user,
-            self.competition,
-            'app/mail/competition/{}_subject.txt'.format(type),
-            'app/mail/competition/{}_message.txt'.format(type),
-            price=price
-        )
+                  self.user,
+                  self.competition,
+                  'app/mail/competition/{}_subject.txt'.format(type),
+                  'app/mail/competition/{}_message.txt'.format(type),
+                  price=price)
 
     def is_wca_authenticated(self):
         if self.competitor:

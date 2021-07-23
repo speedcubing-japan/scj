@@ -33,5 +33,3 @@ class ChangeComplete(LoginRequiredMixin, View):
             self.request.session['notification'] = Notification.MAIL_CHANGE_COMPLETE
 
             return redirect('index')
-
-        return HttpResponseBadRequest()

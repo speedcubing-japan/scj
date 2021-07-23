@@ -16,7 +16,7 @@ class Index(TemplateView):
         year = int(self.request.GET.get(key='year', default=0))
         prefecture_id = int(self.request.GET.get(key='prefecture_id', default=0))
 
-        form = CompetitionForm(initial = {
+        form = CompetitionForm(initial={
             'type': type,
             'event_id': event_id,
             'year': year,

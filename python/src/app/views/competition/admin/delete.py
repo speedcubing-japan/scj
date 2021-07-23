@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from app.models import Competition, Round, FeePerEvent, FeePerEventCount
+from app.models import Round, FeePerEvent, FeePerEventCount
 from app.views.competition.base import Base
 
 

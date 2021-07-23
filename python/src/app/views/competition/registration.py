@@ -1,17 +1,14 @@
 import datetime
 from django.conf import settings
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
 from django.contrib.sites.shortcuts import get_current_site
-from app.models import Competition, Competitor, Result, StripeProgress, Person
+from app.models import Competitor, StripeProgress, Person
 from app.forms import CompetitionRegistrationForm
 from app.defines.event import Event
 from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.session import Notification
 from .base import Base
-from .util import send_mail
 from .util import calc_fee
 
 
@@ -49,7 +46,8 @@ class Registration(Base):
         if self.competition.type == CompetitionType.WCA.value and not self.is_wca_authenticated():
             return redirect('competition_detail', name_id=self.name_id)
 
-        if self.competition.type == CompetitionType.WCA.value and not request.user.person.wca_id and self.competition.is_registration_only_has_wca_id():
+        if self.competition.type == CompetitionType.WCA.value and \
+                not request.user.person.wca_id and self.competition.is_registration_only_has_wca_id():
             return redirect('competition_detail', name_id=self.name_id)
 
         if not self.form.is_valid():
@@ -68,7 +66,7 @@ class Registration(Base):
 
                 # REGISTRATIONはもう申し込み/変更等はできない。
                 if self.competitor.status == CompetitorStatus.REGISTRATION.value:
-                    return redirect('competition_detail', name_id=name_id)
+                    return redirect('competition_detail', name_id=self.name_id)
 
                 self.competitor.update(
                     CompetitorStatus.PENDING.value,

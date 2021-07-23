@@ -1,10 +1,7 @@
 import datetime
 from django.conf import settings
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from app.models import Competition, Person, Competitor, Result, StripeProgress
-from app.defines.event import Event
-from app.defines.competition import Type as CompetitionType
+from django.shortcuts import render
+from app.models import Person, StripeProgress
 from app.defines.session import Notification
 from .base import Base
 from .util import calc_fee
@@ -59,7 +56,7 @@ class Fee(Base):
         context['stripe_public_key'] = settings.STRIPE_PUBLIC_KEY
         context['stripe_user_id'] = stripe_user_id
         context['now'] = now
-        context['is_payment'] = self.competition.is_payment or self.competition.is_superuser(request.user)
+        context['is_payment'] = self.competition.is_payment or self.competition.is_superuser(self.user)
         context['admin_errors'] = admin_errors
 
         return context

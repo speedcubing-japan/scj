@@ -2,7 +2,7 @@ import csv
 import urllib
 from django.http import HttpResponse
 from django.utils.timezone import localtime
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.defines.event import Event
@@ -97,9 +97,9 @@ class Csv(LoginRequiredMixin, View):
                 row.extend(event_join_list)
                 row.extend([
                     competitor.guest_count,
-                    competitor.stripe_progress.charge_id if competitor.stripe_progress != None else '',
+                    competitor.stripe_progress.charge_id if competitor.stripe_progress is not None else '',
                     competitor.comment,
-                    localtime(competitor.stripe_progress.pay_at) if competitor.stripe_progress != None else '',
+                    localtime(competitor.stripe_progress.pay_at) if competitor.stripe_progress is not None else '',
                     localtime(competitor.created_at),
                 ])
 

@@ -1,8 +1,6 @@
 from django.utils.timezone import localtime
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from app.models import Competition, Result, Round
-from app.defines.event import Event
+from django.shortcuts import render
+from app.models import Round
 from .base import Base
 
 

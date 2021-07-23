@@ -3,6 +3,7 @@ from app.defines.fee import PayTypeEn as FeePayType
 from app.defines.fee import CalcTypeEn as FeeCalcType
 from app.defines.competition import Type as CompetitionType
 
+
 def context_processor(req):
     return {
         'competitor_status': CompetitorStatus.__members__,

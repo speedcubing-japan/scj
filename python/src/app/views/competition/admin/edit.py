@@ -1,9 +1,7 @@
-import os
 import csv
-from io import TextIOWrapper, StringIO
+from io import TextIOWrapper
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
+from django.shortcuts import redirect
 from app.models import Competition, Round, FeePerEvent, FeePerEventCount
 from app.defines.fee import CalcTypeEn as FeeCalcType
 from app.defines.session import Notification

@@ -76,10 +76,10 @@ class Event(models.Model):
     def is_refunder(self, user):
         is_refunder = False
         if user.is_authenticated:
-           if user.is_superuser:
-               is_refunder = True
-           if user.person.id == self.stripe_user_person_id:
-               is_refunder = True
+            if user.is_superuser:
+                is_refunder = True
+            if user.person.id == self.stripe_user_person_id:
+                is_refunder = True
         return is_refunder
 
     def __str__(self):

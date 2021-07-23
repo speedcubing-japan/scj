@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.views.generic import TemplateView
-from app.models import Person, Information
+from app.models import Information
 from app.defines.information import TypeEn as InformationTypeEn
 
 

@@ -1,10 +1,10 @@
 import datetime
-import math
 from django import template
 from django.utils.translation import ugettext as _
 
 
 register = template.Library()
+
 
 @register.filter
 def rest_time(timedelta):
@@ -24,4 +24,3 @@ def rest_time(timedelta):
             elif timedelta.total_seconds() > 0:
                 text = str(total_seconds) + _(' 秒')
     return text
-        

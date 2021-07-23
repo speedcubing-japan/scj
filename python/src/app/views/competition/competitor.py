@@ -1,7 +1,6 @@
 import app.models
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from app.models import Competition, Competitor, Result, BestRank, AverageRank, WcaBestRank, WcaAverageRank
+from app.models import BestRank, AverageRank, WcaBestRank, WcaAverageRank
 from app.defines.event import Event
 from app.defines.country import Country
 from app.defines.define import OUTLIERS

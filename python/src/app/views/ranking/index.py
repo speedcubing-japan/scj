@@ -1,4 +1,3 @@
-import datetime
 from app.defines.gender import Gender
 from app.defines.prefecture import Prefecture
 from app.defines.event import Event
@@ -7,6 +6,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from app.forms import RankingForm
 from app.models import BestRank, AverageRank
+
 
 class Index(TemplateView):
     def get(self, request):
@@ -17,7 +17,7 @@ class Index(TemplateView):
         generation_id = int(self.request.GET.get(key='generation_id', default=-1))
         prefecture_id = int(self.request.GET.get(key='prefecture_id', default=0))
 
-        form = RankingForm(initial = {
+        form = RankingForm(initial={
             'event_id': event_id,
             'generation_id': generation_id,
             'prefecture_id': prefecture_id,

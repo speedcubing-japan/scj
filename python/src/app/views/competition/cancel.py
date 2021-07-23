@@ -1,9 +1,6 @@
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
+from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from app.models import Competition, Competitor
 from app.defines.competitor import Status as CompetitorStatus
-from app.views.competition.util import send_mail
 from app.defines.session import Notification
 from .base import Base
 
@@ -19,7 +16,7 @@ class Cancel(LoginRequiredMixin, Base):
 
         # CancelができるのはPending時。
         if self.competitor.status != CompetitorStatus.PENDING.value:
-            return redirect('competition_registration', name_id=name_id)
+            return redirect('competition_registration', name_id=self.name_id)
 
         self.competitor.update_status(CompetitorStatus.CANCEL.value)
         self.send_mail('registration_cancel')

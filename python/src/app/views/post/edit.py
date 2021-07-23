@@ -18,7 +18,7 @@ class Edit(LoginRequiredMixin, TemplateView):
         if not post.exists():
             return redirect('index')
         post = post.first()
-        form = PostEditForm(initial = {
+        form = PostEditForm(initial={
             'title': post.title,
             'text': post.text
         })
@@ -48,13 +48,13 @@ class Edit(LoginRequiredMixin, TemplateView):
             post.title = post_form.cleaned_data['title']
             post.text = post_form.cleaned_data['text']
             post.save(update_fields=[
-                    'type',
-                    'title',
-                    'text',
-                    'updated_at'
+                'type',
+                'title',
+                'text',
+                'updated_at'
             ])
 
-            form = PostEditForm(initial = {
+            form = PostEditForm(initial={
                 'title': post.title,
                 'text': post.text
             })

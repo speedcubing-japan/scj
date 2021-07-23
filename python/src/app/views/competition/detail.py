@@ -1,9 +1,8 @@
 import datetime
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.utils.timezone import localtime
-from django.views.generic import TemplateView
-from app.models import Competition, Person, Competitor, Result, Round
+from app.models import Person, Competitor, Result, Round
 from app.defines.fee import PayType as FeePayType
 from app.defines.fee import CalcType as FeeCalcType
 from app.defines.competition import Type as CompetitionType

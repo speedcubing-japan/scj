@@ -35,7 +35,7 @@ def make_post_text(data):
         'period': period,
         'registration_period': registration_period,
         'venue_name': data['venue_name'],
-        'venue_address': data['venue_address'],   
+        'venue_address': data['venue_address'],
         'latitude': data['latitude'],
         'longitude': data['longitude'],
         'limit': data['limit'],

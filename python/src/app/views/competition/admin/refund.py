@@ -2,10 +2,8 @@ import stripe
 import datetime
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from app.models import Competition, Person, Competitor, Result, StripeProgress
-from app.defines.competitor import Status as CompetitorStatus
+from app.models import Person, Competitor, StripeProgress
 from app.views.competition.base import Base
 from app.views.competition.util import calc_fee
 from app.defines.session import Notification
@@ -20,7 +18,6 @@ class Refund(LoginRequiredMixin, Base):
         if not self.competition.is_refunder(request.user):
             return redirect('competition_detail', name_id=self.name_id)
 
-        competitor_ids = []
         stripe_progresses = StripeProgress.objects.filter(competition_id=self.competition.id, refund_price=0)
         competitors = Competitor.objects.filter(competition_id=self.competition.id)
 
@@ -42,7 +39,6 @@ class Refund(LoginRequiredMixin, Base):
         if self.competition.stripe_user_person_id > 0:
             stripe_user_person = Person.objects.get(pk=self.competition.stripe_user_person_id)
 
-        competitor_ids = []
         stripe_progresses = StripeProgress.objects.filter(competition_id=self.competition.id, refund_price=0)
         competitors = Competitor.objects.filter(competition_id=self.competition.id).order_by('created_at')
 
@@ -62,7 +58,7 @@ class Refund(LoginRequiredMixin, Base):
                     part_amount = int(request.POST.get('competitor_refund_' + str(competitor.id)))
                     if amount < part_amount:
                         request.session['notification'] = Notification.REFUND_AMOUNT_OVER
-                        return redirect('competition_admin_refund', name_id=name_id)
+                        return redirect('competition_admin_refund', name_id=self.name_id)
                     amount = part_amount
 
                 if stripe_user_person:

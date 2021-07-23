@@ -17,7 +17,7 @@ class Edit(LoginRequiredMixin, TemplateView):
         if not information.exists():
             return redirect('index')
         information = information.first()
-        form = InformationForm(initial = {
+        form = InformationForm(initial={
             'type': information.type,
             'title': information.title,
             'text': information.text,
@@ -58,14 +58,14 @@ class Edit(LoginRequiredMixin, TemplateView):
                 information.is_public = False
 
             information.save(update_fields=[
-                    'type',
-                    'title',
-                    'text',
-                    'is_public',
-                    'updated_at'
+                'type',
+                'title',
+                'text',
+                'is_public',
+                'updated_at'
             ])
 
-            form = InformationForm(initial = {
+            form = InformationForm(initial={
                 'type': information.type,
                 'title': information.title,
                 'text': information.text,

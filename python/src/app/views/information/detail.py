@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView
-from app.models import Person, Information
+from app.models import Information
 from django.shortcuts import render, redirect
 
 

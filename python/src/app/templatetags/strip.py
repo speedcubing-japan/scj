@@ -4,6 +4,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.filter
 @stringfilter
 def strip(value):
