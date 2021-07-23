@@ -32,7 +32,7 @@ services:
         max-file: "3"
     volumes:
       - scj.db.volume:/var/lib/mysql
-      - ./env/mysql/init.d:/etc/mysql/init.d
+      - ./env/mysql/init.d:/docker-entrypoint-initdb.d
       - ./mysql/conf.d:/etc/mysql/conf.d
       - ./python/src/app/fixtures/sql:/etc/mysql/fixtures/sql
 
