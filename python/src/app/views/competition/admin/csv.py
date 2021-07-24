@@ -33,7 +33,7 @@ class Csv(LoginRequiredMixin, View):
                 if competitor.id == stripe_progress.competitor_id:
                     competitor.set_stripe_progress(stripe_progress)
 
-        response = HttpResponse(content_type="text/csv; charset=Shift-JIS")
+        response = HttpResponse(content_type="text/csv; charset=UTF-8")
         filename = urllib.parse.quote((name_id + "_competitor.csv").encode("utf8"))
         response["Content-Disposition"] = "attachment; filename*=UTF-8''{}".format(
             filename

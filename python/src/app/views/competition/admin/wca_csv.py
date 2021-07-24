@@ -31,7 +31,7 @@ class WcaCsv(LoginRequiredMixin, View):
 
         competitors = Competitor.objects.filter(competition_id=competition.id)
 
-        response = HttpResponse(content_type="text/csv; charset=Shift-JIS")
+        response = HttpResponse(content_type="text/csv; charset=UTF-8")
         filename = urllib.parse.quote((name_id + "_registration.csv").encode("utf8"))
         response["Content-Disposition"] = "attachment; filename*=UTF-8''{}".format(
             filename
