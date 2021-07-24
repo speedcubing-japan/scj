@@ -32,7 +32,7 @@ class Notification(Define):
     WCA_AUTHORIZATION_COMPLETE = (Status.SUCCESS.value, "WCA認証が完了しました。")
     WCA_AUTHORIZATION_DUPLICATED = (
         Status.DANGER.value,
-        "WCA IDが他アカウントと重複しています。認証に失敗しました。",
+        "WCA IDが他アカウントと重複しています。認証に失敗しました。お問い合わせからご連絡ください。",
     )
     STRIPE_AUTHORIZATION_COMPLETE = (Status.SUCCESS.value, "Stripe認証が完了しました。")
     PAYMENT_SUCCESS = (Status.SUCCESS.value, "支払いが完了しました。")

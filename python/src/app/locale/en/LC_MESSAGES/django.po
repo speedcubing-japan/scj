@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-21 10:31+0000\n"
+"POT-Creation-Date: 2021-07-24 04:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,99 +18,99 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/admin.py:26 app/admin.py:59
+#: app/admin.py:24
 msgid "Personal info"
 msgstr ""
 
-#: app/admin.py:27 app/admin.py:60
+#: app/admin.py:26
 msgid "Permissions"
 msgstr ""
 
-#: app/admin.py:29 app/admin.py:62
+#: app/admin.py:37
 msgid "Important dates"
 msgstr ""
 
-#: app/defines/competition.py:19
+#: app/defines/competition.py:17
 msgid "予選"
 msgstr "First round"
 
-#: app/defines/competition.py:20
+#: app/defines/competition.py:18
 msgid "二次予選"
 msgstr "Second round"
 
-#: app/defines/competition.py:21
+#: app/defines/competition.py:19
 msgid "準決勝"
 msgstr "Semi Final"
 
-#: app/defines/competition.py:22
+#: app/defines/competition.py:20
 msgid "決勝"
 msgstr "Final"
 
-#: app/defines/event.py:21
+#: app/defines/event.py:28
 msgid "3x3x3 キューブ"
 msgstr "3x3x3 Cube"
 
-#: app/defines/event.py:22
+#: app/defines/event.py:29
 msgid "2x2x2 キューブ"
 msgstr "2x2x2 Cube"
 
-#: app/defines/event.py:23
+#: app/defines/event.py:30
 msgid "4x4x4 キューブ"
 msgstr "4x4x4 Cube"
 
-#: app/defines/event.py:24
+#: app/defines/event.py:31
 msgid "5x5x5 キューブ"
 msgstr "5x5x5 Cube"
 
-#: app/defines/event.py:25
+#: app/defines/event.py:32
 msgid "6x6x6 キューブ"
 msgstr "6x6x6 Cube"
 
-#: app/defines/event.py:26
+#: app/defines/event.py:33
 msgid "7x7x7 キューブ"
 msgstr "7x7x7 Cube"
 
-#: app/defines/event.py:27
+#: app/defines/event.py:34
 msgid "3x3x3 目隠し"
 msgstr "3x3x3 Blindfolded"
 
-#: app/defines/event.py:28
+#: app/defines/event.py:35
 msgid "3x3x3 最少手数"
 msgstr "3x3x3 Fewest Moves"
 
-#: app/defines/event.py:29
+#: app/defines/event.py:36
 msgid "3x3x3 片手"
 msgstr "3x3x3 One-Handed"
 
-#: app/defines/event.py:30
+#: app/defines/event.py:37
 msgid "クロック"
 msgstr "Clock"
 
-#: app/defines/event.py:31
+#: app/defines/event.py:38
 msgid "メガミンクス"
 msgstr "Megaminx"
 
-#: app/defines/event.py:32
+#: app/defines/event.py:39
 msgid "ピラミンクス"
 msgstr "Pyraminx"
 
-#: app/defines/event.py:33
+#: app/defines/event.py:40
 msgid "スキューブ"
 msgstr "Skewb"
 
-#: app/defines/event.py:34
+#: app/defines/event.py:41
 msgid "スクエア1"
 msgstr "Square-1"
 
-#: app/defines/event.py:35
+#: app/defines/event.py:42
 msgid "4x4x4 目隠し"
 msgstr "4x4x4 Blindfolded"
 
-#: app/defines/event.py:36
+#: app/defines/event.py:43
 msgid "5x5x5 目隠し"
 msgstr "5x5x5 Blindfolded"
 
-#: app/defines/event.py:37
+#: app/defines/event.py:44
 msgid "3x3x3 複数目隠し"
 msgstr "3x3x3 Multi-Blind"
 
@@ -126,11 +126,11 @@ msgstr "On the site and at the venue"
 msgid "事前支払"
 msgstr "On the site only"
 
-#: app/defines/fee.py:31
+#: app/defines/fee.py:40
 msgid "種目別"
 msgstr "By events"
 
-#: app/defines/fee.py:32
+#: app/defines/fee.py:41
 msgid "種目数"
 msgstr "Number of events"
 
@@ -142,53 +142,53 @@ msgstr "Male"
 msgid "女性"
 msgstr "Female"
 
-#: app/defines/session.py:17
+#: app/defines/session.py:18
 msgid "私はロボットではありませんにチェックを入れてください。"
 msgstr "Please check the box."
 
-#: app/defines/session.py:18
+#: app/defines/session.py:19
 msgid "この内容で登録します。よろしければチェックをいれて送信してください。"
 msgstr ""
 "We register with this information. If you are satisfied, please check the "
 "box and submit."
 
-#: app/defines/session.py:37
+#: app/defines/session.py:41
 msgid "この大会は非公開です。関係者のみ表示されます。"
 msgstr ""
 
-#: app/defines/session.py:38
+#: app/defines/session.py:44
 msgid ""
 "この大会は非表示です。一覧には表示されませんが、直接アクセスは可能です。管理"
 "等十分にお気をつけ下さい。"
 msgstr ""
 
-#: app/defines/session.py:40
+#: app/defines/session.py:47
 msgid "申し込み完了しました。承認されるまでお待ち下さい。"
 msgstr ""
 "Your registration has been completed. Please wait until it is approved."
 
-#: app/defines/session.py:41
+#: app/defines/session.py:50
 msgid "申し込み内容を更新しました。承認されるまでお待ち下さい。"
 msgstr ""
 "Registration details have been updated. Please wait until it is approved."
 
-#: app/defines/session.py:44
+#: app/defines/session.py:54
 msgid "この大会は終了しました。"
 msgstr "This competition is over."
 
-#: app/defines/session.py:45
+#: app/defines/session.py:55
 msgid "あなたの申し込みは承認待ちです。"
 msgstr "Your registration is awaiting approval."
 
-#: app/defines/session.py:46
+#: app/defines/session.py:56
 msgid "あなたの申し込みは承認されました。"
 msgstr "Your registration has been approved."
 
-#: app/defines/session.py:47
+#: app/defines/session.py:57
 msgid "あなたの申し込みはキャンセルされました。"
 msgstr "Your registration has been cancelled."
 
-#: app/forms.py:24
+#: app/forms.py:25
 msgid "使用可能なメールアドレスを入力してください。"
 msgstr "Please enter a valid email address."
 
@@ -196,31 +196,31 @@ msgstr "Please enter a valid email address."
 msgid "姓が不正です。"
 msgstr "Last name is incorrect."
 
-#: app/forms.py:52
+#: app/forms.py:50
 msgid "名が不正です。"
 msgstr "First name is incorrect."
 
-#: app/forms.py:55
+#: app/forms.py:51
 msgid "セイが不正です。"
 msgstr "Last name (Katakana) is incorrect."
 
-#: app/forms.py:58
+#: app/forms.py:52
 msgid "メイが不正です。"
 msgstr "First name (Katakana) is incorrect."
 
-#: app/forms.py:61
+#: app/forms.py:53
 msgid "姓(ローマ字)が不正です。"
 msgstr "Last name (Rome) is incorrect."
 
-#: app/forms.py:64
+#: app/forms.py:54
 msgid "名(ローマ字)が不正です。"
 msgstr "First name (Rome) is incorrect."
 
-#: app/forms.py:68
+#: app/forms.py:57
 msgid "漢字でお願いします。(例:荒木) 海外籍の方はLast nameを入力してください。"
 msgstr "Please enter your last name."
 
-#: app/forms.py:69
+#: app/forms.py:58
 msgid ""
 "全角カタカナでお願いします。(例:アラキ) 海外籍の方もカタカナで入力してくださ"
 "い。"
@@ -228,16 +228,16 @@ msgstr ""
 "Please use full-width katakana. (e.g.: アラキ) Please use katakana even if "
 "you are a non-Japanese"
 
-#: app/forms.py:70
+#: app/forms.py:59
 msgid "ローマ字でお願いします。(例:Araki) 海外籍の方も入力してください。"
 msgstr "Please enter your last name again. (e.g. Araki)"
 
-#: app/forms.py:71
+#: app/forms.py:60
 msgid ""
 "漢字でお願いします。(例:慎平) 海外籍の方はFirst nameを入力してください。"
 msgstr "Please enter your first name."
 
-#: app/forms.py:72
+#: app/forms.py:61
 msgid ""
 "全角カタカナでお願いします。(例:シンペイ) 海外籍の方もカタカナで入力してくだ"
 "さい。"
@@ -245,45 +245,45 @@ msgstr ""
 "Please use full-width katakana. (e.g.: シンペイ) Please use katakana even if "
 "you are a non-Japanese"
 
-#: app/forms.py:73
+#: app/forms.py:62
 msgid "ローマ字でお願いします。(例:Shimpei) 海外籍の方も入力してください。"
 msgstr "Please enter your first name again. (e.g. Shimpei)"
 
-#: app/forms.py:74
+#: app/forms.py:63
 msgid "海外籍の方は海外を選択してください。"
 msgstr "If you are a non-Japanese, please select 海外"
 
-#: app/forms.py:84 app/forms.py:91
+#: app/forms.py:75 app/forms.py:82
 msgid "全角カタカナでない文字が含まれています。"
 msgstr "Contains characters that are not full-width katakana."
 
-#: app/forms.py:97
+#: app/forms.py:88
 msgid "半角アルファベットでない文字が含まれています。"
 msgstr "Contains characters that are not single-byte alphabets."
 
-#: app/forms.py:99 app/forms.py:107
+#: app/forms.py:90 app/forms.py:98
 msgid "先頭文字が大文字、それ以降の文字は小文字でお願いします。"
 msgstr ""
 "Please use uppercase for the first letter and lowercase for the following "
 "letters."
 
-#: app/forms.py:105
+#: app/forms.py:96
 msgid "アルファベットでない文字が含まれています。"
 msgstr "Contains non-alphabetic characters."
 
-#: app/forms.py:206
+#: app/forms.py:192
 msgid "参加種目"
 msgstr "Events"
 
-#: app/forms.py:214
+#: app/forms.py:197
 msgid "同伴者数"
 msgstr "Number of Guests"
 
-#: app/forms.py:219
+#: app/forms.py:202
 msgid "コメント"
 msgstr "Comments"
 
-#: app/models/person.py:9 app/models/user.py:39
+#: app/models/person.py:9 app/models/user.py:40
 msgid "名"
 msgstr "First name"
 
@@ -315,19 +315,19 @@ msgstr "Gender"
 msgid "生年月日"
 msgstr "Birth Date"
 
-#: app/models/person.py:17
+#: app/models/person.py:18
 msgid "都道府県"
 msgstr "Prefecture"
 
-#: app/models/user.py:38
+#: app/models/user.py:39
 msgid "メールアドレス"
 msgstr "Email"
 
-#: app/models/user.py:40
+#: app/models/user.py:41
 msgid "性"
 msgstr "last_name"
 
-#: app/models/user.py:43
+#: app/models/user.py:44
 msgid "スタッフ可否"
 msgstr "is_staff"
 

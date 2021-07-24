@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-21 10:31+0000\n"
+"POT-Creation-Date: 2021-07-24 04:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,131 +54,131 @@ msgstr "Average"
 msgid "未承認"
 msgstr "Not approved"
 
-#: templates/app/competition/detail.html:21
+#: templates/app/competition/detail.html:28
 msgid "承認者数"
 msgstr "Number of approved"
 
-#: templates/app/competition/detail.html:33
+#: templates/app/competition/detail.html:40
 #: templates/app/competition/menu.html:4
 msgid "基本情報"
 msgstr "General info"
 
-#: templates/app/competition/detail.html:37
+#: templates/app/competition/detail.html:44
 msgid "種別"
 msgstr "Type"
 
-#: templates/app/competition/detail.html:42
+#: templates/app/competition/detail.html:49
 msgid "WCA大会"
 msgstr "WCA competition"
 
-#: templates/app/competition/detail.html:42
+#: templates/app/competition/detail.html:49
 msgid "WCA大会ページ"
 msgstr "WCA competition page"
 
-#: templates/app/competition/detail.html:44
+#: templates/app/competition/detail.html:51
 msgid "SCJ大会"
 msgstr "SCJ competition"
 
-#: templates/app/competition/detail.html:48
+#: templates/app/competition/detail.html:55
 msgid "日付"
 msgstr "Date"
 
-#: templates/app/competition/detail.html:56
+#: templates/app/competition/detail.html:63
 msgid "Google Calendarに追加"
 msgstr "Add to Google Calendar"
 
-#: templates/app/competition/detail.html:59
+#: templates/app/competition/detail.html:66
 msgid "会場"
 msgstr "Venue"
 
-#: templates/app/competition/detail.html:65
+#: templates/app/competition/detail.html:72
 msgid "会場住所"
 msgstr "Address"
 
-#: templates/app/competition/detail.html:74
+#: templates/app/competition/detail.html:81
 msgid "開催イベント"
 msgstr "Event"
 
-#: templates/app/competition/detail.html:84
+#: templates/app/competition/detail.html:91
 msgid "定員"
 msgstr "Limit"
 
-#: templates/app/competition/detail.html:95
+#: templates/app/competition/detail.html:102
 msgid "その他"
 msgstr "Other"
 
-#: templates/app/competition/detail.html:99
+#: templates/app/competition/detail.html:106
 msgid "申し込み日時"
 msgstr "Registration period"
 
-#: templates/app/competition/detail.html:105
+#: templates/app/competition/detail.html:112
 msgid "お知らせ"
 msgstr "Information"
 
-#: templates/app/competition/detail.html:118
+#: templates/app/competition/detail.html:125
 #: templates/app/competition/registration.html:47
 msgid "参加要件"
 msgstr "Requirements"
 
-#: templates/app/competition/detail.html:133
+#: templates/app/competition/detail.html:140
 msgid "WCA Delegate"
 msgstr ""
 
-#: templates/app/competition/detail.html:135
+#: templates/app/competition/detail.html:142
 msgid "SCJ 審判員"
 msgstr "SCJ Judge"
 
-#: templates/app/competition/detail.html:157
+#: templates/app/competition/detail.html:164
 msgid "主催者"
 msgstr "Organiser"
 
-#: templates/app/competition/fee.html:21
+#: templates/app/competition/fee.html:28
 #, python-format
 msgid "事前支払い期日は&nbsp;%(rest_time)s後&nbsp;%(date)sです。"
 msgstr "Payment closes in about %(rest_time)s later on %(date)s."
 
-#: templates/app/competition/fee.html:23
+#: templates/app/competition/fee.html:30
 #, python-format
 msgid "事前支払い期日は&nbsp;%(rest_time)s前&nbsp;%(date)sに終了しました。"
 msgstr "Payment closed in about %(rest_time)s ago on %(date)s."
 
-#: templates/app/competition/fee.html:29
+#: templates/app/competition/fee.html:36
 msgid "参加費支払い方法"
 msgstr "Fee payment location"
 
-#: templates/app/competition/fee.html:33 templates/app/competition/fee.html:68
+#: templates/app/competition/fee.html:40 templates/app/competition/fee.html:77
 msgid ""
 "現地支払いにのみ対応しております。なるべくお釣りのでないよう事前にご準備下さ"
 "い。"
 msgstr "We accept payment at the venue only."
 
-#: templates/app/competition/fee.html:35
+#: templates/app/competition/fee.html:42
 msgid ""
 "事前支払いならびに現地支払いに対応しております。事前支払いを推奨します。"
 msgstr ""
 "We accept payment of fee on the site and at the venue. On the site is "
 "recommended."
 
-#: templates/app/competition/fee.html:37
+#: templates/app/competition/fee.html:44
 msgid ""
 "事前支払いにのみ対応しております。事前にお支払いいただけないと大会参加が承認"
 "されません。"
 msgstr "We accept payment on the site only."
 
-#: templates/app/competition/fee.html:43
+#: templates/app/competition/fee.html:50
 msgid "返金ポリシー"
 msgstr "Refund policy"
 
-#: templates/app/competition/fee.html:58
-#: templates/app/competition/registration.html:255
+#: templates/app/competition/fee.html:65
+#: templates/app/competition/registration.html:273
 msgid "参加費支払い"
 msgstr "Fee payment"
 
-#: templates/app/competition/fee.html:58
+#: templates/app/competition/fee.html:65
 msgid "デバッグモード"
 msgstr "Debug mode"
 
-#: templates/app/competition/fee.html:63
+#: templates/app/competition/fee.html:72
 #, python-format
 msgid ""
 "参加費を支払うには<a href=\"%(login_url)s?next=%(path)s\">ログイン</a>してく"
@@ -187,7 +187,7 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(path)s\">Sign in</a> to pay the registration "
 "fee."
 
-#: templates/app/competition/fee.html:66
+#: templates/app/competition/fee.html:75
 #, python-format
 msgid ""
 "参加費の支払いは大会の<a href=\"%(registration_url)s\">申し込み</a>後に可能で"
@@ -196,61 +196,63 @@ msgstr ""
 "You can pay the registration fee after you <a href=\"%(registration_url)s"
 "\">register</a> for the competition."
 
-#: templates/app/competition/fee.html:70
+#: templates/app/competition/fee.html:79
 msgid "申し込みが承認されていないため、参加費を支払うことはできません。"
 msgstr ""
 "You cannot pay the registration fee because your registration has not been "
 "approved."
 
-#: templates/app/competition/fee.html:72
+#: templates/app/competition/fee.html:81
 msgid "参加費の支払いを停止中です。"
 msgstr "We are suspending payment of the registration fee."
 
-#: templates/app/competition/fee.html:75
+#: templates/app/competition/fee.html:84
 msgid "支払い期日を過ぎています。"
 msgstr "Payment due date has passed."
 
-#: templates/app/competition/fee.html:77
+#: templates/app/competition/fee.html:86
 msgid "計"
 msgstr "Total"
 
-#: templates/app/competition/fee.html:77 templates/app/competition/fee.html:105
-#: templates/app/competition/fee.html:126
-#: templates/app/competition/fee.html:141
-#: templates/app/competition/fee.html:153
-#: templates/app/competition/registration.html:214
-#: templates/app/competition/registration.html:226
+#: templates/app/competition/fee.html:86 templates/app/competition/fee.html:115
+#: templates/app/competition/fee.html:136
+#: templates/app/competition/fee.html:151
+#: templates/app/competition/fee.html:163
+#: templates/app/competition/registration.html:232
+#: templates/app/competition/registration.html:244
 msgid "円"
 msgstr "Yen"
 
-#: templates/app/competition/fee.html:78
+#: templates/app/competition/fee.html:87
 msgid "支払う"
 msgstr "Pay"
 
-#: templates/app/competition/fee.html:82
+#: templates/app/competition/fee.html:91
 msgid "支払い済み"
 msgstr "You've paid."
 
-#: templates/app/competition/fee.html:97 templates/app/competition/fee.html:118
-#: templates/app/competition/registration.html:212
-#: templates/app/competition/registration.html:224
+#: templates/app/competition/fee.html:107
+#: templates/app/competition/fee.html:128
+#: templates/app/competition/registration.html:230
+#: templates/app/competition/registration.html:242
 msgid "支払い料金"
 msgstr "Payment fees"
 
-#: templates/app/competition/fee.html:99 templates/app/competition/fee.html:120
+#: templates/app/competition/fee.html:109
+#: templates/app/competition/fee.html:130
 msgid "事前支払い料金"
 msgstr "Payment fees on the site"
 
-#: templates/app/competition/fee.html:123
-#: templates/app/competition/fee.html:139
-#: templates/app/competition/fee.html:151
-#: templates/app/competition/registration.html:224
-#: templates/app/competition/schedule.html:36
+#: templates/app/competition/fee.html:133
+#: templates/app/competition/fee.html:149
+#: templates/app/competition/fee.html:161
+#: templates/app/competition/registration.html:242
+#: templates/app/competition/schedule.html:44
 msgid "種目"
 msgstr "Events"
 
-#: templates/app/competition/fee.html:139
-#: templates/app/competition/fee.html:151
+#: templates/app/competition/fee.html:149
+#: templates/app/competition/fee.html:161
 msgid "現地支払い料金"
 msgstr "Payment fees at the venue"
 
@@ -283,7 +285,7 @@ msgid "スケジュール"
 msgstr "Schedule"
 
 #: templates/app/competition/menu.html:11
-#: templates/app/competition/registration.html:236
+#: templates/app/competition/registration.html:254
 msgid "申し込み"
 msgstr "Registration"
 
@@ -597,41 +599,75 @@ msgstr ""
 "%(redirect_uri)s&response_type=code&scope=public email\">WCA authentication</"
 "a> to register for %(competition_name)s."
 
-#: templates/app/competition/registration.html:166
+#: templates/app/competition/registration.html:159
+msgid "共有PCの場合、ご家族のWCAアカウントと混同しないようにご注意ください。"
+msgstr ""
+"In the case of a shared PC, please be careful not to confuse it with your "
+"family's WCA account."
+
+#: templates/app/competition/registration.html:160
+#, python-format
+msgid ""
+"WCA認証の前に一度<a href=\"%(url)s\" target=\"_blank\">WCAサイト</a>にてログ"
+"アウトをお勧めします。"
+msgstr ""
+"We recommend that you log out once at the <a href=\"%(url)s\" target="
+"\"_blank\">WCA site</a> before WCA authentication."
+
+#: templates/app/competition/registration.html:168
 msgid "既に申し込みが承認されています。"
 msgstr "Your registration has already been approved."
 
-#: templates/app/competition/registration.html:171
+#: templates/app/competition/registration.html:173
 msgid "申し込み詳細 "
 msgstr "Registration details"
 
-#: templates/app/competition/registration.html:179
+#: templates/app/competition/registration.html:181
 msgid "更新"
 msgstr "Update"
 
-#: templates/app/competition/registration.html:180
+#: templates/app/competition/registration.html:182
 msgid "申し込みキャンセル"
 msgstr "Registration Cancel"
 
-#: templates/app/competition/registration.html:189
+#: templates/app/competition/registration.html:191
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s後&nbsp;%(date)sに開始します。"
 msgstr "Registration will open in about %(rest_time)s later on %(date)s"
 
-#: templates/app/competition/registration.html:193
+#: templates/app/competition/registration.html:195
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s前&nbsp;%(date)sに終了しました。"
 msgstr "Registration closed about %(rest_time)s ago on %(date)s"
 
-#: templates/app/competition/registration.html:197
-msgid ""
-"WCA大会に参加していない、またはWCA IDがアカウントに紐付いていないため、申し込"
-"みできません。"
+#: templates/app/competition/registration.html:201
+msgid "WCA認証情報"
 msgstr ""
-"You cannot registration because you are not participated in the WCA "
-"Competition or your WCA ID is not linked with your account."
 
-#: templates/app/competition/registration.html:202
+#: templates/app/competition/registration.html:204
+#, fuzzy
+#| msgid "WCA ID連携"
+msgid "WCA ID"
+msgstr "Claim WCA ID"
+
+#: templates/app/competition/registration.html:208
+msgid "初参加または未連携"
+msgstr "First-time participants or not connected to WCA ID"
+
+#: templates/app/competition/registration.html:210
+msgid "WCA氏名"
+msgstr "WCA Name"
+
+#: templates/app/competition/registration.html:214
+#, python-format
+msgid ""
+"誤っている場合は、<a href=\"%(profile)s\">プロフィール</a>で再度、WCA認証をし"
+"てください。それも出来ない場合は、<a href=\"%(contact)s\">お問い合わせ</a>か"
+"らご連絡ください。"
+msgstr ""
+"If this is incorrect, please try to authenticate your WCA again in your <a href=\"%(profile)s\">profile</a>. If you are still unable to do so, please <a href=\"%(contact)s\">contact</a> us."
+
+#: templates/app/competition/registration.html:220
 #, python-format
 msgid ""
 "本大会の定員は %(limit)s 人であり、すでに定員に達しています。今参加申し込みさ"
@@ -641,70 +677,70 @@ msgstr ""
 "been reached. If you register, your registration will be placed on a waiting "
 "list. It may not be approved unless a spot frees up."
 
-#: templates/app/competition/registration.html:245
-#: templates/app/competition/registration.html:267
+#: templates/app/competition/registration.html:263
+#: templates/app/competition/registration.html:285
 msgid "免責事項と参加要件に同意します"
 msgstr "I agree to the disclaimer and requirements."
 
-#: templates/app/competition/registration.html:247
-#: templates/app/competition/registration.html:269
+#: templates/app/competition/registration.html:265
+#: templates/app/competition/registration.html:287
 msgid "免責事項に同意します"
 msgstr "I agree to the disclaimer."
 
-#: templates/app/competition/registration.html:277
+#: templates/app/competition/registration.html:295
 #: templates/app/registration/input.html:43
 msgid "登録"
 msgstr "Register"
 
-#: templates/app/competition/registration.html:284
+#: templates/app/competition/registration.html:302
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s後&nbsp;%(date)sに終了します。"
 msgstr "Registration closes in about %(rest_time)s later on %(date)s"
 
-#: templates/app/competition/schedule.html:18
-#: templates/app/competition/schedule.html:37
+#: templates/app/competition/schedule.html:26
+#: templates/app/competition/schedule.html:45
 msgid "ラウンド"
 msgstr "Round"
 
-#: templates/app/competition/schedule.html:34
+#: templates/app/competition/schedule.html:42
 msgid "開始"
 msgstr "Begin"
 
-#: templates/app/competition/schedule.html:35
+#: templates/app/competition/schedule.html:43
 msgid "終了"
 msgstr "End"
 
-#: templates/app/competition/schedule.html:38
+#: templates/app/competition/schedule.html:46
 msgid "形式"
 msgstr "Format"
 
-#: templates/app/competition/schedule.html:39
-#: templates/app/competition/schedule.html:97
+#: templates/app/competition/schedule.html:47
+#: templates/app/competition/schedule.html:105
 msgid "カットオフ"
 msgstr "Cutoff"
 
-#: templates/app/competition/schedule.html:40
+#: templates/app/competition/schedule.html:48
 msgid "制限"
 msgstr "Time Limit"
 
-#: templates/app/competition/schedule.html:41
+#: templates/app/competition/schedule.html:49
 msgid "進出人数"
 msgstr "Competitors"
 
-#: templates/app/competition/schedule.html:57
+#: templates/app/competition/schedule.html:65
 msgid "試技目"
 msgstr "Attempt"
 
-#: templates/app/competition/schedule.html:58
-#: templates/app/competition/schedule.html:59
+#: templates/app/competition/schedule.html:66
+#: templates/app/competition/schedule.html:67
 msgid "秒"
 msgstr "seconds"
 
-#: templates/app/competition/schedule.html:77
+#: templates/app/competition/schedule.html:85
 msgid "制限タイム"
 msgstr "Time Limit"
 
-#: templates/app/competition/schedule.html:83
+#: templates/app/competition/schedule.html:91
 #, python-format
 msgid ""
 "試技中に制限タイムを超過した場合、ジャッジは試技を中断し、その試技の記録は"
@@ -715,7 +751,7 @@ msgstr ""
 "your result will be DNF (see Regulation <a href=\"%(url)s\" target="
 "\"%(target)s\">A1a4</a>)."
 
-#: templates/app/competition/schedule.html:84
+#: templates/app/competition/schedule.html:92
 #, python-format
 msgid ""
 "累積制限タイムが採用される場合があります(<a href=\"%(url)s\" target="
@@ -725,12 +761,12 @@ msgstr ""
 "organization team may define a cumulative time limit (see Regulation <a href="
 "\"%(url)s\" target=\"%(target)s\">A1a2</a>)."
 
-#: templates/app/competition/schedule.html:87
-#: templates/app/competition/schedule.html:106
+#: templates/app/competition/schedule.html:95
+#: templates/app/competition/schedule.html:114
 msgid "閉じる"
 msgstr "Close"
 
-#: templates/app/competition/schedule.html:103
+#: templates/app/competition/schedule.html:111
 #, python-format
 msgid ""
 "最初の指定された回数の試技までに基準タイムを超えない場合、残りの試技を行うこ"
