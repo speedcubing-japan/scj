@@ -6,9 +6,6 @@ from app.defines.prefecture import PrefectureAndOversea
 from app.defines.competition import Type as CompetitionType
 from app.defines.fee import PayType as FeePayType
 from app.defines.fee import CalcType as FeeCalcType
-from app.defines.competition import (
-    WCA_COMPETITION_NAME_ID_BY_REGISTRATION_ONLY_HAS_WCA_ID,
-)
 from django.utils import timezone
 from django.utils.timezone import localtime
 
@@ -215,9 +212,6 @@ class Competition(models.Model):
             if user.person.id == self.stripe_user_person_id:
                 is_refunder = True
         return is_refunder
-
-    def is_registration_only_has_wca_id(self):
-        return self.name_id in WCA_COMPETITION_NAME_ID_BY_REGISTRATION_ONLY_HAS_WCA_ID
 
     def __str__(self):
         return self.name

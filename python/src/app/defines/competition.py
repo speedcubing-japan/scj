@@ -5,8 +5,6 @@ from django.utils.translation import gettext_lazy as _
 
 SCJ_COMPETITON_FIRST_YEAR = 2020
 
-WCA_COMPETITION_NAME_ID_BY_REGISTRATION_ONLY_HAS_WCA_ID = "WCAJapanChampionship2021"
-
 
 @unique
 class Type(Define):

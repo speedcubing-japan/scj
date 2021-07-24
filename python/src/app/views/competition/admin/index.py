@@ -88,17 +88,15 @@ class Index(LoginRequiredMixin, Base):
         context = super().get_context()
 
         # 重複確認
-        twin_competition_competitor_specfic_ids = []
+        twin_competition_competitor_person_ids = []
         if self.competition.twin_competition_id != 0:
             twin_competition_competitors = Competitor.objects.filter(
                 competition_id=self.competition.twin_competition_id
             )
             for twin_competition_competitor in twin_competition_competitors:
                 if twin_competition_competitor.status != CompetitorStatus.CANCEL.value:
-                    twin_competition_competitor_specfic_ids.append(
-                        twin_competition_competitor.get_specific_id(
-                            self.competition.type
-                        )
+                    twin_competition_competitor_person_ids.append(
+                        twin_competition_competitor.person_id
                     )
 
         pending_competitors = []
@@ -114,10 +112,7 @@ class Index(LoginRequiredMixin, Base):
                 if competitor.id == stripe_progress.competitor_id:
                     competitor.set_stripe_progress(stripe_progress)
 
-            if (
-                competitor.get_specific_id(self.competition.type)
-                in twin_competition_competitor_specfic_ids
-            ):
+            if competitor.person.id in twin_competition_competitor_person_ids:
                 competitor.set_is_duplicated_twin_competitions()
 
             if competitor.status == CompetitorStatus.PENDING.value:
