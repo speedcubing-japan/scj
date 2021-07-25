@@ -1,5 +1,5 @@
 {% load static %}
-<nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top mb-3">
+<nav class="navbar navbar-expand-xl navbar-dark {% if is_debug %}bg-primary{% else %}bg-dark{% endif %} fixed-top mb-3">
   <a class="navbar-brand" href="/"><img class="title-logo" src="{% static 'app/image/scj.png' %}"></a>
   <div class="navbar-brand"><span class="title">一般社団法人</span><span class="title">スピードキュービングジャパン</span></div>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
