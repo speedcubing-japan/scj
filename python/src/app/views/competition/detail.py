@@ -61,6 +61,15 @@ class Detail(Base):
             elif self.competitor.status == CompetitorStatus.CANCEL.value:
                 notification = Notification.COMPETITOR_CANCEL
 
+        # 申し込み者数(未承認+承認)
+        competitor_offer_count = Competitor.objects.filter(
+            competition_id=self.competition.id,
+            status__in=(
+                CompetitorStatus.PENDING.value,
+                CompetitorStatus.REGISTRATION.value,
+            ),
+        ).count()
+
         # 承認者数
         competitor_registration_count = Competitor.objects.filter(
             competition_id=self.competition.id,
@@ -92,6 +101,7 @@ class Detail(Base):
         context["organizers"] = organizers
         context["competitor_registration_count"] = competitor_registration_count
         context["competitor_registration_rate"] = competitor_registration_rate
+        context["competitor_offer_count"] = competitor_offer_count
         context["fee_pay_type_text"] = fee_pay_type_text
         context["fee_calc_type_text"] = fee_calc_type_text
         context["google_api_key"] = settings.GOOGLE_API_KEY
