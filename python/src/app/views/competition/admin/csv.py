@@ -90,7 +90,7 @@ class Csv(LoginRequiredMixin, View):
                         competitor.stripe_progress.charge_id
                         if competitor.stripe_progress is not None
                         else "",
-                        competitor.comment,
+                        competitor.comment.replace("\r\n", ""),
                         localtime(competitor.stripe_progress.pay_at)
                         if competitor.stripe_progress is not None
                         else "",
