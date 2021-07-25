@@ -52,13 +52,6 @@ class Registration(Base):
         ):
             return redirect("competition_detail", name_id=self.name_id)
 
-        if (
-            self.competition.type == CompetitionType.WCA.value
-            and not request.user.person.wca_id
-            and self.competition.is_registration_only_has_wca_id()
-        ):
-            return redirect("competition_detail", name_id=self.name_id)
-
         if not self.form.is_valid():
             return render(request, self.template_name, self.get_context())
 
