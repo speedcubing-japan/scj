@@ -103,10 +103,19 @@ class Base(TemplateView):
             "app/mail/competition/{}_message.txt".format(type),
         )
 
-    def send_mail_refund(self, type, price):
+    def send_mail_user(self, user, type):
         send_mail(
             self.request,
-            self.user,
+            user,
+            self.competition,
+            "app/mail/competition/{}_subject.txt".format(type),
+            "app/mail/competition/{}_message.txt".format(type),
+        )
+
+    def send_mail_refund(self, user, type, price):
+        send_mail(
+            self.request,
+            user,
             self.competition,
             "app/mail/competition/{}_subject.txt".format(type),
             "app/mail/competition/{}_message.txt".format(type),

@@ -65,7 +65,7 @@ class Index(LoginRequiredMixin, Base):
                     and competitor.status != CompetitorStatus.REGISTRATION.value
                 ):
                     competitor.update_status(CompetitorStatus.REGISTRATION.value)
-                    self.send_mail("registration_admit")
+                    self.send_mail_user(competitor.person.user, "registration_admit")
                     is_updated = True
 
                 if (
@@ -73,7 +73,7 @@ class Index(LoginRequiredMixin, Base):
                     and competitor.status != CompetitorStatus.CANCEL.value
                 ):
                     competitor.update_status(CompetitorStatus.CANCEL.value)
-                    self.send_mail("registration_cancel")
+                    self.send_mail_user(competitor.person.user, "registration_cancel")
                     is_updated = True
 
         if is_updated:

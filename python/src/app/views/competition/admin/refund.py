@@ -107,7 +107,7 @@ class Refund(LoginRequiredMixin, Base):
                 )
                 competitor.unset_stripe_progress()
 
-                self.send_mail_refund("registration_refund", price=amount)
+                self.send_mail_refund(competitor.person.user, "registration_refund", price=amount)
 
             if competitor.stripe_progress:
                 self.competitor_list.append(competitor)
