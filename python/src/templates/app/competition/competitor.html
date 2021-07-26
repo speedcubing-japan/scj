@@ -39,7 +39,11 @@
           {% for competitor in competitors %}
             <tr{% if competitor.status == competitor_status.PENDING.value %} class="bg-light"{% endif %}>
               <th scope="row">{% if competitor.status == competitor_status.PENDING.value %}{% trans "未承認" %}{% else %}{{ forloop.counter }}{% endif %}</th>
-              <td>{{ competitor.name }}</td>
+              {% if competition.type == competition_type.WCA.value and competitor.person.wca_id %}
+                <td><a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.name }}</a></td>
+              {% else %}
+                <td>{{ competitor.name }}</td>
+              {% endif %}
               {% if competition.type == competition_type.SCJ.value %}
                 <td>{{ competitor.prefecture }}</td>
               {% elif competition.type == competition_type.WCA.value %}

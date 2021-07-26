@@ -124,6 +124,7 @@ class Competitor(Base):
                     "prefecture": prefecture,
                     "best": best,
                     "average": average,
+                    "person": competitor.person,
                 }
             )
 
