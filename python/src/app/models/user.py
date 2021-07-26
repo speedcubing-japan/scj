@@ -75,6 +75,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+    def update_first_name_and_last_name(self, first_name, last_name):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.save()
+
     @property
     def username(self):
         return self.email

@@ -1,0 +1,132 @@
+{% extends "app/common/base.html" %}
+{% load bootstrap4 %}
+{% load event_id_name %}
+
+{% block content %}
+{% include "app/common/competition_title.html" %}
+
+<div class="row">
+  <div class="col-lg-2 mb-3">
+    {% include "app/competition/menu.html" with active='admin' %}
+  </div>
+  <div class="col-lg-10 mb-3">
+    {% include "app/common/notification.html" %}
+    {% if admin_errors %}
+      <div class="alert alert-danger" role="alert">
+        {% for error in admin_errors %}
+          <div><strong>{{ error }}</strong></div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="alert alert-info" role="alert">
+      {% if competition.type == competition_type.WCA.value %}
+        <strong>{{ competitor.person.wca_name }}さん{% if competitor.person.wca_id %}({{ competitor.person.wca_id }}){% endif %}の情報を編集します。</strong>
+      {% elif competition.type == competition_type.SCJ.value %}
+        <strong>{{ competitor.person.get_full_name }}さんの情報を編集します。</strong>
+      {% endif %}
+    </div>
+    {% if is_prepaid %}
+      <div class="alert alert-warning" role="alert">
+        <strong>すでに事前決済を終えています。種目を変更する際は一部返金または全額返金し種目に沿った処理をしてください。</strong>
+      </div>
+    {% endif %}
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="card mb-3">
+        <div class="card-header lead">
+          種目
+        </div>
+        <div class="text-nowrap table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">変更</th>
+                <th scope="col">種目</th>
+                <th scope="col">参加</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for event_id, event_name in events.items %}
+                <tr>
+                  <td><input type="checkbox" name="event_id_{{ event_id }}" {% if event_id in competitor.event_ids %}checked{% endif %}>
+                  <td><span class="cubing-icon event-{{ event_id | event_id_name }} mr-2 md-2 h4"></span>{{ event_name }}</td>
+                  <td>{% if event_id in competitor.event_ids %}<i class="fas fa-check fa-fw mr-2"></i>{% endif %}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card mb-3">
+        <div class="card-header lead">
+          同伴者数
+        </div>
+        <div>
+          <select name="guest_count">
+            {% for count in guest_counts %}
+              <option value="{{ count }}"{% if competitor.guest_count == count %} selected{% endif %}>{{ count }}人</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="card mb-3">
+        <div class="card-header lead">
+          WCA氏名
+        </div>
+        <div>
+          <div class="ml-2 mr-2 mt-3 row">
+            <div class="form-group col-md-12">
+              <input class="form-control" placeholder="WCA氏名" name="wca_name" type="text" value="{{ competitor.person.wca_name }}" {% if competitor.person.wca_id %}disabled{% endif %}>
+              {% if competitor.person.wca_id %}
+                <span class="small text-danger helptext">WCA IDが発行されているため、WCA氏名を修正することはできません。</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-3">
+        <div class="card-header lead">
+          SCJ氏名
+        </div>
+        <div>
+          <div class="ml-2 mr-2 mt-2 row">
+            <div class="form-group col-md-6">
+              <label>性</label>
+              <input class="form-control" placeholder="姓" name="last_name" type="text" value="{{ competitor.person.last_name }}">
+            </div>
+            <div class="form-group col-md-6">
+              <label>名</label>
+              <input class="form-control" placeholder="名" name="first_name" type="text" value="{{ competitor.person.first_name }}">
+            </div>
+          </div>
+        </div>
+        <div class="ml-2 mr-2 row">
+          <div class="form-group col-md-6">
+            <label>性(カナ)</label>
+            <input class="form-control" placeholder="姓(カナ)" name="last_name_kana" type="text" value="{{ competitor.person.last_name_kana }}">
+          </div>
+          <div class="form-group col-md-6">
+            <label>名(カナ)</label>
+            <input class="form-control" placeholder="名(カナ)" name="first_name_kana" type="text" value="{{ competitor.person.first_name_kana }}">
+          </div>
+        </div>
+        <div class="ml-2 mr-2 mt-2 row">
+          <div class="form-group col-md-6">
+            <label>性(Rome)</label>
+            <input class="form-control" placeholder="姓(Roma)" name="last_name_roma" type="text" value="{{ competitor.person.last_name_roma }}">
+          </div>
+          <div class="form-group col-md-6">
+            <label>名(Rome)</label>
+            <input class="form-control" placeholder="名(Roma)" name="first_name_roma" type="text" value="{{ competitor.person.first_name_roma }}">
+          </div>
+        </div>
+      </div>
+      <div class="float-right">
+        <button type="button" class="mt-2 submit btn btn-success"><i class="fas fa-pencil-alt fa-fw mr-2"></i>修正</button>
+      </div>
+      <input type="hidden" name="name_id" value="{{ competition.name_id }}">
+      <input type="hidden" name="competitor_id" value="{{ competitor.id }}">
+    </form>
+  </div>
+</div>
+{% endblock %}

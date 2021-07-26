@@ -57,5 +57,35 @@ class Person(models.Model):
     def get_full_name_roma(self):
         return self.first_name_roma + " " + self.last_name_roma
 
+    def update_names(
+        self,
+        first_name,
+        last_name,
+        first_name_kana,
+        last_name_kana,
+        first_name_roma,
+        last_name_roma,
+        wca_name,
+    ):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.first_name_kana = first_name_kana
+        self.last_name_kana = last_name_kana
+        self.first_name_roma = first_name_roma
+        self.last_name_roma = last_name_roma
+        self.wca_name = wca_name
+        self.save(
+            update_fields=[
+                "first_name",
+                "last_name",
+                "first_name_kana",
+                "last_name_kana",
+                "first_name_roma",
+                "last_name_roma",
+                "wca_name",
+                "updated_at",
+            ]
+        )
+
     def __str__(self):
         return self.get_full_name()

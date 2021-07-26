@@ -91,10 +91,37 @@ class Competitor(models.Model):
         self.status = status
         self.save(update_fields=["status", "updated_at"])
 
-    def update_event_ids_and_guest_count(self, event_ids, guest_count):
+    def update_admin_competitor(
+        self,
+        event_ids,
+        guest_count,
+        wca_name,
+        last_name,
+        first_name,
+        last_name_kana,
+        first_name_kana,
+        last_name_roma,
+        first_name_roma,
+    ):
         self.event_ids = event_ids
         self.guest_count = guest_count
-        self.save(update_fields=["event_ids", "guest_count", "updated_at"])
+        self.save(
+            update_fields=[
+                "event_ids",
+                "guest_count",
+                "updated_at",
+            ]
+        )
+        self.person.user.update_first_name_and_last_name(first_name, last_name)
+        self.person.update_names(
+            first_name,
+            last_name,
+            first_name_kana,
+            last_name_kana,
+            first_name_roma,
+            last_name_roma,
+            wca_name,
+        )
 
     def __str__(self):
         return self.competition_id + " [" + self.person.get_full_name() + "]"
