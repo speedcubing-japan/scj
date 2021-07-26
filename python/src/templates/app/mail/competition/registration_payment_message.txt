@@ -6,6 +6,7 @@
 支払い金額 {{ price }}円
 支払いが完了しました。
 
-なにかご不明な点があれば、大会運営にお問い合わせください。
+なにかご不明な点があれば、主催者にお問い合わせください。
 
-Speedcubing Japan
+{{ competition.organizer_name }}
+{{ competition.organizer_email }}
