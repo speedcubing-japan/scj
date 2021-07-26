@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from app.views.competition.util import send_mail
 from app.models import Competition, Competitor, Result
 from app.defines.competitor import Status as CompetitorStatus
+from app.defines.competition import Type as CompetitionType
 
 
 class Base(TemplateView):
@@ -93,6 +94,12 @@ class Base(TemplateView):
 
     def save_notification(self, notification):
         self.request.session["notification"] = notification
+
+    def is_scj_competition(self):
+        return self.competition.type == CompetitionType.SCJ.value
+
+    def is_wca_competition(self):
+        return self.competition.type == CompetitionType.WCA.value
 
     def send_mail(self, type):
         send_mail(

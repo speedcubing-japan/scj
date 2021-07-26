@@ -69,21 +69,23 @@
           </select>
         </div>
       </div>
-      <div class="card mb-3">
-        <div class="card-header lead">
-          WCA氏名
-        </div>
-        <div>
-          <div class="ml-2 mr-2 mt-3 row">
-            <div class="form-group col-md-12">
-              <input class="form-control" placeholder="WCA氏名" name="wca_name" type="text" value="{{ competitor.person.wca_name }}" {% if competitor.person.wca_id %}disabled{% endif %}>
-              {% if competitor.person.wca_id %}
-                <span class="small text-danger helptext">WCA IDが発行されているため、WCA氏名を修正することはできません。</span>
-              {% endif %}
+      {% if competition.type == competition_type.WCA.value %}
+        <div class="card mb-3">
+          <div class="card-header lead">
+            WCA氏名
+          </div>
+          <div>
+            <div class="ml-2 mr-2 mt-3 row">
+              <div class="form-group col-md-12">
+                <input class="form-control" placeholder="WCA氏名" name="wca_name" type="text" value="{{ competitor.person.wca_name }}" {% if competitor.person.wca_id %}disabled{% endif %}>
+                {% if competitor.person.wca_id %}
+                  <span class="small text-danger helptext">WCA IDが発行されているため、WCA氏名を修正することはできません。</span>
+                {% endif %}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      {% endif %}
       <div class="card mb-3">
         <div class="card-header lead">
           SCJ氏名
