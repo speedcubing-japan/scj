@@ -58,6 +58,8 @@ class Index(LoginRequiredMixin, Base):
             return render(request, self.get_template_name(), self.get_context())
 
         is_updated = False
+        users = []
+        mail_type = ""
         for competitor in self.competitors:
             if request.POST.get("competitor_id_" + str(competitor.id)):
                 if (
@@ -65,7 +67,8 @@ class Index(LoginRequiredMixin, Base):
                     and competitor.status != CompetitorStatus.REGISTRATION.value
                 ):
                     competitor.update_status(CompetitorStatus.REGISTRATION.value)
-                    self.send_mail_user(competitor.person.user, "registration_admit")
+                    users.append(competitor.person.user)
+                    mail_type = "registration_admit"
                     is_updated = True
 
                 if (
@@ -73,8 +76,12 @@ class Index(LoginRequiredMixin, Base):
                     and competitor.status != CompetitorStatus.CANCEL.value
                 ):
                     competitor.update_status(CompetitorStatus.CANCEL.value)
-                    self.send_mail_user(competitor.person.user, "registration_cancel")
+                    users.append(competitor.person.user)
+                    mail_type = "registration_cancel"
                     is_updated = True
+
+        if mail_type and users:
+            self.send_mass_mail_user(users, mail_type)
 
         if is_updated:
             self.notification = Notification.UPDATE

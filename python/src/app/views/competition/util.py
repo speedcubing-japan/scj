@@ -1,5 +1,6 @@
 import json
 from django.conf import settings
+from django.core.mail import send_mass_mail as email_mass
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from app.models import Competition, Person, FeePerEvent, FeePerEventCount
@@ -28,6 +29,27 @@ def send_mail(request, user, competition, subject_path, message_path, **kwargs):
     subject = render_to_string(subject_path, context).strip()
     message = render_to_string(message_path, context).strip()
     user.email_user(subject, message, settings.EMAIL_HOST_USER)
+
+
+def send_mass_mail(request, users, competition, subject_path, message_path, **kwargs):
+    current_site = get_current_site(request)
+    domain = current_site.domain
+
+    emails = []
+    for user in users:
+        context = {
+            "protocol": "https" if request.is_secure() else "http",
+            "domain": domain,
+            "user": user,
+            "competition": competition,
+        }
+
+        subject = render_to_string(subject_path, context).strip()
+        message = render_to_string(message_path, context).strip()
+
+        emails.append((subject, message, settings.EMAIL_HOST_USER, [user.email]))
+
+    email_mass(emails)
 
 
 def calc_fee(competition, competitor):

@@ -1,6 +1,6 @@
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
-from app.views.competition.util import send_mail
+from app.views.competition.util import send_mail, send_mass_mail
 from app.models import Competition, Competitor, Result
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.competition import Type as CompetitionType
@@ -114,6 +114,15 @@ class Base(TemplateView):
         send_mail(
             self.request,
             user,
+            self.competition,
+            "app/mail/competition/{}_subject.txt".format(type),
+            "app/mail/competition/{}_message.txt".format(type),
+        )
+
+    def send_mass_mail_user(self, users, type):
+        send_mass_mail(
+            self.request,
+            users,
             self.competition,
             "app/mail/competition/{}_subject.txt".format(type),
             "app/mail/competition/{}_message.txt".format(type),
