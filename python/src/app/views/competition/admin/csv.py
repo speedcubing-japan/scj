@@ -52,7 +52,14 @@ class Csv(LoginRequiredMixin, View):
 
         row.extend(list(event_name_dict.values()))
         row.extend(
-            ["guest_count", "stripe_charge_id", "comment", "pay_at", "created_at"]
+            [
+                "guest_count",
+                "pay_price",
+                "stripe_charge_id",
+                "comment",
+                "pay_at",
+                "created_at",
+            ]
         )
         writer.writerow(row)
 
@@ -87,6 +94,9 @@ class Csv(LoginRequiredMixin, View):
                 row.extend(
                     [
                         competitor.guest_count,
+                        competitor.stripe_progress.pay_price
+                        if competitor.stripe_progress is not None
+                        else 0,
                         competitor.stripe_progress.charge_id
                         if competitor.stripe_progress is not None
                         else "",
