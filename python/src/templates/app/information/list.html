@@ -37,9 +37,9 @@
             {% include "app/common/information_type_badge.html" with type_display_name=information.get_type_display %}
           </span>
 
-          <span class="information-title"> 
+          <span class="information-title">
             <a class="stretched-link" href="{% url 'information' information.id %}">{{ information.title }}</a>
-          </span> 
+          </span>
 
         </li>
       {% endfor %}

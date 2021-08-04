@@ -56,11 +56,12 @@ class Competitor(LoginRequiredMixin, Base):
         if request.POST.get("guest_count"):
             guest_count = int(request.POST.get("guest_count"))
 
-        wca_name = request.POST.get("wca_name")
-        if self.is_scj_competition() or self.target_competitor.person.wca_id:
-            wca_name = self.target_competitor.person.wca_name
-        if not wca_name:
-            self.admin_errors.append("WCA氏名が規格外です。")
+        wca_name = request.POST.get("wca_name", "")
+        if self.is_wca_competition():
+            if self.target_competitor.person.wca_id:
+                wca_name = self.target_competitor.person.wca_name
+            if not wca_name:
+                self.admin_errors.append("WCA氏名が規格外です。")
 
         last_name = request.POST.get("last_name")
         if not last_name:

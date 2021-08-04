@@ -39,9 +39,9 @@
               {% include "app/common/information_type_badge.html" with type_display_name=information.get_type_display %}
             </span>
 
-            <span class="information-title"> 
+            <span class="information-title">
               <a class="stretched-link" href="{% url 'information' information.id %}">{{ information.title }}</a>
-            </span> 
+            </span>
 
           </li>
         {% endfor %}
@@ -74,7 +74,7 @@
             <a class="stretched-link" href="{% url 'competition_detail' competition.name_id %}"></a>
               <span class="date text-muted">{{ competition.open_at | date:"Y年m月d日" }}</span>
               {% with path=competition|competition_logo %}
-                <span class="competition-name text-primary mr-4"><img class="mr-2" width="20" src="{% static path %}">{{ competition.name }}</span>
+                <span class="competition-name text-primary mr-4"><img class="mr-2" width="20" src="{% static path %}">{{ competition.name }}{% if competition.is_cancel %}&nbsp;[開催中止]{% endif %}</span>
               {% endwith %}
               <span class="location">
                 <span class="mr-2">{{ competition.get_prefecture_id_display }}</span>
@@ -91,7 +91,7 @@
             <a class="stretched-link" href="{% url 'competition_detail' competition.name_id %}"></a>
               <span class="date text-muted">{{ competition.open_at | date:"Y年m月d日" }}</span>
               {% with path=competition|competition_logo %}
-                <span class="competition-name text-primary mr-4"><img class="mr-2" width="20" src="{% static path %}">{{ competition.name }}</span>
+                <span class="competition-name text-primary mr-4"><img class="mr-2" width="20" src="{% static path %}">{{ competition.name }}{% if competition.is_cancel %}&nbsp;[開催中止]{% endif %}</span>
               {% endwith %}
               <span class="location">
                 <span class="mr-2">{{ competition.get_prefecture_id_display }}</span>
