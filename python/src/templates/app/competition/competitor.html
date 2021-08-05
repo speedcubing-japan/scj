@@ -50,8 +50,8 @@
                 <td>{{ competitor.country }}</td>
               {% endif %}
               {% if event_name != 'list' %}
-                <td class="text-monospace">{{ competitor.best | result_convert:event_id }}</td>
-                <td class="text-monospace">{{ competitor.average | result_convert:event_id }}</td>
+                <td>{{ competitor.best | result_convert:event_id }}</td>
+                <td>{{ competitor.average | result_convert:event_id }}</td>
               {% endif %}
             </tr>
           {% endfor %}

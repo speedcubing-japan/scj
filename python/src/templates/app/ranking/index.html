@@ -58,10 +58,10 @@
           <td class="text-right font-weight-bold">&nbsp;{{ rank.rank }}&nbsp;</td>
           <td>{{ rank.person.get_full_name }}</td>
           <td>{{ rank.person.get_prefecture_id_display }}</td>
-          <td class="text-right text-monospace">{{ rank.best | result_convert:form.event_id }}</td>
+          <td class="text-right">{{ rank.best | result_convert:form.event_id }}</td>
           <td><a href="{% url 'competition_detail' rank.competition_name_id %}">{{ rank.competition_name }}</a></td>
           {% if type == 'average' %}
-            <td class="text-monospace">{{ rank | result_values }}</td>
+            <td>{{ rank | result_values }}</td>
           {% endif %}
         </tr>
       {% endfor%}

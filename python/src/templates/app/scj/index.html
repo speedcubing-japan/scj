@@ -72,14 +72,14 @@
         {% for competition in competitions %}
           <li class="list-group-item">
             <a class="stretched-link" href="{% url 'competition_detail' competition.name_id %}"></a>
-              <span class="date text-muted">{{ competition.open_at | date:"Y年m月d日" }}</span>
+              <div class="date text-muted">{{ competition.open_at | date:"Y年m月d日" }}</div>
               {% with path=competition|competition_logo %}
-                <span class="competition-name text-primary mr-4"><img class="mr-2" width="20" src="{% static path %}">{{ competition.name }}{% if competition.is_cancel %}&nbsp;[開催中止]{% endif %}</span>
+                <div class="competition-name text-primary mr-4"><img class="mr-2" width="20" src="{% static path %}">{{ competition.name }}{% if competition.is_cancel %}&nbsp;[開催中止]{% endif %}</div>
               {% endwith %}
-              <span class="location">
+              <div class="location">
                 <span class="mr-2">{{ competition.get_prefecture_id_display }}</span>
                 <span>{{ competition.venue_name }}</span>
-              </span>
+              </div>
             </a>
           </li>
         {% endfor %}
@@ -89,14 +89,14 @@
         {% for competition in finish_competitions %}
           <li class="list-group-item">
             <a class="stretched-link" href="{% url 'competition_detail' competition.name_id %}"></a>
-              <span class="date text-muted">{{ competition.open_at | date:"Y年m月d日" }}</span>
+              <div class="date text-muted">{{ competition.open_at | date:"Y年m月d日" }}</div>
               {% with path=competition|competition_logo %}
-                <span class="competition-name text-primary mr-4"><img class="mr-2" width="20" src="{% static path %}">{{ competition.name }}{% if competition.is_cancel %}&nbsp;[開催中止]{% endif %}</span>
+                <div class="competition-name text-primary mr-4"><img class="mr-2" width="20" src="{% static path %}">{{ competition.name }}{% if competition.is_cancel %}&nbsp;[開催中止]{% endif %}</div>
               {% endwith %}
-              <span class="location">
+              <div class="location">
                 <span class="mr-2">{{ competition.get_prefecture_id_display }}</span>
                 <span>{{ competition.venue_name }}</span>
-              </span>
+              </div>
             </a>
           </li>
         {% endfor %}

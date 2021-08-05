@@ -5,6 +5,7 @@ html {
 body {
     padding-top: 80px;
     padding-bottom: 100px;
+    font-family: Roboto, 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 
 .w-4rem {
@@ -17,6 +18,10 @@ body {
 
 .post-list li:nth-child(odd){
     background-color: rgb(230, 228, 228);
+}
+
+.post-type {
+    display: inline;
 }
 
 .wca-avator-thumb {
@@ -68,17 +73,23 @@ body {
 }
 
 .date {
-    float: right;
-    font-weight: bold;
+    float: left;
+    padding-right: 0.5rem;
+}
+
+.competition-name, .post-type {
+    display: inline-block;
+    margin-right: 20px;
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
 }
 
 .location {
     display: inline;
     white-space: nowrap;
-}
-
-.competition-name, .post-type {
-    display: inline-block;
 }
 
 .tooltip-inner {
