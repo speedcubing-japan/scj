@@ -20,42 +20,48 @@
               <div class="card-header lead">
                 <span class="cubing-icon event-{{ event_id | event_id_name }} mr-2 md-2 h5"></span>{{ event.event_name }}&nbsp;{{ round_name }}
               </div>
-              <table class="table table-hover table-striped table-sm">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">氏名</th>
-                    {% if competition.type == competition_type.SCJ.value %}
-                      <th scope="col">都道府県</th>
-                    {% endif %}
-                    <th scope="col">ベスト</th>
-                    {% if not event_id in best_only_event_ids %}
-                      <th scope="col">平均</th>
-                    {% endif %}
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for result in results %}
-                    {% if result.event_id == event.event_id and result.round.get_type_display == round_name %}
-                      <tr data-toggle="tooltip" data-placement="top" title="{{ result | result_values }}">
-                        <th scope="row">{{ result.rank }}</th>
-                        {% if competition.type == competition_type.SCJ.value %}
-                          <td>{{ competitor_names | key:result.person_id }}</td>
-                        {% elif competition.type == competition_type.WCA.value %}
-                          <td>{{ competitor_wca_names | key:result.person_id }}</td>
-                        {% endif %}
-                        {% if competition.type == competition_type.SCJ.value %}
-                          <td>{{ competitor_prefectures | key:result.person_id }}</td>
-                        {% endif %}
-                          <td>{{ result.best | result_convert:result.event_id }}</td>
-                        {% if not event_id in best_only_event_ids %}
-                          <td>{{ result.average | result_convert:result.event_id }}</td>
-                        {% endif %}
-                      </tr>
-                    {% endif %}
-                  {% endfor%}
-                </tbody>
-              </table>
+              <div class="text-nowrap table-responsive">
+                <table class="table table-hover table-striped table-sm">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">氏名</th>
+                      {% if competition.type == competition_type.SCJ.value %}
+                        <th scope="col">都道府県</th>
+                      {% endif %}
+                      <th scope="col">ベスト</th>
+                      {% if not event_id in best_only_event_ids %}
+                        <th scope="col">平均</th>
+                        <th scope="col" colspan="5" style="width:25%;">内訳</th>
+                      {% endif %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for result in results %}
+                      {% if result.event_id == event.event_id and result.round.get_type_display == round_name %}
+                        <tr>
+                          <th scope="row">{{ result.rank }}</th>
+                          {% if competition.type == competition_type.SCJ.value %}
+                            <td>{{ competitor_names | key:result.person_id }}</td>
+                          {% elif competition.type == competition_type.WCA.value %}
+                            <td>{{ competitor_wca_names | key:result.person_id }}</td>
+                          {% endif %}
+                          {% if competition.type == competition_type.SCJ.value %}
+                            <td>{{ competitor_prefectures | key:result.person_id }}</td>
+                          {% endif %}
+                            <td>{{ result.best | result_convert:result.event_id }}</td>
+                          {% if not event_id in best_only_event_ids %}
+                            <td>{{ result.average | result_convert:result.event_id }}</td>
+                            {% for value in result.format_values %}
+                              <td>{{ value }}</td>
+                            {% endfor %}
+                          {% endif %}
+                        </tr>
+                      {% endif %}
+                    {% endfor%}
+                  </tbody>
+                </table>
+              </div>
             </div>
           {% endfor %}
         {% endif %}

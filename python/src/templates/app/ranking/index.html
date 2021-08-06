@@ -1,6 +1,5 @@
 {% extends "app/common/base.html" %}
 {% load widget_tweaks %}
-{% load result_values %}
 {% load result_convert %}
 
 {% block content %}
@@ -48,7 +47,7 @@
           <th style="width: 50%;">大会</th>
         {% elif type == 'average' %}
           <th style="width: 20%;">大会</th>
-          <th style="width: 30%;">試技</th>
+          <th style="width: 30%;" colspan="5">内訳</th>
         {% endif %}
       </tr>
     </thead>
@@ -61,7 +60,9 @@
           <td class="text-right">{{ rank.best | result_convert:form.event_id }}</td>
           <td><a href="{% url 'competition_detail' rank.competition_name_id %}">{{ rank.competition_name }}</a></td>
           {% if type == 'average' %}
-            <td>{{ rank | result_values }}</td>
+            {% for value in rank.format_values %}
+              <td>{{ value }}</td>
+            {% endfor %}
           {% endif %}
         </tr>
       {% endfor%}

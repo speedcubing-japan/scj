@@ -18,6 +18,8 @@ class Result(models.Model):
     value4 = models.FloatField("値4")
     value5 = models.FloatField("値5")
 
+    format_values = []
+
     class Meta:
         indexes = [models.Index(name="idx_competition_id", fields=["competition_id"])]
 

@@ -29,6 +29,8 @@ class AverageRank(models.Model):
     generation_rank = models.IntegerField("世代ランク", default=0)
     prefecture_rank = models.IntegerField("県ランク", default=0)
 
+    format_values = []
+
     class Meta:
         indexes = [models.Index(name="idx_person", fields=["person"])]
 

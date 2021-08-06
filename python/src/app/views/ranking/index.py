@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from app.forms import RankingForm
 from app.models import BestRank, AverageRank
+from app.views.util.record import format_values
 
 
 class Index(TemplateView):
@@ -71,6 +72,10 @@ class Index(TemplateView):
                 skip_count += 1
 
             rank.rank = search_rank
+
+            if type == "average":
+                # 個々の結果表示を修正
+                rank.format_values = format_values(rank)
 
         context = {
             "ranks": ranks,
