@@ -14,27 +14,43 @@ def format_values(result):
         values.append(result.value5)
 
     modify_list = []
-
+    include_dnf_dns = -1 in values or -2 in values
+    max_flag = False
     if len(values) >= 4:
         for value in values:
-            if min(values) == value:
-                if value == -1:
+            if result.best == -1 or result.best == -2:
+                modify_list.append("(" + convert(value, result.event_id) + ")")
+                continue
+            if value == -1:
+                if max_flag:
+                    modify_list.append("DNF")
+                else:
                     modify_list.append("(DNF)")
-                elif value == -2:
+                    max_flag = True
+                continue
+            if value == -2:
+                if max_flag:
+                    modify_list.append("DNS")
+                else:
                     modify_list.append("(DNS)")
-                elif float(value) > 60.00:
+                    max_flag = True
+                continue
+            if result.best == value:
+                if float(value) > 60.00:
                     modify_list.append("(" + minutes_convert(value) + ")")
                 else:
                     modify_list.append("(" + "{:.02f}".format(value) + ")")
             elif max(values) == value:
-                if value == -1:
-                    modify_list.append("(DNF)")
-                elif value == -2:
-                    modify_list.append("(DNS)")
-                elif float(value) > 60.00:
-                    modify_list.append("(" + minutes_convert(value) + ")")
+                if include_dnf_dns:
+                    if float(value) > 60.00:
+                        modify_list.append(minutes_convert(value))
+                    else:
+                        modify_list.append("{:.02f}".format(value))
                 else:
-                    modify_list.append("(" + "{:.02f}".format(value) + ")")
+                    if float(value) > 60.00:
+                        modify_list.append("(" + minutes_convert(value) + ")")
+                    else:
+                        modify_list.append("(" + "{:.02f}".format(value) + ")")
             else:
                 if float(value) > 60.00:
                     modify_list.append(minutes_convert(value))
