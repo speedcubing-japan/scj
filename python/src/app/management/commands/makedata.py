@@ -122,6 +122,9 @@ class Command(BaseCommand):
                         else:
                             skip_count += 1
 
+                        # 標準ランク追加
+                        rank += 1
+
                         result["competition_id"] = result["competition_id"]
                         result["competition_name_id"] = competiton_datas[
                             result["competition_id"]
