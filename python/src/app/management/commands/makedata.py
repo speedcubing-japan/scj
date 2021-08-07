@@ -88,7 +88,7 @@ class Command(BaseCommand):
                 results = pyjq.all(query, json_object)
 
                 rank = 0
-                gender_ranks = dict(map(lambda x: (x.value, 0), Gender))
+                gender_ranks = dict(map(lambda x: (x.value[0], 0), Gender))
                 generation_ranks = dict(
                     map(lambda x: (x * GENERATION_MAX, 0), range(0, 10))
                 )
@@ -111,7 +111,6 @@ class Command(BaseCommand):
 
                         if before_record == 0 or before_record < result[rank_type]:
                             before_record = result[rank_type]
-                            rank += skip_count
                             gender_ranks[
                                 person_datas[result["person_id"]].gender
                             ] += skip_count
