@@ -1,3 +1,6 @@
+from app.defines.define import OUTLIERS
+
+
 def format_values(result):
     values = []
     values.append(result.value1)
@@ -19,6 +22,8 @@ def format_values(result):
                     modify_list.append("(DNF)")
                 elif value == -2:
                     modify_list.append("(DNS)")
+                elif float(value) > 60.00:
+                    modify_list.append("(" + minutes_convert(value) + ")")
                 else:
                     modify_list.append("(" + "{:.02f}".format(value) + ")")
             elif max(values) == value:
@@ -26,10 +31,15 @@ def format_values(result):
                     modify_list.append("(DNF)")
                 elif value == -2:
                     modify_list.append("(DNS)")
+                elif float(value) > 60.00:
+                    modify_list.append("(" + minutes_convert(value) + ")")
                 else:
                     modify_list.append("(" + "{:.02f}".format(value) + ")")
             else:
-                modify_list.append(str("{:.02f}".format(value)))
+                if float(value) > 60.00:
+                    modify_list.append(minutes_convert(value))
+                else:
+                    modify_list.append(str("{:.02f}".format(value)))
     else:
         for value in values:
             if value == -1:
@@ -40,9 +50,36 @@ def format_values(result):
                 if result.event_id == 17:
                     modify_list.append(mbf_convert(value))
                 else:
-                    modify_list.append("{:.02f}".format(value))
+                    if float(value) > 60.00:
+                        modify_list.append(minutes_convert(value))
+                    else:
+                        modify_list.append("{:.02f}".format(value))
 
     return modify_list
+
+
+def minutes_convert(result):
+    minutes, seconds = divmod(result, 60)
+    seconds = "{:05.02f}".format(seconds)
+
+    return str(int(minutes)) + ":" + str(seconds)
+
+
+def convert(result, event_id):
+    if result == -1:
+        return "DNF"
+    elif result == -2:
+        return "DNS"
+    elif result == 0:
+        pass
+    elif result == OUTLIERS:
+        return "n/a"
+    elif event_id == 17:
+        return mbf_convert(result)
+    elif float(result) > 60.00:
+        return minutes_convert(result)
+    else:
+        return str("{:.02f}".format(result))
 
 
 def mbf_convert(value):
