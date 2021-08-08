@@ -1,5 +1,10 @@
 from app.defines.define import OUTLIERS
 
+RESULT_DNF = -1
+RESULT_DNS = -2
+DNF = "DNF"
+DNS = "DNS"
+
 
 def format_values(result):
     values = []
@@ -12,49 +17,57 @@ def format_values(result):
         values.append(result.value4)
     if result.value5 != 0:
         values.append(result.value5)
-
+    event_id = result.event_id
     modify_list = []
-
+    include_dnf_dns = RESULT_DNF in values or RESULT_DNS in values
+    max_flag = False
+    # ao5, mo3, bo1の判定式
     if len(values) >= 4:
         for value in values:
-            if min(values) == value:
-                if value == -1:
-                    modify_list.append("(DNF)")
-                elif value == -2:
-                    modify_list.append("(DNS)")
-                elif float(value) > 60.00:
-                    modify_list.append("(" + minutes_convert(value) + ")")
+            # bestがDNF or DNSなら全部記録なし
+            if result.best == RESULT_DNF or result.best == RESULT_DNS:
+                modify_list.append(add_brackets(convert(value, event_id)))
+                continue
+            # DNF判定
+            if value == RESULT_DNF:
+                # すでにmax判定されてないかチェック
+                if max_flag:
+                    modify_list.append(DNF)
                 else:
-                    modify_list.append("(" + "{:.02f}".format(value) + ")")
+                    modify_list.append(add_brackets(DNF))
+                    max_flag = True
+                continue
+            # DNS判定
+            if value == RESULT_DNS:
+                # すでにmax判定されてないかチェック
+                if max_flag:
+                    modify_list.append(DNS)
+                else:
+                    modify_list.append(add_brackets(DNS))
+                    max_flag = True
+                continue
+            # min判定
+            if result.best == value:
+                modify_list.append(add_brackets(convert(value, event_id)))
+            # max判定
             elif max(values) == value:
-                if value == -1:
-                    modify_list.append("(DNF)")
-                elif value == -2:
-                    modify_list.append("(DNS)")
-                elif float(value) > 60.00:
-                    modify_list.append("(" + minutes_convert(value) + ")")
+                # 一つでもDNF or DNSがあれば()つけない
+                if include_dnf_dns:
+                    modify_list.append(convert(value, event_id))
                 else:
-                    modify_list.append("(" + "{:.02f}".format(value) + ")")
+                    modify_list.append(add_brackets(convert(value, event_id)))
             else:
-                if float(value) > 60.00:
-                    modify_list.append(minutes_convert(value))
-                else:
-                    modify_list.append(str("{:.02f}".format(value)))
+                modify_list.append(convert(value, event_id))
     else:
         for value in values:
-            if value == -1:
-                modify_list.append("DNF")
-            elif value == -2:
-                modify_list.append("DNS")
+            # DNF判定
+            if value == RESULT_DNF:
+                modify_list.append(DNF)
+            # DNS判定
+            elif value == RESULT_DNS:
+                modify_list.append(DNS)
             else:
-                if result.event_id == 17:
-                    modify_list.append(mbf_convert(value))
-                else:
-                    if float(value) > 60.00:
-                        modify_list.append(minutes_convert(value))
-                    else:
-                        modify_list.append("{:.02f}".format(value))
-
+                modify_list.append(convert(value, event_id))
     return modify_list
 
 
@@ -66,10 +79,10 @@ def minutes_convert(result):
 
 
 def convert(result, event_id):
-    if result == -1:
-        return "DNF"
-    elif result == -2:
-        return "DNS"
+    if result == RESULT_DNF:
+        return DNF
+    elif result == RESULT_DNS:
+        return DNS
     elif result == 0:
         pass
     elif result == OUTLIERS:
@@ -80,6 +93,10 @@ def convert(result, event_id):
         return minutes_convert(result)
     else:
         return str("{:.02f}".format(result))
+
+
+def add_brackets(result):
+    return f"({result})"
 
 
 def mbf_convert(value):
