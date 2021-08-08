@@ -6,7 +6,7 @@ OUTLIERS = 99999999999
 
 class Define(Enum):
     @classmethod
-    def choices(cls):
+    def choces(cls):
         return tuple((x.value, x.name) for x in cls)
 
     @classmethod
