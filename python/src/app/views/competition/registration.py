@@ -8,6 +8,7 @@ from app.defines.event import Event
 from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.session import Notification
+from app.defines.fee import PayTypeEn as FeePayType
 from .base import Base
 from .util import calc_fee
 
@@ -159,6 +160,9 @@ class Registration(Base):
         context["stripe_public_key"] = settings.STRIPE_PUBLIC_KEY
         context["stripe_user_id"] = stripe_user_id
         context["prepaid_fees"] = amount["prepaid_fees"]
+        context["is_load_stripe_lib"] = (
+            self.competition.fee_pay_type == FeePayType.REMOTE_ONLY.value
+        )
 
         return context
 

@@ -35,11 +35,13 @@
 <script src="{% static 'app/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'app/js/avantui.js' %}"></script>
 <script src="{% static 'app/js/dropify.min.js' %}"></script>
-<script src="https://js.stripe.com/v3/"></script>
 <script src="https://kit.fontawesome.com/4e31109a85.js" crossorigin="anonymous"></script>
 <script src="https://www.google.com/recaptcha/api.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/js/jquery.tablesorter.min.js"></script>
 <script src="{% static 'app/js/main.js' %}"></script>
+{% if is_load_stripe_lib %}
+  <script src="https://js.stripe.com/v3/"></script>
+{% endif %}
 
 <link rel="shortcut icon" href="{% static 'app/image/favicon.ico' %}" type="image/vnd.microsoft.icon">
 <link rel="icon" href="{% static 'app/image/favicon.ico' %}" type="image/vnd.microsoft.icon">

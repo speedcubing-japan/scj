@@ -62,5 +62,6 @@ class Fee(Base):
             "is_payment"
         ] = self.competition.is_payment or self.competition.is_superuser(self.user)
         context["admin_errors"] = admin_errors
+        context["is_load_stripe_lib"] = True
 
         return context
