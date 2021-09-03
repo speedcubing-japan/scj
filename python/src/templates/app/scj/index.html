@@ -4,12 +4,25 @@
 
 {% block content %}
   {% include "app/common/notification.html" %}
+  <div calss="row">
+    <div class="modal fade agree_cookie_modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-body">
+            当サイトではCookieを使用します。Cookieの使用に関する詳細は「プライバシーポリシー」をご覧ください。
+          </div>
+          <div class="modal-footer p-2">
+            <button class="btn btn-primary agree_cookie" form="agreement" type="submit" data-dismiss="modal">同意する</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-lg-6">
       <div class="card-header lead">
         お知らせ
       </div>
-
       <ul class="nav nav-tabs flex-lg-row" id="myTab" role="tablist">
         <li class="nav-item">
           <a class="nav-link active" href="{% url 'information_list' 'all' %}">すべて</a>
@@ -104,4 +117,17 @@
     </div>
   </div>
 
+<script>
+  const cookieList = document.cookie.split(';');
+  const cookie = {}
+  cookieList.forEach((data) => {
+    const content = data.split('=');
+    const key = content[0].trim()
+    const value = content[1]
+    cookie[key] = value
+  })
+  if (!cookie.agree_cookie) {
+    $('#staticBackdrop').modal()
+  }
+</script>
 {% endblock content %}
