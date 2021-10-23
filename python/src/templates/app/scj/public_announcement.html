@@ -1,13 +1,14 @@
 {% extends "app/common/base.html" %}
+{% load static %}
 
 {% block content %}
 {% include "app/common/title.html" with title="公告" %}
 
 <div class="card">
   <div class="card-body font-small">
-    最初の事業年度終了後、ここに一般社団法人の定款に定める公告を表示します。
-  </div>
-  <div class="card-footer text-right small">
+    <h5>第1期</h5>
+    <hr>
+    <i class="fas fa-file-pdf fa-fw ml-2 mr-1"></i><a href="{% static 'app/pdf/financial_1.pdf' %}">第1期 SCJ決算公告</a>
   </div>
 </div>
 {% endblock content %}
