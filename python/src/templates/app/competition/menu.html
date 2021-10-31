@@ -19,7 +19,7 @@
       </li>
     </a>
   {% endif %}
-  {% if is_refunder %}
+  {% if is_refunder and competition.fee_pay_type != fee_pay_type.LOCAL_ONLY.value %}
     <a href="{% url 'competition_admin_refund' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'refund' %}active{% endif %}"><i class="fas fa-undo-alt fa-fw mr-2"></i>返金</button></a>
   {% endif %}
 </div>
@@ -36,41 +36,6 @@
       <button type="button" class="language list-group-item list-group-item-action"><i class="fas fa-language mr-2"></i>{% if LANGUAGE_CODE == 'en' %}日本語{% else %}English{% endif %}</button></a>
     </form>
   </div>
-{% endif %}
-
-{% if is_judge %}
-  {% if competition.is_private or not competition.is_display %}
-    <div class="list-group mb-3">
-      <form method="POST" class="file" action="{% url 'competition_admin_edit' competition.name_id %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" class="dropify list-group-item list-group-item-action" data-default-file="ファイルを選択してください" name="file">
-      </form>
-      <button type="button" class="bg-danger text-white list-group-item list-group-item-action" data-toggle="modal" data-target="#delete"><i class="fas fa-trash fa-fw mr-2"></i>削除</button>
-    </div>
-
-    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">大会の削除</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&#10005;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-            大会の削除を行います。これはやり直すことはできません。
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-            <form method="POST" action="{% url 'competition_admin_delete' competition.name_id %}">
-              {% csrf_token %}
-              <button type="submit button" class="btn btn-danger"><i class="fas fa-trash fa-fw mr-2"></i>削除</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  {% endif %}
 {% endif %}
 
 {% if user.is_superuser %}

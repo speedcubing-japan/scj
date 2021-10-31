@@ -23,9 +23,9 @@ class Publish(LoginRequiredMixin, Base):
             ).exists()
         )
         if not is_round_exists or not is_fee_exists:
-            request.session["competition_admin_errors"] = set(
-                "round、feepereventまたはfeepereventcountデータが不足しているため公開に変更できません。"
-            )
+            request.session["competition_admin_errors"] = [
+                "round、feepereventまたはfeepereventcountデータが不足しているため非表示に変更できません。"
+            ]
             return redirect("competition_detail", name_id=self.name_id)
 
         self.competition.publish()

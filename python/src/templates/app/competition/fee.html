@@ -22,7 +22,7 @@
     {% include "app/competition/menu.html" with active='fee' %}
   </div>
   <div class="col-lg-10">
-    {% if competition.fee_pay_type != fee_pay_type.REMOTE_ONLY.value %}
+    {% if competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value %}
       <div class="alert alert-info" role="alert">
         {% if competition.fee_pay_close_at > now %}
           {% blocktrans with rest_time=fee_pay_close_at_timedelta|rest_time date=competition.fee_pay_close_at|date:"Y年m月d日 H:i:s" %}事前支払い期日は&nbsp;{{ rest_time }}後&nbsp;{{ date }}です。{% endblocktrans %}
@@ -45,21 +45,23 @@
         {% endif %}
       </div>
     </div>
-    <div class="card mb-3">
-      <div class="card-header lead">
-        {% trans "返金ポリシー" %}
+    {% if competition.fee_pay_type != fee_pay_type.LOCAL_ONLY.value %}
+      <div class="card mb-3">
+        <div class="card-header lead">
+          {% trans "返金ポリシー" %}
+        </div>
+        <div class="card-body">
+          {% if not competition.refund_description_en %}
+            {{ competition.refund_description | strip | safe }}
+          {% elif request.LANGUAGE_CODE == 'en' %}
+            {{ competition.refund_description_en | strip | safe }}
+          {% else %}
+            {{ competition.refund_description | strip | safe }}
+          {% endif %}
+        </div>
       </div>
-      <div class="card-body">
-        {% if not competition.refund_description_en %}
-          {{ competition.refund_description | strip | safe }}
-        {% elif request.LANGUAGE_CODE == 'en' %}
-          {{ competition.refund_description_en | strip | safe }}
-        {% else %}
-          {{ competition.refund_description | strip | safe }}
-        {% endif %}
-      </div>
-    </div>
-    {% if competition.fee_pay_type != fee_pay_type.REMOTE_ONLY.value %}
+    {% endif %}
+    {% if competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value %}
       <div class="card mb-3">
         <div class="card-header text-white bg-dark lead">
           {% trans "参加費支払い" %}{% if is_superuser and not competition.is_payment %}<span class="text-danger font-weight-bold">&nbsp;({% trans "デバッグモード" %})</span>{% endif %}

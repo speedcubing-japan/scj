@@ -50,7 +50,10 @@ class Detail(Base):
                 if has_results:
                     notification = Notification.COMPETITION_SCJ_HAS_RESULT_END
                 elif self.competition.is_finish():
-                    notification = Notification.COMPETITION_END
+                    if self.competition.type == CompetitionType.SCJ.value:
+                        notification = Notification.COMPETITION_SCJ_END
+                    elif self.competition.type == CompetitionType.WCA.value:
+                        notification = Notification.COMPETITION_WCA_END
             elif self.competition.type == CompetitionType.WCA.value:
                 notification = Notification.COMPETITION_WCA_END
         elif self.competitor:

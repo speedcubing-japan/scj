@@ -160,7 +160,7 @@
         <div class="text-danger">{% blocktrans with url="https://www.worldcubeassociation.org/" %}WCA認証の前に一度<a href="{{ url }}" target="_blank">WCAサイト</a>にてログアウトをお勧めします。{% endblocktrans %}</div>
       </div>
     {% elif competitor and competitor.status != competitor_status.CANCEL.value %}
-      {% if not is_prepaid %}
+      {% if not is_prepaid and competition.fee_pay_type != fee_pay_type.LOCAL_ONLY.value %}
         {% include "app/competition/fee_alert.html" %}
       {% endif %}
       {% if competitor.status == competitor_status.REGISTRATION.value %}
@@ -168,23 +168,23 @@
           {% trans "既に申し込みが承認されています。" %}
         </div>
       {% elif competitor.status == competitor_status.PENDING.value %}
-      <div class="card border-dark">
-        <div class="card-header text-white bg-secondary lead">
-          {% trans "申し込み詳細 " %}
-        </div>
-        <div class="card-body">
-          <form action="" method="POST">
-            {% csrf_token %}
-            {% bootstrap_form form layout='horizontal' %}
-            <div class="form-group row">
-              <div class="offset-md-3 col-md-9">
-                <button type="button" class="mt-2 submit_change_action btn btn-success" name="type" value="{% url 'competition_registration' competition.name_id %}"><i class="fas fa-pencil-alt fa-fw mr-2"></i>{% trans "更新" %}</button>
-                <button type="button" class="mt-2 submit_change_action btn btn-danger" name="type" value="{% url 'competition_cancel' competition.name_id %}"><i class="fas fa-trash fa-fw mr-2"></i>{% trans "申し込みキャンセル" %}</button>
+        <div class="card border-dark">
+          <div class="card-header text-white bg-secondary lead">
+            {% trans "申し込み詳細 " %}
+          </div>
+          <div class="card-body">
+            <form action="" method="POST">
+              {% csrf_token %}
+              {% bootstrap_form form layout='horizontal' %}
+              <div class="form-group row">
+                <div class="offset-md-3 col-md-9">
+                  <button type="button" class="mt-2 submit_change_action btn btn-success" name="type" value="{% url 'competition_registration' competition.name_id %}"><i class="fas fa-pencil-alt fa-fw mr-2"></i>{% trans "更新" %}</button>
+                  <button type="button" class="mt-2 submit_change_action btn btn-danger" name="type" value="{% url 'competition_cancel' competition.name_id %}"><i class="fas fa-trash fa-fw mr-2"></i>{% trans "申し込みキャンセル" %}</button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
       {% endif %}
     {% elif competition.registration_open_at > now and not is_superuser %}
       <div class="alert alert-info" role="alert">
@@ -223,29 +223,29 @@
 
       {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
         {% if competition.fee_calc_type == fee_calc_type.EVENT.value %}
-        <div class="card mb-3">
-          <ul class="list-group">
-            {% for item, price in prepaid_fees.items %}
-              <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
-                <span>{% if item == 0 %}{% trans "支払い料金" %}{% else %}<span class="cubing-icon event-{{ item | event_id_name }} mr-2 md-2 h5"></span>{{ item | event_name }}{% endif %}
-                </span>
-                <span class="float-right">{% if item != 0 %}+{% endif %}{{ price }}&nbsp;{% trans "円" %}</span>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
+          <div class="card mb-3">
+            <ul class="list-group">
+              {% for item, price in prepaid_fees.items %}
+                <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
+                  <span>{% if item == 0 %}{% trans "支払い料金" %}{% else %}<span class="cubing-icon event-{{ item | event_id_name }} mr-2 md-2 h5"></span>{{ item | event_name }}{% endif %}
+                  </span>
+                  <span class="float-right">{% if item != 0 %}+{% endif %}{{ price }}&nbsp;{% trans "円" %}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
         {% elif competition.fee_calc_type == fee_calc_type.EVENT_COUNT.value %}
-        <div class="card mb-3">
-          <ul class="list-group">
-            {% for item, price in prepaid_fees.items %}
-              <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
-                <span>{% if item == 0 %}{% trans "支払い料金" %}{% else %}{{ item }}&nbsp;{% trans "種目" %}{% endif %}
-                </span>
-                {% if price != 0 %}<span class="float-right">{{ price }}&nbsp;{% trans "円" %}</span>{% endif %}
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
+          <div class="card mb-3">
+            <ul class="list-group">
+              {% for item, price in prepaid_fees.items %}
+                <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
+                  <span>{% if item == 0 %}{% trans "支払い料金" %}{% else %}{{ item }}&nbsp;{% trans "種目" %}{% endif %}
+                  </span>
+                  {% if price != 0 %}<span class="float-right">{{ price }}&nbsp;{% trans "円" %}</span>{% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
         {% endif %}
       {% endif %}
 
@@ -274,7 +274,7 @@
               </div>
               <div id="error" class="text-danger font-weight-bold"></div>
             </div>
-          {% elif competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value %}
+          {% elif competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value or competition.fee_pay_type == fee_pay_type.LOCAL_ONLY.value %}
             <form action="" method="POST">
               {% csrf_token %}
               {% bootstrap_form form layout='horizontal' %}

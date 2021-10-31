@@ -60,7 +60,6 @@ from .views.mail.change_complete import ChangeComplete as MailChangeComplete
 from .views.competition.mine import Mine as CompetitionMine
 from .views.competition.about import About as CompetitionAbout
 from .views.competition.regulation import Regulation as CompetitionRegulation
-from .views.competition.create import Create as CompetitionCreate
 from .views.competition.index import Index as CompetitionIndex
 from .views.competition.detail import Detail as CompetitionDetail
 from .views.competition.registration import Registration as CompetitionRegistration
@@ -75,7 +74,6 @@ from .views.competition.admin.competitor import Competitor as CompetitionAdminCo
 from .views.competition.admin.csv import Csv as CompetitionAdminCsv
 from .views.competition.admin.wca_csv import WcaCsv as CompetitionAdminWcaCsv
 from .views.competition.admin.delete import Delete as CompetitionAdminDelete
-from .views.competition.admin.edit import Edit as CompetitionAdminEdit
 from .views.competition.admin.hidden import Hidden as CompetitionAdminHidden
 from .views.competition.admin.publish import Publish as CompetitionAdminPublish
 
@@ -187,7 +185,6 @@ urlpatterns = [
         CompetitionRegulation.as_view(),
         name="competition_regulation",
     ),
-    path("competition_create/", CompetitionCreate.as_view(), name="competition_create"),
     path("competition/", CompetitionIndex.as_view(), name="competition_index"),
     path(
         "competition/<str:name_id>/",
@@ -253,11 +250,6 @@ urlpatterns = [
         "competition/<str:name_id>/admin/delete/",
         CompetitionAdminDelete.as_view(),
         name="competition_admin_delete",
-    ),
-    path(
-        "competition/<str:name_id>/admin/edit/",
-        CompetitionAdminEdit.as_view(),
-        name="competition_admin_edit",
     ),
     path(
         "competition/<str:name_id>/admin/hidden/",
