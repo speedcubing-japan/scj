@@ -77,6 +77,7 @@ class Authorization(View):
                     person.wca_user_id = wca_user_id
                     person.wca_email = response.json()["me"]["email"]
                     person.wca_name = response.json()["me"]["name"]
+                    person.wca_birth_at = response.json()["me"]["dob"]
                     person.wca_country_iso2 = response.json()["me"]["country_iso2"]
                     person.wca_access_token = access_token
                     person.wca_refresh_token = refresh_token
@@ -90,6 +91,7 @@ class Authorization(View):
                             "wca_user_id",
                             "wca_email",
                             "wca_name",
+                            "wca_birth_at",
                             "wca_country_iso2",
                             "wca_access_token",
                             "wca_refresh_token",

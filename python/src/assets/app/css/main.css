@@ -116,3 +116,11 @@ table.table-bordered > tbody > tr > td {
 .footer {
     border:solid 0.1em #d3d3d3;
 }
+
+.modal-dialog {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 1.75rem auto;
+}

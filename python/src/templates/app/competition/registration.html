@@ -158,7 +158,7 @@
       </div>
     {% elif competition.type == competition_type.WCA.value and not is_wca_authenticated %}
       <div class="alert alert-light" role="alert">
-        <div>{% blocktrans with competition_name=competition.name wca_oauth_authorization=wca_oauth_authorization wca_client_id=wca_client_id redirect_uri=redirect_uri %}{{ competition_name }}に申し込むには<a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email">WCA認証</a>が必要です。{% endblocktrans %}</div>
+        <div>{% blocktrans with competition_name=competition.name wca_oauth_authorization=wca_oauth_authorization wca_client_id=wca_client_id redirect_uri=redirect_uri %}{{ competition_name }}に申し込むには<a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email dob">WCA認証</a>が必要です。{% endblocktrans %}</div>
         <div class="text-danger">{% trans "共有PCの場合、ご家族のWCAアカウントと混同しないようにご注意ください。" %}</div>
         <div class="text-danger">{% blocktrans with url="https://www.worldcubeassociation.org/" %}WCA認証の前に一度<a href="{{ url }}" target="_blank">WCAサイト</a>にてログアウトをお勧めします。{% endblocktrans %}</div>
       </div>

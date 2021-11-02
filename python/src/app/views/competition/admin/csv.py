@@ -46,7 +46,7 @@ class Csv(LoginRequiredMixin, View):
             event_name_dict[event_id] = event_id_names[event_id]
 
         if competition.type == CompetitionType.WCA.value:
-            row = ["wca_id", "wca_user_id", "name", "email"]
+            row = ["wca_id", "wca_user_id", "name", "email", "birth_at"]
         elif competition.type == CompetitionType.SCJ.value:
             row = ["scj_id", "full_name", "full_name_kana", "full_name_rome", "email"]
 
@@ -78,6 +78,7 @@ class Csv(LoginRequiredMixin, View):
                         competitor.person.wca_user_id,
                         competitor.person.wca_name,
                         competitor.person.wca_email,
+                        competitor.person.wca_birth_at,
                     ]
 
                 elif competition.type == CompetitionType.SCJ.value:

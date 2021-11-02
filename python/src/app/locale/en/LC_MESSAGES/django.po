@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-24 04:51+0000\n"
+"POT-Creation-Date: 2021-10-02 02:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -283,39 +283,39 @@ msgstr "Number of Guests"
 msgid "コメント"
 msgstr "Comments"
 
-#: app/models/person.py:9 app/models/user.py:40
+#: app/models/person.py:11 app/models/user.py:40
 msgid "名"
 msgstr "First name"
 
-#: app/models/person.py:10
+#: app/models/person.py:12
 msgid "姓"
 msgstr "Last name"
 
-#: app/models/person.py:11
+#: app/models/person.py:13
 msgid "メイ"
 msgstr "First name (Katakana)"
 
-#: app/models/person.py:12
+#: app/models/person.py:14
 msgid "セイ"
 msgstr "Last name (Katakana)"
 
-#: app/models/person.py:13
+#: app/models/person.py:15
 msgid "名(ローマ字)"
 msgstr "First name"
 
-#: app/models/person.py:14
+#: app/models/person.py:16
 msgid "姓(ローマ字)"
 msgstr "Last name"
 
-#: app/models/person.py:15
+#: app/models/person.py:17
 msgid "性別"
 msgstr "Gender"
 
-#: app/models/person.py:16
+#: app/models/person.py:18
 msgid "生年月日"
 msgstr "Birth Date"
 
-#: app/models/person.py:18
+#: app/models/person.py:20
 msgid "都道府県"
 msgstr "Prefecture"
 

@@ -21,6 +21,7 @@ class Person(models.Model):
     wca_user_id = models.IntegerField("WCA_USER_ID", default=0)
     wca_email = models.EmailField("WCA EMAIL", default="")
     wca_name = models.CharField("WCA氏名", max_length=256, default="")
+    wca_birth_at = models.DateField("WCA生年月日", null=True)
     wca_country_iso2 = models.CharField("WCA所属国", max_length=2, default="")
     wca_access_token = models.CharField("WCAアクセストークン", max_length=256)
     wca_refresh_token = models.CharField("WCAリフレッシュトークン", max_length=256)

@@ -55,6 +55,10 @@
             <td>{{ user.person.wca_name }}</td>
           </tr>
           <tr>
+            <td class="table-dark">WCA 生年月日</td>
+            <td>{{ user.person.wca_birth_at|default_if_none:"" }}</td>
+          </tr>
+          <tr>
             <td class="table-dark">WCA 所属国</td>
             <td>{{ user.person.wca_country_iso2 }}</td>
           </tr>
@@ -78,7 +82,7 @@
       <h4>WCA認証</h4>
       <hr>
       <div class="mb-3">
-        <a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email"><button type="button" class="btn btn-dark"><i class="fas fa-sign-in-alt mr-2"></i>WCA認証</button></a>
+        <a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email dob"><button type="button" class="btn btn-dark"><i class="fas fa-sign-in-alt mr-2"></i>WCA認証</button></a>
       </div>
       <div class="alert alert-light" role="alert">
         <div>WCA認証を行い、ご自身のアカウントにWCAのアカウントを紐付けます。</div>

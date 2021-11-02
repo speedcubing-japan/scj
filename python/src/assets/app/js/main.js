@@ -148,4 +148,9 @@ $(function(){
     $('.file').submit();
     $('.dropify').value('')
   });
+  // set cookie
+  $('.agree_cookie').click(function () {
+    maxAge = 60 * 60 * 24 * 365;
+    document.cookie = `agree_cookie=1;max-age=${maxAge}`;
+  });
 });
