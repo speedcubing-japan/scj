@@ -66,28 +66,13 @@
       </div>
       <div class="card-body">
         <div class="mb-3">{% trans "大会に申込みをする前に、以下をご了承ください。" %}</div>
-        <ul>
-          <li>{% trans "18歳未満の方の参加には、保護者の同意が必要です。" %}</li>
-          <li>
-            {% if competition.type == competition_type.WCA.value %}
-              {% blocktrans with url="https://www.worldcubeassociation.org/privacy" target="_blank" %}個人情報の取扱は、<a href="{{ url }}" target="{{ target }}">WCAプライバシーポリシー</a>に準じます。{% endblocktrans %}
-            {% elif competition.type == competition_type.SCJ.value %}
-              個人情報の取扱は、<a href="https://speedcubing.or.jp/privacy_policy/" target="_blank">SCJプライバシーポリシー</a>に準じます。
-            {% endif %}
-          </li>
-          {% if competition.type == competition_type.WCA.value %}
-            <li>{% trans "参加者の計測結果、名前、国籍、性別はインターネット上に公開されます。" %}</li>
-          {% elif competition.type == competition_type.SCJ.value %}
-            <li>会開催中における18歳未満の参加者の保護責任は保護者にあります。</li>
-            <li>参加者の計測結果、名前、都道府県、その他ランキングで必要となる情報はインターネット上に公開されます。</li>
-          {% endif %}
-          {% if competition.type == competition_type.WCA.value %}
-            <li>{% trans "生年月日および連絡先は、本人の同意なく公開されません。" %}</li>
-          {% endif %}
-          <li>{% trans "広報活動や記録を目的に、撮影した写真や映像を大会運営者のHPなどで使用することがあります。" %}</li>
-          <li>{% trans "各種メディアにより、大会の様子が撮影されたり、大会参加者が取材を受けることがあります。" %}</li>
-          <li>{% trans "COVID-19感染予防対策により、大会の中止がイベント直前に告知される場合があります。" %}</li>
-        </ul>
+        {% if not competition.requirement_en %}
+          {{ competition.disclaimer | strip | safe }}
+        {% elif request.LANGUAGE_CODE == 'en' %}
+          {{ competition.disclaimer_en | strip | safe }}
+        {% else %}
+          {{ competition.disclaimer | strip | safe }}
+        {% endif %}
       </div>
     </div>
     {% if competition.type == competition_type.WCA.value %}

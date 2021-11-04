@@ -52,6 +52,8 @@ class Competition(models.Model):
     description_en = models.TextField("大会説明(英文)", default="")
     requirement = models.TextField("参加要件", default="")
     requirement_en = models.TextField("参加要件(英文)", default="")
+    disclaimer = models.TextField("免責事項", default="")
+    disclaimer_en = models.TextField("免責事項(英文)", default="")
     refund_description = models.TextField("返金ポリシー", default="")
     refund_description_en = models.TextField("返金ポリシー(英文)", default="")
     is_cancel = models.BooleanField("キャンセル可否", default=False)
@@ -99,6 +101,8 @@ class Competition(models.Model):
         self.description_en = competition["description_en"]
         self.requirement = competition["requirement"]
         self.requirement_en = competition["requirement_en"]
+        self.disclaimer = competition["disclaimer"]
+        self.disclaimer_en = competition["disclaimer_en"]
         self.refund_description = competition["refund_description"]
         self.refund_description_en = competition["refund_description_en"]
         self.is_cancel = False
@@ -140,6 +144,8 @@ class Competition(models.Model):
         self.description_en = competition["description_en"]
         self.requirement = competition["requirement"]
         self.requirement_en = competition["requirement_en"]
+        self.disclaimer = competition["disclaimer"]
+        self.disclaimer_en = competition["disclaimer_en"]
         self.refund_description = competition["refund_description"]
         self.refund_description_en = competition["refund_description_en"]
         self.save()

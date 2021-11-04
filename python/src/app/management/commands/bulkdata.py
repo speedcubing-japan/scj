@@ -189,6 +189,8 @@ class Command(BaseCommand):
                     description_en=record["fields"]["description_en"],
                     requirement=record["fields"]["requirement"],
                     requirement_en=record["fields"]["requirement_en"],
+                    disclaimer=record["fields"]["disclaimer"],
+                    disclaimer_en=record["fields"]["disclaimer_en"],
                     refund_description=record["fields"]["refund_description"],
                     refund_description_en=record["fields"]["refund_description_en"],
                     is_cancel=record["fields"]["is_cancel"],
