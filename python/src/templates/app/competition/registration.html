@@ -238,9 +238,15 @@
       {% endif %}
 
       <div class="card border-dark">
-        <div class="card-header text-white bg-dark lead">
-          {% trans "申し込み" %}
-        </div>
+        {% if competition.registration_open_at > now and is_superuser %}
+          <div class="card-header text-white bg-danger lead">
+            運営先行申し込み
+          </div>
+        {% else %}
+          <div class="card-header text-white bg-dark lead">
+            {% trans "申し込み" %}
+          </div>
+        {% endif %}
         <div class="card-body">
           {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
             {% bootstrap_form form layout='horizontal' %}
