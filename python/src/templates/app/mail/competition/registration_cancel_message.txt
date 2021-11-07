@@ -4,7 +4,8 @@
 {{ protocol}}://{{ domain }}{% url 'competition_detail' competition.name_id %}
 への参加申し込みを取り消しました。
 
-なにかご不明な点があれば、主催者にお問い合わせください。
+このメールに直接返信いただいても回答はいたしかねます。
+なにかご不明な点があれば、下記の主催者にお問い合わせください。
 
 {{ competition.organizer_name }}
 {{ competition.organizer_email }}
