@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.models import Competitor, StripeProgress
@@ -132,6 +133,7 @@ class Index(LoginRequiredMixin, Base):
         context["pending_competitors"] = pending_competitors
         context["registration_competitors"] = registration_competitors
         context["cancel_competitors"] = cancel_competitors
+        context["now"] = datetime.datetime.now(tz=datetime.timezone.utc)
 
         return context
 
