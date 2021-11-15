@@ -48,7 +48,7 @@ class Csv(LoginRequiredMixin, View):
         if competition.type == CompetitionType.WCA.value:
             row = ["wca_id", "wca_user_id", "name", "email", "birth_at"]
         elif competition.type == CompetitionType.SCJ.value:
-            row = ["scj_id", "full_name", "full_name_kana", "full_name_rome", "email"]
+            row = ["scj_id", "full_name", "full_name_kana", "full_name_rome", "email", "birth_at"]
 
         row.extend(list(event_name_dict.values()))
         row.extend(
@@ -89,6 +89,7 @@ class Csv(LoginRequiredMixin, View):
                         competitor.person.get_full_name_kana(),
                         competitor.person.get_full_name_roma(),
                         competitor.person.user.email,
+                        competitor.person.birth_at
                     ]
 
                 row.extend(event_join_list)
