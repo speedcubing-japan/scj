@@ -153,8 +153,13 @@
         {% include "app/competition/fee_alert.html" %}
       {% endif %}
       {% if competitor.status == competitor_status.REGISTRATION.value %}
-        <div class="alert alert-success" role="alert">
-          {% trans "既に申し込みが承認されています。" %}
+        <div class="card border-dark">
+          <div class="card-header text-white bg-success lead">
+            {% trans "承認済み" %}
+          </div>
+          <div class="card-body">
+            {% bootstrap_form form layout='horizontal' %}
+          </div>
         </div>
       {% elif competitor.status == competitor_status.PENDING.value %}
         <div class="card border-dark">
@@ -241,7 +246,7 @@
       <div class="card border-dark">
         {% if competition.registration_open_at > now and is_superuser %}
           <div class="card-header text-white bg-danger lead">
-            運営先行申し込み
+            {% trans "運営先行申し込み" %}
           </div>
         {% else %}
           <div class="card-header text-white bg-dark lead">

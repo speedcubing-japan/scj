@@ -182,3 +182,8 @@ class Registration(Base):
             self.form.fields["event_ids"].initial = self.competitor.event_ids
             self.form.fields["guest_count"].initial = self.competitor.guest_count
             self.form.fields["comment"].initial = self.competitor.comment
+
+            if self.competitor.status == CompetitorStatus.REGISTRATION.value:
+                self.form.fields["event_ids"].widget.attrs["disabled"] = "disabled"
+                self.form.fields["guest_count"].widget.attrs["disabled"] = "disabled"
+                self.form.fields["comment"].widget.attrs["disabled"] = "disabled"
