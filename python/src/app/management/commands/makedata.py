@@ -1,6 +1,7 @@
 import pyjq
 import os
 import json
+import pprint
 from app.defines.gender import Gender
 from app.defines.prefecture import PrefectureAndOversea
 from app.defines.competitor import GENERATION_MAX
@@ -118,12 +119,10 @@ class Command(BaseCommand):
                             prefecture_ranks[
                                 person_datas[result["person_id"]].prefecture_id
                             ] += skip_count
+                            rank += skip_count
                             skip_count = 1
                         else:
                             skip_count += 1
-
-                        # 標準ランク追加
-                        rank += 1
 
                         result["competition_id"] = result["competition_id"]
                         result["competition_name_id"] = competiton_datas[
