@@ -8,4 +8,4 @@ class Scramble(models.Model):
     event_id = models.SmallIntegerField("イベントID", choices=Event.choices())
     round_id = models.IntegerField("ラウンドID")
     group_id = models.CharField("グループID", max_length=4)
-    scramble = models.CharField("スクランブル", max_length=64)
+    scramble = models.TextField("スクランブル")
