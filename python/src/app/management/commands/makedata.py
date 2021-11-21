@@ -1,7 +1,6 @@
 import pyjq
 import os
 import json
-import pprint
 from app.defines.gender import Gender
 from app.defines.prefecture import PrefectureAndOversea
 from app.defines.competitor import GENERATION_MAX
