@@ -9,7 +9,6 @@ from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.session import Notification
 from .base import Base
-import pprint
 
 
 class Detail(Base):
@@ -47,21 +46,20 @@ class Detail(Base):
         elif self.competition.is_cancel:
             notification = Notification.COMPETITION_CANCELED
         elif self.competition.registration_close_at < now:
-            if self.competition.type == CompetitionType.SCJ.value:
-                if has_results:
-                    notification = Notification.COMPETITION_SCJ_HAS_RESULT_END
-                elif self.competition.is_finish():
-                    if self.competition.type == CompetitionType.SCJ.value:
-                        notification = Notification.COMPETITION_SCJ_END
-                    elif self.competition.type == CompetitionType.WCA.value:
-                        notification = Notification.COMPETITION_WCA_END
-        elif self.competitor:
-            if self.competitor.status == CompetitorStatus.PENDING.value:
-                notification = Notification.COMPETITOR_PENGING
-            elif self.competitor.status == CompetitorStatus.REGISTRATION.value:
-                notification = Notification.COMPETITOR_REGISTRATION
-            elif self.competitor.status == CompetitorStatus.CANCEL.value:
-                notification = Notification.COMPETITOR_CANCEL
+            if has_results:
+                notification = Notification.COMPETITION_SCJ_HAS_RESULT_END
+            elif self.competition.is_finish():
+                if self.competition.type == CompetitionType.SCJ.value:
+                    notification = Notification.COMPETITION_SCJ_END
+                elif self.competition.type == CompetitionType.WCA.value:
+                    notification = Notification.COMPETITION_WCA_END
+            elif self.competitor:
+                if self.competitor.status == CompetitorStatus.PENDING.value:
+                    notification = Notification.COMPETITOR_PENGING
+                elif self.competitor.status == CompetitorStatus.REGISTRATION.value:
+                    notification = Notification.COMPETITOR_REGISTRATION
+                elif self.competitor.status == CompetitorStatus.CANCEL.value:
+                    notification = Notification.COMPETITOR_CANCEL
 
         # 申し込み者数(未承認+承認)
         competitor_offer_count = Competitor.objects.filter(
