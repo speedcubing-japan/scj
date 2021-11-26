@@ -45,21 +45,21 @@ class Detail(Base):
             notification = Notification.COMPETITION_NOT_DISPLAY
         elif self.competition.is_cancel:
             notification = Notification.COMPETITION_CANCELED
-        elif self.competition.registration_close_at < now:
+        elif self.competition.is_finish():
             if has_results:
                 notification = Notification.COMPETITION_SCJ_HAS_RESULT_END
-            elif self.competition.is_finish():
+            else:
                 if self.competition.type == CompetitionType.SCJ.value:
                     notification = Notification.COMPETITION_SCJ_END
                 elif self.competition.type == CompetitionType.WCA.value:
                     notification = Notification.COMPETITION_WCA_END
-            elif self.competitor:
-                if self.competitor.status == CompetitorStatus.PENDING.value:
-                    notification = Notification.COMPETITOR_PENGING
-                elif self.competitor.status == CompetitorStatus.REGISTRATION.value:
-                    notification = Notification.COMPETITOR_REGISTRATION
-                elif self.competitor.status == CompetitorStatus.CANCEL.value:
-                    notification = Notification.COMPETITOR_CANCEL
+        elif self.competitor:
+            if self.competitor.status == CompetitorStatus.PENDING.value:
+                notification = Notification.COMPETITOR_PENGING
+            elif self.competitor.status == CompetitorStatus.REGISTRATION.value:
+                notification = Notification.COMPETITOR_REGISTRATION
+            elif self.competitor.status == CompetitorStatus.CANCEL.value:
+                notification = Notification.COMPETITOR_CANCEL
 
         # 申し込み者数(未承認+承認)
         competitor_offer_count = Competitor.objects.filter(
