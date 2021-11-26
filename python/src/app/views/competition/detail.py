@@ -9,6 +9,7 @@ from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.session import Notification
 from .base import Base
+import pprint
 
 
 class Detail(Base):
@@ -54,8 +55,6 @@ class Detail(Base):
                         notification = Notification.COMPETITION_SCJ_END
                     elif self.competition.type == CompetitionType.WCA.value:
                         notification = Notification.COMPETITION_WCA_END
-            elif self.competition.type == CompetitionType.WCA.value:
-                notification = Notification.COMPETITION_WCA_END
         elif self.competitor:
             if self.competitor.status == CompetitorStatus.PENDING.value:
                 notification = Notification.COMPETITOR_PENGING
