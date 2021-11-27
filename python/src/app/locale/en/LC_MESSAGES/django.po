@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-18 13:51+0000\n"
+"POT-Creation-Date: 2021-11-27 12:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -174,17 +174,21 @@ msgstr ""
 
 #: app/defines/session.py:54
 msgid "この大会は終了しました。"
-msgstr "This competition is over."
+msgstr "This competition has ended."
 
 #: app/defines/session.py:55
+msgid "この大会の申し込み受け付けは終了しました。"
+msgstr "Registration for this competition is now closed."
+
+#: app/defines/session.py:56
 msgid "あなたの申し込みは承認待ちです。"
 msgstr "Your registration is awaiting approval."
 
-#: app/defines/session.py:56
+#: app/defines/session.py:57
 msgid "あなたの申し込みは承認されました。"
 msgstr "Your registration has been approved."
 
-#: app/defines/session.py:57
+#: app/defines/session.py:58
 msgid "あなたの申し込みはキャンセルされました。"
 msgstr "Your registration has been cancelled."
 

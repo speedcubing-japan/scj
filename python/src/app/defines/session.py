@@ -52,6 +52,7 @@ class Notification(Define):
     COMPETITION_SCJ_END = (Status.INFO.value, "この大会は終了しました。結果が出るまでお待ち下さい。")
     COMPETITION_SCJ_HAS_RESULT_END = (Status.INFO.value, "この大会は終了しました。結果は結果タブをご覧ください。")
     COMPETITION_WCA_END = (Status.INFO.value, _("この大会は終了しました。"))
+    COMPETITION_REGISTRATION_END = (Status.WARNING.value, _("この大会の申し込み受け付けは終了しました。"))
     COMPETITOR_PENGING = (Status.WARNING.value, _("あなたの申し込みは承認待ちです。"))
     COMPETITOR_REGISTRATION = (Status.SUCCESS.value, _("あなたの申し込みは承認されました。"))
     COMPETITOR_CANCEL = (Status.DANGER.value, _("あなたの申し込みはキャンセルされました。"))

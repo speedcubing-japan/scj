@@ -60,6 +60,8 @@ class Detail(Base):
                 notification = Notification.COMPETITOR_REGISTRATION
             elif self.competitor.status == CompetitorStatus.CANCEL.value:
                 notification = Notification.COMPETITOR_CANCEL
+        elif not self.competition.is_registration_open():
+            notification = Notification.COMPETITION_REGISTRATION_END
 
         # 申し込み者数(未承認+承認)
         competitor_offer_count = Competitor.objects.filter(
