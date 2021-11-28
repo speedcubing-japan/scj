@@ -5,46 +5,12 @@
 {% load event_name %}
 {% load event_id_name %}
 {% load i18n %}
-{% load static %}
-{% load competition_logo %}
 
 {% block content %}
 {% include "app/common/competition_title.html" %}
 {% include "app/common/notification.html" %}
 
 <div class="row">
-  {% if not user.is_authenticated %}
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-body">
-            {% blocktrans with competition_name=competition.name login_url=login_url path=request.path %}{{ competition_name }}に申し込むにはログインが必要です。{% endblocktrans %}
-          </div>
-          <div class="modal-footer">
-            <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-dark">{% trans "ログイン" %}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  {% endif %}
-  {% if competition.registration_open_at <= now and competition.registration_close_at >= now %}
-    {% if competition.type == competition_type.WCA.value and not is_wca_authenticated %}
-      <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-body">
-              {% blocktrans with competition_name=competition.name wca_oauth_authorization=wca_oauth_authorization wca_client_id=wca_client_id redirect_uri=redirect_uri %}{{ competition_name }}に申し込むにはWCA認証が必要です。{% endblocktrans %}
-            </div>
-            <div class="modal-footer">
-              {% with path=competition|competition_logo %}
-                <a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email dob" class="btn btn-dark"><img class="mr-2" width="18" src="{% static path %}">{% trans "WCA認証" %}</a>
-              {% endwith %}
-            </div>
-          </div>
-        </div>
-      </div>
-    {% endif %}
-  {% endif %}
   <div class="col-lg-2 mb-3">
     {% include "app/competition/menu.html" with active='registration' %}
   </div>
@@ -408,20 +374,6 @@
       });
     });
   </script>
-{% endif %}
-
-{% if not user.is_authenticated %}
-  <script>
-    $('#staticBackdrop').modal()
-  </script>
-{% endif %}
-
-{% if competition.registration_open_at <= now and competition.registration_close_at >= now %}}
-  {% if competition.type == competition_type.WCA.value and not is_wca_authenticated %}}
-    <script>
-      $('#staticBackdrop').modal()
-    </script>
-  {% endif %}
 {% endif %}
 
 {% endblock %}
