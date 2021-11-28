@@ -142,15 +142,7 @@
         {% url "login" as login_url %}
         {% blocktrans with competition_name=competition.name login_url=login_url path=request.path %}{{ competition_name }}に申し込むには<a href="{{ login_url }}?next={{ path }}">ログイン</a>が必要です。{% endblocktrans %}
       </div>
-    {% elif competition.registration_open_at > now and not is_superuser %}
-      <div class="alert alert-info" role="alert">
-        {% blocktrans with rest_time=registration_open_timedelta|rest_time date=competition.registration_open_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}後&nbsp;{{ date }}に開始します。{% endblocktrans %}
-      </div>
-    {% elif competition.registration_close_at <= now %}
-      <div class="alert alert-danger" role="alert">
-        {% blocktrans with rest_time=registration_close_after_timedelta|rest_time date=competition.registration_close_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}前&nbsp;{{ date }}に終了しました。{% endblocktrans %}
-      </div>
-    {% elif competition.type == competition_type.WCA.value and not is_wca_authenticated %}
+    {% elif competition.type == competition_type.WCA.value and is_registration_open and not is_wca_authenticated %}
       <div class="alert alert-light" role="alert">
         <div>{% blocktrans with competition_name=competition.name wca_oauth_authorization=wca_oauth_authorization wca_client_id=wca_client_id redirect_uri=redirect_uri %}{{ competition_name }}に申し込むには<a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email dob">WCA認証</a>が必要です。{% endblocktrans %}</div>
         <div class="text-danger">{% trans "共有PCの場合、ご家族のWCAアカウントと混同しないようにご注意ください。" %}</div>
@@ -188,6 +180,14 @@
           </div>
         </div>
       {% endif %}
+    {% elif competition.registration_open_at > now and not is_superuser %}
+      <div class="alert alert-info" role="alert">
+        {% blocktrans with rest_time=registration_open_timedelta|rest_time date=competition.registration_open_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}後&nbsp;{{ date }}に開始します。{% endblocktrans %}
+      </div>
+    {% elif competition.registration_close_at <= now %}
+      <div class="alert alert-danger" role="alert">
+        {% blocktrans with rest_time=registration_close_after_timedelta|rest_time date=competition.registration_close_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}前&nbsp;{{ date }}に終了しました。{% endblocktrans %}
+      </div>
     {% else %}
       {% if competition.type == competition_type.WCA.value %}
         <div class="card mb-3">

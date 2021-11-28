@@ -154,6 +154,7 @@ class Registration(Base):
         context["registration_close_before_timedelta"] = abs(
             registration_close_timedelta
         )
+        context["is_registration_open"] = self.competition.is_registration_open()
         context["wca_oauth_authorization"] = settings.WCA_OAUTH_AUTHORIZATION
         context["wca_client_id"] = settings.WCA_CLIENT_ID
         context["redirect_uri"] = redirect_uri
