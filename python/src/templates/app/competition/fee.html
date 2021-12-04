@@ -23,13 +23,15 @@
   </div>
   <div class="col-lg-10">
     {% if competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value %}
-      <div class="alert alert-info" role="alert">
-        {% if competition.fee_pay_close_at > now %}
+      {% if competition.fee_pay_close_at > now %}
+        <div class="alert alert-info" role="alert">
           {% blocktrans with rest_time=fee_pay_close_at_timedelta|rest_time date=competition.fee_pay_close_at|date:"Y年m月d日 H:i:s" %}事前支払い期日は&nbsp;{{ rest_time }}後&nbsp;{{ date }}です。{% endblocktrans %}
-        {% else %}
+        </div>
+      {% else %}
+        <div class="alert alert-danger" role="alert">
           {% blocktrans with rest_time=fee_pay_close_at_timedelta|rest_time date=competition.fee_pay_close_at|date:"Y年m月d日 H:i:s" %}事前支払い期日は&nbsp;{{ rest_time }}前&nbsp;{{ date }}に終了しました。{% endblocktrans %}
-        {% endif %}
-      </div>
+        </div>
+      {% endif %}
     {% endif %}
     <div class="card mb-3">
       <div class="card-header lead">
