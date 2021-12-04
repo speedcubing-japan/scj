@@ -29,7 +29,9 @@ class WcaCsv(LoginRequiredMixin, View):
         if not competition.is_superuser(request.user):
             return redirect("competition_index")
 
-        competitors = Competitor.objects.filter(competition_id=competition.id)
+        competitors = Competitor.objects.filter(competition_id=competition.id).order_by(
+            "created_at"
+        )
 
         response = HttpResponse(content_type="text/csv; charset=UTF-8")
         filename = urllib.parse.quote((name_id + "_registration.csv").encode("utf8"))
