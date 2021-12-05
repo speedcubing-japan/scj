@@ -145,19 +145,19 @@
       {% endif %}
       <input type="hidden" name="name_id" value="{{ competition.name_id }}">
       {% if pending_competitors or registration_competitors or cancel_competitors %}
-        <div class="float-right">
+        <div class="col-lg mb-3 btn-group" role="group">
           <button type="button" class="mt-2 competition_admin_submit btn btn-success" name="type" value="admit" {% if competition.registration_open_at > now %}disabled{% endif %}><i class="fas fa-check fa-fw mr-2"></i>承認</button>
           <button type="button" class="mt-2 competition_admin_submit btn btn-danger" name="type" value="cancel" {% if competition.registration_open_at > now %}disabled{% endif %}><i class="fas fa-trash fa-fw mr-2"></i>否認</button>
         </div>
       {% endif %}
     </form>
     {% if pending_competitors or registration_competitors or cancel_competitors %}
-      <div class="float-right">
+      <div class="col-lg mb-3 btn-group" role="group">
         {% with path=competition|competition_logo %}
-          <button type="button" class="btn btn-dark mt-2 mb-2 submit_change_action" value="{% url 'competition_admin_wca_csv' competition.name_id %}"><img class="mr-2" width="18" src="{% static path %}">WCA Import CSV</button>
+          <button type="button" class="btn btn-dark submit_change_action btn-sm" value="{% url 'competition_admin_wca_csv' competition.name_id %}"><img class="mr-2" width="18" src="{% static path %}">WCA Import CSV</button>
         {% endwith %}
-        <button type="button" class="btn btn-info mt-2 mb-2 submit_change_action" value="{% url 'competition_admin_csv' competition.name_id %}"><i class="fas fa-check fa-file-csv mr-2"></i>CSV</button>
-        <a href="mailto:?bcc=" type="button" class="btn btn-warning mt-2 mb-2 mr-1 competition_admin_email" ><i class="fas fa-check fa-envelope mr-2"></i>メール送信</button></a>
+        <button type="button" class="btn btn-info submit_change_action btn-sm" value="{% url 'competition_admin_csv' competition.name_id %}"><i class="fas fa-check fa-file-csv mr-2"></i>CSV</button>
+        <a href="mailto:?bcc=" type="button" class="btn btn-warning competition_admin_email btn-sm" ><i class="fas fa-check fa-envelope mr-2"></i>メール送信</button></a>
       </div>
     {% endif %}
   </div>
