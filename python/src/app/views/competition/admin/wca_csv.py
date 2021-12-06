@@ -1,5 +1,7 @@
 import csv
 import urllib
+import datetime
+from django.utils.timezone import localtime
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import View
@@ -33,8 +35,13 @@ class WcaCsv(LoginRequiredMixin, View):
             "created_at"
         )
 
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
+        now_str = localtime(now).strftime("%Y%m%d%H%M%S")
+
         response = HttpResponse(content_type="text/csv; charset=UTF-8")
-        filename = urllib.parse.quote((name_id + "_registration.csv").encode("utf8"))
+        filename = urllib.parse.quote(
+            (name_id + "_registration_" + now_str + ".csv").encode("utf8")
+        )
         response["Content-Disposition"] = "attachment; filename*=UTF-8''{}".format(
             filename
         )
