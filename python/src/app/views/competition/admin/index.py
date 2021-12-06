@@ -134,6 +134,7 @@ class Index(LoginRequiredMixin, Base):
         context["registration_competitors"] = registration_competitors
         context["cancel_competitors"] = cancel_competitors
         context["now"] = datetime.datetime.now(tz=datetime.timezone.utc)
+        context["is_registration_open"] = self.competition.is_registration_open()
 
         return context
 
