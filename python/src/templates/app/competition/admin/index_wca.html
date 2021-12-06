@@ -147,7 +147,7 @@
       {% if pending_competitors or registration_competitors or cancel_competitors %}
         <div class="col-lg mb-3 btn-group" role="group">
           <button type="button" class="mt-2 competition_admin_submit btn btn-success" name="type" value="admit" {% if competition.registration_open_at > now %}disabled{% endif %}><i class="fas fa-check fa-fw mr-2"></i>承認</button>
-          <button type="button" class="mt-2 competition_admin_submit btn btn-danger" name="type" value="cancel" {% if not is_registration_open %}disabled{% endif %}><i class="fas fa-trash fa-fw mr-2"></i>否認</button>
+          <button type="button" class="mt-2 competition_admin_submit btn btn-danger" name="type" value="cancel" {% if competition.registration_open_at > now %}disabled{% endif %}><i class="fas fa-trash fa-fw mr-2"></i>否認</button>
         </div>
       {% endif %}
     </form>
