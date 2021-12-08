@@ -37,7 +37,7 @@
               </thead>
               <tbody>
                 {% for competitor in pending_competitors %}
-                  <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
+                  <tr data-toggle="tooltip" data-placement="auto" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_pending competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.user.email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{{ competitor.person.id }}</td>
@@ -76,7 +76,7 @@
               </thead>
               <tbody>
                 {% for competitor in registration_competitors %}
-                  <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
+                  <tr data-toggle="tooltip" data-placement="auto" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_admit competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.user.email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{{ competitor.person.id }}</td>
@@ -117,7 +117,7 @@
               </thead>
               <tbody>
                 {% for competitor in cancel_competitors %}
-                  <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
+                  <tr data-toggle="tooltip" data-placement="auto" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_cancel competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.user.email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{{ competitor.person.id }}</td>
