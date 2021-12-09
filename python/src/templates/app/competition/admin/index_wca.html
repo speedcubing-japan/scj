@@ -157,7 +157,7 @@
           <button type="button" class="btn btn-dark submit_change_action btn-sm" value="{% url 'competition_admin_wca_csv' competition.name_id %}"><img class="mr-2" width="18" src="{% static path %}">WCA Import CSV</button>
         {% endwith %}
         <button type="button" class="btn btn-info submit_change_action btn-sm" value="{% url 'competition_admin_csv' competition.name_id %}"><i class="fas fa-check fa-file-csv mr-2"></i>CSV</button>
-        <a href="mailto:?bcc=" type="button" class="btn btn-warning competition_admin_email btn-sm" ><i class="fas fa-check fa-envelope mr-2"></i>メール送信</a>
+        <button type="button" class="btn btn-warning competition_admin_email btn-sm" data-href="mailto:?bcc="><i class="fas fa-check fa-envelope mr-2"></i>メール送信</button>
       </div>
     {% endif %}
   </div>

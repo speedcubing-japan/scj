@@ -106,8 +106,12 @@ $(function () {
       }
     });
     competition_admin_emails_string = competition_admin_emails.join(',');
-    $('.competition_admin_email').attr('href', 'mailto:?bcc=' + competition_admin_emails_string);
+    $('.competition_admin_email').attr('data-href', 'mailto:?bcc=' + competition_admin_emails_string);
   });
+
+  $('.competition_admin_email').click(function () {
+    location.href = $(this).data('href');
+  })
 
   // スケジュールラウンド表示
   $('.competition_schedule_event').on('click', function () {
