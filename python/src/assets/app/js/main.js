@@ -106,11 +106,11 @@ $(function () {
       }
     });
     competition_admin_emails_string = competition_admin_emails.join(',');
-    $('.competition_admin_email').attr('data-href', 'mailto:?bcc=' + competition_admin_emails_string);
+    $('.competition_admin_email').attr('href', 'mailto:?bcc=' + competition_admin_emails_string);
   });
 
   $('.competition_admin_email').click(function () {
-    location.href = $(this).data('href');
+    location.href = $(this).attr('href');
   })
 
   // スケジュールラウンド表示
