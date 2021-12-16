@@ -90,15 +90,18 @@
         <div class="text-danger">WCA認証の前に一度<a href="https://www.worldcubeassociation.org/" target="_blank">WCAサイト</a>にてログアウトをお勧めします。</div>
       </div>
     </div>
-    {% if user.person.is_judge %}
-      <div class="mb-5">
-        <h4>Stripe認証</h4>
-        <hr>
-        <div>
-          <a href="{{ stripe_oauth_authorization }}?response_type=code&client_id={{ stripe_client_id }}&scope=read_write"><button type="button" class="btn btn-dark"><i class="fas fa-sign-in-alt mr-2"></i>Stripe認証</button></a>
-        </div>
+    <div class="mb-5">
+      <h4>Stripe認証</h4>
+      <hr>
+      <div class="mb-3">
+        <a href="{{ stripe_oauth_authorization }}?response_type=code&client_id={{ stripe_client_id }}&scope=read_write"><button type="button" class="btn btn-dark"><i class="fas fa-sign-in-alt mr-2"></i>Stripe認証</button></a>
       </div>
-    {% endif %}
+      <div class="alert alert-light" role="alert">
+        <div>Stripe認証を行い、あなたのStripeアカウントをプラットフォームのSCJのアカウントに紐付けます。(Stripe Connect)</div>
+        <div>これを行うことにより、SCJを通じてあなたのアカウントに事前支払いの支払いがなされます。</div>
+        <div>大会主催者で事前支払いを行う場合は必ず行ってください。</div>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}
