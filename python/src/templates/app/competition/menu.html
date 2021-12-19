@@ -5,6 +5,8 @@
   {% if not competition.is_cancel %}
     {% if has_results %}
       <a href="{% url 'competition_result' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'result' %}active{% endif %}"><i class="fas fa-list-ol fa-fw mr-2"></i>{% trans "結果" %}</button></a>
+    {% elif competition.is_finish and competition.type == competition_type.WCA.value %}
+      <a href="https://www.worldcubeassociation.org/competitions/{{ competition.name_id }}"><button type="button" class="list-group-item list-group-item-action {% if active == 'fee' %}active{% endif %}"><i class="fas fa-list-ol fa-fw mr-2"></i>{% trans "結果" %}</button></a>
     {% elif not competition.is_finish %}
       <a href="{% url 'competition_fee' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'fee' %}active{% endif %}"><i class="fas fa-yen-sign fa-fw mr-2"></i>{% trans "参加費" %}</button></a>
       <a href="{% url 'competition_schedule' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'round' %}active{% endif %}"><i class="far fa-clock fa-fw mr-2"></i>{% trans "スケジュール" %} </button></a>

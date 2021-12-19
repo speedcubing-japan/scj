@@ -87,8 +87,8 @@ class Detail(Base):
         room_name = ", ".join(room_names)
 
         # google calendar date params
-        open_at = localtime(self.competition.open_at).strftime("%Y%m%d")
-        close_at = localtime(self.competition.close_at).strftime("%Y%m%d")
+        open_at = localtime(self.competition.open_at).strftime("%Y%m%dT000000")
+        close_at = localtime(self.competition.close_at).strftime("%Y%m%dT235959")
         google_calendar_date_param = open_at + "/" + close_at
 
         # 作成時のエラー
