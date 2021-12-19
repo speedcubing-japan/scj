@@ -34,6 +34,8 @@
           <div class="modal-content">
             <div class="modal-body">
               {% blocktrans with competition_name=competition.name wca_oauth_authorization=wca_oauth_authorization wca_client_id=wca_client_id redirect_uri=redirect_uri %}{{ competition_name }}に申し込むにはWCA認証が必要です。{% endblocktrans %}
+              <div class="text-danger small">{% trans "共有PCの場合、ご家族のWCAアカウントと混同しないようにご注意ください。" %}</div>
+              <div class="text-danger small">{% blocktrans with url="https://www.worldcubeassociation.org/" %}WCA認証の前に一度<a href="{{ url }}" target="_blank">WCAサイト</a>にてログアウトをお勧めします。{% endblocktrans %}</div>
             </div>
             <div class="modal-footer">
               {% with path=competition|competition_logo %}
