@@ -11,6 +11,9 @@ restart-python:
 	docker stop scj_python_1
 	docker-compose up -d
 
+test:
+	docker-compose run python ./manage.py test
+
 makemigrations:
 	docker-compose run python ./manage.py makemigrations app
 
@@ -129,6 +132,3 @@ prod-backup:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py dumpdata app.competitor > /home/admin/backup/competitor.json
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py dumpdata app.information > /home/admin/backup/information.json
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run python ./manage.py dumpdata app.stripeprogress > /home/admin/backup/stripeprogress.json
-
-test:
-	docker-compose run python ./manage.py test
