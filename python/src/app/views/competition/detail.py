@@ -9,6 +9,7 @@ from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.session import Notification
 from .base import Base
+import pprint
 
 
 class Detail(Base):
@@ -60,7 +61,7 @@ class Detail(Base):
                 notification = Notification.COMPETITOR_REGISTRATION
             elif self.competitor.status == CompetitorStatus.CANCEL.value:
                 notification = Notification.COMPETITOR_CANCEL
-        elif not self.competition.is_registration_open():
+        elif self.competition.is_registration_finish():
             notification = Notification.COMPETITION_REGISTRATION_END
 
         # 申し込み者数(未承認+承認)

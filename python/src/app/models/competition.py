@@ -174,6 +174,11 @@ class Competition(models.Model):
         close_at = localtime(self.close_at)
         return close_at.date() < now.date()
 
+    def is_registration_finish(self):
+        now = localtime(datetime.datetime.now(tz=datetime.timezone.utc))
+        registration_close_at = localtime(self.registration_close_at)
+        return registration_close_at.date() < now.date()
+
     def is_registration_open(self):
         now = localtime(datetime.datetime.now(tz=datetime.timezone.utc))
         registration_open_at = localtime(self.registration_open_at)
