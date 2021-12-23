@@ -9,7 +9,6 @@ from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.session import Notification
 from .base import Base
-import pprint
 
 
 class Detail(Base):
