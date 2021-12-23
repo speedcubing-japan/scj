@@ -8,6 +8,10 @@
   </div>
   <div class="card-body">
     {{ information.text | safe }}
+    <div class="mt-3">
+      <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-url="{{ request.build_absolute_uri }}" data-text="{{ information.title }}" data-via="scj_speedcubing"></a>
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
   </div>
   <div class="card-footer small text-right">
     {{ information.updated_at | date:"Y年m月d日" }}&nbsp;投稿者:&nbsp{{ information.person.get_full_name }}

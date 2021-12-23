@@ -2,5 +2,5 @@
 {% load static %}
 
 {% with path=competition|competition_logo %}
-  <h2 class="mb-3"><img class="mr-2" width="40" src="{% static path %}">{{ competition.name }}</h2>
+  <h2><img class="mr-2" width="40" src="{% static path %}">{{ competition.name }}</h2>
 {% endwith %}
