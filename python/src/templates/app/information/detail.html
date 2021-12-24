@@ -9,8 +9,8 @@
   <div class="card-body">
     {{ information.text | safe }}
     <div class="mt-3">
-      <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-url="{{ request.build_absolute_uri }}" data-text="{{ information.title }}" data-via="scj_speedcubing"></a>
-      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      <a href="https://twitter.com/intent/tweet?text={{ information.title }}%0a{{ request.scheme }}://{{ request.get_host }}{{ request.path }}%0a@scj_speedcubingより" target="_blank"><button class="btn bg-twitter btn-sm text-white"><i class="fab fa-twitter fa-fw mr-1"></i>ツイート</button></a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.scheme }}://{{ request.get_host }}{{ request.path }}" rel="nofollow noopener noreferrer" target="_blank"><button class="btn bg-facebook btn-sm text-white"><i class="fab fa-facebook fa-fw mr-1"></i>シェア</button></a>
     </div>
   </div>
   <div class="card-footer small text-right">
