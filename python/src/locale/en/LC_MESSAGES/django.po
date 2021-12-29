@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-29 10:55+0000\n"
+"POT-Creation-Date: 2021-12-29 11:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -289,29 +289,39 @@ msgstr "Registration"
 msgid "競技者一覧"
 msgstr "Competitors"
 
-#: templates/app/competition/registration.html:21
+#: templates/app/competition/registration.html:22
 #, python-format
 msgid "%(competition_name)sに申し込むにはログインが必要です。"
 msgstr "Sign in to register for %(competition_name)s."
 
-#: templates/app/competition/registration.html:24
+#: templates/app/competition/registration.html:25
+msgid "アカウントをお持ちでない方はユーザー新規登録より作成してください。"
+msgstr ""
+"If you do not have an SCJ account. Sign up please."
+
+#: templates/app/competition/registration.html:29
 #: templates/app/entrance/login.html:7 templates/app/entrance/login.html:16
 msgid "ログイン"
 msgstr "Sign in"
 
-#: templates/app/competition/registration.html:36
+#: templates/app/competition/registration.html:30
+#: templates/app/registration/input.html:6
+msgid "ユーザー新規登録"
+msgstr "Sign up"
+
+#: templates/app/competition/registration.html:42
 #, python-format
 msgid "%(competition_name)sに申し込むにはWCA認証が必要です。"
 msgstr "WCA authentication to register for %(competition_name)s."
 
-#: templates/app/competition/registration.html:37
+#: templates/app/competition/registration.html:43
 #: templates/app/competition/registration.html:184
 msgid "共有PCの場合、ご家族のWCAアカウントと混同しないようにご注意ください。"
 msgstr ""
 "In the case of a shared PC, please be careful not to confuse it with your "
 "family's WCA account."
 
-#: templates/app/competition/registration.html:38
+#: templates/app/competition/registration.html:44
 #: templates/app/competition/registration.html:185
 #, python-format
 msgid ""
@@ -321,21 +331,13 @@ msgstr ""
 "We recommend that you log out once at the <a href=\"%(url)s\" target=\"_blank"
 "\">WCA site</a> before WCA authentication."
 
-#: templates/app/competition/registration.html:42
+#: templates/app/competition/registration.html:48
 msgid "WCA認証"
 msgstr "WCA authentication"
 
-#: templates/app/competition/registration.html:56
+#: templates/app/competition/registration.html:62
 msgid "前提要件"
 msgstr "Tips"
-
-#: templates/app/competition/registration.html:62
-#, python-format
-msgid ""
-"アカウントをお持ちでない方は<a href=\"%(url)s\">ユーザー新規登録</a>より作成"
-"してください。"
-msgstr ""
-"If you do not have an SCJ account. <a href=\"%(url)s\">Sign up</a> please."
 
 #: templates/app/competition/registration.html:66
 msgid ""
@@ -776,10 +778,6 @@ msgstr "Submit"
 #: templates/app/registration/confirm.html:41
 msgid "戻る"
 msgstr "Back"
-
-#: templates/app/registration/input.html:6
-msgid "ユーザー新規登録"
-msgstr "Sign up"
 
 #: templates/app/registration/input.html:20
 msgid "利用規約"
