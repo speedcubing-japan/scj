@@ -4,6 +4,7 @@ RESULT_DNF = -1
 RESULT_DNS = -2
 DNF = "DNF"
 DNS = "DNS"
+NA = "n/a"
 
 
 def format_values(result):
@@ -21,6 +22,8 @@ def format_values(result):
     modify_list = []
     include_dnf_dns = RESULT_DNF in values or RESULT_DNS in values
     max_flag = False
+    min_flag = False
+
     # ao5, mo3, bo1の判定式
     if len(values) >= 4:
         for value in values:
@@ -47,15 +50,17 @@ def format_values(result):
                     max_flag = True
                 continue
             # min判定
-            if result.best == value:
+            if result.best == value and not min_flag:
                 modify_list.append(add_brackets(convert(value, event_id)))
+                min_flag = True
             # max判定
-            elif max(values) == value:
+            elif max(values) == value and not max_flag:
                 # 一つでもDNF or DNSがあれば()つけない
                 if include_dnf_dns:
                     modify_list.append(convert(value, event_id))
                 else:
                     modify_list.append(add_brackets(convert(value, event_id)))
+                    max_flag = True
             else:
                 modify_list.append(convert(value, event_id))
     else:
@@ -86,7 +91,7 @@ def convert(result, event_id):
     elif result == 0:
         pass
     elif result == OUTLIERS:
-        return "n/a"
+        return NA
     elif event_id == 17:
         return mbf_convert(result)
     elif float(result) > 60.00:

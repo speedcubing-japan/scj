@@ -14,4 +14,3 @@ mysql/init.d/init.sql
 python/src/app/fixtures/user.json
 python/src/app/fixtures/person.json
 python/src/app/fixtures/stripeprogress.json
-tests/

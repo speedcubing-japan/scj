@@ -11,6 +11,9 @@ restart-python:
 	docker stop scj_python_1
 	docker-compose up -d
 
+test:
+	docker-compose run python ./manage.py test
+
 makemigrations:
 	docker-compose run python ./manage.py makemigrations app
 
