@@ -55,6 +55,7 @@ class Csv(LoginRequiredMixin, View):
 
         if competition.type == CompetitionType.WCA.value:
             row = [
+                "id",
                 "wca_id",
                 "wca_user_id",
                 "name",
@@ -64,6 +65,7 @@ class Csv(LoginRequiredMixin, View):
             ]
         elif competition.type == CompetitionType.SCJ.value:
             row = [
+                "id",
                 "scj_id",
                 "full_name",
                 "full_name_kana",
@@ -96,6 +98,7 @@ class Csv(LoginRequiredMixin, View):
 
                 if competition.type == CompetitionType.WCA.value:
                     row = [
+                        index + 1,
                         competitor.person.wca_id,
                         competitor.person.wca_user_id,
                         competitor.person.wca_name,
@@ -105,9 +108,9 @@ class Csv(LoginRequiredMixin, View):
                     ]
 
                 elif competition.type == CompetitionType.SCJ.value:
-                    id = competitor.person.id
                     row = [
-                        id,
+                        index + 1,
+                        competitor.person.id,
                         competitor.person.get_full_name(),
                         competitor.person.get_full_name_kana(),
                         competitor.person.get_full_name_roma(),
