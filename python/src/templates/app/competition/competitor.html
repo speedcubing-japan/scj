@@ -22,8 +22,10 @@
       <table id="competitor" class="table table-hover table-sm">
         <thead>
           <tr>
-            {% if competition.is_display_pending_competitor %}
-              <th scope="col">#</th>
+            {% if competition.type == competition_type.SCJ.value %}
+              <th scope="col">SCJ ID</th>
+            {% elif competition.type == competition_type.WCA.value %}
+              <th scope="col">WCA ID</th>
             {% endif %}
             <th scope="col">{% trans "氏名" %}</th>
             {% if competition.type == competition_type.SCJ.value %}
@@ -42,12 +44,14 @@
             <tr{% if competitor.status == competitor_status.PENDING.value %} class="bg-light"{% endif %}>
               {% if competition.is_display_pending_competitor %}
                 <th scope="row">{% if competitor.status == competitor_status.PENDING.value %}{% trans "未承認" %}{% endif %}</th>
-              {% endif %}
-              {% if competition.type == competition_type.WCA.value and competitor.person.wca_id %}
-                <td><a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.name }}</a></td>
+              {% elif competition.type == competition_type.WCA.value and competitor.person.wca_id %}
+                <td><a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a></td>
+              {% elif competition.type == competition_type.SCJ.value %}
+                <td>{{ competitor.person.id }}</td>
               {% else %}
-                <td>{{ competitor.name }}</td>
+                <td></td>
               {% endif %}
+              <td>{{ competitor.name }}</td>
               {% if competition.type == competition_type.SCJ.value %}
                 <td>{{ competitor.prefecture }}</td>
               {% elif competition.type == competition_type.WCA.value %}
