@@ -8,7 +8,7 @@ from app.defines.session import Notification
 class Authorization(View):
     def get(self, request):
 
-        if not request.user.is_authenticated or not request.user.person.is_judge:
+        if not request.user.is_authenticated:
             return redirect("index")
 
         code = self.request.GET.get("code")
