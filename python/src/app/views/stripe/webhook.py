@@ -1,3 +1,4 @@
+import json
 import stripe
 import datetime
 from django.conf import settings
@@ -46,7 +47,7 @@ class Webhook(View):
                 competitor = Competitor()
                 competitor.competition_id = charges.metadata.competition_id
                 competitor.status = CompetitorStatus.PENDING.value
-                competitor.event_ids = charges.metadata.event_ids
+                competitor.event_ids = json.loads(charges.metadata.event_ids)
                 competitor.guest_count = charges.metadata.guest_count
                 competitor.comment = charges.metadata.comment
                 competitor.person = person

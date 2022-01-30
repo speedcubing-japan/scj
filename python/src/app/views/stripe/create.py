@@ -40,6 +40,7 @@ class Create(View):
         if not competition.is_payment and not competition.is_superuser(request.user):
             return JsonResponse({"error": "現在支払えません。"})
 
+        competitor_id = 0
         if competition.fee_pay_type == FeePayType.REMOTE_ONLY.value:
             competition = Competition.objects.get(pk=datas["competition_id"])
             event_ids = datas["event_ids"]
@@ -49,7 +50,7 @@ class Create(View):
             # 仮生成
             competitor = Competitor()
             competitor.competition_id = competition.id
-            competitor.status = CompetitorStatus.REGISTRATION.value
+            competitor.status = CompetitorStatus.PENDING.value
             competitor.event_ids = event_ids
             competitor.guest_count = guest_count
             competitor.comment = comment
@@ -72,6 +73,7 @@ class Create(View):
             competitor = Competitor.objects.filter(
                 competition_id=competition.id, person_id=request.user.person.id
             ).first()
+            competitor_id = competitor.id
 
             if competitor.status != CompetitorStatus.REGISTRATION.value:
                 return JsonResponse({"error": "申し込みが承認されていない、またはキャンセルされているので支払えません。"})
@@ -159,7 +161,7 @@ class Create(View):
                     "metadata": {
                         "competition_id": competition.id,
                         "competition_name": competition.name,
-                        "competitor_id": competitor.id,
+                        "competitor_id": competitor_id,  # competitor.idを参照しないのは支払いが事前支払いのみの場合ここではcompetitor_idが確定しないため。
                         "person_id": request.user.person.id,
                         "event_ids": json.dumps(competitor.event_ids),
                         "guest_count": competitor.guest_count,
@@ -169,7 +171,7 @@ class Create(View):
                     }
                 },
                 customer=customer,
-                client_reference_id=competitor.id,
+                client_reference_id=competitor_id,  # 上と同様
                 mode="payment",
                 stripe_account=stripe_user_id,
                 success_url=success_url,

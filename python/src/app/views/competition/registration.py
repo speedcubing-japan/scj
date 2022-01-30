@@ -120,7 +120,7 @@ class Registration(Base):
             if competitor.exists():
                 competitor = competitor.first()
                 is_prepaid = StripeProgress.objects.filter(
-                    competitor_id=competitor.id
+                    competitor_id=competitor.id, refund_price=0
                 ).exists()
 
         now = datetime.datetime.now(tz=datetime.timezone.utc)

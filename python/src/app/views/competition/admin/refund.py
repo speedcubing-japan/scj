@@ -36,6 +36,9 @@ class Refund(LoginRequiredMixin, Base):
         if not self.competition.is_refunder(request.user):
             return redirect("competition_detail", name_id=self.name_id)
 
+        if self.competition.is_registration_open():
+            return redirect("competition_detail", name_id=self.name_id)
+
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe_user_person = None
         if self.competition.stripe_user_person_id > 0:
@@ -107,7 +110,9 @@ class Refund(LoginRequiredMixin, Base):
                 )
                 competitor.unset_stripe_progress()
 
-                self.send_mail_refund(competitor.person.user, "registration_refund", price=amount)
+                self.send_mail_refund(
+                    competitor.person.user, "registration_refund", price=amount
+                )
 
             if competitor.stripe_progress:
                 self.competitor_list.append(competitor)
@@ -117,4 +122,5 @@ class Refund(LoginRequiredMixin, Base):
     def get_context(self):
         context = super().get_context()
         context["competitors"] = self.competitor_list
+        context["now"] = datetime.datetime.now(tz=datetime.timezone.utc)
         return context

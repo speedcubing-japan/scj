@@ -57,6 +57,7 @@
           </div>
         </div>
         <div class="alert alert-light" role="alert">
+          <div>返金は<strong>申込締切後</strong>より可能です。</div>
           <div>チェックを入れた参加者の支払いを返金できます。返金額に金額を設定した場合、一部返金が可能です。</div>
           <div>返金額に価格を設定しない場合(空欄)は全額返金になります。返金は<strong class="text-danger">取り消せない</strong>ため十分に注意して下さい。</div>
         </div>
@@ -64,7 +65,7 @@
       <input type="hidden" name="name_id" value="{{ competition.name_id }}">
       {% if competitors %}
       <div class="float-right">
-        <button type="button" class="mt-2 submit btn btn-danger"><i class="fas fa-undo-alt fa-fw mr-2"></i>返金</button>
+        <button type="button" class="mt-2 submit btn btn-danger" {% if competition.registration_close_at > now %}disabled{% endif %}><i class="fas fa-undo-alt fa-fw mr-2"></i>返金</button>
       </div>
       {% endif %}
     </form>
