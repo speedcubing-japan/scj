@@ -51,7 +51,8 @@ class WebhookConnect(View):
                 competitor.status = CompetitorStatus.PENDING.value
                 competitor.event_ids = json.loads(charges.metadata.event_ids)
                 competitor.guest_count = charges.metadata.guest_count
-                competitor.comment = charges.metadata.comment
+                if "comment" in charges.metadata:
+                    competitor.comment = charges.metadata.comment
                 competitor.person = person
                 competitor.save()
 

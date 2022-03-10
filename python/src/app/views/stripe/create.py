@@ -33,6 +33,9 @@ class Create(View):
         if competition.fee_pay_type == FeePayType.LOCAL_ONLY.value:
             return JsonResponse({"error": "支払いは現地のみです。"})
 
+        if len(datas["event_ids"]) <= 0:
+            return JsonResponse({"error": "種目が選択されていません。"})
+
         now = datetime.datetime.now(tz=datetime.timezone.utc)
         if competition.fee_pay_close_at <= now:
             return JsonResponse({"error": "支払い期日を過ぎています。"})
