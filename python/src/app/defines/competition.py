@@ -32,5 +32,5 @@ class RoundType(Define):
 
 @unique
 class RoundLimitType(Define):
-    時間制限 = 1
-    累計時間制限 = 2
+    LIMIT = 1
+    CUMULATIVE = 2
