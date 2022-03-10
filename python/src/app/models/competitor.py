@@ -18,6 +18,7 @@ class Competitor(models.Model):
 
     stripe_progress = None
     is_duplicated_twin_competitions = False
+    is_diffrence_event_and_price = False
 
     class Meta:
         indexes = [
@@ -57,6 +58,9 @@ class Competitor(models.Model):
 
     def set_is_duplicated_twin_competitions(self):
         self.is_duplicated_twin_competitions = True
+
+    def set_is_diffrence_event_and_price(self):
+        self.is_diffrence_event_and_price = True
 
     def create(self, competition_id, status, event_ids, guest_count, comment, person):
         self.competition_id = competition_id

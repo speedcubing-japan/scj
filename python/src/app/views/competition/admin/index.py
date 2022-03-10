@@ -6,6 +6,7 @@ from app.defines.competitor import Status as CompetitorStatus
 from app.defines.competition import Type as CompetitionType
 from app.views.competition.base import Base
 from app.defines.session import Notification
+from app.views.competition.util import calc_fee
 
 
 class Index(LoginRequiredMixin, Base):
@@ -116,9 +117,12 @@ class Index(LoginRequiredMixin, Base):
         )
         for competitor in self.competitors:
 
+            amount = calc_fee(self.competition, competitor)
             for stripe_progress in stripe_progresses:
                 if competitor.id == stripe_progress.competitor_id:
                     competitor.set_stripe_progress(stripe_progress)
+                    if amount["price"] != stripe_progress.pay_price:
+                        competitor.set_is_diffrence_event_and_price()
 
             if competitor.person.id in twin_competition_competitor_person_ids:
                 competitor.set_is_duplicated_twin_competitions()

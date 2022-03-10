@@ -41,7 +41,7 @@
                     <td><input type="checkbox" class="competition_admin_pending competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.wca_email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{% if competitor.person.wca_id %}<a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a>{% endif %}</td>
-                    <td><a href="mailto:{{ competitor.person.wca_email }}">{% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb"></i>&nbsp;{% endif %}{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                    <td><a href="mailto:{{ competitor.person.wca_email }}">{% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check"></i>&nbsp;{% endif %}{% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb"></i>&nbsp;{% endif %}{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>
                     <td>{{ competitor.guest_count }}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
@@ -80,7 +80,7 @@
                     <td><input type="checkbox" class="competition_admin_admit competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.wca_email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{% if competitor.person.wca_id %}<a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a>{% endif %}</td>
-                    <td><a href="mailto:{{ competitor.person.wca_email }}">{% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb"></i>&nbsp;{% endif %}{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                    <td><a href="mailto:{{ competitor.person.wca_email }}">{% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check"></i>&nbsp;{% endif %}{% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb"></i>&nbsp;{% endif %}{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>
                     <td>{{ competitor.guest_count }}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
