@@ -118,23 +118,17 @@
         </div>
         <div class="card-body">
           <div class="mb-3">{% trans "この情報は後日更新される可能性があります。" %}</div>
-          <div>{% blocktrans with safety_policy_url="https://www.worldcubeassociation.org/documents/policies/external/Competition%20Safety.pdf" safety_policy_unofficial_ja_url="https://kawam1123.github.io/competition-safety-policy" target="_blank" %}<a href="{{ safety_policy_url }}" target="{{ target }}">WCA Competition Safety Policy(英語原典)</a>&nbsp;と<a href="{{ safety_policy_unofficial_ja_url }}" target="{{ target }}">非公式日本語訳</a>を基本原則とし、さらに以下の項目を必ず守っていただきます。{% endblocktrans %}</div>
-          <ul>
-            <li>{% trans "参加者同士が十分な距離を保つことのできるよう、ご協力をお願いします。" %}</li>
-            <li>{% trans "会場内には消毒液を設置します。会場への入場時や大会の最中に、必要に応じてお使いください。" %}</li>
-            <li>{% trans "会場では常にマスクの着用をお願いいたします。顔に密着しないタイプのフェイスガードは、飛沫拡散防止効果が低いためマスクの代替として認めません。" %}</li>
-            <li>{% trans "風邪の症状が見られたり、発熱があったりした場合には、来場をお控えください。" %}</li>
-            <li>{% trans "競技に使用するパズルを提出する前に、ウェットティッシュなどで表面の消毒を行ってください。" %}</li>
-            <li>{% trans "大会当日、競技者間で競技に必要なパズルの貸し借りを行うことはできません。競技に必要なパズルは必ず持参してください。" %}</li>
-            <li>{% trans "大会当日は競技時の署名等に使用する自分専用の筆記具をご持参ください。" %}</li>
-          </ul>
-          <div>{% trans "また、以下に特にご注意ください。" %}</div>
-          <ul>
-            <li>{% trans "感染リスク低減のため、新型コロナワクチンの接種を推奨します。" %}</li>
-            <li>{% blocktrans with url="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/cocoa_00138.html" target="_blank"%}スマートフォンをお持ちの場合、<a href="{{ url }}" target="{{ target }}">新型コロナウイルス接触確認アプリ（COCOA)</a>のインストールを推奨します。{% endblocktrans %}</li>
-            <li>{% trans "同伴者は事前申請制で、競技参加者1人につき1名のみ可能です。" %}</li>
-          </ul>
-          <div>{% trans "この他、安全保障のための実行委員の指示に従ってください。" %}</div>
+            <div>{% trans "COVID-19対策のため、すべての来場者の方々は以下の事項および実行委員会の指示に従っていただきます。" %}</div>
+            <div class="mb-3">{% trans "個別に配慮を要する特別な事情があれば必ず事前にお問い合わせください。" %}</div>
+            <ul>
+              <li>{% trans "すべての来場者に新型コロナワクチンの接種を推奨します。" %}</li>
+              <li>{% trans "常にマスクを着用してください。顔に密着しないタイプのフェイスガードは飛沫拡散防止効果が低いため、マスクの代替として認めません。" %}</li>
+              <li>{% trans "競技参加者の同伴者や見学者は事前申請制で、原則として競技参加者1人につき1名のみが認められます。事前申請のない同伴者は入場をお断りする場合があります。" %}</li>
+              <li>{% trans "風邪や発熱の症状がある場合には来場をお控えください。" %}</li>
+              <li>{% trans "本人に症状がなくとも、濃厚接触者となった、あるいはその疑いがある場合には来場をお控えください。" %}</li>
+              <li>{% trans "他者との間には十分な距離を保ち、密を避けてください。" %}</li>
+              <li>{% trans "スマートフォンをお持ちの場合、 新型コロナウイルス接触確認アプリ(COCOA)のインストールを推奨します。" %}</li>
+            </ul>
         </div>
       </div>
     {% endif %}
