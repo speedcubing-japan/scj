@@ -50,12 +50,16 @@ class Competition(models.Model):
     twin_competition_id = models.IntegerField("双子大会ID", default=0)
     description = models.TextField("大会説明", default="")
     description_en = models.TextField("大会説明(英文)", default="")
-    requirement = models.TextField("参加要件", default="")
-    requirement_en = models.TextField("参加要件(英文)", default="")
+    qualification_description = models.TextField("参加資格", default="")
+    qualification_description_en = models.TextField("参加資格(英文)", default="")
     disclaimer = models.TextField("免責事項", default="")
     disclaimer_en = models.TextField("免責事項(英文)", default="")
     refund_description = models.TextField("返金ポリシー", default="")
     refund_description_en = models.TextField("返金ポリシー(英文)", default="")
+    awards_description = models.TextField("表彰", default="")
+    awards_description_en = models.TextField("表彰(英文)", default="")
+    assignment_description = models.TextField("表彰", default="")
+    assignment_description_en = models.TextField("表彰(英文)", default="")
     is_cancel = models.BooleanField("キャンセル可否", default=False)
     is_payment = models.BooleanField("課金可否", default=False)
     is_display = models.BooleanField("表示可否", default=False)
@@ -99,12 +103,16 @@ class Competition(models.Model):
         self.twin_competition_id = competition["twin_competition_id"]
         self.description = competition["description"]
         self.description_en = competition["description_en"]
-        self.requirement = competition["requirement"]
-        self.requirement_en = competition["requirement_en"]
+        self.qualification_description = competition["qualification_description"]
+        self.qualification_description_en = competition["qualification_description_en"]
         self.disclaimer = competition["disclaimer"]
         self.disclaimer_en = competition["disclaimer_en"]
         self.refund_description = competition["refund_description"]
         self.refund_description_en = competition["refund_description_en"]
+        self.awards_description = competition["awards_description"]
+        self.awards_description_en = competition["awards_description_en"]
+        self.assignment_description = competition["assignment_description"]
+        self.assignment_description_en = competition["assignment_description_en"]
         self.is_cancel = False
         self.is_payment = True
         self.is_display = False
@@ -142,12 +150,16 @@ class Competition(models.Model):
         self.twin_competition_id = competition["twin_competition_id"]
         self.description = competition["description"]
         self.description_en = competition["description_en"]
-        self.requirement = competition["requirement"]
-        self.requirement_en = competition["requirement_en"]
+        self.qualification_description = competition["qualification_description"]
+        self.qualification_description_en = competition["qualification_description_en"]
         self.disclaimer = competition["disclaimer"]
         self.disclaimer_en = competition["disclaimer_en"]
         self.refund_description = competition["refund_description"]
         self.refund_description_en = competition["refund_description_en"]
+        self.awards_description = competition["awards_description"]
+        self.awards_description_en = competition["awards_description_en"]
+        self.assignment_description = competition["assignment_description"]
+        self.assignment_description_en = competition["assignment_description_en"]
         self.save()
 
     def delete(self):

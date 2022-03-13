@@ -80,18 +80,18 @@
         {% endif %}
       </div>
     </div>
-    {% if competition.requirement or competition.requirement_en %}
+    {% if competition.qualification_description or competition.qualification_description_en %}
       <div class="card mb-3">
         <div class="card-header lead">
-          {% trans "参加要件" %}
+          {% trans "参加資格" %}
         </div>
         <div class="card-body">
-          {% if not competition.requirement_en %}
-            {{ competition.requirement | strip | safe }}
+          {% if not competition.qualification_description_en %}
+            {{ competition.qualification_description | strip | safe }}
           {% elif request.LANGUAGE_CODE == 'en' %}
-            {{ competition.requirement_en | strip | safe }}
+            {{ competition.qualification_description_en | strip | safe }}
           {% else %}
-            {{ competition.requirement | strip | safe }}
+            {{ competition.qualification_description | strip | safe }}
           {% endif %}
         </div>
       </div>
@@ -102,7 +102,7 @@
       </div>
       <div class="card-body">
         <div class="mb-3">{% trans "大会に申込みをする前に、以下をご了承ください。" %}</div>
-        {% if not competition.requirement_en %}
+        {% if not competition.disclaimer_en %}
           {{ competition.disclaimer | strip | safe }}
         {% elif request.LANGUAGE_CODE == 'en' %}
           {{ competition.disclaimer_en | strip | safe }}
@@ -129,6 +129,26 @@
               <li>{% trans "他者との間には十分な距離を保ち、密を避けてください。" %}</li>
               <li>{% trans "スマートフォンをお持ちの場合、 新型コロナウイルス接触確認アプリ(COCOA)のインストールを推奨します。" %}</li>
             </ul>
+        </div>
+      </div>
+      <span id="request-for-observation-as-a-visitor"></span>
+      <div class="card mb-3">
+        <div class="card-header lead">
+          {% trans "見学の申請" %}
+        </div>
+        <div class="card-body">
+          <div>{% trans "COVID 対策のため、本大会では会場への入場者数を制限しています。" %}</div>
+          <div>{% blocktrans with email=competition.organizer_email organizer_name=competition.organizer_name %}飛び込みでの競技参加や見学はできません。見学をご希望の場合は、<a href="mailto:{{ email }}">{{ organizer_name }}</a>にメールにて事前に申請してください。参加者の混雑状況を考慮してお返事いたします。{% endblocktrans %}</div>
+        </div>
+      </div>
+      <div class="card mb-3">
+        <div class="card-header lead">
+          {% trans "初参加者の身分証明のお願い" %}
+        </div>
+        <div class="card-body">
+          <div>{% blocktrans with url="https://www.worldcubeassociation.org/persons/2007OMUR01" %}WCA 大会に参加すると、あなたの個人情報の一部（名前、国籍、性別）と WCA 競技結果を含むプロフィールが<a href="{{ url }}" target="_blank">このように公開されます</a>。{% endblocktrans %}</div>
+          <div>{% trans "(登録された個人情報のうち生年月日は非公開です。また、写真の登録は任意です)" %}</div>
+          <div>{% trans "このため、初回参加時には WCA アカウントに登録する名前、国籍、性別、生年月日などの個人情報を確認するための身分証の提示を WCA Delegate より求める場合があります。予めご了承ください。" %}</div>
         </div>
       </div>
     {% endif %}
@@ -289,11 +309,7 @@
             <div class="ml-3">
               <div class="form-group row offset-md-3 col-md-9">
                 <label class="form-check-label" for="competition_registration_confirm">
-                  {% if competition.requirement %}
-                    {% trans "免責事項と参加要件に同意します" %}
-                  {% else %}
-                    {% trans "免責事項に同意します" %}
-                  {% endif %}
+                  {% trans "このページに記載されている内容に同意します" %}
                 </label>
                 <input class="form-check-input competition_registration_confirm" type="checkbox" value="">
               </div>
@@ -311,11 +327,7 @@
               <div class="ml-3">
                 <div class="form-group row offset-md-3 col-md-9">
                   <label class="form-check-label" for="competition_registration_confirm">
-                    {% if competition.requirement %}
-                      {% trans "免責事項と参加要件に同意します" %}
-                    {% else %}
-                      {% trans "免責事項に同意します" %}
-                    {% endif %}
+                    {% trans "このページに記載されている内容に同意します" %}
                   </label>
                   <input class="form-check-input competition_registration_confirm" type="checkbox" value="">
                 </div>

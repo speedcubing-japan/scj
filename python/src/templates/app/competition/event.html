@@ -2,6 +2,7 @@
 {% load event_name %}
 {% load event_id_name %}
 {% load i18n %}
+{% load strip %}
 
 {% block content %}
 {% include "app/common/competition_title.html" %}
@@ -19,16 +20,49 @@
     {% include "app/competition/menu.html" with active='round' %}
   </div>
   <div class="col-lg-10">
-    <div class="row ml-3 mb-3">
-      {% for event_id, round_count in event_round_count_dict.items %}
-        <div class="col-lg-3 col-md-5 col-xs-6">
-          <input class="pt-3 competition_schedule_event" type="checkbox" value="{{ event_id }}">
-          <span class="cubing-icon event-{{ event_id | event_id_name }} h1"></span>&nbsp;{{ round_count}}&nbsp;{% trans "ラウンド" %}
-        </div>
-      {% endfor %}
+    <div class="card mb-3">
+      <div class="card-header lead">
+        {% trans "表彰" %}
+      </div>
+      <div class="card-body">
+        {% if not competition.awards_description_en %}
+          {{ competition.awards_description | strip | safe }}
+        {% elif request.LANGUAGE_CODE == 'en' %}
+          {{ competition.awards_description_en | strip | safe }}
+        {% else %}
+          {{ competition.awards_description | strip | safe }}
+        {% endif %}
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header lead">
+        {% trans "役割分担表" %}
+      </div>
+      <div class="card-body">
+        {% if not competition.assignment_description_en %}
+          {{ competition.assignment_description | strip | safe }}
+        {% elif request.LANGUAGE_CODE == 'en' %}
+          {{ competition.assignment_description_en | strip | safe }}
+        {% else %}
+          {{ competition.assignment_description | strip | safe }}
+        {% endif %}
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header lead">
+        {% trans "スケジュール" %}
+      </div>
+      <div class="row card-body ml-3 mb-3">
+        {% for event_id, round_count in event_round_count_dict.items %}
+          <div class="col-lg-3 col-md-5 col-xs-6">
+            <input class="pt-3 competition_schedule_event" type="checkbox" value="{{ event_id }}">
+            <span class="cubing-icon event-{{ event_id | event_id_name }} h1"></span>&nbsp;{{ round_count}}&nbsp;{% trans "ラウンド" %}
+          </div>
+        {% endfor %}
+      </div>
     </div>
     {% for date, room in round_dict.items %}
-      <div class="card mb-5">
+      <div class="card mb-3">
         <div class="card-header lead">
           {{ date }}
         </div>

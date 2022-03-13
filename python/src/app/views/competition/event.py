@@ -4,9 +4,9 @@ from app.models import Round
 from .base import Base
 
 
-class Schedule(Base):
+class Event(Base):
 
-    template_name = "app/competition/schedule.html"
+    template_name = "app/competition/event.html"
 
     def get(self, request, **kwargs):
         return render(request, self.template_name, self.get_context())

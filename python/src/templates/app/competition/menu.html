@@ -9,7 +9,7 @@
       <a href="https://www.worldcubeassociation.org/competitions/{{ competition.name_id }}"><button type="button" class="list-group-item list-group-item-action {% if active == 'fee' %}active{% endif %}"><i class="fas fa-list-ol fa-fw mr-2"></i>{% trans "結果" %}</button></a>
     {% elif not competition.is_finish %}
       <a href="{% url 'competition_fee' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'fee' %}active{% endif %}"><i class="fas fa-yen-sign fa-fw mr-2"></i>{% trans "参加費" %}</button></a>
-      <a href="{% url 'competition_schedule' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'round' %}active{% endif %}"><i class="far fa-clock fa-fw mr-2"></i>{% trans "スケジュール" %} </button></a>
+      <a href="{% url 'competition_event' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'round' %}active{% endif %}"><i class="fas fa-trophy fa-fw mr-2"></i>{% trans "イベント" %} </button></a>
       <a href="{% url 'competition_registration' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'registration' %}active{% endif %}"><i class="fas fa-sign-in-alt fa-fw mr-2"></i>{% trans "申し込み" %}</button></a>
       <a href="{% url 'competition_competitor' competition.name_id 'list' %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'competitor' %}active{% endif %}"><i class="fas fa-users fa-fw mr-2"></i>{% trans "競技者一覧" %}</button></a>
     {% endif %}

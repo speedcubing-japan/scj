@@ -187,12 +187,22 @@ class Command(BaseCommand):
                     twin_competition_id=record["fields"]["twin_competition_id"],
                     description=record["fields"]["description"],
                     description_en=record["fields"]["description_en"],
-                    requirement=record["fields"]["requirement"],
-                    requirement_en=record["fields"]["requirement_en"],
+                    qualification_description=record["fields"][
+                        "qualification_description"
+                    ],
+                    qualification_description_en=record["fields"][
+                        "qualification_description_en"
+                    ],
                     disclaimer=record["fields"]["disclaimer"],
                     disclaimer_en=record["fields"]["disclaimer_en"],
                     refund_description=record["fields"]["refund_description"],
                     refund_description_en=record["fields"]["refund_description_en"],
+                    awards_description=record["fields"]["awards_description"],
+                    awards_description_en=record["fields"]["awards_description_en"],
+                    assignment_description=record["fields"]["assignment_description"],
+                    assignment_description_en=record["fields"][
+                        "assignment_description_en"
+                    ],
                     is_cancel=record["fields"]["is_cancel"],
                     is_payment=record["fields"]["is_payment"],
                     is_display=record["fields"]["is_display"],
