@@ -96,6 +96,22 @@
         </div>
       </div>
     {% endif %}
+    {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
+      <div class="card mb-3">
+        <div class="card-header lead">
+          {% trans "参加申し込み" %}
+        </div>
+        <div class="card-body">
+          <div class="font-weight-bold">{% trans "本大会ではキャッシュレスの完全事前決済制を採用しています。" %}</div>
+          <div class="font-weight-bold mb-2">{% trans "現金支払いには対応いたしません。クレジットカードなどの決済手段をご用意ください。" %}</div>
+          <div>{% trans "参加申し込みは参加費のお支払い手続きが完了した時点で有効となり、その後先着順で承認されます。" %}</div>
+          <div class="mb-2">{% trans "この承認は実行委員会の手作業なので、数日の時間差が生じることがあります。" %}</div>
+          <div class="mb-2">{% trans "参加申し込み時点で定員に達していた場合はキャンセル待ちとなり、支払いが完了していても参加承認されない場合があるので予めご了承ください。キャンセル待ちリストの参加申し込みは、参加承認済みの誰かがキャンセルした場合に先着順で承認されます。この繰り上げ措置は参加申し込み期間に限って適用されます。" %}</div>
+          <div>{% trans "参加申し込みの期限は大会申込み期間の終了と同じです。" %}</div>
+          <div>{% trans "支払い後の返金ポリシーは参加費ページに記載しています。" %}</div>
+        </div>
+      </div>
+    {% endif %}
     <div class="card mb-3">
       <div class="card-header lead">
         {% trans "免責事項" %}
