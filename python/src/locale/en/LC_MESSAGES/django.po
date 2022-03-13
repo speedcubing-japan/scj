@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-13 10:47+0000\n"
+"POT-Creation-Date: 2022-03-13 12:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,6 +127,16 @@ msgstr "SCJ Judge"
 #: templates/app/competition/detail.html:165
 msgid "主催者"
 msgstr "Organiser"
+
+#: templates/app/competition/detail.html:169
+msgid "ご不明点があれば、お気軽にご連絡ください。"
+msgstr "Feel free ask us if you have any question."
+
+#: templates/app/competition/detail.html:171
+msgid ""
+"<a href=\"%(url)s\" target=\"_blank\">よくある質問</a>も合わせてご確認くださ"
+"い。"
+msgstr "Please also check our <a href=\"%(url)s\" target=\"_blank\">Frequently Asked Questions</a>."
 
 #: templates/app/competition/event.html:25
 msgid "表彰"

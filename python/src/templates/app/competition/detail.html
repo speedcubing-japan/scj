@@ -163,9 +163,13 @@
         </li>
         <li class="list-group-item">
           <h6>{% trans "主催者" %}</h6>
-          <div class="mb-2">
+          <div class="mb-1">
             <a href="mailto:{{ competition.organizer_email }}"><button type="button" class="btn btn-dark mb-2"><i class="far fa-envelope mr-2"></i>{{ competition.organizer_name }}</button></a>
           </div>
+          <div>{% trans "ご不明点があれば、お気軽にご連絡ください。" %}</div>
+          {% if competition.type == competition_type.WCA.value %}
+            <div>{% blocktrans with url="https://www.worldcubeassociation.org/faq" %}<a href="{{ url }}" target="_blank">よくある質問</a>も合わせてご確認ください。{% endblocktrans %}</div>
+          {% endif %}
         </li>
       </ul>
     </div>
