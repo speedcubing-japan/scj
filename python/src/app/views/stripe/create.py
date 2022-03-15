@@ -144,7 +144,13 @@ class Create(View):
                     "competition_id": competition.id,
                     "competition_name": competition.name,
                     "spcific_id": spcific_id,
+                    "competitor_id": competitor_id,  # competitor.idを参照しないのは支払いが事前支払いのみの場合ここではcompetitor_idが確定しないため。
+                    "person_id": request.user.person.id,
+                    "event_ids": json.dumps(competitor.event_ids),
+                    "guest_count": competitor.guest_count,
+                    "comment": competitor.comment,
                     "name": name,
+                    "email": request.user.email,
                 },
                 payment_intent_data={
                     "metadata": {
