@@ -33,25 +33,23 @@
       </div>
     </div>
   {% endif %}
-  {% if is_registration_open or is_superuser %}
-    {% if competition.type == competition_type.WCA.value and not is_wca_authenticated %}
-      <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-body">
-              {% blocktrans with competition_name=competition.name wca_oauth_authorization=wca_oauth_authorization wca_client_id=wca_client_id redirect_uri=redirect_uri %}{{ competition_name }}に申し込むにはWCA認証が必要です。{% endblocktrans %}
-              <div class="text-danger">{% trans "共有PCの場合、ご家族のWCAアカウントと混同しないようにご注意ください。" %}</div>
-              <div class="text-danger">{% blocktrans with url="https://www.worldcubeassociation.org/" %}WCA認証の前に一度<a href="{{ url }}" target="_blank">WCAサイト</a>にてログアウトをお勧めします。{% endblocktrans %}</div>
-            </div>
-            <div class="modal-footer">
-              {% with path=competition|competition_logo %}
-                <a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email dob" class="btn btn-dark"><img class="mr-2" width="18" src="{% static path %}">{% trans "WCA認証" %}</a>
-              {% endwith %}
-            </div>
+  {% if competition.type == competition_type.WCA.value and not is_wca_authenticated %}
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-body">
+            {% blocktrans with competition_name=competition.name wca_oauth_authorization=wca_oauth_authorization wca_client_id=wca_client_id redirect_uri=redirect_uri %}{{ competition_name }}に申し込むにはWCA認証が必要です。{% endblocktrans %}
+            <div class="text-danger">{% trans "共有PCの場合、ご家族のWCAアカウントと混同しないようにご注意ください。" %}</div>
+            <div class="text-danger">{% blocktrans with url="https://www.worldcubeassociation.org/" %}WCA認証の前に一度<a href="{{ url }}" target="_blank">WCAサイト</a>にてログアウトをお勧めします。{% endblocktrans %}</div>
+          </div>
+          <div class="modal-footer">
+            {% with path=competition|competition_logo %}
+              <a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email dob" class="btn btn-dark"><img class="mr-2" width="18" src="{% static path %}">{% trans "WCA認証" %}</a>
+            {% endwith %}
           </div>
         </div>
       </div>
-    {% endif %}
+    </div>
   {% endif %}
   <div class="col-lg-2 mb-3">
     {% include "app/competition/menu.html" with active='registration' %}
@@ -440,12 +438,10 @@
   </script>
 {% endif %}
 
-{% if is_registration_open or is_superuser %}
-  {% if competition.type == competition_type.WCA.value and not is_wca_authenticated %}}
-    <script>
-      $('#staticBackdrop').modal()
-    </script>
-  {% endif %}
+{% if competition.type == competition_type.WCA.value and not is_wca_authenticated %}}
+  <script>
+    $('#staticBackdrop').modal()
+  </script>
 {% endif %}
 
 {% endblock %}
