@@ -238,7 +238,7 @@
               {% bootstrap_form form layout='horizontal' %}
               <div class="form-group row">
                 <div class="offset-md-3 col-md-9">
-                  <button type="button" class="mt-2 submit_change_action btn btn-success" name="type" value="{% url 'competition_registration' competition.name_id %}" {% if competition.registration_open_at > now or competition.registration_close_at < now %}disabled{% endif %}><i class="fas fa-pencil-alt fa-fw mr-2"></i>{% trans "更新" %}</button>
+                  <button type="button" class="mt-2 submit_change_action btn btn-success" name="type" value="{% url 'competition_registration' competition.name_id %}" {% if competition.registration_close_at < now %}disabled{% endif %}><i class="fas fa-pencil-alt fa-fw mr-2"></i>{% trans "更新" %}</button>
                   <button type="button" class="mt-2 submit_change_action btn btn-danger" name="type" value="{% url 'competition_cancel' competition.name_id %}"><i class="fas fa-trash fa-fw mr-2"></i>{% trans "申し込みキャンセル" %}</button>
                 </div>
               </div>
