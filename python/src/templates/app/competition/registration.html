@@ -33,7 +33,7 @@
       </div>
     </div>
   {% endif %}
-  {% if is_registration_open %}
+  {% if competition.registration_close_at >= now %}
     {% if competition.type == competition_type.WCA.value and not is_wca_authenticated %}
       <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
