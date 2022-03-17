@@ -135,6 +135,6 @@ prod-backup:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py dumpdata app.competitor > /home/admin/backup/competitor.json
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py dumpdata app.information > /home/admin/backup/information.json
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py dumpdata app.stripeprogress > /home/admin/backup/stripeprogress.json
-`
+
 prod-clearsessions:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py clearsessions
