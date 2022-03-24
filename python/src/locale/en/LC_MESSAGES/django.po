@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-13 12:03+0000\n"
+"POT-Creation-Date: 2022-03-24 22:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -112,7 +112,7 @@ msgid "お知らせ"
 msgstr "Information"
 
 #: templates/app/competition/detail.html:126
-#: templates/app/competition/registration.html:86
+#: templates/app/competition/registration.html:84
 msgid "参加資格"
 msgstr "Qualification"
 
@@ -133,10 +133,13 @@ msgid "ご不明点があれば、お気軽にご連絡ください。"
 msgstr "Feel free ask us if you have any question."
 
 #: templates/app/competition/detail.html:171
+#, python-format
 msgid ""
 "<a href=\"%(url)s\" target=\"_blank\">よくある質問</a>も合わせてご確認くださ"
 "い。"
-msgstr "Please also check our <a href=\"%(url)s\" target=\"_blank\">Frequently Asked Questions</a>."
+msgstr ""
+"Please also check our <a href=\"%(url)s\" target=\"_blank\">Frequently Asked "
+"Questions</a>."
 
 #: templates/app/competition/event.html:25
 msgid "表彰"
@@ -409,19 +412,19 @@ msgstr "Sign up"
 msgid "ログイン"
 msgstr "Sign in"
 
-#: templates/app/competition/registration.html:42
+#: templates/app/competition/registration.html:41
 #, python-format
 msgid "%(competition_name)sに申し込むにはWCA認証が必要です。"
 msgstr "WCA authentication to register for %(competition_name)s."
 
-#: templates/app/competition/registration.html:43
+#: templates/app/competition/registration.html:42
 #: templates/app/competition/registration.html:214
 msgid "共有PCの場合、ご家族のWCAアカウントと混同しないようにご注意ください。"
 msgstr ""
 "In the case of a shared PC, please be careful not to confuse it with your "
 "family's WCA account."
 
-#: templates/app/competition/registration.html:44
+#: templates/app/competition/registration.html:43
 #: templates/app/competition/registration.html:215
 #, python-format
 msgid ""
@@ -431,15 +434,15 @@ msgstr ""
 "We recommend that you log out once at the <a href=\"%(url)s\" target=\"_blank"
 "\">WCA site</a> before WCA authentication."
 
-#: templates/app/competition/registration.html:48
+#: templates/app/competition/registration.html:47
 msgid "WCA認証"
 msgstr "WCA authentication"
 
-#: templates/app/competition/registration.html:62
+#: templates/app/competition/registration.html:60
 msgid "前提要件"
 msgstr "Tips"
 
-#: templates/app/competition/registration.html:66
+#: templates/app/competition/registration.html:64
 msgid ""
 "申し込みを完了し定員に達していない場合かつ主催者に認められた場合に限りあなた"
 "の申し込みが主催者に承認されます。"
@@ -447,7 +450,7 @@ msgstr ""
 "Registration will be approved only if the competitor limit is not reached "
 "and the organizer approves it."
 
-#: templates/app/competition/registration.html:71
+#: templates/app/competition/registration.html:69
 #, python-format
 msgid ""
 "<a href=\"https://www.worldcubeassociation.org/\" target=\"_blank\">World "
@@ -459,21 +462,30 @@ msgstr ""
 "competition. Therefore, please make sure you understand <a href=\"%(url)s"
 "\">WCA Regulations</a> before attending."
 
-#: templates/app/competition/registration.html:102
+#: templates/app/competition/registration.html:100
 msgid "参加申し込み"
 msgstr "Registration"
 
-#: templates/app/competition/registration.html:105
+#: templates/app/competition/registration.html:103
 msgid "本大会ではキャッシュレスの完全事前決済制を採用しています。"
 msgstr "This competition uses a completely pre-paid cashless system."
 
+#: templates/app/competition/registration.html:104
+msgid "VISA/Mastercard/JCBのクレジットカードが利用できます。"
+msgstr "We have confirmed credit cards of VISA, Mastercard, and JCB for the payment."
+
+#: templates/app/competition/registration.html:105
+msgid ""
+"なお、過去にVISAブランドのデビットカード・プリペイドカードや、Google Payによ"
+"る決済を行った実績もありますが、動作保証を行っているのは上記クレジットカード"
+"のみとなっております。"
+msgstr "Credit cards of other brands, other types of VISA cards (Debit card, prepaid card, etc.), and Google Pay might be valid but not sure."
+
 #: templates/app/competition/registration.html:106
 msgid ""
-"現金支払いには対応いたしません。クレジットカードなどの決済手段をご用意くださ"
-"い。"
-msgstr ""
-"Cash payments will not be accepted. Please prepare a credit card or other "
-"ways in advance."
+"クレジットカード会社の都合により決済に失敗する可能性もありますので、複数の決"
+"済手段を用意することを推奨します。"
+msgstr "We recommend you prepare some methods of payment in case of any errors in advance."
 
 #: templates/app/competition/registration.html:107
 msgid ""
@@ -906,24 +918,3 @@ msgid ""
 msgstr ""
 "Once a your competition record is posted, it cannot be deleted later. Be "
 "sure to review the Terms of Use and Privacy Policy."
-
-#~ msgid "COVID-19対策"
-#~ msgstr "Countermeasures for COVID-19"
-
-#, fuzzy
-#~| msgid "支払い後の返金ポリシーは<a href=\"%(fee)s}\">別途記載しています</a>"
-#~ msgid ""
-#~ "支払い後の返金ポリシーは<a href=\"%(competition_fee)s?name_id=%(name_id)s"
-#~ "\">別途記載しています</a>"
-#~ msgstr ""
-#~ "The refund policy in such cases is described <a href=\"%(fee)s}\">fee "
-#~ "page</a>."
-
-#~ msgid ""
-#~ "参加申し込み時点で定員に達していた場合はキャンセル待ちとなり、支払いが完了"
-#~ "していても参加承認されない場合があるので予めご了承ください。"
-#~ msgstr ""
-#~ "Once the competitor limit has filled, the waiting list will be opened. "
-#~ "New registrations will be added to a waiting list and sorted in the order "
-#~ "of registration too. Waitlisted competitors will only be accepted "
-#~ "provided one of the accepted competitors withdraw from the competition. "
