@@ -62,6 +62,9 @@ makedata:
 getwcadata:
 	docker-compose run --rm python ./manage.py getwcadata
 
+resetwca:
+	docker-compose run --rm python ./manage.py resetwca --person_id ${PERSON_ID}
+
 loaddata:
 	docker-compose run --rm python ./manage.py loaddata ${MODEL}.json
 
@@ -99,6 +102,9 @@ clearsessions:
 
 prod-bulkdata:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py bulkdata
+
+prod-resetwca:
+	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py resetwca --person_id ${PERSON_ID}
 
 prod-build:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose build
