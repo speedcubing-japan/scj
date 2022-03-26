@@ -56,6 +56,7 @@ class Csv(LoginRequiredMixin, View):
         if competition.type == CompetitionType.WCA.value:
             row = [
                 "id",
+                "scj_id",
                 "wca_id",
                 "wca_user_id",
                 "name",
@@ -99,6 +100,7 @@ class Csv(LoginRequiredMixin, View):
                 if competition.type == CompetitionType.WCA.value:
                     row = [
                         index + 1,
+                        competitor.person.id,
                         competitor.person.wca_id,
                         competitor.person.wca_user_id,
                         competitor.person.wca_name,
