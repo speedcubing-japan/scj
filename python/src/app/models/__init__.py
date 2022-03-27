@@ -11,6 +11,4 @@ from .average_rank import AverageRank
 from .scramble import Scramble
 from .fee_per_event import FeePerEvent
 from .fee_per_event_count import FeePerEventCount
-from .wca_best_rank import WcaBestRank
-from .wca_average_rank import WcaAverageRank
 from .stripe_progress import StripeProgress

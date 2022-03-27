@@ -1,6 +1,6 @@
 import app.models
 from django.shortcuts import render, redirect
-from app.models import BestRank, AverageRank, WcaBestRank, WcaAverageRank
+from app.models import BestRank, AverageRank
 from app.defines.event import Event
 from app.defines.country import Country
 from app.defines.define import OUTLIERS
@@ -70,18 +70,6 @@ class Competitor(Base):
                 wca_ids = []
                 for competitor in competitors:
                     wca_ids.append(competitor.person.wca_id)
-
-                wca_best_ranks = WcaBestRank.objects.filter(
-                    event_id=event_id, wca_id__in=wca_ids
-                )
-                for wca_best_rank in wca_best_ranks:
-                    bests[wca_best_rank.wca_id] = wca_best_rank.best / 100
-
-                wca_average_ranks = WcaAverageRank.objects.filter(
-                    event_id=event_id, wca_id__in=wca_ids
-                )
-                for wca_average_rank in wca_average_ranks:
-                    averages[wca_average_rank.wca_id] = wca_average_rank.best / 100
 
         competitor_list = []
         name = ""
