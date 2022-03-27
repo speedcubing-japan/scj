@@ -12,7 +12,7 @@ class Status(Define):
 
 
 @unique
-class Notification(Define):
+class Notification(tuple, Define):
     UPDATE = (Status.INFO.value, "更新しました。")
     NOT_UPDATE = (Status.WARNING.value, "更新されていません。")
     RECAPTCHA_ERROR = (Status.DANGER.value, _("私はロボットではありませんにチェックを入れてください。"))

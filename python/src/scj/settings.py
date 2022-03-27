@@ -77,7 +77,7 @@ LANGUAGES = [
     ("ja", _("Japanese")),
 ]
 
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
 ROOT_URLCONF = "scj.urls"
 
