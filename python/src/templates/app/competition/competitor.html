@@ -33,7 +33,7 @@
             {% elif competition.type == competition_type.WCA.value %}
               <th scope="col">{% trans "国" %}</th>
             {% endif %}
-            {% if event_name != 'list' %}
+            {% if event_name != 'list' and competition.type == competition_type.SCJ.value %}
               <th scope="col">{% trans "ベスト" %}</th>
               <th scope="col">{% trans "平均" %}</th>
             {% endif %}
@@ -57,7 +57,7 @@
               {% elif competition.type == competition_type.WCA.value %}
                 <td>{{ competitor.country }}</td>
               {% endif %}
-              {% if event_name != 'list' %}
+              {% if event_name != 'list' and competition.type == competition_type.SCJ.value %}
                 <td>{{ competitor.best | result_convert:event_id }}</td>
                 <td>{{ competitor.average | result_convert:event_id }}</td>
               {% endif %}
