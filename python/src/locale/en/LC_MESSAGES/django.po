@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-24 22:55+0000\n"
+"POT-Creation-Date: 2022-03-29 05:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -170,7 +170,7 @@ msgstr "End"
 #: templates/app/competition/fee.html:137
 #: templates/app/competition/fee.html:153
 #: templates/app/competition/fee.html:165
-#: templates/app/competition/registration.html:302
+#: templates/app/competition/registration.html:307
 msgid "種目"
 msgstr "Events"
 
@@ -278,7 +278,7 @@ msgid "返金ポリシー"
 msgstr "Refund policy"
 
 #: templates/app/competition/fee.html:69
-#: templates/app/competition/registration.html:336
+#: templates/app/competition/registration.html:341
 msgid "参加費支払い"
 msgstr "Fee payment"
 
@@ -326,8 +326,8 @@ msgstr "Total"
 #: templates/app/competition/fee.html:140
 #: templates/app/competition/fee.html:155
 #: templates/app/competition/fee.html:167
-#: templates/app/competition/registration.html:292
-#: templates/app/competition/registration.html:304
+#: templates/app/competition/registration.html:297
+#: templates/app/competition/registration.html:309
 msgid "円"
 msgstr "Yen"
 
@@ -341,8 +341,8 @@ msgstr "You've paid."
 
 #: templates/app/competition/fee.html:111
 #: templates/app/competition/fee.html:132
-#: templates/app/competition/registration.html:290
-#: templates/app/competition/registration.html:302
+#: templates/app/competition/registration.html:295
+#: templates/app/competition/registration.html:307
 msgid "支払い料金"
 msgstr "Payment fees"
 
@@ -385,7 +385,7 @@ msgid "イベント"
 msgstr "Event"
 
 #: templates/app/competition/menu.html:13
-#: templates/app/competition/registration.html:319
+#: templates/app/competition/registration.html:324
 msgid "申し込み"
 msgstr "Registration"
 
@@ -418,14 +418,14 @@ msgid "%(competition_name)sに申し込むにはWCA認証が必要です。"
 msgstr "WCA authentication to register for %(competition_name)s."
 
 #: templates/app/competition/registration.html:42
-#: templates/app/competition/registration.html:214
+#: templates/app/competition/registration.html:219
 msgid "共有PCの場合、ご家族のWCAアカウントと混同しないようにご注意ください。"
 msgstr ""
 "In the case of a shared PC, please be careful not to confuse it with your "
 "family's WCA account."
 
 #: templates/app/competition/registration.html:43
-#: templates/app/competition/registration.html:215
+#: templates/app/competition/registration.html:220
 #, python-format
 msgid ""
 "WCA認証の前に一度<a href=\"%(url)s\" target=\"_blank\">WCAサイト</a>にてログ"
@@ -472,20 +472,25 @@ msgstr "This competition uses a completely pre-paid cashless system."
 
 #: templates/app/competition/registration.html:104
 msgid "VISA/Mastercard/JCBのクレジットカードが利用できます。"
-msgstr "We have confirmed credit cards of VISA, Mastercard, and JCB for the payment."
+msgstr ""
+"We have confirmed credit cards of VISA, Mastercard, and JCB for the payment."
 
 #: templates/app/competition/registration.html:105
 msgid ""
 "なお、過去にVISAブランドのデビットカード・プリペイドカードや、Google Payによ"
 "る決済を行った実績もありますが、動作保証を行っているのは上記クレジットカード"
 "のみとなっております。"
-msgstr "Credit cards of other brands, other types of VISA cards (Debit card, prepaid card, etc.), and Google Pay might be valid but not sure."
+msgstr ""
+"Credit cards of other brands, other types of VISA cards (Debit card, prepaid "
+"card, etc.), and Google Pay might be valid but not sure."
 
 #: templates/app/competition/registration.html:106
 msgid ""
 "クレジットカード会社の都合により決済に失敗する可能性もありますので、複数の決"
 "済手段を用意することを推奨します。"
-msgstr "We recommend you prepare some methods of payment in case of any errors in advance."
+msgstr ""
+"We recommend you prepare some methods of payment in case of any errors in "
+"advance."
 
 #: templates/app/competition/registration.html:107
 msgid ""
@@ -607,26 +612,56 @@ msgid "見学の申請"
 msgstr "Request for observation as a visitor"
 
 #: templates/app/competition/registration.html:156
-msgid "COVID 対策のため、本大会では会場への入場者数を制限しています。"
+msgid ""
+"新型コロナウイルス感染症対策のため、本大会では会場への入場者数を制限していま"
+"す。"
 msgstr ""
 "The number of persons in the venue is controlled as COVID-19 countermeasure."
 
 #: templates/app/competition/registration.html:157
+msgid "飛び入りでの競技参加や見学はできません。"
+msgstr ""
+"No one is allowed to jump in and participate in or observe the competition."
+
+#: templates/app/competition/registration.html:158
 #, python-format
 msgid ""
-"飛び込みでの競技参加や見学はできません。見学をご希望の場合は、<a href="
-"\"mailto:%(email)s\">%(organizer_name)s</a>にメールにて事前に申請してくださ"
-"い。参加者の混雑状況を考慮してお返事いたします。"
+"見学をご希望の場合は、<a href=\"mailto:%(email)s\">%(organizer_name)s</a>に"
+"<span class=\"font-weight-bold\">メールにて事前に申請してください</span>。"
 msgstr ""
-"If you are not a competitor or their guest and that you want to observe the "
-"competition, please be sure to email <a href=\"mailto:%(email)s\">"
-"%(organizer_name)s</a> in advance."
+"If you want to observe the competition, <span class=\"font-weight-bold"
+"\">please be sure to email <a href=\"mailto:%(email)s\">%(organizer_name)s</"
+"a> in advance</span>"
+
+#: templates/app/competition/registration.html:159
+msgid "なお、同伴者は競技者と同様1名までといたします。"
+msgstr "And please be noted that only one companion per observer will be accepted."
+
+#: templates/app/competition/registration.html:160
+msgid ""
+"競技者の申し込みが終了後、<span class=\"font-weight-bold\">申請メール受信順に"
+"</span>承認します。"
+msgstr ""
+"After competitor's registration period, request for observation will be "
+"approved <span class=\"font-weight-bold\">in the order of receipt of the "
+"request email</span>."
+
+#: templates/app/competition/registration.html:161
+msgid ""
+"また、大会前日までに見学者のキャンセルなどが発生した場合、繰り上げ処置を行います。"
+msgstr ""
+"After that, request might be also approved if cancelation or other case happens by the day before the competition."
 
 #: templates/app/competition/registration.html:162
+msgid ""
+"見学のご都合がつかなくなった場合は、承認前・承認後問わず必ずご連絡ください。"
+msgstr "If you will be unable to make the visit, please be sure to contact us before or after approval."
+
+#: templates/app/competition/registration.html:167
 msgid "初参加者の身分証明のお願い"
 msgstr "Identification request for First-timer"
 
-#: templates/app/competition/registration.html:165
+#: templates/app/competition/registration.html:170
 #, python-format
 msgid ""
 "WCA 大会に参加すると、あなたの個人情報の一部（名前、国籍、性別）と WCA 競技結"
@@ -638,14 +673,14 @@ msgstr ""
 "including some of your personal information (name, nationality, and gender) "
 "and your WCA competition results."
 
-#: templates/app/competition/registration.html:166
+#: templates/app/competition/registration.html:171
 msgid ""
 "(登録された個人情報のうち生年月日は非公開です。また、写真の登録は任意です)"
 msgstr ""
 "(Your date of birth will remain private, and registration of your photo is "
 "depends on your preference.)"
 
-#: templates/app/competition/registration.html:167
+#: templates/app/competition/registration.html:172
 msgid ""
 "このため、初回参加時には WCA アカウントに登録する名前、国籍、性別、生年月日な"
 "どの個人情報を確認するための身分証の提示を WCA 代理人 より求める場合がありま"
@@ -655,11 +690,11 @@ msgstr ""
 "proof to verify your name, nationality, gender, date of birth that will be "
 "registered in your WCA account when you first join the WCA competition."
 
-#: templates/app/competition/registration.html:173
+#: templates/app/competition/registration.html:178
 msgid "キャンセル待ちリスト"
 msgstr "Waiting List"
 
-#: templates/app/competition/registration.html:176
+#: templates/app/competition/registration.html:181
 msgid ""
 "参加申し込み後に「申し込みを受け付けました。」という旨のメールが届きますが、"
 "この時点ではまだ参加申し込みは確定していません。"
@@ -667,14 +702,14 @@ msgstr ""
 "Upon registering you will receive an email stating \"申し込みを受け付けまし"
 "た。\". This does NOT mean that you are on the registration list"
 
-#: templates/app/competition/registration.html:177
+#: templates/app/competition/registration.html:182
 msgid ""
 "実行委員会の承認後に、正式に参加が承認されたことを伝えるメールが改めて届きま"
 "す。"
 msgstr ""
 "You will be on the registration list after the registration is approved."
 
-#: templates/app/competition/registration.html:178
+#: templates/app/competition/registration.html:183
 msgid ""
 "申し込み時点で定員に達していた場合はキャンセル待ちリストに追加され、参加承認"
 "済みの誰かがキャンセルした場合にリストの先着順で承認されます。"
@@ -684,7 +719,7 @@ msgstr ""
 "registration too. Waitlisted competitors will only be accepted provided one "
 "of the accepted competitors withdraw from the competition. "
 
-#: templates/app/competition/registration.html:179
+#: templates/app/competition/registration.html:184
 msgid ""
 "この繰り上げ措置は、規定の参加申し込み期間までとなります。締め切り後の繰り上"
 "げは行いません。"
@@ -692,7 +727,7 @@ msgstr ""
 "All competitors still on the waiting list after registration limit will be "
 "canceled."
 
-#: templates/app/competition/registration.html:180
+#: templates/app/competition/registration.html:185
 msgid ""
 "そのため、大会を辞退する場合は、可能であれば申し込み期限までに申し込みをキャ"
 "ンセルしていただけると幸いです。"
@@ -701,7 +736,7 @@ msgstr ""
 "if you could cancel your registration before the registration deadline, if "
 "possible."
 
-#: templates/app/competition/registration.html:181
+#: templates/app/competition/registration.html:186
 #, python-format
 msgid ""
 "ご自身のキャンセル待ちリスト内での順番を知りたい方は、<a href=\"mailto:"
@@ -711,11 +746,11 @@ msgstr ""
 "organization team at <a href=\"mailto:%(competition_email)s\">"
 "%(organizer_name)s</a>"
 
-#: templates/app/competition/registration.html:186
+#: templates/app/competition/registration.html:191
 msgid "参加申し込みの内容変更・取り消し"
 msgstr "Changing/Deleting Registration"
 
-#: templates/app/competition/registration.html:189
+#: templates/app/competition/registration.html:194
 #, python-format
 msgid ""
 "申し込み承認後に参加申込の内容を変更したい場合（例：申込種目の追加、同伴者人"
@@ -727,7 +762,7 @@ msgstr ""
 "the organization team at <a href=\"mailto:%(competition_email)s\">"
 "%(organizer_name)s</a>"
 
-#: templates/app/competition/registration.html:190
+#: templates/app/competition/registration.html:195
 msgid ""
 "キャンセル待ちリストからの繰り上げは参加申し込み期間中にしか行えませんので、"
 "なるべく早めにお申し出ください。"
@@ -735,30 +770,30 @@ msgstr ""
 "Withdrawing enables competitors on the waiting list to attend the "
 "competition."
 
-#: templates/app/competition/registration.html:196
+#: templates/app/competition/registration.html:201
 msgid "WCA ID連携"
 msgstr "Claim WCA ID"
 
-#: templates/app/competition/registration.html:199
+#: templates/app/competition/registration.html:204
 msgid "WCA大会初参加の方"
 msgstr "First-time participants in the WCA competition"
 
-#: templates/app/competition/registration.html:200
+#: templates/app/competition/registration.html:205
 msgid "このままでかまいません。大会終了後にWCA ID連携の案内が届きます。"
 msgstr ""
 "You can leave it as it is. You will receive an mail to claim your WCA ID "
 "after the competition."
 
-#: templates/app/competition/registration.html:201
+#: templates/app/competition/registration.html:206
 msgid "WCA大会2回目以降の方"
 msgstr "Second or later WCA Competition"
 
-#: templates/app/competition/registration.html:202
+#: templates/app/competition/registration.html:207
 #, python-format
 msgid "<a href=\"%(url)s\" target=\"_blank\">WCA ID連携</a>を行って下さい。"
 msgstr "Please <a href=\"%(url)s\" target=\"_blank\">claim your WCA ID</a>."
 
-#: templates/app/competition/registration.html:209
+#: templates/app/competition/registration.html:214
 #, python-format
 msgid ""
 "%(competition_name)sに申し込むには<a href=\"%(login_url)s?next=%(path)s\">ロ"
@@ -767,7 +802,7 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(path)s\">Sign in</a> to register for "
 "%(competition_name)s."
 
-#: templates/app/competition/registration.html:213
+#: templates/app/competition/registration.html:218
 #, python-format
 msgid ""
 "%(competition_name)sに申し込むには<a href=\"%(wca_oauth_authorization)s?"
@@ -780,49 +815,49 @@ msgstr ""
 "%(redirect_uri)s&response_type=code&scope=public email dob\">WCA "
 "authentication</a> to register for %(competition_name)s."
 
-#: templates/app/competition/registration.html:224
+#: templates/app/competition/registration.html:229
 msgid "承認済み"
 msgstr "Your registration has already been approved"
 
-#: templates/app/competition/registration.html:233
+#: templates/app/competition/registration.html:238
 msgid "申し込み詳細 "
 msgstr "Registration details"
 
-#: templates/app/competition/registration.html:241
+#: templates/app/competition/registration.html:246
 msgid "更新"
 msgstr "Update"
 
-#: templates/app/competition/registration.html:242
+#: templates/app/competition/registration.html:247
 msgid "申し込みキャンセル"
 msgstr "Registration Cancel"
 
-#: templates/app/competition/registration.html:251
+#: templates/app/competition/registration.html:256
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s後&nbsp;%(date)sに開始します。"
 msgstr "Registration will open in about %(rest_time)s later on %(date)s"
 
-#: templates/app/competition/registration.html:255
+#: templates/app/competition/registration.html:260
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s前&nbsp;%(date)sに終了しました。"
 msgstr "Registration closed about %(rest_time)s ago on %(date)s"
 
-#: templates/app/competition/registration.html:261
+#: templates/app/competition/registration.html:266
 msgid "WCA認証情報"
 msgstr "WCA authentication information"
 
-#: templates/app/competition/registration.html:264
+#: templates/app/competition/registration.html:269
 msgid "WCA ID"
 msgstr "Claim WCA ID"
 
-#: templates/app/competition/registration.html:268
+#: templates/app/competition/registration.html:273
 msgid "初参加または未連携"
 msgstr "First-time participants or not connected to WCA ID"
 
-#: templates/app/competition/registration.html:270
+#: templates/app/competition/registration.html:275
 msgid "WCA氏名"
 msgstr "WCA Name"
 
-#: templates/app/competition/registration.html:274
+#: templates/app/competition/registration.html:279
 #, python-format
 msgid ""
 "誤っている場合は、<a href=\"%(profile)s\">プロフィール</a>で再度、WCA認証をし"
@@ -833,7 +868,7 @@ msgstr ""
 "href=\"%(profile)s\">profile</a>. If you are still unable to do so, please "
 "<a href=\"%(contact)s\">contact</a> us."
 
-#: templates/app/competition/registration.html:280
+#: templates/app/competition/registration.html:285
 #, python-format
 msgid ""
 "本大会の定員は %(limit)s 人であり、すでに定員に達しています。今参加申し込みさ"
@@ -843,21 +878,21 @@ msgstr ""
 "been reached. If you register, your registration will be placed on a waiting "
 "list. It may not be approved unless a spot frees up."
 
-#: templates/app/competition/registration.html:315
+#: templates/app/competition/registration.html:320
 msgid "運営先行申し込み"
 msgstr "Prior Registration"
 
-#: templates/app/competition/registration.html:328
-#: templates/app/competition/registration.html:346
+#: templates/app/competition/registration.html:333
+#: templates/app/competition/registration.html:351
 msgid "このページに記載されている内容に同意します"
 msgstr "I agree to the information on this page."
 
-#: templates/app/competition/registration.html:353
+#: templates/app/competition/registration.html:358
 #: templates/app/registration/input.html:43
 msgid "登録"
 msgstr "Register"
 
-#: templates/app/competition/registration.html:360
+#: templates/app/competition/registration.html:365
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s後&nbsp;%(date)sに終了します。"
 msgstr "Registration closes in about %(rest_time)s later on %(date)s"

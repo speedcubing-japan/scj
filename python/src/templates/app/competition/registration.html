@@ -153,8 +153,13 @@
           {% trans "見学の申請" %}
         </div>
         <div class="card-body">
-          <div>{% trans "COVID 対策のため、本大会では会場への入場者数を制限しています。" %}</div>
-          <div>{% blocktrans with email=competition.organizer_email organizer_name=competition.organizer_name %}飛び込みでの競技参加や見学はできません。見学をご希望の場合は、<a href="mailto:{{ email }}">{{ organizer_name }}</a>にメールにて事前に申請してください。参加者の混雑状況を考慮してお返事いたします。{% endblocktrans %}</div>
+          <div>{% trans "新型コロナウイルス感染症対策のため、本大会では会場への入場者数を制限しています。" %}</div>
+          <div>{% trans "飛び入りでの競技参加や見学はできません。" %}</div>
+          <div>{% blocktrans with email=competition.organizer_email organizer_name=competition.organizer_name %}見学をご希望の場合は、<a href="mailto:{{ email }}">{{ organizer_name }}</a>に<span class="font-weight-bold">メールにて事前に申請してください</span>。{% endblocktrans %}</div>
+          <div>{% trans "なお、同伴者は競技者と同様1名までといたします。" %}</div>
+          <div>{% trans '競技者の申し込みが終了後、<span class="font-weight-bold">申請メール受信順に</span>承認します。' %}</div>
+          <div>{% trans "また、大会前日までに見学者のキャンセルなどが発生した場合、繰り上げ処置を行います。" %}</div>
+          <div>{% trans "見学のご都合がつかなくなった場合は、承認前・承認後問わず必ずご連絡ください。" %}</div>
         </div>
       </div>
       <div class="card mb-3">
