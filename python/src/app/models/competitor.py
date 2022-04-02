@@ -50,6 +50,11 @@ class Competitor(models.Model):
             competition_id=competition_id, status=status
         ).count()
 
+    def exist(self, competition_id, person_id):
+        return Competitor.objects.filter(
+            competition_id=competition_id, person_id=person_id
+        ).exists()
+
     def set_stripe_progress(self, stripe_progress):
         self.stripe_progress = stripe_progress
 

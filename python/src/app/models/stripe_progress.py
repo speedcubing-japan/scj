@@ -18,4 +18,8 @@ class StripeProgress(models.Model):
         indexes = [
             models.Index(name="idx_customer_id", fields=["customer_id"]),
             models.Index(name="idx_competitor_id", fields=["competitor_id"]),
+            models.Index(name="idx_charge_id", fields=["charge_id"]),
         ]
+
+    def exist_charge_id(self, charge_id):
+        return StripeProgress.objects.filter(charge_id=charge_id).exists()

@@ -11,6 +11,10 @@ restart-python:
 	docker stop scj_python_1
 	docker-compose up -d
 
+restart-nginx:
+	docker stop scj_nginx_1
+	docker-compose up -d
+
 test:
 	docker-compose run --rm python ./manage.py test
 

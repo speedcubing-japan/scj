@@ -45,6 +45,10 @@ class Create(View):
 
         competitor_id = 0
         if competition.fee_pay_type == FeePayType.REMOTE_ONLY.value:
+
+            if Competitor.exist(self, datas["competition_id"], request.user.person.id):
+                return JsonResponse({"error": "参加申込み済みです。"})
+
             competition = Competition.objects.get(pk=datas["competition_id"])
             event_ids = datas["event_ids"]
             guest_count = datas["guest_count"]

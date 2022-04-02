@@ -41,20 +41,35 @@ class WebhookConnect(View):
             # 基本一つだけ。
             charges = payment_intent.charges.data[0]
 
+            # 決済が存在していた場合は支払い済み。
+            if StripeProgress.exist_charge_id(self, charges.id):
+                return HttpResponse(status=200)
+
             competition = Competition.objects.get(pk=charges.metadata.competition_id)
             if competition.fee_pay_type == FeePayType.REMOTE_ONLY.value:
+
+                # 競技者が存在していた場合支払い済み。
+                if Competitor.exist(
+                    self, charges.metadata.competition_id, charges.metadata.person_id
+                ):
+                    return HttpResponse(status=200)
+
                 # Person情報取得
                 person = Person.objects.get(pk=charges.metadata.person_id)
                 # 参加登録
-                competitor = Competitor()
-                competitor.competition_id = charges.metadata.competition_id
-                competitor.status = CompetitorStatus.PENDING.value
-                competitor.event_ids = json.loads(charges.metadata.event_ids)
-                competitor.guest_count = charges.metadata.guest_count
+                comment = ""
                 if "comment" in charges.metadata:
-                    competitor.comment = charges.metadata.comment
-                competitor.person = person
-                competitor.save()
+                    comment = charges.metadata.comment
+
+                competitor = Competitor()
+                competitor.create(
+                    charges.metadata.competition_id,
+                    CompetitorStatus.PENDING.value,
+                    json.loads(charges.metadata.event_ids),
+                    charges.metadata.guest_count,
+                    comment,
+                    person,
+                )
 
             elif competition.fee_pay_type == FeePayType.LOCAL_AND_REMOTE.value:
                 competitor = Competitor.objects.get(pk=charges.metadata.competitor_id)
