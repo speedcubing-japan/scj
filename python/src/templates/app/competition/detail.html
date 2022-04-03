@@ -106,7 +106,11 @@
         <li class="list-group-item">
           <h6>{% trans "申し込み日時" %}</h6>
           <div>
-            {{ competition.registration_open_at | date:'Y年m月d日 H:i' }}&nbsp;-&nbsp;{{ competition.registration_close_at | date:'Y年m月d日 H:i' }}
+            {% if not competition.registration_at_other %}
+              {{ competition.registration_open_at | date:'Y年m月d日 H:i' }}&nbsp;-&nbsp;{{ competition.registration_close_at | date:'Y年m月d日 H:i' }}
+            {% else %}
+              -
+            {% endif %}
           </div>
         </li>
         <li class="list-group-item">

@@ -69,6 +69,9 @@ getwcadata:
 resetwca:
 	docker-compose run --rm python ./manage.py resetwca --person_id ${PERSON_ID}
 
+loadcompetitor:
+	docker-compose run --rm python ./manage.py loadcompetitor
+
 loaddata:
 	docker-compose run --rm python ./manage.py loaddata ${MODEL}.json
 
@@ -77,9 +80,6 @@ load-compdata:
 	docker-compose run --rm python ./manage.py loaddata round.json
 	docker-compose run --rm python ./manage.py loaddata feeperevent.json
 	docker-compose run --rm python ./manage.py loaddata feepereventcount.json
-
-load-wcadata:
-	docker exec -it scj_db_1 sh /etc/mysql/fixtures/sql/wca_import.sh
 
 load-proddata:
 	scp scj:~/backup/*.json python/src/app/fixtures/
@@ -110,6 +110,9 @@ prod-bulkdata:
 prod-resetwca:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py resetwca --person_id ${PERSON_ID}
 
+prod-loadcompetitor:
+	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py loadcompetitor
+
 prod-build:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose build
 
@@ -131,9 +134,6 @@ prod-load-compdata:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py loaddata round.json
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py loaddata feeperevent.json
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py loaddata feepereventcount.json
-
-prod-load-wcadata:
-	docker exec -it scj_db_1 sh /etc/mysql/fixtures/sql/wca_import.sh
 
 prod-dumpdata:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py dumpdata app.${MODEL} > ${MODEL}.json

@@ -47,6 +47,9 @@ class Registration(Base):
         if not request.user.is_authenticated:
             return redirect("competition_detail", name_id=self.name_id)
 
+        if self.competition.is_registration_at_other:
+            return redirect("competition_detail", name_id=self.name_id)
+
         if (
             self.competition.type == CompetitionType.WCA.value
             and not self.is_wca_authenticated()
@@ -124,10 +127,11 @@ class Registration(Base):
                 ).exists()
 
         now = datetime.datetime.now(tz=datetime.timezone.utc)
-        registration_open_at = self.competition.registration_open_at
-        registration_close_at = self.competition.registration_close_at
-        registration_open_timedelta = registration_open_at - now
-        registration_close_timedelta = now - registration_close_at
+        if not self.competition.is_registration_at_other:
+            registration_open_at = self.competition.registration_open_at
+            registration_close_at = self.competition.registration_close_at
+            registration_open_timedelta = registration_open_at - now
+            registration_close_timedelta = now - registration_close_at
 
         stripe_user_id = ""
         if self.competition.stripe_user_person_id != 0:
@@ -149,11 +153,12 @@ class Registration(Base):
         context["is_limit"] = is_limit
         context["is_prepaid"] = is_prepaid
         context["now"] = now
-        context["registration_open_timedelta"] = registration_open_timedelta
-        context["registration_close_after_timedelta"] = registration_close_timedelta
-        context["registration_close_before_timedelta"] = abs(
-            registration_close_timedelta
-        )
+        if not self.competition.is_registration_at_other:
+            context["registration_open_timedelta"] = registration_open_timedelta
+            context["registration_close_after_timedelta"] = registration_close_timedelta
+            context["registration_close_before_timedelta"] = abs(
+                registration_close_timedelta
+            )
         context["is_registration_open"] = self.competition.is_registration_open()
         context["wca_oauth_authorization"] = settings.WCA_OAUTH_AUTHORIZATION
         context["wca_client_id"] = settings.WCA_CLIENT_ID

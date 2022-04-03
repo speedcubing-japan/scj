@@ -56,12 +56,14 @@ class Create(View):
 
             # 仮生成
             competitor = Competitor()
-            competitor.competition_id = competition.id
-            competitor.status = CompetitorStatus.PENDING.value
-            competitor.event_ids = event_ids
-            competitor.guest_count = guest_count
-            competitor.comment = comment
-            competitor.person = request.user.person
+            competitor.init(
+                competition.id,
+                CompetitorStatus.PENDING.value,
+                event_ids,
+                guest_count,
+                comment,
+                request.user.person,
+            )
 
             success_url = (
                 request.build_absolute_uri(

@@ -173,177 +173,169 @@
         </div>
       </div>
     {% endif %}
-    <div class="card mb-3">
-      <div class="card-header lead">
-        {% trans "キャンセル待ちリスト" %}
-      </div>
-      <div class="card-body">
-        <div>{% trans "参加申し込み後に「申し込みを受け付けました。」という旨のメールが届きますが、この時点ではまだ参加申し込みは確定していません。" %}</div>
-        <div>{% trans "実行委員会の承認後に、正式に参加が承認されたことを伝えるメールが改めて届きます。" %}</div>
-        <div>{% trans "申し込み時点で定員に達していた場合はキャンセル待ちリストに追加され、参加承認済みの誰かがキャンセルした場合にリストの先着順で承認されます。" %}</div>
-        <div>{% trans "この繰り上げ措置は、規定の参加申し込み期間までとなります。締め切り後の繰り上げは行いません。" %}</div>
-        <div>{% trans "そのため、大会を辞退する場合は、可能であれば申し込み期限までに申し込みをキャンセルしていただけると幸いです。" %}</div>
-        <div>{% blocktrans with organizer_name=competition.organizer_name competition_email=competition.organizer_email %}ご自身のキャンセル待ちリスト内での順番を知りたい方は、<a href="mailto:{{ competition_email }}">{{ organizer_name }}</a>までお問い合わせください。{% endblocktrans %}</div>
-      </div>
-    </div>
-    <div class="card mb-3">
-      <div class="card-header lead">
-        {% trans "参加申し込みの内容変更・取り消し" %}
-      </div>
-      <div class="card-body">
-        <div>{% blocktrans with organizer_name=competition.organizer_name competition_email=competition.organizer_email %}申し込み承認後に参加申込の内容を変更したい場合（例：申込種目の追加、同伴者人数の変更など）、または大会に参加できなくなった場合は、<a href="mailto:{{ competition_email }}">{{ organizer_name }}</a>まで必ず連絡してください。{% endblocktrans %}</div>
-        <div>{% trans "キャンセル待ちリストからの繰り上げは参加申し込み期間中にしか行えませんので、なるべく早めにお申し出ください。" %}</div>
-      </div>
-    </div>
-    {% if competition.type == competition_type.WCA.value and user.is_authenticated and not user.person.wca_id %}
+    {% if competition.is_registration_at_other %}
       <div class="card mb-3">
-        <div class="card-header text-white bg-warning lead">
-          {% trans "WCA ID連携" %}
+        <div class="card-header text-white bg-dark lead">
+          {% trans "申し込み" %}
         </div>
         <div class="card-body">
-          <h5 class="card-title">{% trans "WCA大会初参加の方" %}</h5>
-          <p class="card-text">{% trans "このままでかまいません。大会終了後にWCA ID連携の案内が届きます。" %}</p>
-          <h5 class="card-title">{% trans "WCA大会2回目以降の方" %}</h5>
-          <p class="card-text">{% blocktrans with url="https://www.worldcubeassociation.org/profile/claim_wca_id" %}<a href="{{ url }}" target="_blank">WCA ID連携</a>を行って下さい。{% endblocktrans %}</p>
+          申し込みはこのSCJのサイトでは行いません。詳しくは運営のサイトを参考にしてください。
         </div>
-      </div>
-    {% endif %}
-    {% if not user.is_authenticated %}
-      <div class="alert alert-light" role="alert">
-        {% url "login" as login_url %}
-        {% blocktrans with competition_name=competition.name login_url=login_url path=request.path %}{{ competition_name }}に申し込むには<a href="{{ login_url }}?next={{ path }}">ログイン</a>が必要です。{% endblocktrans %}
-      </div>
-    {% elif competition.type == competition_type.WCA.value and is_registration_open and not is_wca_authenticated %}
-      <div class="alert alert-light" role="alert">
-        <div>{% blocktrans with competition_name=competition.name wca_oauth_authorization=wca_oauth_authorization wca_client_id=wca_client_id redirect_uri=redirect_uri %}{{ competition_name }}に申し込むには<a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email dob">WCA認証</a>が必要です。{% endblocktrans %}</div>
-        <div class="text-danger">{% trans "共有PCの場合、ご家族のWCAアカウントと混同しないようにご注意ください。" %}</div>
-        <div class="text-danger">{% blocktrans with url="https://www.worldcubeassociation.org/" %}WCA認証の前に一度<a href="{{ url }}" target="_blank">WCAサイト</a>にてログアウトをお勧めします。{% endblocktrans %}</div>
-      </div>
-    {% elif competitor and competitor.status != competitor_status.CANCEL.value %}
-      {% if not is_prepaid and competition.fee_pay_type != fee_pay_type.LOCAL_ONLY.value %}
-        {% include "app/competition/fee_alert.html" %}
-      {% endif %}
-      {% if competitor.status == competitor_status.REGISTRATION.value %}
-        <div class="card border-dark">
-          <div class="card-header text-white bg-success lead">
-            {% trans "承認済み" %}
-          </div>
-          <div class="card-body">
-            {% bootstrap_form form layout='horizontal' %}
-          </div>
-        </div>
-      {% elif competitor.status == competitor_status.PENDING.value %}
-        <div class="card border-dark">
-          <div class="card-header text-white bg-secondary lead">
-            {% trans "申し込み詳細 " %}
-          </div>
-          <div class="card-body">
-            <form action="" method="POST">
-              {% csrf_token %}
-              {% bootstrap_form form layout='horizontal' %}
-              <div class="form-group row">
-                <div class="offset-md-3 col-md-9">
-                  <button type="button" class="mt-2 submit_change_action btn btn-success" name="type" value="{% url 'competition_registration' competition.name_id %}" {% if competition.registration_close_at < now %}disabled{% endif %}><i class="fas fa-pencil-alt fa-fw mr-2"></i>{% trans "更新" %}</button>
-                  <button type="button" class="mt-2 submit_change_action btn btn-danger" name="type" value="{% url 'competition_cancel' competition.name_id %}"><i class="fas fa-trash fa-fw mr-2"></i>{% trans "申し込みキャンセル" %}</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      {% endif %}
-    {% elif competition.registration_open_at > now and not is_superuser %}
-      <div class="alert alert-info" role="alert">
-        {% blocktrans with rest_time=registration_open_timedelta|rest_time date=competition.registration_open_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}後&nbsp;{{ date }}に開始します。{% endblocktrans %}
-      </div>
-    {% elif competition.registration_close_at <= now %}
-      <div class="alert alert-danger" role="alert">
-        {% blocktrans with rest_time=registration_close_after_timedelta|rest_time date=competition.registration_close_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}前&nbsp;{{ date }}に終了しました。{% endblocktrans %}
       </div>
     {% else %}
-      {% if competition.type == competition_type.WCA.value %}
+      <div class="card mb-3">
+        <div class="card-header lead">
+          {% trans "キャンセル待ちリスト" %}
+        </div>
+        <div class="card-body">
+          <div>{% trans "参加申し込み後に「申し込みを受け付けました。」という旨のメールが届きますが、この時点ではまだ参加申し込みは確定していません。" %}</div>
+          <div>{% trans "実行委員会の承認後に、正式に参加が承認されたことを伝えるメールが改めて届きます。" %}</div>
+          <div>{% trans "申し込み時点で定員に達していた場合はキャンセル待ちリストに追加され、参加承認済みの誰かがキャンセルした場合にリストの先着順で承認されます。" %}</div>
+          <div>{% trans "この繰り上げ措置は、規定の参加申し込み期間までとなります。締め切り後の繰り上げは行いません。" %}</div>
+          <div>{% trans "そのため、大会を辞退する場合は、可能であれば申し込み期限までに申し込みをキャンセルしていただけると幸いです。" %}</div>
+          <div>{% blocktrans with organizer_name=competition.organizer_name competition_email=competition.organizer_email %}ご自身のキャンセル待ちリスト内での順番を知りたい方は、<a href="mailto:{{ competition_email }}">{{ organizer_name }}</a>までお問い合わせください。{% endblocktrans %}</div>
+        </div>
+      </div>
+      <div class="card mb-3">
+        <div class="card-header lead">
+          {% trans "参加申し込みの内容変更・取り消し" %}
+        </div>
+        <div class="card-body">
+          <div>{% blocktrans with organizer_name=competition.organizer_name competition_email=competition.organizer_email %}申し込み承認後に参加申込の内容を変更したい場合（例：申込種目の追加、同伴者人数の変更など）、または大会に参加できなくなった場合は、<a href="mailto:{{ competition_email }}">{{ organizer_name }}</a>まで必ず連絡してください。{% endblocktrans %}</div>
+          <div>{% trans "キャンセル待ちリストからの繰り上げは参加申し込み期間中にしか行えませんので、なるべく早めにお申し出ください。" %}</div>
+        </div>
+      </div>
+      {% if competition.type == competition_type.WCA.value and user.is_authenticated and not user.person.wca_id %}
         <div class="card mb-3">
-          <div class="card-header text-white bg-danger lead">
-            {% trans "WCA認証情報" %}
+          <div class="card-header text-white bg-warning lead">
+            {% trans "WCA ID連携" %}
           </div>
           <div class="card-body">
-            <h5 class="card-title">{% trans "WCA ID" %}</h5>
-              {% if user.person.wca_id %}
-                <div class="mb-3"><a href="https://www.worldcubeassociation.org/persons/{{ user.person.wca_id }}">{{ user.person.wca_id }}</a></div>
-              {% else %}
-                <div class="mb-3">{% trans "初参加または未連携" %}</div>
-              {% endif %}
-            <h5 class="card-title">{% trans "WCA氏名" %}</h5>
-            <div class="mb-3">{{ user.person.wca_name }}</div>
-            {% url 'profile' as profile %}
-            {% url 'contact' as contact %}
-            <div>{% blocktrans with profile=profile contact=contact %}誤っている場合は、<a href="{{ profile }}">プロフィール</a>で再度、WCA認証をしてください。それも出来ない場合は、<a href="{{ contact }}">お問い合わせ</a>からご連絡ください。{% endblocktrans %}</div>
+            <h5 class="card-title">{% trans "WCA大会初参加の方" %}</h5>
+            <p class="card-text">{% trans "このままでかまいません。大会終了後にWCA ID連携の案内が届きます。" %}</p>
+            <h5 class="card-title">{% trans "WCA大会2回目以降の方" %}</h5>
+            <p class="card-text">{% blocktrans with url="https://www.worldcubeassociation.org/profile/claim_wca_id" %}<a href="{{ url }}" target="_blank">WCA ID連携</a>を行って下さい。{% endblocktrans %}</p>
           </div>
         </div>
       {% endif %}
-      {% if is_limit %}
-        <div class="alert alert-warning" role="alert">
-          {% blocktrans with limit=competition.limit %}本大会の定員は {{ limit }} 人であり、すでに定員に達しています。今参加申し込みされると、キャンセル待ちとして扱われます。{% endblocktrans %}
+      {% if not user.is_authenticated %}
+        <div class="alert alert-light" role="alert">
+          {% url "login" as login_url %}
+          {% blocktrans with competition_name=competition.name login_url=login_url path=request.path %}{{ competition_name }}に申し込むには<a href="{{ login_url }}?next={{ path }}">ログイン</a>が必要です。{% endblocktrans %}
         </div>
-      {% endif %}
-
-      {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
-        {% if competition.fee_calc_type == fee_calc_type.EVENT.value %}
-          <div class="card mb-3">
-            <ul class="list-group">
-              {% for item, price in prepaid_fees.items %}
-                <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
-                  <span>{% if item == 0 %}{% trans "支払い料金" %}{% else %}<span class="cubing-icon event-{{ item | event_id_name }} mr-2 md-2 h5"></span>{{ item | event_name }}{% endif %}
-                  </span>
-                  <span class="float-right">{% if item != 0 %}+{% endif %}{{ price }}&nbsp;{% trans "円" %}</span>
-                </li>
-              {% endfor %}
-            </ul>
+      {% elif competition.type == competition_type.WCA.value and is_registration_open and not is_wca_authenticated %}
+        <div class="alert alert-light" role="alert">
+          <div>{% blocktrans with competition_name=competition.name wca_oauth_authorization=wca_oauth_authorization wca_client_id=wca_client_id redirect_uri=redirect_uri %}{{ competition_name }}に申し込むには<a href="{{ wca_oauth_authorization }}?client_id={{ wca_client_id }}&redirect_uri={{ redirect_uri }}&response_type=code&scope=public email dob">WCA認証</a>が必要です。{% endblocktrans %}</div>
+          <div class="text-danger">{% trans "共有PCの場合、ご家族のWCAアカウントと混同しないようにご注意ください。" %}</div>
+          <div class="text-danger">{% blocktrans with url="https://www.worldcubeassociation.org/" %}WCA認証の前に一度<a href="{{ url }}" target="_blank">WCAサイト</a>にてログアウトをお勧めします。{% endblocktrans %}</div>
+        </div>
+      {% elif competitor and competitor.status != competitor_status.CANCEL.value %}
+        {% if not is_prepaid and competition.fee_pay_type != fee_pay_type.LOCAL_ONLY.value %}
+          {% include "app/competition/fee_alert.html" %}
+        {% endif %}
+        {% if competitor.status == competitor_status.REGISTRATION.value %}
+          <div class="card border-dark">
+            <div class="card-header text-white bg-success lead">
+              {% trans "承認済み" %}
+            </div>
+            <div class="card-body">
+              {% bootstrap_form form layout='horizontal' %}
+            </div>
           </div>
-        {% elif competition.fee_calc_type == fee_calc_type.EVENT_COUNT.value %}
-          <div class="card mb-3">
-            <ul class="list-group">
-              {% for item, price in prepaid_fees.items %}
-                <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
-                  <span>{% if item == 0 %}{% trans "支払い料金" %}{% else %}{{ item }}&nbsp;{% trans "種目" %}{% endif %}
-                  </span>
-                  {% if price != 0 %}<span class="float-right">{{ price }}&nbsp;{% trans "円" %}</span>{% endif %}
-                </li>
-              {% endfor %}
-            </ul>
+        {% elif competitor.status == competitor_status.PENDING.value %}
+          <div class="card border-dark">
+            <div class="card-header text-white bg-secondary lead">
+              {% trans "申し込み詳細 " %}
+            </div>
+            <div class="card-body">
+              <form action="" method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form layout='horizontal' %}
+                <div class="form-group row">
+                  <div class="offset-md-3 col-md-9">
+                    <button type="button" class="mt-2 submit_change_action btn btn-success" name="type" value="{% url 'competition_registration' competition.name_id %}" {% if competition.registration_close_at < now %}disabled{% endif %}><i class="fas fa-pencil-alt fa-fw mr-2"></i>{% trans "更新" %}</button>
+                    <button type="button" class="mt-2 submit_change_action btn btn-danger" name="type" value="{% url 'competition_cancel' competition.name_id %}"><i class="fas fa-trash fa-fw mr-2"></i>{% trans "申し込みキャンセル" %}</button>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         {% endif %}
-      {% endif %}
-
-      <div class="card border-dark">
-        {% if competition.registration_open_at > now and is_superuser %}
-          <div class="card-header text-white bg-danger lead">
-            {% trans "運営先行申し込み" %}
-          </div>
-        {% else %}
-          <div class="card-header text-white bg-dark lead">
-            {% trans "申し込み" %}
+      {% elif competition.registration_open_at > now and not is_superuser %}
+        <div class="alert alert-info" role="alert">
+          {% blocktrans with rest_time=registration_open_timedelta|rest_time date=competition.registration_open_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}後&nbsp;{{ date }}に開始します。{% endblocktrans %}
+        </div>
+      {% elif competition.registration_close_at <= now %}
+        <div class="alert alert-danger" role="alert">
+          {% blocktrans with rest_time=registration_close_after_timedelta|rest_time date=competition.registration_close_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}前&nbsp;{{ date }}に終了しました。{% endblocktrans %}
+        </div>
+      {% else %}
+        {% if competition.type == competition_type.WCA.value %}
+          <div class="card mb-3">
+            <div class="card-header text-white bg-danger lead">
+              {% trans "WCA認証情報" %}
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{% trans "WCA ID" %}</h5>
+                {% if user.person.wca_id %}
+                  <div class="mb-3"><a href="https://www.worldcubeassociation.org/persons/{{ user.person.wca_id }}">{{ user.person.wca_id }}</a></div>
+                {% else %}
+                  <div class="mb-3">{% trans "初参加または未連携" %}</div>
+                {% endif %}
+              <h5 class="card-title">{% trans "WCA氏名" %}</h5>
+              <div class="mb-3">{{ user.person.wca_name }}</div>
+              {% url 'profile' as profile %}
+              {% url 'contact' as contact %}
+              <div>{% blocktrans with profile=profile contact=contact %}誤っている場合は、<a href="{{ profile }}">プロフィール</a>で再度、WCA認証をしてください。それも出来ない場合は、<a href="{{ contact }}">お問い合わせ</a>からご連絡ください。{% endblocktrans %}</div>
+            </div>
           </div>
         {% endif %}
-        <div class="card-body">
-          {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value and not is_prepaid %}
-            {% bootstrap_form form layout='horizontal' %}
-            <div class="ml-3">
-              <div class="form-group row offset-md-3 col-md-9">
-                <label class="form-check-label" for="competition_registration_confirm">
-                  {% trans "このページに記載されている内容に同意します" %}
-                </label>
-                <input class="form-check-input competition_registration_confirm" type="checkbox" value="">
-              </div>
+        {% if is_limit %}
+          <div class="alert alert-warning" role="alert">
+            {% blocktrans with limit=competition.limit %}本大会の定員は {{ limit }} 人であり、すでに定員に達しています。今参加申し込みされると、キャンセル待ちとして扱われます。{% endblocktrans %}
+          </div>
+        {% endif %}
+
+        {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
+          {% if competition.fee_calc_type == fee_calc_type.EVENT.value %}
+            <div class="card mb-3">
+              <ul class="list-group">
+                {% for item, price in prepaid_fees.items %}
+                  <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
+                    <span>{% if item == 0 %}{% trans "支払い料金" %}{% else %}<span class="cubing-icon event-{{ item | event_id_name }} mr-2 md-2 h5"></span>{{ item | event_name }}{% endif %}
+                    </span>
+                    <span class="float-right">{% if item != 0 %}+{% endif %}{{ price }}&nbsp;{% trans "円" %}</span>
+                  </li>
+                {% endfor %}
+              </ul>
             </div>
-            <div class="form-group row">
-              <div class="offset-md-3 col-md-9">
-                <div id="error" class="text-danger font-weight-bold"></div>
-                <input id="checkout" class="btn btn-dark competition_registration" value="{% trans "参加費支払い" %}" disabled>
-              </div>
+          {% elif competition.fee_calc_type == fee_calc_type.EVENT_COUNT.value %}
+            <div class="card mb-3">
+              <ul class="list-group">
+                {% for item, price in prepaid_fees.items %}
+                  <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
+                    <span>{% if item == 0 %}{% trans "支払い料金" %}{% else %}{{ item }}&nbsp;{% trans "種目" %}{% endif %}
+                    </span>
+                    {% if price != 0 %}<span class="float-right">{{ price }}&nbsp;{% trans "円" %}</span>{% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
             </div>
-          {% elif competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value or competition.fee_pay_type == fee_pay_type.LOCAL_ONLY.value or is_prepaid %}
-            <form action="" method="POST">
-              {% csrf_token %}
+          {% endif %}
+        {% endif %}
+
+        <div class="card border-dark">
+          {% if competition.registration_open_at > now and is_superuser %}
+            <div class="card-header text-white bg-danger lead">
+              {% trans "運営先行申し込み" %}
+            </div>
+          {% else %}
+            <div class="card-header text-white bg-dark lead">
+              {% trans "申し込み" %}
+            </div>
+          {% endif %}
+          <div class="card-body">
+            {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value and not is_prepaid %}
               {% bootstrap_form form layout='horizontal' %}
               <div class="ml-3">
                 <div class="form-group row offset-md-3 col-md-9">
@@ -355,16 +347,35 @@
               </div>
               <div class="form-group row">
                 <div class="offset-md-3 col-md-9">
-                  <input class="btn btn-dark competition_registration" type="submit" value="{% trans "登録" %}" disabled>
+                  <div id="error" class="text-danger font-weight-bold"></div>
+                  <input id="checkout" class="btn btn-dark competition_registration" value="{% trans "参加費支払い" %}" disabled>
                 </div>
               </div>
-            </form>
-          {% endif %}
+            {% elif competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value or competition.fee_pay_type == fee_pay_type.LOCAL_ONLY.value or is_prepaid %}
+              <form action="" method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form layout='horizontal' %}
+                <div class="ml-3">
+                  <div class="form-group row offset-md-3 col-md-9">
+                    <label class="form-check-label" for="competition_registration_confirm">
+                      {% trans "このページに記載されている内容に同意します" %}
+                    </label>
+                    <input class="form-check-input competition_registration_confirm" type="checkbox" value="">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="offset-md-3 col-md-9">
+                    <input class="btn btn-dark competition_registration" type="submit" value="{% trans "登録" %}" disabled>
+                  </div>
+                </div>
+              </form>
+            {% endif %}
+          </div>
+          <div class="card-footer">
+            {% blocktrans with rest_time=registration_close_before_timedelta|rest_time date=competition.registration_close_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}後&nbsp;{{ date }}に終了します。{% endblocktrans %}
+          </div>
         </div>
-        <div class="card-footer">
-          {% blocktrans with rest_time=registration_close_before_timedelta|rest_time date=competition.registration_close_at|date:"Y年m月d日 H:i:s" %}申し込みは&nbsp;{{ rest_time }}後&nbsp;{{ date }}に終了します。{% endblocktrans %}
-        </div>
-      </div>
+      {% endif %}
     {% endif %}
   </div>
 </div>

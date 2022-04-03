@@ -16,6 +16,7 @@ class Command(BaseCommand):
             "scramble",
             "feeperevent",
             "feepereventcount",
+            "competitor",
         ]
         for sheet_name in sheet_names:
             params = (("sheet_name", sheet_name),)

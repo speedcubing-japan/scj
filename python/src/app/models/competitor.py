@@ -67,6 +67,15 @@ class Competitor(models.Model):
     def set_is_diffrence_event_and_price(self):
         self.is_diffrence_event_and_price = True
 
+    def init(self, competition_id, status, event_ids, guest_count, comment, person):
+        self.competition_id = competition_id
+        self.status = status
+        self.event_ids = event_ids
+        self.guest_count = guest_count
+        self.comment = comment
+        self.person = person
+        return self
+
     def create(self, competition_id, status, event_ids, guest_count, comment, person):
         self.competition_id = competition_id
         self.status = status

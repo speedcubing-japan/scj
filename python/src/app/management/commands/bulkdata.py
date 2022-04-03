@@ -155,6 +155,16 @@ class Command(BaseCommand):
             json_competition = json.loads(file.read())
             competitions = []
             for record in json_competition:
+
+                registration_open_at = None
+                registration_close_at = None
+                if (
+                    record["fields"]["registration_open_at"] != ""
+                    or record["fields"]["registration_close_at"] != ""
+                ):
+                    registration_open_at = record["fields"]["registration_open_at"]
+                    registration_close_at = record["fields"]["registration_close_at"]
+
                 competition = Competition(
                     id=record["fields"]["id"],
                     type=record["fields"]["type"],
@@ -162,8 +172,11 @@ class Command(BaseCommand):
                     name_id=record["fields"]["name_id"],
                     open_at=record["fields"]["open_at"],
                     close_at=record["fields"]["close_at"],
-                    registration_open_at=record["fields"]["registration_open_at"],
-                    registration_close_at=record["fields"]["registration_close_at"],
+                    registration_open_at=registration_open_at,
+                    registration_close_at=registration_close_at,
+                    is_registration_at_other=record["fields"][
+                        "is_registration_at_other"
+                    ],
                     stripe_user_person_id=record["fields"]["stripe_user_person_id"],
                     judge_person_ids=record["fields"]["judge_person_ids"],
                     event_ids=record["fields"]["event_ids"],
