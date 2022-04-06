@@ -24,13 +24,29 @@ class Command(BaseCommand):
             json_competitor = json.loads(file.read())
             competitors = []
             for record in json_competitor:
-                person = Person.objects.get(pk=record["fields"]["person_id"])
 
+                person = Person.objects.filter(id=record["fields"]["person_id"])
+                if not person.exists():
+                    print(
+                        "person_id: "
+                        + str(record["fields"]["person_id"])
+                        + " is not exist"
+                    )
+                    continue
+
+                person = person.first()
                 # 存在したら挿入しない。
                 if (
                     str(record["fields"]["competition_id"]) + "_" + str(person.id)
                     in competitor_list
                 ):
+                    print(
+                        "competition_id: "
+                        + str(record["fields"]["competition_id"])
+                        + " person_id: "
+                        + str(person.id)
+                        + " is exist"
+                    )
                     continue
 
                 competitor = Competitor()
