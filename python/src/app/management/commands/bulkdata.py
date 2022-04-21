@@ -177,6 +177,7 @@ class Command(BaseCommand):
                     is_registration_at_other=record["fields"][
                         "is_registration_at_other"
                     ],
+                    registration_url=record["fields"]["registration_url"],
                     stripe_user_person_id=record["fields"]["stripe_user_person_id"],
                     judge_person_ids=record["fields"]["judge_person_ids"],
                     event_ids=record["fields"]["event_ids"],

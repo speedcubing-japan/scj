@@ -22,6 +22,7 @@ class Competition(models.Model):
     registration_open_at = models.DateTimeField("申し込み開始日時", default=None, null=True)
     registration_close_at = models.DateTimeField("申し込み終了日時", default=None, null=True)
     is_registration_at_other = models.BooleanField("他で申込みをするか", default=False)
+    registration_url = models.CharField("外部申込みURL", default="", max_length=512)
     judge_person_ids = JSONField("審判員ID")
     stripe_user_person_id = models.IntegerField("Stripe使用者ID", default=0)
     event_ids = JSONField("イベントID")
@@ -33,7 +34,7 @@ class Competition(models.Model):
     organizer_person_ids = JSONField("主催者SCJID")
     venue_name = models.CharField("開催地名", max_length=256)
     venue_address = models.CharField("開催地住所", max_length=256)
-    venue_url = models.CharField("開催地URL", default="", max_length=256)
+    venue_url = models.CharField("開催地URL", default="", max_length=512)
     latitude = models.FloatField("開催地緯度")
     longitude = models.FloatField("開催地経度")
     limit = models.IntegerField("制限人数")
@@ -79,6 +80,8 @@ class Competition(models.Model):
         self.close_at = competition["close_at"]
         self.registration_open_at = competition["registration_open_at"]
         self.registration_close_at = competition["registration_close_at"]
+        self.is_registration_at_other = competition["is_registration_at_other"]
+        self.registration_url = competition["registration_url"]
         self.judge_person_ids = [judge_person_id]
         self.stripe_user_person_id = competition["stripe_user_person_id"]
         self.event_ids = list(json.loads(competition["event_ids"]))
@@ -127,6 +130,8 @@ class Competition(models.Model):
         self.close_at = competition["close_at"]
         self.registration_open_at = competition["registration_open_at"]
         self.registration_close_at = competition["registration_close_at"]
+        self.is_registration_at_other = competition["is_registration_at_other"]
+        self.registration_url = competition["registration_url"]
         self.stripe_user_person_id = competition["stripe_user_person_id"]
         self.event_ids = list(json.loads(competition["event_ids"]))
         self.prefecture_id = competition["prefecture_id"]

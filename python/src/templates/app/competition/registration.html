@@ -179,7 +179,11 @@
           {% trans "申し込み" %}
         </div>
         <div class="card-body">
-          申し込みはこのSCJのサイトでは行いません。詳しくは運営のサイトを参考にしてください。
+          {% if competition.registration_url %}
+            申し込みはこのSCJのサイト上では行いません。詳しくは<a href="{{ competition.registration_url }}" target="_blank">運営ページ</a>をご参考ください。
+          {% else %}
+            申し込みはこのSCJのサイト上では行いません。詳しくは運営ページをご参考ください。
+          {% endif %}
         </div>
       </div>
     {% else %}
