@@ -175,6 +175,30 @@
             <div>{% blocktrans with url="https://www.worldcubeassociation.org/faq" %}<a href="{{ url }}" target="_blank">よくある質問</a>も合わせてご確認ください。{% endblocktrans %}</div>
           {% endif %}
         </li>
+        {% if is_superuser %}
+          <li class="list-group-item">
+            <h6>{% trans "運営メンバー" %}</h6>
+            <div class="mb-1">
+              {% for organizer in organizers %}
+                {% if request.LANGUAGE_CODE == 'ja' %}
+                  {% if organizer.wca_id and competition.type == competition_type.WCA.value %}
+                    <div><a href="https://www.worldcubeassociation.org/persons/{{ organizer.wca_id }}">{{ organizer.get_full_name }}</a></div>
+                  {% else %}
+                    <div>{{ organizer.get_full_name }}</div>
+                  {% endif %}
+                {% elif request.LANGUAGE_CODE == 'en' %}
+                  {% if organizer.wca_id and competition.type == competition_type.WCA.value %}
+                    <div><a href="https://www.worldcubeassociation.org/persons/{{ organizer.wca_id }}">{{ organizer.get_full_name_roma }}</a></div>
+                  {% else %}
+                    <div>{{ organizer.get_full_name }}</div>
+                  {% endif %}
+                {% else %}
+                  <div>{{ judge.get_full_name_roma }}</div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </li>
+        {% endif %}
       </ul>
     </div>
     <div class="row">
