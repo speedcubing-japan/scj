@@ -34,7 +34,7 @@ class Command(BaseCommand):
             rounds = []
             for record in json_round:
                 round = Round(
-                    id=record["fields"]["id"],
+                    id=record["pk"],
                     competition_id=record["fields"]["competition_id"],
                     event_id=record["fields"]["event_id"],
                     event_name=record["fields"]["event_name"],
