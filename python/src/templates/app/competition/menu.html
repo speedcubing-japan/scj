@@ -11,10 +11,12 @@
       <a href="{% url 'competition_fee' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'fee' %}active{% endif %}"><i class="fas fa-yen-sign fa-fw mr-2"></i>{% trans "参加費" %}</button></a>
       <a href="{% url 'competition_event' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'round' %}active{% endif %}"><i class="fas fa-trophy fa-fw mr-2"></i>{% trans "イベント" %} </button></a>
       <a href="{% url 'competition_registration' competition.name_id %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'registration' %}active{% endif %}"><i class="fas fa-sign-in-alt fa-fw mr-2"></i>{% trans "申し込み" %}</button></a>
-      <a href="{% url 'competition_competitor' competition.name_id 'list' %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'competitor' %}active{% endif %}"><i class="fas fa-users fa-fw mr-2"></i>{% trans "競技者一覧" %}</button></a>
+      {% if not competition.is_registration_at_other %}
+        <a href="{% url 'competition_competitor' competition.name_id 'list' %}"><button type="button" class="list-group-item list-group-item-action {% if active == 'competitor' %}active{% endif %}"><i class="fas fa-users fa-fw mr-2"></i>{% trans "競技者一覧" %}</button></a>
+      {% endif %}
     {% endif %}
   {% endif %}
-  {% if is_superuser %}
+  {% if is_superuser and not competition.is_registration_at_other %}
     <a class="text-dark" href="{% url 'competition_admin_index' competition.name_id %}">
       <li class="list-group-item d-flex justify-content-between {% if active == 'admin' %}active{% endif %} align-items-center">
         <span><i class="fas fa-cog mr-2 fa-fw"></i>管理</span>{% if pending_competitor_count > 0 %}<span class="badge badge-dark badge-pill">{{ pending_competitor_count }}</span>{% endif %}

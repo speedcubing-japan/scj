@@ -34,20 +34,22 @@
         {% endif %}
       </div>
     </div>
-    <div class="card mb-3">
-      <div class="card-header lead">
-        {% trans "役割分担表" %}
+    {% if competition.assignment_description or competition.assignment_description_en %}
+      <div class="card mb-3">
+        <div class="card-header lead">
+          {% trans "役割分担表" %}
+        </div>
+        <div class="card-body">
+          {% if not competition.assignment_description_en %}
+            {{ competition.assignment_description | strip | safe }}
+          {% elif request.LANGUAGE_CODE == 'en' %}
+            {{ competition.assignment_description_en | strip | safe }}
+          {% else %}
+            {{ competition.assignment_description | strip | safe }}
+          {% endif %}
+        </div>
       </div>
-      <div class="card-body">
-        {% if not competition.assignment_description_en %}
-          {{ competition.assignment_description | strip | safe }}
-        {% elif request.LANGUAGE_CODE == 'en' %}
-          {{ competition.assignment_description_en | strip | safe }}
-        {% else %}
-          {{ competition.assignment_description | strip | safe }}
-        {% endif %}
-      </div>
-    </div>
+    {% endif %}
     <div class="card mb-3">
       <div class="card-header lead">
         {% trans "スケジュール" %}
