@@ -177,7 +177,8 @@
         </li>
         {% if is_superuser %}
           <li class="list-group-item">
-            <h6>{% trans "運営メンバー" %}</h6>
+            <h6>運営メンバー</h6>
+            <div class="mb-3">(運営にのみこの項目は表示されています)</div>
             <div class="mb-1">
               {% for organizer in organizers %}
                 {% if request.LANGUAGE_CODE == 'ja' %}
