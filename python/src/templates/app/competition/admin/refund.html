@@ -35,18 +35,18 @@
               </thead>
               <tbody>
                 {% for competitor in competitors %}
-                  <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}">
-                    <td><input type="checkbox" name="competitor_id_{{ competitor.id }}"></td>
-                    <td><input type="number" name="competitor_refund_{{ competitor.id }}">&nbsp;/&nbsp;{{ competitor.stripe_progress.pay_price }}円</td>
+                  <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}" class="competition_admin_refund_competitor">
+                    <td><input type="checkbox" name="competitor_id_{{ competitor.id }}" class="competition_admin_refund_checkbox"></td>
+                    <td><input type="number" name="competitor_refund_{{ competitor.id }}" class="competition_admin_refund_price" value="{{ competitor.stripe_progress.pay_price }}">&nbsp;/&nbsp;{{ competitor.stripe_progress.pay_price }}円</td>
                     {% if competition.type == competition_type.WCA.value %}
-                      <td>{{ competitor.person.wca_id }}</td>
+                      <td class="competition_admin_refund_specific_id" data-value="{{ competitor.person.wca_id }}">{{ competitor.person.wca_id }}</td>
                     {% elif competition.type == competition_type.SCJ.value %}
-                      <td>{{ competitor.person.id }}</td>
+                      <td class="competition_admin_refund_specific_id" data-value="{{ competitor.person.id }}" >{{ competitor.person.id }}</td>
                     {% endif %}
                     {% if competition.type == competition_type.WCA.value %}
-                      <td><a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                      <td><a href="mailto:{{ competitor.person.wca_email }}" class="competition_admin_refund_name" data-value="{{ competitor.person.wca_name }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     {% elif competition.type == competition_type.SCJ.value %}
-                      <td><a href="mailto:{{ competitor.person.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                      <td><a href="mailto:{{ competitor.person.email }}" class="competition_admin_refund_name" data-value="{{ competitor.person.get_full_name }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     {% endif %}
                     <td>{{ competitor.stripe_progress.pay_at | date:"Y年m月d日 H:i:s" }}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
@@ -65,10 +65,88 @@
       <input type="hidden" name="name_id" value="{{ competition.name_id }}">
       {% if competitors %}
       <div class="float-right">
-        <button type="button" class="mt-2 submit btn btn-danger" {% if competition.registration_close_at > now %}disabled{% endif %}><i class="fas fa-undo-alt fa-fw mr-2"></i>返金</button>
+        <button type="button" class="mt-2 btn btn-danger competition_admin_refund_confirm" data-toggle="modal" data-target="#refund"><i class="fas fa-undo-alt fa-fw mr-2"></i>返金</button>
       </div>
       {% endif %}
     </form>
   </div>
 </div>
+
+<div class="modal fade" id="refund" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">参加費の返金</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&#10005;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">以下の参加費の返金を行います。これはやり直すことはできません。</div>
+        <table class="table table-striped small">
+          <thead>
+            <tr>
+              {% if competition.type == competition_type.WCA.value %}
+                <th scope="col">WCA ID</th>
+              {% elif competition.type == competition_type.SCJ.value %}
+                <th scope="col">SCJ ID</th>
+              {% endif %}
+              <th scope="col">氏名</th>
+              <th scope="col">返金額</th>
+            </tr>
+          </thead>
+          <tbody class="competition_admin_refund_target_list">
+          </tbody>
+        </table>
+        {% if competition.registration_close_at > now %}
+          <div class="text-danger">
+            ※申込み期間終了後に返金が可能になります。
+          </div>
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+        {% if competition.registration_close_at <= now %}
+          <button type="button" value="refund" class="btn btn-success submit competiton_admin_refund_submit"><i class="far fa-eye fa-fw mr-2"></i>返金</button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // 返金ポップアップ対象表示
+  $('.competition_admin_refund_confirm').prop('disabled', true);
+
+  $('.competition_admin_refund_checkbox').change(function () {
+    $('.competition_admin_refund_confirm').prop('disabled', true);
+    $('.competition_admin_refund_competitor').each(function () {
+      if ($(this).find('.competition_admin_refund_checkbox').prop('checked')) {
+        $('.competition_admin_refund_confirm').prop('disabled', false);
+      }
+    });
+  });
+
+  $('.competition_admin_refund_confirm').click(function () {
+    $('.competition_admin_refund_target_list').empty();
+    var refund_list = [];
+    $('.competition_admin_refund_competitor').each(function () {
+      var map = {};
+      if ($(this).find('.competition_admin_refund_checkbox').prop('checked')) {
+        var specific_id = $(this).find('.competition_admin_refund_specific_id').data('value');
+        var name = $(this).find('.competition_admin_refund_name').data('value');
+        var price = $(this).find('.competition_admin_refund_price').val();
+        map['specific_id'] = specific_id;
+        map['price'] = price;
+        map['name'] = name;
+        refund_list.push(map);
+      }
+    });
+
+    for (const list of refund_list) {
+      $('.competition_admin_refund_target_list').append('<tr><td>' + list['specific_id'] + '</td><td>' + list['name'] + '</td><td>' + list['price'] + '円</td></tr>')
+    }
+  });
+</script>
+
 {% endblock %}
