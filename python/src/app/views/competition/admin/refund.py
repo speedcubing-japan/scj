@@ -37,8 +37,8 @@ class Refund(LoginRequiredMixin, Base):
         if not self.competition.is_refunder(request.user):
             return redirect("competition_detail", name_id=self.name_id)
 
-        # if self.competition.is_registration_open():
-        #     return redirect("competition_detail", name_id=self.name_id)
+        if self.competition.is_registration_open():
+            return redirect("competition_detail", name_id=self.name_id)
 
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe_user_person = None
