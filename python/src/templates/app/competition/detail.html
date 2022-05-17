@@ -61,7 +61,7 @@
               {{ competition.open_at | date:'Y年m月d日' }}&nbsp;({{ competition.open_at | date:"l" }}) - {{ competition.close_at | date:'Y年m月d日' }}&nbsp;({{ competition.close_at | date:"l" }})
             {% endif %}
           </div>
-          <div><a href="{{ google_calendar_url }}?action=TEMPLATE&text={{ competition.name }}&dates={{ google_calendar_date_param }}&location={{ competition.venue_address }}" target="_blank"><i class="fas fa-calendar-alt mr-1"></i>{% trans "Google Calendarに追加" %}</a></div>
+          <div><a href="{{ google_calendar_url }}?action=TEMPLATE&text={{ competition.name }}&dates={{ google_calendar_date_param }}&location={{ competition.venue_address }}" target="_blank" class="small"><i class="fas fa-calendar-alt mr-1"></i>{% trans "Google Calendarに追加" %}</a></div>
         </li>
         <li class="list-group-item">
           <h6>{% trans "会場" %}</h6>
