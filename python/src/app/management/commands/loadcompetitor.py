@@ -33,8 +33,8 @@ class Command(BaseCommand):
                         + " is not exist"
                     )
                     continue
-
                 person = person.first()
+
                 # 存在したら挿入しない。
                 if (
                     str(record["fields"]["competition_id"]) + "_" + str(person.id)
