@@ -11,6 +11,9 @@ from .views.scj.terms_of_sale import TermsOfSale
 from .views.scj.contact import Contact
 from .views.scj.profile import Profile
 
+from .views.scj.admin.person import AdminPerson
+from .views.scj.admin.person_edit import AdminPersonEdit
+
 from .views.information.list import List as InformationList
 from .views.information.detail import Detail as InformationDetail
 from .views.information.edit import Edit as InformationEdit
@@ -262,4 +265,10 @@ urlpatterns = [
         name="competition_admin_publish",
     ),
     path("ranking/", RankingIndex.as_view(), name="ranking_index"),
+    path("admin/person", AdminPerson.as_view(), name="admin_person"),
+    path(
+        "admin/person/<int:user_id>/",
+        AdminPersonEdit.as_view(),
+        name="admin_person_edit",
+    ),
 ]

@@ -353,3 +353,75 @@ class RankingForm(forms.Form):
     prefecture_id = forms.fields.ChoiceField(
         label="都道府県", label_suffix="", widget=forms.widgets.Select
     )
+
+
+class PersonEditForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    class Meta:
+        model = Person
+        fields = (
+            "last_name",
+            "last_name_kana",
+            "last_name_roma",
+            "first_name",
+            "first_name_kana",
+            "first_name_roma",
+            "gender",
+            "birth_at",
+            "prefecture_id",
+            "is_community_posting_offer"
+        )
+        error_messages = {
+            "last_name": {"max_length": _("姓が不正です。")},
+            "first_name": {"max_length": _("名が不正です。")},
+            "last_name_kana": {"max_length": _("セイが不正です。")},
+            "first_name_kana": {"max_length": _("メイが不正です。")},
+            "last_name_roma": {"max_length": _("姓(ローマ字)が不正です。")},
+            "first_name_roma": {"max_length": _("名(ローマ字)が不正です。")},
+        }
+        help_texts = {
+            "last_name": _("漢字でお願いします。(例:荒木) 海外籍の方はLast nameを入力してください。"),
+            "last_name_kana": _("全角カタカナでお願いします。(例:アラキ) 海外籍の方もカタカナで入力してください。"),
+            "last_name_roma": _("ローマ字でお願いします。(例:Araki) 海外籍の方も入力してください。"),
+            "first_name": _("漢字でお願いします。(例:慎平) 海外籍の方はFirst nameを入力してください。"),
+            "first_name_kana": _("全角カタカナでお願いします。(例:シンペイ) 海外籍の方もカタカナで入力してください。"),
+            "first_name_roma": _("ローマ字でお願いします。(例:Shimpei) 海外籍の方も入力してください。"),
+            "prefecture_id": _("現在の居住都道府県を選択してください。海外在住の方は海外を選択してください。"),
+        }
+        widgets = {
+            "birth_at": forms.SelectDateWidget(
+                years=range(datetime.date.today().year + 1, 1900, -1)
+            )
+        }
+
+    def clean_first_name_kana(self):
+        first_name_kana = self.cleaned_data["first_name_kana"]
+        re_katakana = re.compile(r"[\u30A1-\u30F4]+")
+        if not re_katakana.fullmatch(first_name_kana):
+            raise forms.ValidationError(_("全角カタカナでない文字が含まれています。"))
+        return first_name_kana
+
+    def clean_last_name_kana(self):
+        last_name_kana = self.cleaned_data["last_name_kana"]
+        re_katakana = re.compile(r"[\u30A1-\u30F4]+")
+        if not re_katakana.fullmatch(last_name_kana):
+            raise forms.ValidationError(_("全角カタカナでない文字が含まれています。"))
+        return last_name_kana
+
+    def clean_first_name_roma(self):
+        first_name_roma = self.cleaned_data["first_name_roma"]
+        if re.fullmatch("[a-zA-Z]+", first_name_roma) is None:
+            raise forms.ValidationError(_("半角アルファベットでない文字が含まれています。"))
+        if first_name_roma != first_name_roma.capitalize():
+            raise forms.ValidationError(_("先頭文字が大文字、それ以降の文字は小文字でお願いします。"))
+        return first_name_roma
+
+    def clean_last_name_roma(self):
+        last_name_roma = self.cleaned_data["last_name_roma"]
+        if re.fullmatch("[a-zA-Z]+", last_name_roma) is None:
+            raise forms.ValidationError(_("アルファベットでない文字が含まれています。"))
+        if last_name_roma != last_name_roma.capitalize():
+            raise forms.ValidationError(_("先頭文字が大文字、それ以降の文字は小文字でお願いします。"))
+        return last_name_roma

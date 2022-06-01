@@ -1,0 +1,66 @@
+{% extends "app/common/base.html" %} {% block content %}
+{% include "app/common/notification.html" %}
+{% include "app/common/title.html" with title="管理画面" %}
+<div class="row">
+  <div class="col-lg-2 mb-3">
+    {% include "app/scj/admin/menu.html" with active='person' %}
+  </div>
+  <div class="col-lg-10 mb-3">
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="card mb-3">
+        <div class="text-nowrap table-responsive">
+          <table id="dtBasic" class="table table-striped small">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>ID</th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>姓</th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>名</th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>姓(カナ)</th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>名(カナ)</th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>姓(ローマ字)</th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>名(ローマ字)</th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>性別</th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>生年月日</th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>都道府県</th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>投稿権限</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for person in modified %}
+              <tr data-toggle="tooltip" data-placement="auto">
+                <td>
+                  <a href="{% url 'admin_person_edit' person.user_id %}">編集</a>
+                </td>
+                <td>{{ person.user_id }}</td>
+                <td>{{ person.last_name }}</td>
+                <td>{{ person.first_name }}</td>
+                <td>{{ person.last_name_kana }}</td>
+                <td>{{ person.first_name_kana }}</td>
+                <td>{{ person.last_name_roma }}</td>
+                <td>{{ person.first_name_roma }}</td>
+                <td>{{ person.gender }}</td>
+                <td>{{ person.birth_at }}</td>
+                <td>{{ person.prefecture }}</td>
+                <td>{{ person.is_community_posting_offer }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  jQuery(function ($) {
+    $("#dtBasic").DataTable({
+      lengthChange: false,
+      info: false
+    });
+    $(".dataTables_length").addClass("bs-select");
+  });
+</script>
+{% endblock %}

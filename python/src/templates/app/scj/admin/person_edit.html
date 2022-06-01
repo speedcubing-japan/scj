@@ -1,0 +1,20 @@
+{% extends "app/common/base.html" %} {% load bootstrap4 %} {% block content %}
+{% include "app/common/title.html" with title="登録情報変更" %}
+<div class="row">
+  <div class="col-lg-2 mb-3">{% include "app/scj/admin/menu.html" with active='admin' %}</div>
+  <div class="col-lg-10 mb-3">
+    <div class="card">
+      <div class="card-body">
+        <form action="" method="POST">
+          {% csrf_token %} {% bootstrap_form form layout='horizontal' %}
+          <div class="form-group row">
+            <div class="offset-md-3 col-md-9">
+              <input class="btn btn-dark" type="submit" value="変更" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
