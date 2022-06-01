@@ -49,6 +49,9 @@ from .views.registration.complete import Complete as RegistrationComplete
 from .views.entrance.login import Login
 from .views.entrance.logout import Logout
 
+from .views.name.change import Change as NameChange
+from .views.name.change_complete import ChangeComplete as NameChangeComplete
+
 from .views.password.change import Change as PasswordChange
 from .views.password.change_complete import ChangeComplete as PasswordChangeComplete
 from .views.password.reset import Reset as PasswordReset
@@ -160,6 +163,12 @@ urlpatterns = [
     ),
     path("login/", Login.as_view(), name="login"),
     path("logout/", Logout.as_view(), name="logout"),
+    path("name/change/", NameChange.as_view(), name="name_change"),
+    path(
+        "name/change/complete/",
+        NameChangeComplete.as_view(),
+        name="name_change_complete",
+    ),
     path("password/change/", PasswordChange.as_view(), name="password_change"),
     path(
         "password/change/complete/",
