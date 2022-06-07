@@ -97,10 +97,6 @@ load-proddata:
 bulkdata:
 	docker-compose run --rm python ./manage.py bulkdata
 
-direct-bulkdata:
-	scp python/src/app/fixtures/${MODEL}.json scj:~/fixtures
-	ssh scj sh direct.sh
-
 clearsessions:
 	docker-compose run --rm python ./manage.py clearsessions
 
