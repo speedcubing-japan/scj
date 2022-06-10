@@ -191,7 +191,7 @@
                   {% if organizer.wca_id and competition.type == competition_type.WCA.value %}
                     <div><a href="https://www.worldcubeassociation.org/persons/{{ organizer.wca_id }}">{{ organizer.get_full_name_roma }}</a></div>
                   {% else %}
-                    <div>{{ organizer.get_full_name }}</div>
+                    <div>{{ organizer.get_full_name_roma }}</div>
                   {% endif %}
                 {% else %}
                   <div>{{ judge.get_full_name_roma }}</div>
