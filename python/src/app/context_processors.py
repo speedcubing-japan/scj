@@ -4,6 +4,7 @@ from app.defines.fee import PayTypeEn as FeePayType
 from app.defines.fee import CalcTypeEn as FeeCalcType
 from app.defines.competition import Type as CompetitionType
 from app.defines.competition import RoundLimitType as RoundLimitType
+from app.defines.competition import ProceedType as ProceedType
 
 
 def context_processor(req):
@@ -14,4 +15,5 @@ def context_processor(req):
         "fee_calc_type": FeeCalcType.__members__,
         "competition_type": CompetitionType.__members__,
         "round_limit_type": RoundLimitType.__members__,
+        "proceed_type": ProceedType.__members__,
     }

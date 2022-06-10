@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from app.defines.event import Event, Format
-from app.defines.competition import RoundType, RoundLimitType
+from app.defines.competition import RoundType, RoundLimitType, ProceedType
 
 
 class Round(models.Model):
@@ -18,7 +18,11 @@ class Round(models.Model):
     limit_time = models.IntegerField("制限時間")
     cutoff_attempt_count = models.SmallIntegerField("カットオフ回数", default=0)
     cutoff_time = models.IntegerField("カットオフ時間")
-    proceed_count = models.IntegerField("通過人数")
+    proceed_type = models.SmallIntegerField(
+        "進出人数タイプ", default=0, choices=ProceedType.choices()
+    )
+    proceed_count = models.IntegerField("進出人数")
+    proceed_rate = models.IntegerField("進出割合(100分率)", default=0)
     room_name = models.CharField("会場名", max_length=64, default="")
     begin_at = models.DateTimeField("開始時刻", default=timezone.now)
     end_at = models.DateTimeField("終了時刻", default=timezone.now)

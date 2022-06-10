@@ -34,3 +34,10 @@ class RoundType(Define):
 class RoundLimitType(Define):
     LIMIT = 1
     CUMULATIVE = 2
+
+
+@unique
+class ProceedType(Define):
+    NONE = 0
+    COUNT = 1
+    RATE = 2
