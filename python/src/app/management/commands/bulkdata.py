@@ -219,6 +219,8 @@ class Command(BaseCommand):
                     assignment_description_en=record["fields"][
                         "assignment_description_en"
                     ],
+                    visitor_description=record["fields"]["visitor_description"],
+                    visitor_description_en=record["fields"]["visitor_description_en"],
                     is_cancel=record["fields"]["is_cancel"],
                     is_payment=record["fields"]["is_payment"],
                     is_display=record["fields"]["is_display"],

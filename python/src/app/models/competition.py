@@ -62,6 +62,8 @@ class Competition(models.Model):
     awards_description_en = models.TextField("表彰(英文)", default="")
     assignment_description = models.TextField("表彰", default="")
     assignment_description_en = models.TextField("表彰(英文)", default="")
+    visitor_description = models.TextField("見学事項", default="")
+    visitor_description_en = models.TextField("見学事項(英文)", default="")
     is_cancel = models.BooleanField("キャンセル可否", default=False)
     is_payment = models.BooleanField("課金可否", default=False)
     is_display = models.BooleanField("表示可否", default=False)
