@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-14 10:37+0000\n"
+"POT-Creation-Date: 2022-06-20 08:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -254,8 +254,9 @@ msgid "ローマ字でお願いします。(例:Shimpei) 海外籍の方も入�
 msgstr "Please enter your first name again. (e.g. Shimpei)"
 
 #: app/forms.py:63
-msgid "海外籍の方は海外を選択してください。"
-msgstr "If you are a non-Japanese, please select 海外"
+msgid ""
+"現在の居住都道府県を選択してください。海外在住の方は海外を選択してください。"
+msgstr "Please select your current province of residence. If you live overseas, please select 海外"
 
 #: app/forms.py:75 app/forms.py:82
 msgid "全角カタカナでない文字が含まれています。"

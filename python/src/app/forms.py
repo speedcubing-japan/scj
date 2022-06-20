@@ -60,7 +60,7 @@ class PersonCreateForm(forms.ModelForm):
             "first_name": _("漢字でお願いします。(例:慎平) 海外籍の方はFirst nameを入力してください。"),
             "first_name_kana": _("全角カタカナでお願いします。(例:シンペイ) 海外籍の方もカタカナで入力してください。"),
             "first_name_roma": _("ローマ字でお願いします。(例:Shimpei) 海外籍の方も入力してください。"),
-            "prefecture_id": _("海外籍の方は海外を選択してください。"),
+            "prefecture_id": _("現在の居住都道府県を選択してください。海外在住の方は海外を選択してください。"),
         }
         widgets = {
             "birth_at": forms.SelectDateWidget(
