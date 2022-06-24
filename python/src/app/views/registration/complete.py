@@ -17,10 +17,12 @@ class Complete(View):
             user_pk = loads(token, max_age=self.timeout_seconds)
 
         except SignatureExpired:
-            return HttpResponseBadRequest()
+            request.session["notification"] = Notification.REGISTRATION_EXPIRED
+            return redirect("index")
 
         except BadSignature:
-            return HttpResponseBadRequest()
+            request.session["notification"] = Notification.REGISTRATION_BAD_SIGNATURE
+            return redirect("index")
 
         else:
             try:
@@ -36,6 +38,12 @@ class Complete(View):
 
                     request.session["notification"] = Notification.REGISTRATION_COMPLETE
 
+                    return redirect("index")
+                else:
+                    login(request, user)
+                    request.session[
+                        "notification"
+                    ] = Notification.REGISTRATION_ALREADY_COMPLETED
                     return redirect("index")
 
         return HttpResponseBadRequest()
