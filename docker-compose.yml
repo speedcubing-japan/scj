@@ -6,6 +6,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/conf:/etc/nginx/conf.d
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
       - ./static:/static
@@ -38,8 +39,9 @@ services:
 
   python:
     build: ./python
-    command: uwsgi --socket :8001 --module scj.wsgi --wsgi-file code/scj/wsgi.py
+    command: uwsgi --ini /code/uwsgi.ini
     volumes:
+      - ./python/uwsgi.ini:/code/uwsgi.ini
       - ./python/src:/code
       - ./static:/static
     logging:
