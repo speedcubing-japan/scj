@@ -292,11 +292,6 @@
             </div>
           </div>
         {% endif %}
-        {% if is_limit %}
-          <div class="alert alert-warning" role="alert">
-            {% blocktrans with limit=competition.limit %}本大会の定員は {{ limit }} 人であり、すでに定員に達しています。今参加申し込みされると、キャンセル待ちとして扱われます。{% endblocktrans %}
-          </div>
-        {% endif %}
 
         {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
           {% if competition.fee_calc_type == fee_calc_type.EVENT.value %}
@@ -324,6 +319,12 @@
               </ul>
             </div>
           {% endif %}
+        {% endif %}
+
+        {% if is_limit %}
+          <div class="alert alert-warning" role="alert">
+            {% blocktrans with limit=competition.limit %}本大会の定員は {{ limit }} 人であり、すでに定員に達しています。今参加申し込みされると、キャンセル待ちとして扱われます。{% endblocktrans %}
+          </div>
         {% endif %}
 
         <div class="card border-dark">
