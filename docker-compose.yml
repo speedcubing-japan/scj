@@ -49,6 +49,8 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    sysctls:
+      net.core.somaxconn: 40960
     expose:
       - "8001"
     depends_on:
