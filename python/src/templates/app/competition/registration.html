@@ -351,7 +351,12 @@
               <div class="form-group row">
                 <div class="offset-md-3 col-md-9">
                   <div id="error" class="text-danger font-weight-bold"></div>
-                  <button id="checkout" class="btn btn-dark competition_registration" disabled>{% trans "参加費支払い" %}</button>
+                  <div class="d-flex align-items-center">
+                    <button id="checkout" class="btn btn-dark competition_registration" disabled>{% trans "参加費支払い" %}</button>
+                    <div class="spinner-border ml-2" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             {% elif competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value or competition.fee_pay_type == fee_pay_type.LOCAL_ONLY.value or is_prepaid %}
@@ -391,8 +396,10 @@
     });
     var checkoutButton = document.getElementById("checkout");
 
+    $(".spinner-border").hide();
     checkoutButton.addEventListener("click", function () {
 
+      $(".spinner-border").show();
       const event_id_list = [];
       const eventIds = document.getElementsByName("event_ids");
       for (let i = 0, size = eventIds.length; i < size; i++) {
@@ -433,6 +440,7 @@
       })
       .then(function (session) {
         if (session['error']) {
+          $(".spinner-border").hide();
           document.getElementById("error").textContent = session['error'];
           return session['error'];
         }
