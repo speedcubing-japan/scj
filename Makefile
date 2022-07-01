@@ -118,6 +118,9 @@ prod-build-no-cache:
 prod-up:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose up -d
 
+prod-build-up:
+	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose up -d --build
+
 prod-restart:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose restart
 
