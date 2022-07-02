@@ -23,19 +23,19 @@
         <thead>
           <tr>
             {% if competition.type == competition_type.SCJ.value %}
-              <th scope="col">SCJ ID</th>
+              <th scope="col"><i class="fas fa-sort mr-2">SCJ ID</th>
             {% elif competition.type == competition_type.WCA.value %}
-              <th scope="col">WCA ID</th>
+              <th scope="col"><i class="fas fa-sort mr-2">WCA ID</th>
             {% endif %}
-            <th scope="col">{% trans "氏名" %}</th>
+            <th scope="col"><i class="fas fa-sort mr-2">{% trans "氏名" %}</th>
             {% if competition.type == competition_type.SCJ.value %}
-              <th scope="col">{% trans "都道府県" %}</th>
+              <th scope="col"><i class="fas fa-sort mr-2">{% trans "都道府県" %}</th>
             {% elif competition.type == competition_type.WCA.value %}
-              <th scope="col">{% trans "国" %}</th>
+              <th scope="col"><i class="fas fa-sort mr-2">{% trans "国" %}</th>
             {% endif %}
             {% if event_name != 'list' and competition.type == competition_type.SCJ.value %}
-              <th scope="col">{% trans "ベスト" %}</th>
-              <th scope="col">{% trans "平均" %}</th>
+              <th scope="col"><i class="fas fa-sort mr-2">{% trans "ベスト" %}</th>
+              <th scope="col"><i class="fas fa-sort mr-2">{% trans "平均" %}</th>
             {% endif %}
           </tr>
         </thead>
