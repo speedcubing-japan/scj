@@ -23,19 +23,19 @@
         <thead>
           <tr>
             {% if competition.type == competition_type.SCJ.value %}
-              <th scope="col"><i class="fas fa-sort mr-2">SCJ ID</th>
+              <th scope="col"><i class="fas fa-sort"><span class="ml-2">SCJ ID</span></th>
             {% elif competition.type == competition_type.WCA.value %}
-              <th scope="col"><i class="fas fa-sort mr-2">WCA ID</th>
+              <th scope="col"><i class="fas fa-sort"><span class="ml-2">WCA ID</span></th>
             {% endif %}
-            <th scope="col"><i class="fas fa-sort mr-2">{% trans "氏名" %}</th>
+            <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "氏名" %}</span></th>
             {% if competition.type == competition_type.SCJ.value %}
-              <th scope="col"><i class="fas fa-sort mr-2">{% trans "都道府県" %}</th>
+              <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "都道府県" %}</span></th>
             {% elif competition.type == competition_type.WCA.value %}
-              <th scope="col"><i class="fas fa-sort mr-2">{% trans "国" %}</th>
+              <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "国" %}</span></th>
             {% endif %}
             {% if event_name != 'list' and competition.type == competition_type.SCJ.value %}
-              <th scope="col"><i class="fas fa-sort mr-2">{% trans "ベスト" %}</th>
-              <th scope="col"><i class="fas fa-sort mr-2">{% trans "平均" %}</th>
+              <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "ベスト" %}</span></th>
+              <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "平均" %}</span></th>
             {% endif %}
           </tr>
         </thead>
