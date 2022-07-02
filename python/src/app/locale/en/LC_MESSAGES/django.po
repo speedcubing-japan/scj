@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-23 17:01+0000\n"
+"POT-Creation-Date: 2022-07-02 10:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -152,41 +152,51 @@ msgstr ""
 "We register with this information. If you are satisfied, please check the "
 "box and submit."
 
-#: app/defines/session.py:41
+#: app/defines/session.py:44
 msgid "この大会は非公開です。関係者のみ表示されます。"
 msgstr ""
 
-#: app/defines/session.py:44
+#: app/defines/session.py:47
 msgid ""
 "この大会は非表示です。一覧には表示されませんが、直接アクセスは可能です。管理"
 "等十分にお気をつけ下さい。"
 msgstr ""
 
-#: app/defines/session.py:47
+#: app/defines/session.py:50
 msgid "申し込み完了しました。承認されるまでお待ち下さい。"
 msgstr ""
 "Your registration has been completed. Please wait until it is approved."
 
-#: app/defines/session.py:50
+#: app/defines/session.py:53
 msgid "申し込み内容を更新しました。承認されるまでお待ち下さい。"
 msgstr ""
 "Registration details have been updated. Please wait until it is approved."
 
-#: app/defines/session.py:54
+#: app/defines/session.py:57
 msgid "この大会は終了しました。"
 msgstr "This competition has ended."
 
-#: app/defines/session.py:55
+#: app/defines/session.py:58
 msgid "この大会の申し込み受け付けは終了しました。"
 msgstr "Registration for this competition is now closed."
 
-#: app/defines/session.py:56
+#: app/defines/session.py:59
 msgid "あなたの申し込みは承認待ちです。"
 msgstr "Your registration is awaiting approval."
 
-#: app/defines/session.py:57
+#: app/defines/session.py:60
 msgid "あなたの申し込みは承認されました。"
 msgstr "Your registration has been approved."
+
+#: app/defines/session.py:66
+msgid ""
+"大会参加費の支払いが成功しました。申し込みが登録されるまでお待ち下さい。"
+msgstr ""
+"The registration fee has been successfully paid. Please wait until your registration is registered."
+
+#: app/defines/session.py:68
+msgid "大会参加費の支払いがキャンセルされました。"
+msgstr "The registration fee payment has been cancelled."
 
 #: app/forms.py:25
 msgid "使用可能なメールアドレスを入力してください。"

@@ -28,9 +28,9 @@ class Registration(Base):
 
         # 事前決済オンリーのときのnotification設定
         if status == "cancel":
-            self.notification = Notification.REGISTRATION_CANCEL
+            self.notification = Notification.REGISTRATION_PAY_SUCCESS
         elif status == "success":
-            self.notification = Notification.COMPETITION_REGISTER
+            self.notification = Notification.REGISTRATION_PAY_CANCEL
 
         return render(request, self.template_name, self.get_context())
 

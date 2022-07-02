@@ -61,4 +61,8 @@ class Notification(tuple, Define):
     COMPETITOR_CANCEL = (Status.DANGER.value, "あなたの申し込みはキャンセルされました。")
     COMPETITOR_EVENT_NOT_SELECTED = (Status.WARNING.value, "種目が選択されていません。")
     REFUND_AMOUNT_OVER = (Status.WARNING.value, "全額よりも高い金額が設定されています。")
-    REGISTRATION_CANCEL = (Status.DANGER.value, "申し込みがキャンセルされました。")
+    REGISTRATION_PAY_SUCCESS = (
+        Status.DANGER.value,
+        _("大会参加費の支払いが成功しました。申し込みが登録されるまでお待ち下さい。"),
+    )
+    REGISTRATION_PAY_CANCEL = (Status.DANGER.value, _("大会参加費の支払いがキャンセルされました。"))
