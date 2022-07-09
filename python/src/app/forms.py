@@ -15,6 +15,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from app.defines.prefecture import PrefectureAndOversea
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.backends import AllowAllUsersModelBackend
 
 
 class UserCreateForm(UserCreationForm):
@@ -100,7 +101,31 @@ class PersonCreateForm(forms.ModelForm):
 
 
 class LoginForm(AuthenticationForm):
-    pass
+    class Meta:
+        model = User
+
+    def clean(self):
+        email = self.cleaned_data.get("username")
+        password = self.cleaned_data.get("password")
+
+        if email is not None and password:
+            backend = AllowAllUsersModelBackend()
+            self.user_cache = backend.authenticate(
+                self.request, username=email, password=password
+            )
+            if self.user_cache is None:
+                raise self.get_invalid_login_error()
+            else:
+                self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
+
+    def confirm_login_allowed(self, user):
+        if not user.is_active:
+            raise forms.ValidationError(
+                _("まだユーザー登録が認証されておりません。ユーザー登録時に送信されたメールから認証してください。"),
+                code="inactive",
+            )
 
 
 class PasswordChangeForm(PasswordChangeForm):

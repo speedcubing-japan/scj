@@ -186,7 +186,7 @@ LOGOUT_URL = "/logout"
 LOGOUT_REDIRECT_URL = "/"
 
 AUTH_USER_MODEL = "app.User"
-AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
+AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.AllowAllUsersModelBackend"]
 
 ACTIVATION_TIMEOUT_SECONDS = 60 * 60 * 24 * 7
 
