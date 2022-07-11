@@ -67,20 +67,21 @@ class Command(BaseCommand):
             index = 0
             for event_id in event_ids:
                 # イベントごとに順位でソートされた記録を取得
+                pre_query = "[ [.[].fields ] | map(select ( .event_id == " + str(
+                    event_id
+                )
+                if rank_type == "best":
+                    pre_query += " and .best != -1 and .best != -2"
+                elif rank_type == "average":
+                    pre_query += " and .average != -1 and .average != -2"
+
                 query = (
-                    "[ [.[].fields ] | \
-                    map(select ( .event_id == "
-                    + str(event_id)
-                    + " )) | \
-                    group_by(.person_id) | .[] | sort_by(."
+                    pre_query
+                    + " )) | group_by(.person_id) | .[] | sort_by(."
                     + rank_type
-                    + ") | \
-                    .[0] ] | \
-                    sort_by(."
+                    + ") | .[0] ] | sort_by(."
                     + rank_type
-                    + ") | \
-                    .[] | \
-                    { id, event_id, person_id, "
+                    + ") | .[] | { id, event_id, person_id, "
                     + rank_type
                     + ", competition_id, value1, value2, value3, value4, value5 }"
                 )
