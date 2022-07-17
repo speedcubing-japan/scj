@@ -355,7 +355,16 @@ class RankingForm(forms.Form):
     )
 
 
+# def wrap_boolean_check(v):
+#     return not (v is False or v is None or v == "" or v == 0)
+
+
 class PersonEditForm(forms.ModelForm):
+
+    is_active = forms.BooleanField(
+        label="承認", required=False
+    )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -371,7 +380,7 @@ class PersonEditForm(forms.ModelForm):
             "gender",
             "birth_at",
             "prefecture_id",
-            "is_community_posting_offer"
+            "is_community_posting_offer",
         )
         error_messages = {
             "last_name": {"max_length": _("姓が不正です。")},

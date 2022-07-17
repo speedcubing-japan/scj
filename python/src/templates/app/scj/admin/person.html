@@ -3,9 +3,54 @@
 {% include "app/common/title.html" with title="管理画面" %}
 <div class="row">
   <div class="col-lg-2 mb-3">
-    {% include "app/scj/admin/menu.html" with active='person' %}
+    {% include "app/scj/admin/menu.html" %}
   </div>
   <div class="col-lg-10 mb-3">
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-2">
+            <label for="gender-form">性別</label>
+            <select id="gender-form" class="custom-select">
+              <option value="" selected>全選択</option>
+              <option value="男性">男性</option>
+              <option value="女性">女性</option>
+            </select>
+          </div>
+          <div class="col-lg-2">
+            <label for="prefecture-form">都道府県</label>
+            <select id="prefecture-form" class="custom-select">
+              <option value="" selected>全選択</option>
+              {% for prefecture in prefecture_list %}
+              <option value="{{ prefecture }}">{{ prefecture }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-2">
+            <label for="posting-form">投稿権限</label>
+            <select id="posting-form" class="custom-select">
+              <option value="" selected>全選択</option>
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
+          </div>
+          <div class="col-lg-2">
+            <label for="active-form">承認</label>
+            <select id="active-form" class="custom-select">
+              <option value="" selected>全選択</option>
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
+          </div>
+          <div class="col-lg-4">
+            <label for="search-form">検索</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="search-form" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <form action="" method="POST">
       {% csrf_token %}
       <div class="card mb-3">
@@ -25,6 +70,7 @@
                 <th scope="col"><i class="fas fa-sort mr-2"></i>生年月日</th>
                 <th scope="col"><i class="fas fa-sort mr-2"></i>都道府県</th>
                 <th scope="col"><i class="fas fa-sort mr-2"></i>投稿権限</th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>承認</th>
               </tr>
             </thead>
             <tbody>
@@ -44,6 +90,7 @@
                 <td>{{ person.birth_at }}</td>
                 <td>{{ person.prefecture }}</td>
                 <td>{{ person.is_community_posting_offer }}</td>
+                <td>{{ person.is_active }}</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -56,11 +103,36 @@
 {% endblock %} {% block extra_js %}
 <script>
   jQuery(function ($) {
-    $("#dtBasic").DataTable({
+    var dt = $("#dtBasic").DataTable({
       lengthChange: false,
       info: false
     });
-    $(".dataTables_length").addClass("bs-select");
+    $("#dtBasic_filter").hide()
+    /* 性別フィルター */
+    $('#gender-form').change(function () {
+      dt
+        .column(8).search(this.value).draw()
+    });
+    /* 都道府県フィルター */
+    $('#prefecture-form').change(function () {
+      dt
+        .column(10).search(this.value).draw()
+    });
+    /* 投稿権限フィルター */
+    $('#posting-form').change(function () {
+      dt
+        .column(11).search(this.value).draw()
+    });
+    /* 承認フィルター */
+    $('#active-form').change(function () {
+      dt
+        .column(12).search(this.value).draw()
+    });
+    /* 検索 */
+    $('#search-form').on('keyup', function () {
+      dt.search(this.value).draw();
+    });
+
   });
 </script>
 {% endblock %}

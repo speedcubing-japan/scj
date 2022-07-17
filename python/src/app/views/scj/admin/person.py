@@ -4,7 +4,7 @@ from app.models import Person
 from copy import deepcopy
 from app.defines.prefecture import Prefecture
 from app.defines.gender import Gender
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 
 
 class AdminPerson(LoginRequiredMixin, TemplateView):
@@ -20,10 +20,12 @@ class AdminPerson(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         person_list = Person.objects.all()
         modified = []
-        for person in person_list.values():
-            new_person = deepcopy(person)
-            new_person["gender"] = Gender.get_name(person["gender"])
-            new_person["prefecture"] = Prefecture.get_name(person["prefecture_id"])
+        for person in person_list:
+            person_dict = person.__dict__
+            new_person = deepcopy(person_dict)
+            new_person["gender"] = Gender.get_name(person.gender)
+            new_person["prefecture"] = Prefecture.get_name(person.prefecture_id)
+            new_person["is_active"] = person.user.is_active
             modified.append(new_person)
         context["modified"] = modified
 
@@ -31,4 +33,6 @@ class AdminPerson(LoginRequiredMixin, TemplateView):
         if self.request.session.get("notification") is not None:
             del self.request.session["notification"]
         context["notification"] = notification
+        prefecture_list = [x[1] for x in Prefecture.choices()]
+        context["prefecture_list"] = prefecture_list
         return context
