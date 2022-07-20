@@ -1,20 +1,12 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
 from app.models import Person
 from copy import deepcopy
 from app.defines.prefecture import Prefecture
 from app.defines.gender import Gender
-from django.shortcuts import redirect
+from .admin_base import AdminBase
 
 
-class AdminPerson(LoginRequiredMixin, TemplateView):
+class AdminPerson(AdminBase):
     template_name = "app/scj/admin/person.html"
-
-    def get(self, request, **kwargs):
-        if request.user.is_superuser or request.user.is_staff:
-            return super().get(request, **kwargs)
-        else:
-            return redirect("index")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -28,7 +20,6 @@ class AdminPerson(LoginRequiredMixin, TemplateView):
             new_person["is_active"] = person.user.is_active
             modified.append(new_person)
         context["modified"] = modified
-
         notification = self.request.session.get("notification")
         if self.request.session.get("notification") is not None:
             del self.request.session["notification"]

@@ -55,7 +55,7 @@
       {% csrf_token %}
       <div class="card mb-3">
         <div class="text-nowrap table-responsive">
-          <table id="dtBasic" class="table table-striped small">
+          <table id="dt-basic" class="table table-striped small">
             <thead>
               <tr>
                 <th scope="col"></th>
@@ -103,11 +103,11 @@
 {% endblock %} {% block extra_js %}
 <script>
   jQuery(function ($) {
-    var dt = $("#dtBasic").DataTable({
+    var dt = $("#dt-basic").DataTable({
       lengthChange: false,
       info: false
     });
-    $("#dtBasic_filter").hide()
+    $("#dt-basic_filter").hide()
     /* 性別フィルター */
     $('#gender-form').change(function () {
       dt
@@ -132,7 +132,6 @@
     $('#search-form').on('keyup', function () {
       dt.search(this.value).draw();
     });
-
   });
 </script>
 {% endblock %}

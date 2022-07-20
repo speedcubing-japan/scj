@@ -1,12 +1,11 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import FormView
 from app.forms import PersonEditForm
 from app.models import Person, User
 from django.shortcuts import render, redirect
 from app.defines.session import Notification
+from .admin_base import AdminBase
 
 
-class AdminPersonEdit(LoginRequiredMixin, FormView):
+class AdminPersonEdit(AdminBase):
     template_name = "app/scj/admin/person_edit.html"
     form_class = PersonEditForm
 
