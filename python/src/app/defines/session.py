@@ -66,3 +66,4 @@ class Notification(tuple, Define):
         _("大会参加費の支払いが成功しました。申し込みが登録されるまでお待ち下さい。"),
     )
     REGISTRATION_PAY_CANCEL = (Status.DANGER.value, _("大会参加費の支払いがキャンセルされました。"))
+    PERSON_INFO_CHANGE = (Status.SUCCESS.value, "ユーザ情報を更新しました。")

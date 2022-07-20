@@ -9,6 +9,12 @@ class Gender(Define):
     女性 = (2, _("女性"))
 
     @classmethod
+    def get_name(cls, value):
+        for x in cls:
+            if x.value[0] == value:
+                return x.name
+
+    @classmethod
     def choices(cls):
         return tuple((x.value[0], x.value[1]) for x in cls)
 
