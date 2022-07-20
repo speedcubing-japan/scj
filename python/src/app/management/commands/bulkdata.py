@@ -43,6 +43,7 @@ class Command(BaseCommand):
                     format_id=record["fields"]["format_id"],
                     limit_type=record["fields"]["limit_type"],
                     limit_time=record["fields"]["limit_time"],
+                    limit_event_ids=record["fields"]["limit_event_ids"],
                     cutoff_attempt_count=record["fields"]["cutoff_attempt_count"],
                     cutoff_time=record["fields"]["cutoff_time"],
                     proceed_type=record["fields"]["proceed_type"],
