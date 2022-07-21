@@ -147,3 +147,6 @@ prod-backup:
 
 prod-clearsessions:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py clearsessions
+
+prod-collectstatic:
+	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py collectstatic
