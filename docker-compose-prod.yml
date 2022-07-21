@@ -13,3 +13,22 @@ services:
       DOMAINS: 'www.speedcubing.or.jp => speedcubing.or.jp, speedcubing.or.jp -> http://nginx:8000'
       STAGE: 'production' # Don't use production until staging works
       # FORCE_RENEW: 'true'
+
+  python:
+    build: ./python
+    command: uwsgi --ini /code/uwsgi.ini
+    volumes:
+      - ./python/uwsgi.ini:/code/uwsgi.ini
+      - ./python/src:/code
+      - ./static:/static
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    sysctls:
+      net.core.somaxconn: 40960
+    expose:
+      - "8001"
+    depends_on:
+      - db

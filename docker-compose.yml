@@ -41,7 +41,7 @@ services:
     build: ./python
     command: uwsgi --ini /code/uwsgi.ini
     volumes:
-      - ./python/uwsgi.ini:/code/uwsgi.ini
+      - ./python/uwsgi_dev.ini:/code/uwsgi.ini
       - ./python/src:/code
       - ./static:/static
     logging:
