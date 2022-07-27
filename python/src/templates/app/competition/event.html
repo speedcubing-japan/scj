@@ -3,6 +3,7 @@
 {% load event_id_name %}
 {% load i18n %}
 {% load strip %}
+{% load time_convert %}
 
 {% block content %}
 {% include "app/common/competition_title.html" %}
@@ -99,10 +100,10 @@
                         </td>
                         <td>{% if round.type > 0 %}{{ round.get_type_display }}{% endif %}</td>
                         <td>{% if round.cutoff_attempt_count > 0 %}Best of {{ round.cutoff_attempt_count }}/{% endif %}{% if round.format_id > 0 %}{{ round.get_format_id_display }}{% endif %}{% if round.attempt_count > 0 %}&nbsp;({{ round.attempt_count }}{% trans "試技目" %}){% endif %}</td>
-                        <td>{% if round.cutoff_time > 0 %}{{ round.cutoff_time }}&nbsp;{% trans "秒" %}{% endif %}</td>
+                        <td>{% if round.cutoff_time > 0 %}{{ round.cutoff_time | time_convert }}{% endif %}</td>
                         <td>
                           {% if round.limit_time > 0 %}
-                            {% if round.limit_type == round_limit_type.CUMULATIVE.value %}累積&nbsp;{% endif %}{{ round.limit_time }}&nbsp;{% trans "秒" %}
+                            {% if round.limit_type == round_limit_type.CUMULATIVE.value %}累積&nbsp;{% endif %}{{ round.limit_time | time_convert }}
                             {% if round.limit_event_ids %}
                               (
                               {% for limit_event_id in round.limit_event_ids %}
