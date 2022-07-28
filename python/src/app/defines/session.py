@@ -63,7 +63,7 @@ class Notification(tuple, Define):
     REFUND_AMOUNT_OVER = (Status.WARNING.value, "全額よりも高い金額が設定されています。")
     REGISTRATION_PAY_SUCCESS = (
         Status.DANGER.value,
-        _("大会参加費の支払いが成功しました。申し込みが登録されるまでお待ち下さい。"),
+        _("大会参加費の支払いが成功しました。申し込みが登録されるまでお待ち下さい。再度お支払いいただく必要はありません。"),
     )
     REGISTRATION_PAY_CANCEL = (Status.DANGER.value, _("大会参加費の支払いがキャンセルされました。"))
     PERSON_INFO_CHANGE = (Status.SUCCESS.value, "ユーザ情報を更新しました。")

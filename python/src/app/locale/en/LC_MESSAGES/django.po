@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-09 02:03+0000\n"
+"POT-Creation-Date: 2022-07-28 11:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -190,10 +190,11 @@ msgstr "Your registration has been approved."
 
 #: app/defines/session.py:66
 msgid ""
-"大会参加費の支払いが成功しました。申し込みが登録されるまでお待ち下さい。"
+"大会参加費の支払いが成功しました。申し込みが登録されるまでお待ち下さい。再度"
+"お支払いいただく必要はありません。"
 msgstr ""
 "The registration fee has been successfully paid. Please wait until your "
-"registration is registered."
+"registration is registered. You do not need to pay again."
 
 #: app/defines/session.py:68
 msgid "大会参加費の支払いがキャンセルされました。"
@@ -203,35 +204,35 @@ msgstr "The registration fee payment has been cancelled."
 msgid "使用可能なメールアドレスを入力してください。"
 msgstr "Please enter a valid email address."
 
-#: app/forms.py:50
+#: app/forms.py:50 app/forms.py:386
 msgid "姓が不正です。"
 msgstr "Last name is incorrect."
 
-#: app/forms.py:51
+#: app/forms.py:51 app/forms.py:387
 msgid "名が不正です。"
 msgstr "First name is incorrect."
 
-#: app/forms.py:52
+#: app/forms.py:52 app/forms.py:388
 msgid "セイが不正です。"
 msgstr "Last name (Katakana) is incorrect."
 
-#: app/forms.py:53
+#: app/forms.py:53 app/forms.py:389
 msgid "メイが不正です。"
 msgstr "First name (Katakana) is incorrect."
 
-#: app/forms.py:54
+#: app/forms.py:54 app/forms.py:390
 msgid "姓(ローマ字)が不正です。"
 msgstr "Last name (Rome) is incorrect."
 
-#: app/forms.py:55
+#: app/forms.py:55 app/forms.py:391
 msgid "名(ローマ字)が不正です。"
 msgstr "First name (Rome) is incorrect."
 
-#: app/forms.py:58
+#: app/forms.py:58 app/forms.py:394
 msgid "漢字でお願いします。(例:荒木) 海外籍の方はLast nameを入力してください。"
 msgstr "Please enter your last name."
 
-#: app/forms.py:59
+#: app/forms.py:59 app/forms.py:395
 msgid ""
 "全角カタカナでお願いします。(例:アラキ) 海外籍の方もカタカナで入力してくださ"
 "い。"
@@ -239,16 +240,16 @@ msgstr ""
 "Please use full-width katakana. (e.g.: アラキ) Please use katakana even if "
 "you are a non-Japanese"
 
-#: app/forms.py:60
+#: app/forms.py:60 app/forms.py:396
 msgid "ローマ字でお願いします。(例:Araki) 海外籍の方も入力してください。"
 msgstr "Please enter your last name again. (e.g. Araki)"
 
-#: app/forms.py:61
+#: app/forms.py:61 app/forms.py:397
 msgid ""
 "漢字でお願いします。(例:慎平) 海外籍の方はFirst nameを入力してください。"
 msgstr "Please enter your first name."
 
-#: app/forms.py:62
+#: app/forms.py:62 app/forms.py:398
 msgid ""
 "全角カタカナでお願いします。(例:シンペイ) 海外籍の方もカタカナで入力してくだ"
 "さい。"
@@ -256,39 +257,41 @@ msgstr ""
 "Please use full-width katakana. (e.g.: シンペイ) Please use katakana even if "
 "you are a non-Japanese"
 
-#: app/forms.py:63
+#: app/forms.py:63 app/forms.py:399
 msgid "ローマ字でお願いします。(例:Shimpei) 海外籍の方も入力してください。"
 msgstr "Please enter your first name again. (e.g. Shimpei)"
 
-#: app/forms.py:64
+#: app/forms.py:64 app/forms.py:400
 msgid ""
 "現在の居住都道府県を選択してください。海外在住の方は海外を選択してください。"
 msgstr ""
 "Please select your current province of residence. If you live overseas, "
 "please select 海外"
 
-#: app/forms.py:76 app/forms.py:83
+#: app/forms.py:76 app/forms.py:83 app/forms.py:412 app/forms.py:419
 msgid "全角カタカナでない文字が含まれています。"
 msgstr "Contains characters that are not full-width katakana."
 
-#: app/forms.py:89
+#: app/forms.py:89 app/forms.py:425
 msgid "半角アルファベットでない文字が含まれています。"
 msgstr "Contains characters that are not single-byte alphabets."
 
-#: app/forms.py:91 app/forms.py:99
+#: app/forms.py:91 app/forms.py:99 app/forms.py:427 app/forms.py:435
 msgid "先頭文字が大文字、それ以降の文字は小文字でお願いします。"
 msgstr ""
 "Please use uppercase for the first letter and lowercase for the following "
 "letters."
 
-#: app/forms.py:97
+#: app/forms.py:97 app/forms.py:433
 msgid "アルファベットでない文字が含まれています。"
 msgstr "Contains non-alphabetic characters."
 
 #: app/forms.py:126
 msgid ""
-"まだユーザー登録が認証されておりません。ユーザー登録時に送信されたメールから認証してください。"
-msgstr "Your user registration has not yet been verified. Please confirm your email."
+"まだユーザー登録が認証されておりません。ユーザー登録時に送信されたメールから"
+"認証してください。"
+msgstr ""
+"Your user registration has not yet been verified. Please confirm your email."
 
 #: app/forms.py:217
 msgid "参加種目"
@@ -384,14 +387,14 @@ msgstr " months"
 msgid " 日"
 msgstr " days"
 
-#: app/templatetags/rest_time.py:21
+#: app/templatetags/rest_time.py:21 app/templatetags/time_convert.py:14
 msgid " 時間"
 msgstr " hours"
 
-#: app/templatetags/rest_time.py:23
+#: app/templatetags/rest_time.py:23 app/templatetags/time_convert.py:19
 msgid " 分"
 msgstr " minutes"
 
-#: app/templatetags/rest_time.py:25
+#: app/templatetags/rest_time.py:25 app/templatetags/time_convert.py:24
 msgid " 秒"
 msgstr " seconds"

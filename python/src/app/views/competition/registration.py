@@ -32,7 +32,7 @@ class Registration(Base):
         elif status == "success":
             self.notification = Notification.REGISTRATION_PAY_SUCCESS
 
-        return render(request, self.template_name, self.get_context())
+        return render(request, self.template_name, self.get_context(status))
 
     def post(self, request, **kwargs):
         self.form = CompetitionRegistrationForm(request.POST)
@@ -106,7 +106,7 @@ class Registration(Base):
 
         return render(request, self.template_name, self.get_context())
 
-    def get_context(self):
+    def get_context(self, status=""):
         context = super().get_context()
 
         registration_competitor_count = Competitor.get_count_by_status(
@@ -169,6 +169,8 @@ class Registration(Base):
         context["is_load_stripe_lib"] = (
             self.competition.fee_pay_type == FeePayType.REMOTE_ONLY.value
         )
+        if status == "success":
+            context["is_paid_success"] = True
 
         return context
 

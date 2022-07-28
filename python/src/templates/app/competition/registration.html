@@ -184,6 +184,16 @@
           {% endif %}
         </div>
       </div>
+    {% elif is_paid_success %}
+      <div class="card mb-3">
+        <div class="card-header text-white bg-dark lead">
+          {% trans "申し込み" %}
+        </div>
+        <div class="card-body">
+          <div>支払いが完了しました。遅延等で反映されていない可能性がございますのでしばらくお待ち下さい。</div>
+          <div>再度お支払いいただく必要はありません。</div>
+        </div>
+      </div>
     {% else %}
       <div class="card mb-3">
         <div class="card-header lead">
