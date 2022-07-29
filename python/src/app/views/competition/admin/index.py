@@ -153,6 +153,6 @@ class Index(LoginRequiredMixin, Base):
         return "app/competition/admin/index_{}.html".format(competition_type)
 
     def sort_pay_at(self, competitors):
-        if self.competition.fee_pay_type == FeePayType.REMOTE_ONLY:
+        if self.competition.fee_pay_type == FeePayType.REMOTE_ONLY.value:
             return sorted(competitors, key=lambda x: x.stripe_progress.pay_at)
         return competitors
