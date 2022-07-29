@@ -39,9 +39,8 @@ services:
 
   python:
     build: ./python
-    command: uwsgi --ini /code/uwsgi.ini
+    command: uwsgi --socket :8001 --module scj.wsgi --wsgi-file code/scj/wsgi.py
     volumes:
-      - ./python/uwsgi_dev.ini:/code/uwsgi.ini
       - ./python/src:/code
       - ./static:/static
     logging:
