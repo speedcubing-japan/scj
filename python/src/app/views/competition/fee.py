@@ -33,14 +33,14 @@ class Fee(Base):
 
         amount = calc_fee(self.competition, self.competitor)
 
-        paid = False
+        is_paid = False
         if self.competitor:
-            paid = StripeProgress.objects.filter(
+            is_paid = StripeProgress.objects.filter(
                 competitor_id=self.competitor.id
             ).exists()
         if self.status == "success":
             # 一旦支払い済みにする(同期が遅いときある)
-            paid = True
+            is_paid = True
 
         now = datetime.datetime.now(tz=datetime.timezone.utc)
         fee_pay_close_at_timedelta = abs(self.competition.fee_pay_close_at - now)
@@ -54,7 +54,7 @@ class Fee(Base):
         context["fees"] = amount["fees"]
         context["prepaid_fees"] = amount["prepaid_fees"]
         context["price"] = amount["price"]
-        context["paid"] = paid
+        context["is_paid"] = is_paid
         context["stripe_public_key"] = settings.STRIPE_PUBLIC_KEY
         context["stripe_user_id"] = stripe_user_id
         context["now"] = now

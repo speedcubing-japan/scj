@@ -170,7 +170,7 @@ class Registration(Base):
             self.competition.fee_pay_type == FeePayType.REMOTE_ONLY.value
         )
         if status == "success":
-            context["is_paid_success"] = True
+            context["is_paid"] = True
 
         return context
 

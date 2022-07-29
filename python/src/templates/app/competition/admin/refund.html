@@ -82,8 +82,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="mb-3">以下の参加費の返金を行います。これはやり直すことはできません。</div>
-        <table class="table table-striped small">
+        <div class="mb-3 competition_admin_refund_text">以下の参加費の返金を行います。これはやり直すことはできません。</div>
+        <table class="table table-striped small competition_admin_refund_table">
           <thead>
             <tr>
               {% if competition.type == competition_type.WCA.value %}
@@ -142,6 +142,19 @@
         refund_list.push(map);
       }
     });
+
+    if (refund_list.length > 5) {
+      refund_list = [];
+      $('.competiton_admin_refund_submit').prop('disabled', true);
+      $('.competition_admin_refund_text').text('5件以上の返金は同時にできません。')
+      $('.competition_admin_refund_text').addClass("text-danger")
+      $('.competition_admin_refund_table').hide()
+    } else {
+      $('.competiton_admin_refund_submit').prop('disabled', false);
+      $('.competition_admin_refund_text').text('以下の参加費の返金を行います。これはやり直すことはできません。')
+      $('.competition_admin_refund_text').removeClass("text-danger")
+      $('.competition_admin_refund_table').show()
+    }
 
     for (const list of refund_list) {
       $('.competition_admin_refund_target_list').append('<tr><td>' + list['specific_id'] + '</td><td>' + list['name'] + '</td><td>' + list['price'] + '円</td></tr>')

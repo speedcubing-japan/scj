@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from app.models import Competitor, StripeProgress
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.competition import Type as CompetitionType
+from app.defines.fee import PayTypeEn as FeePayType
 from app.views.competition.base import Base
 from app.defines.session import Notification
 from app.views.competition.util import calc_fee
@@ -134,9 +135,9 @@ class Index(LoginRequiredMixin, Base):
             if competitor.status == CompetitorStatus.CANCEL.value:
                 cancel_competitors.append(competitor)
 
-        context["pending_competitors"] = pending_competitors
-        context["registration_competitors"] = registration_competitors
-        context["cancel_competitors"] = cancel_competitors
+        context["pending_competitors"] = self.sort_pay_at(pending_competitors)
+        context["registration_competitors"] = self.sort_pay_at(registration_competitors)
+        context["cancel_competitors"] = self.sort_pay_at(cancel_competitors)
         context["now"] = datetime.datetime.now(tz=datetime.timezone.utc)
         context["is_registration_open"] = self.competition.is_registration_open()
 
@@ -150,3 +151,8 @@ class Index(LoginRequiredMixin, Base):
             competition_type = CompetitionType.WCA.name.lower()
 
         return "app/competition/admin/index_{}.html".format(competition_type)
+
+    def sort_pay_at(self, competitors):
+        if self.competition.fee_pay_type == FeePayType.REMOTE_ONLY:
+            return sorted(competitors, key=lambda x: x.stripe_progress.pay_at)
+        return competitors

@@ -83,7 +83,7 @@
             <h5>{% trans "申し込みが承認されていないため、参加費を支払うことはできません。" %}</h5>
           {% elif not is_payment %}
             <h5>{% trans "参加費の支払いを停止中です。" %}</h5>
-          {% elif not paid %}
+          {% elif not is_paid %}
             {% if competition.fee_pay_close_at <= now %}
               <h5>{% trans "支払い期日を過ぎています。" %}</h5>
             {% else %}
@@ -91,7 +91,7 @@
               <div class="mb-2"><button type="button" class="btn bg-primary text-white" id="checkout">{% trans "支払う" %}</button></div>
               <div id="error" class="text-danger font-weight-bold"></div>
             {% endif %}
-          {% elif paid %}
+          {% elif is_paid %}
             <h5 class="mb-2"><i class="fas fa-check fa-fw mr-2"></i>{% trans "支払い済み" %}</h5>
           {% endif %}
         </div>

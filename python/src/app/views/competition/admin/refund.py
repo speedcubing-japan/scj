@@ -1,6 +1,5 @@
 import stripe
 import datetime
-import pprint
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
