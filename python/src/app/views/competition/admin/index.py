@@ -154,5 +154,13 @@ class Index(LoginRequiredMixin, Base):
 
     def sort_pay_at(self, competitors):
         if self.competition.fee_pay_type == FeePayType.REMOTE_ONLY.value:
-            return sorted(competitors, key=lambda x: x.stripe_progress.pay_at)
+            now = datetime.datetime.now(tz=datetime.timezone.utc)
+            return sorted(
+                competitors, key=lambda x: self.check_stripe_progress_pay_at(x, now)
+            )
         return competitors
+
+    def check_stripe_progress_pay_at(self, competitor, now):
+        if competitor.stripe_progress is None:
+            return now
+        return competitor.stripe_progress.pay_at
