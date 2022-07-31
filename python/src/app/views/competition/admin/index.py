@@ -122,8 +122,6 @@ class Index(LoginRequiredMixin, Base):
             for stripe_progress in stripe_progresses:
                 if competitor.id == stripe_progress.competitor_id:
                     competitor.set_stripe_progress(stripe_progress)
-                    # stripe_progressをupdateして0にすることがあるので、一時的にこのようにソートキーだけを確保する。
-                    competitor.set_pay_at_for_sorted(stripe_progress.pay_at)
                     if amount["price"] != stripe_progress.pay_price:
                         competitor.set_is_diffrence_event_and_price()
 
@@ -156,8 +154,5 @@ class Index(LoginRequiredMixin, Base):
 
     def sort_pay_at(self, competitors):
         if self.competition.fee_pay_type == FeePayType.REMOTE_ONLY.value:
-            return sorted(
-                competitors,
-                key=lambda x: (x.pay_at_for_sorted is None, x.pay_at_for_sorted),
-            )
+            return sorted(competitors, key=lambda x: x.stripe_progress.pay_at)
         return competitors
