@@ -17,6 +17,7 @@ class Competitor(models.Model):
     updated_at = models.DateTimeField("更新日時", auto_now=True)
 
     stripe_progress = None
+    pay_at_for_sorted = None
     is_duplicated_twin_competitions = False
     is_diffrence_event_and_price = False
 
@@ -60,6 +61,9 @@ class Competitor(models.Model):
 
     def unset_stripe_progress(self):
         self.stripe_progress = None
+
+    def set_pay_at_for_sorted(self, now):
+        self.pay_at_for_sorted = now
 
     def set_is_duplicated_twin_competitions(self):
         self.is_duplicated_twin_competitions = True
