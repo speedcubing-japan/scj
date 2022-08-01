@@ -1,6 +1,6 @@
 $(function () {
   // TableSorter
-  $('#competitor, #pending, #registration, #cancel').tablesorter();
+  $('#competitor, #pending, #registration, #cancel, #refund').tablesorter();
 
   $('select').addClass('custom-select');
 

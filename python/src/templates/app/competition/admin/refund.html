@@ -18,19 +18,19 @@
             返金
           </div>
           <div class="text-nowrap table-responsive">
-            <table class="table table-striped small">
+            <table id="refund" class="table table-striped small">
                 <thead>
                   <tr>
                     <th scope="col"></th>
-                    <th scope="col">返金額</th>
+                    <th scope="col"><i class="fas fa-sort mr-2"></i>返金額</th>
                     {% if competition.type == competition_type.WCA.value %}
-                      <th scope="col">WCA ID</th>
+                      <th scope="col"><i class="fas fa-sort mr-2"></i>WCA ID</th>
                     {% elif competition.type == competition_type.SCJ.value %}
-                      <th scope="col">SCJ ID</th>
+                      <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ ID</th>
                     {% endif %}
-                    <th scope="col">氏名</th>
-                    <th scope="col">支払日時</th>
-                    <th scope="col">申込日時</th>
+                    <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
+                    <th scope="col"><i class="fas fa-sort mr-2"></i>支払日時</th>
+                    <th scope="col"><i class="fas fa-sort mr-2"></i>申込日時</th>
                   </tr>
               </thead>
               <tbody>
