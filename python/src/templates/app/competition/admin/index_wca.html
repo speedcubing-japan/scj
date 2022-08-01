@@ -41,10 +41,10 @@
                     <td><input type="checkbox" class="competition_admin_pending competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.wca_email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{% if competitor.person.wca_id %}<a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a>{% endif %}</td>
-                    <td><a href="mailto:{{ competitor.person.wca_email }}">{% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check"></i>&nbsp;{% endif %}{% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb"></i>&nbsp;{% endif %}{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                    <td><a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}{% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}{% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>
                     <td>{{ competitor.guest_count }}</td>
-                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
+                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% if competitor.stripe_progress.refund_price > 0 %}&nbsp;<i class="fas fa-undo fa-fw"></i>{{ competitor.stripe_progress.refund_price }}円{% endif %}{% endif %}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_at | date:"Y年m月d日 H:i:s" }}{% endif %}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
                   </tr>
@@ -80,7 +80,7 @@
                     <td><input type="checkbox" class="competition_admin_admit competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.wca_email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{% if competitor.person.wca_id %}<a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a>{% endif %}</td>
-                    <td><a href="mailto:{{ competitor.person.wca_email }}">{% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check"></i>&nbsp;{% endif %}{% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb"></i>&nbsp;{% endif %}{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                    <td><a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}{% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}{% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>
                     <td>{{ competitor.guest_count }}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
@@ -102,7 +102,7 @@
             <table id="cancel" class="table table-striped small">
               <thead>
                 <tr>
-                  <th scope="col"><input type="checkbox" class="competition_admin_all_cancel competition_admin_checkbox" /></th>
+                  <th scope="col" ><input type="checkbox" class="competition_admin_all_cancel competition_admin_checkbox" /></th>
                   <th scope="col"></th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>WCA ID</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
@@ -110,8 +110,6 @@
                   <th scope="col"><i class="fas fa-sort mr-2"></i>同伴者人数</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払額</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払日時</th>
-                  <th scope="col"><i class="fas fa-sort mr-2"></i>返金額</th>
-                  <th scope="col"><i class="fas fa-sort mr-2"></i>返金日時</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>申込日時</th>
                 </tr>
               </thead>
@@ -121,13 +119,11 @@
                     <td><input type="checkbox" class="competition_admin_cancel competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.wca_email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{% if competitor.person.wca_id %}<a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a>{% endif %}</td>
-                    <td><a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                    <td><a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment"></i>{% endif %}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>
                     <td>{{ competitor.guest_count }}</td>
-                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
+                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% if competitor.stripe_progress.refund_price > 0 %}&nbsp;<i class="fas fa-undo fa-fw"></i>{{ competitor.stripe_progress.refund_price }}円{% endif %}{% endif %}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_at | date:"Y年m月d日 H:i:s" }}{% endif %}</td>
-                    <td>{% if competitor.stripe_progress.refund_price > 0 %}{{ competitor.stripe_progress.refund_price }}円{% endif %}</td>
-                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.refund_at | date:"Y年m月d日 H:i:s" }}{% endif %}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
                   </tr>
                 {% endfor %}
@@ -137,6 +133,10 @@
         </div>
       {% endif %}
       {% if pending_competitors or registration_competitors or cancel_competitors %}
+        <div class="alert alert-light" role="alert">
+          <div><i class="fas fa-money-check mr-1"></i>種目変更により支払額と差額が発生している際に表示されます。</div>
+          <div><i class="fas fa-bomb mr-1"></i>シリーズ大会において重複申し込みが発生している際に表示されます。</div>
+        </div>
         <div class="alert alert-light" role="alert">
           <div>チェックを入れた参加者のステータスを下部の[承認][否認]ボタンで変更できます。</div>
           <div>ただしステータスを変更した際、参加者に<strong class="text-danger">メールが送信されます</strong>ので十分に気をつけて下さい。</div>

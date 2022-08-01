@@ -7,6 +7,7 @@ from app.models import Person, Competitor, StripeProgress
 from app.views.competition.base import Base
 from app.views.competition.util import calc_fee
 from app.defines.session import Notification
+from app.defines.competitor import Status as CompetitorStatus
 
 
 class Refund(LoginRequiredMixin, Base):
@@ -21,7 +22,9 @@ class Refund(LoginRequiredMixin, Base):
         stripe_progresses = StripeProgress.objects.filter(
             competition_id=self.competition.id, refund_price=0
         )
-        competitors = Competitor.objects.filter(competition_id=self.competition.id)
+        competitors = Competitor.objects.filter(
+            competition_id=self.competition.id
+        ).exclude(status=CompetitorStatus.REGISTRATION.value)
 
         self.competitor_list = []
         for competitor in competitors:
@@ -89,26 +92,17 @@ class Refund(LoginRequiredMixin, Base):
                         amount=amount, charge=stripe_progress.charge_id
                     )
 
-                # 全額返金時(種目追加時)のみcompetitor_idを0にして再度支払えるようにする
-                if fee["price"] == amount:
-                    stripe_progress.competitor_id = 0
-                else:
-                    stripe_progress.pay_price -= amount
-
                 stripe_progress.refund_price = amount
                 stripe_progress.refund_at = datetime.datetime.now(
                     tz=datetime.timezone.utc
                 )
                 stripe_progress.save(
                     update_fields=[
-                        "competitor_id",
-                        "pay_price",
                         "refund_price",
                         "refund_at",
                         "updated_at",
                     ]
                 )
-                competitor.unset_stripe_progress()
 
                 self.send_mail_refund(
                     competitor.person.user, "registration_refund", price=amount
@@ -121,6 +115,9 @@ class Refund(LoginRequiredMixin, Base):
 
     def get_context(self):
         context = super().get_context()
-        context["competitors"] = self.competitor_list
+        context["competitors"] = self.sort_pay_at(self.competitor_list)
         context["now"] = datetime.datetime.now(tz=datetime.timezone.utc)
         return context
+
+    def sort_pay_at(self, competitors):
+        return sorted(competitors, key=lambda x: x.stripe_progress.pay_at)
