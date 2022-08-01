@@ -103,6 +103,7 @@ class Refund(LoginRequiredMixin, Base):
                         "updated_at",
                     ]
                 )
+                competitor.unset_stripe_progress()
 
                 self.send_mail_refund(
                     competitor.person.user, "registration_refund", price=amount
