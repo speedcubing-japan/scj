@@ -94,7 +94,7 @@ class WcaCsv(LoginRequiredMixin, View):
                     competitor.person.wca_name,
                     country_names[competitor.person.wca_country_iso2],
                     competitor.person.wca_id,
-                    competitor.person.birth_at,
+                    competitor.person.wca_birth_at,
                     gender[competitor.person.gender],
                     competitor.person.wca_email,
                 ]
