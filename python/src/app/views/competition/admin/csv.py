@@ -1,6 +1,7 @@
 import csv
 import urllib
 import datetime
+import pycountry
 from django.http import HttpResponse
 from django.utils.timezone import localtime
 from django.shortcuts import redirect
@@ -61,6 +62,7 @@ class Csv(LoginRequiredMixin, View):
                 "wca_user_id",
                 "name",
                 "full_name_kana",
+                "wca_country",
                 "email",
                 "birth_at",
             ]
@@ -98,6 +100,11 @@ class Csv(LoginRequiredMixin, View):
                         event_join_list.append(0)
 
                 if competition.type == CompetitionType.WCA.value:
+                    wca_country = ""
+                    if competitor.person.wca_country_iso2:
+                        wca_country = pycountry.countries.get(
+                            alpha_2=competitor.person.wca_country_iso2
+                        ).name
                     row = [
                         index + 1,
                         competitor.person.id,
@@ -105,6 +112,7 @@ class Csv(LoginRequiredMixin, View):
                         competitor.person.wca_user_id,
                         competitor.person.wca_name,
                         competitor.person.get_full_name_kana(),
+                        wca_country,
                         competitor.person.wca_email,
                         competitor.person.wca_birth_at,
                     ]
