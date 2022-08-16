@@ -74,6 +74,13 @@ class Event(Define):
             if x.value[1] == name:
                 return x.value[0]
 
+    # event_id_nameからevent_idを引く
+    @classmethod
+    def get_value_by_id_name(cls, id_name):
+        for x in cls:
+            if x.value[2] == id_name:
+                return x.value[0]
+
     @classmethod
     def get_names(cls, values):
         list = []

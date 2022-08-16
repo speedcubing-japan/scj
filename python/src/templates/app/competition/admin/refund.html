@@ -39,12 +39,12 @@
                     <td><input type="checkbox" name="competitor_id_{{ competitor.id }}" class="competition_admin_refund_checkbox"></td>
                     <td><input type="number" name="competitor_refund_{{ competitor.id }}" class="competition_admin_refund_price" value="{{ competitor.stripe_progress.pay_price }}">&nbsp;/&nbsp;{{ competitor.stripe_progress.pay_price }}円</td>
                     {% if competition.type == competition_type.WCA.value %}
-                      <td class="competition_admin_refund_specific_id" data-value="{{ competitor.person.wca_id }}">{{ competitor.person.wca_id }}</td>
+                      <td class="competition_admin_refund_specific_id" data-value="{{ competitor.person.wca_id }}"><a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a></td>
                     {% elif competition.type == competition_type.SCJ.value %}
                       <td class="competition_admin_refund_specific_id" data-value="{{ competitor.person.id }}" >{{ competitor.person.id }}</td>
                     {% endif %}
                     {% if competition.type == competition_type.WCA.value %}
-                      <td><a href="mailto:{{ competitor.person.wca_email }}" class="competition_admin_refund_name" data-value="{{ competitor.person.wca_name }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                      <td><span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span><a href="mailto:{{ competitor.person.wca_email }}" class="competition_admin_refund_name" data-value="{{ competitor.person.wca_name }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     {% elif competition.type == competition_type.SCJ.value %}
                       <td><a href="mailto:{{ competitor.person.email }}" class="competition_admin_refund_name" data-value="{{ competitor.person.get_full_name }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     {% endif %}

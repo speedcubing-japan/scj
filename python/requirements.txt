@@ -9,4 +9,3 @@ requests
 six
 stripe
 python-dateutil==2.8.1
-pycountry==22.3.5

@@ -13,58 +13,70 @@
   </div>
   <div class="col-lg-10 mb-3">
     <select class="competition_competitor">
-      <option value="{% url 'competition_competitor' competition.name_id 'list' %}" {% if event_name == 'list' %}selected{% endif %}>{% trans "全競技者" %}</option>
-      {% for name in event_names %}
-        <option value="{% url 'competition_competitor' competition.name_id name %}" {% if event_name == name %}selected{% endif %}>{{ name }}</option>
+      <option value="{% url 'competition_competitor' competition.name_id 'list' %}" {% if event_id_name == 'list' %}selected{% endif %}>{% trans "全競技者" %}</option>
+      {% for event_info in event_infos %}
+        <option value="{% url 'competition_competitor' competition.name_id event_info.event_id_name %}" {% if event_id_name == event_info.event_id_name %}selected{% endif %}>{{ event_info.event_name }}</option>
       {% endfor %}
     </select>
     {% if competitors %}
-      <table id="competitor" class="table table-hover table-sm">
-        <thead>
-          <tr>
-            {% if competition.type == competition_type.SCJ.value %}
-              <th scope="col"><i class="fas fa-sort"><span class="ml-2">SCJ ID</span></th>
-            {% elif competition.type == competition_type.WCA.value %}
-              <th scope="col"><i class="fas fa-sort"><span class="ml-2">WCA ID</span></th>
-            {% endif %}
-            <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "氏名" %}</span></th>
-            {% if competition.type == competition_type.SCJ.value %}
-              <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "都道府県" %}</span></th>
-            {% elif competition.type == competition_type.WCA.value %}
-              <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "国" %}</span></th>
-            {% endif %}
-            {% if event_name != 'list' and competition.type == competition_type.SCJ.value %}
-              <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "ベスト" %}</span></th>
-              <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "平均" %}</span></th>
-            {% endif %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for competitor in competitors %}
-            <tr{% if competitor.status == competitor_status.PENDING.value %} class="bg-light"{% endif %}>
-              {% if competition.is_display_pending_competitor %}
-                <th scope="row">{% if competitor.status == competitor_status.PENDING.value %}{% trans "未承認" %}{% endif %}</th>
-              {% elif competition.type == competition_type.WCA.value and competitor.person.wca_id %}
-                <td><a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a></td>
+      <div class="mb-3 text-nowrap table-responsive">
+        <table id="competitor" class="table table-hover table-striped table-sm">
+          <thead>
+            <tr>
+              {% if competition.type == competition_type.WCA.value %}
+                <th scope="col" style="width: 10%;"><i class="fas fa-sort"><span class="ml-2">{% trans "氏名" %}</span></th>
+                <th scope="col" style="width: 10%;"><i class="fas fa-sort"><span class="ml-2">{% trans "国籍" %}</span></th>
               {% elif competition.type == competition_type.SCJ.value %}
-                <td>{{ competitor.person.id }}</td>
-              {% else %}
-                <td></td>
-              {% endif %}
-              <td>{{ competitor.name }}</td>
-              {% if competition.type == competition_type.SCJ.value %}
-                <td>{{ competitor.prefecture }}</td>
-              {% elif competition.type == competition_type.WCA.value %}
-                <td>{{ competitor.country }}</td>
+                <th scope="col" style="width: 10%;"><i class="fas fa-sort"><span class="ml-2">SCJ ID</span></th>
+                <th scope="col" style="width: 10%;"><i class="fas fa-sort"><span class="ml-2">{% trans "氏名" %}</span></th>
+                <th scope="col" style="width: 10%;"><i class="fas fa-sort"><span class="ml-2">{% trans "都道府県" %}</span></th>
               {% endif %}
               {% if event_name != 'list' and competition.type == competition_type.SCJ.value %}
-                <td>{{ competitor.best | result_convert:event_id }}</td>
-                <td>{{ competitor.average | result_convert:event_id }}</td>
+                <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "ベスト" %}</span></th>
+                <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "平均" %}</span></th>
               {% endif %}
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {% for competitor in competitors %}
+              <tr {% if competitor.status == competitor_status.PENDING.value %} class="bg-light"{% endif %}>
+                {% if competition.type == competition_type.SCJ.value %}
+                  <td>{{ competitor.person.id }}
+                {% endif %}
+                {% if competition.type == competition_type.SCJ.value %}
+                  <td>{{ competitor.name }}</td>
+                  <td>{{ competitor.prefecture }}</td>
+                {% elif competition.type == competition_type.WCA.value %}
+                  {% if competitor.person.wca_id %}
+                    <td><a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.name }}</a></td>
+                  {% else %}
+                    <td>{{ competitor.name }}</td>
+                  {% endif %}
+                  {% if request.LANGUAGE_CODE == 'ja' %}
+                    <td>{{ competitor.country }}</td>
+                  {% else %}
+                    <td>{{ competitor.en_country }}</td>
+                  {% endif %}
+                {% endif %}
+                {% if event_name != 'list' and competition.type == competition_type.SCJ.value %}
+                  <td>{{ competitor.best | result_convert:event_id }}</td>
+                  <td>{{ competitor.average | result_convert:event_id }}</td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>{% blocktrans with first_timers=competitors_count_info.first_timers returners=competitors_count_info.returners sum=competitors_count_info.sum %}{{ first_timers }} 人 (初参加者) + {{ returners }} 人 (大会経験者) = {{ sum }} 人{% endblocktrans %}</td>
+              {% if competition.type == competition_type.SCJ.value %}
+                <td>{% blocktrans with country_count=competitors_count_info.country_count %}{{ country_count}}都道府県{% endblocktrans %}</td>
+              {% elif competition.type == competition_type.WCA.value %}
+                <td>{% blocktrans with country_count=competitors_count_info.country_count %}{{ country_count}}ヶ国{% endblocktrans %}</td>
+              {% endif %}
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     {% endif %}
   </div>
 </div>

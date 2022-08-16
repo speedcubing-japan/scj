@@ -8,7 +8,7 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.defines.event import Event
 from app.defines.gender import GenderEn
-from app.defines.country import Country
+from app.libs.country import Country
 from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
 from app.models import Competition, Competitor
@@ -52,7 +52,6 @@ class WcaCsv(LoginRequiredMixin, View):
         for event_id in competition.event_ids:
             event_name_dict[event_id] = event_id_names[event_id]
 
-        country_names = dict(Country.choices())
         gender = dict(GenderEn.choices())
 
         event_name_id_list = []
@@ -73,6 +72,7 @@ class WcaCsv(LoginRequiredMixin, View):
 
         writer.writerow(columns)
 
+        country = Country()
         for competitor in competitors:
             if request.POST.get("competitor_id_" + str(competitor.id)):
 
@@ -92,7 +92,7 @@ class WcaCsv(LoginRequiredMixin, View):
                 row = [
                     status,
                     competitor.person.wca_name,
-                    country_names[competitor.person.wca_country_iso2],
+                    country.en_name(code=competitor.person.wca_country_iso2),
                     competitor.person.wca_id,
                     competitor.person.wca_birth_at,
                     gender[competitor.person.gender],

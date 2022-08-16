@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-28 11:05+0000\n"
+"POT-Creation-Date: 2022-08-16 12:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,29 +30,42 @@ msgstr ""
 msgid "全競技者"
 msgstr "All Competitors"
 
-#: templates/app/competition/competitor.html:30
+#: templates/app/competition/competitor.html:27
+#: templates/app/competition/competitor.html:31
 msgid "氏名"
 msgstr "Name"
+
+#: templates/app/competition/competitor.html:28
+msgid "国籍"
+msgstr "Citizen of"
 
 #: templates/app/competition/competitor.html:32
 msgid "都道府県"
 msgstr "Prefecutre"
 
-#: templates/app/competition/competitor.html:34
-msgid "国"
-msgstr "Citizen of"
-
-#: templates/app/competition/competitor.html:37
+#: templates/app/competition/competitor.html:35
 msgid "ベスト"
 msgstr "Best"
 
-#: templates/app/competition/competitor.html:38
+#: templates/app/competition/competitor.html:36
 msgid "平均"
 msgstr "Average"
 
-#: templates/app/competition/competitor.html:46
-msgid "未承認"
-msgstr "Not approved"
+#: templates/app/competition/competitor.html:70
+#, python-format
+msgid ""
+"%(first_timers)s 人 (初参加者) + %(returners)s 人 (大会経験者) = %(sum)s 人"
+msgstr "%(first_timers)s first-timers + %(returners)s returners = %(sum)s people"
+
+#: templates/app/competition/competitor.html:72
+#, python-format
+msgid "%(country_count)s都道府県"
+msgstr "%(country_count)s prefecture"
+
+#: templates/app/competition/competitor.html:74
+#, python-format
+msgid "%(country_count)sヶ国"
+msgstr "%(country_count)s country"
 
 #: templates/app/competition/detail.html:28
 msgid "承認者数"

@@ -1,7 +1,6 @@
 {% extends "app/common/base.html" %}
 {% load bootstrap4 %}
 {% load static %}
-{% load guest_sum %}
 
 
 {% block content %}
@@ -29,7 +28,7 @@
                   <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ ID</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>都道府県</th>
-                  <th scope="col"><i class="fas fa-sort mr-2"></i>同伴者人数({{ pending_competitors | guest_sum }}名)</th>
+                  <th scope="col"><i class="fas fa-sort mr-2"></i>同伴数</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払額</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払日時</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>申込日時</th>
@@ -68,7 +67,7 @@
                   <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ ID</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>都道府県</th>
-                  <th scope="col"><i class="fas fa-sort mr-2"></i>同伴者人数({{ registration_competitors | guest_sum }}名)</th>
+                  <th scope="col"><i class="fas fa-sort mr-2"></i>同伴数</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払額</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払日時</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>申込日時</th>
@@ -107,7 +106,7 @@
                   <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ ID</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>都道府県</th>
-                  <th scope="col"><i class="fas fa-sort mr-2"></i>同伴者人数</th>
+                  <th scope="col"><i class="fas fa-sort mr-2"></i>同伴数</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払額</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払日時</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>返金額</th>

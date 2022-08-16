@@ -1,13 +1,13 @@
 import csv
 import urllib
 import datetime
-import pycountry
 from django.http import HttpResponse
 from django.utils.timezone import localtime
 from django.shortcuts import redirect
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.defines.event import Event
+from app.libs.country import Country
 from app.defines.competition import Type as CompetitionType
 from app.models import Competition, Competitor, StripeProgress
 
@@ -90,6 +90,7 @@ class Csv(LoginRequiredMixin, View):
         )
         writer.writerow(row)
 
+        country = Country()
         for index, competitor in enumerate(competitors):
             if request.POST.get("competitor_id_" + str(competitor.id)):
                 event_join_list = []
@@ -100,11 +101,6 @@ class Csv(LoginRequiredMixin, View):
                         event_join_list.append(0)
 
                 if competition.type == CompetitionType.WCA.value:
-                    wca_country = ""
-                    if competitor.person.wca_country_iso2:
-                        wca_country = pycountry.countries.get(
-                            alpha_2=competitor.person.wca_country_iso2
-                        ).name
                     row = [
                         index + 1,
                         competitor.person.id,
@@ -112,7 +108,7 @@ class Csv(LoginRequiredMixin, View):
                         competitor.person.wca_user_id,
                         competitor.person.wca_name,
                         competitor.person.get_full_name_kana(),
-                        wca_country,
+                        country.en_name(code=competitor.person.wca_country_iso2),
                         competitor.person.wca_email,
                         competitor.person.wca_birth_at,
                     ]

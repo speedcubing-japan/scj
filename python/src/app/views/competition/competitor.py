@@ -2,22 +2,22 @@ import app.models
 from django.shortcuts import render, redirect
 from app.models import BestRank, AverageRank
 from app.defines.event import Event
-from app.defines.country import Country
 from app.defines.define import OUTLIERS
 from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
+from app.libs.country import Country
 from .base import Base
 
 
 class Competitor(Base):
 
     template_name = "app/competition/competitor.html"
-    event_name = ""
+    event_id_name = ""
 
     def get(self, request, **kwargs):
-        if "event_name" not in kwargs:
+        if "event_id_name" not in kwargs:
             return redirect("competition_index")
-        self.event_name = kwargs.get("event_name")
+        self.event_id_name = kwargs.get("event_id_name")
 
         return render(request, self.template_name, self.get_context())
 
@@ -25,8 +25,8 @@ class Competitor(Base):
         context = super().get_context()
 
         event_id = 0
-        if self.event_name != "list":
-            event_id = Event.get_value(self.event_name)
+        if self.event_id_name != "list":
+            event_id = Event.get_value_by_id_name(self.event_id_name)
 
         if event_id:
             competitors = app.models.Competitor.objects.filter(
@@ -74,7 +74,9 @@ class Competitor(Base):
         competitor_list = []
         name = ""
         country = ""
+        en_country = ""
         prefecture = ""
+        country_info = Country()
         for competitor in competitors:
             if self.competition.type == CompetitionType.SCJ.value:
                 name = competitor.person.get_full_name()
@@ -91,8 +93,11 @@ class Competitor(Base):
                 )
             elif self.competition.type == CompetitionType.WCA.value:
                 name = competitor.person.wca_name
-                country_names = dict(Country.choices())
-                country = country_names[competitor.person.wca_country_iso2]
+                country = country_info.name(code=competitor.person.wca_country_iso2)
+                en_country = country_info.en_name(
+                    code=competitor.person.wca_country_iso2
+                )
+                prefecture = competitor.person.get_prefecture_id_display()
                 best = (
                     bests[competitor.person.wca_id]
                     if competitor.person.wca_id in bests
@@ -109,6 +114,7 @@ class Competitor(Base):
                     "status": competitor.status,
                     "name": name,
                     "country": country,
+                    "en_country": en_country,
                     "prefecture": prefecture,
                     "best": best,
                     "average": average,
@@ -117,11 +123,47 @@ class Competitor(Base):
             )
 
         competitor_list = sorted(competitor_list, key=lambda x: x["average"])
-        event_names = Event.get_names(self.competition.event_ids)
+        event_infos = list(
+            map(lambda x: self.event_info(x), self.competition.event_ids)
+        )
 
         context["competitors"] = competitor_list
+        context["competitors_count_info"] = self.competitior_count_info(competitor_list)
         context["event_id"] = event_id
-        context["event_name"] = self.event_name
-        context["event_names"] = event_names
+        context["event_id_name"] = self.event_id_name
+        context["event_infos"] = event_infos
 
         return context
+
+    def event_info(self, event_id):
+        return {
+            "event_id": event_id,
+            "event_id_name": Event.get_id_name(event_id),
+            "event_name": Event.get_name(event_id),
+        }
+
+    def competitior_count_info(self, competitors):
+        returners = 0
+        first_timers = 0
+        country_count = 0
+        for competitor in competitors:
+            if competitor["person"].wca_id:
+                returners += 1
+        for competitor in competitors:
+            if not competitor["person"].wca_id:
+                first_timers += 1
+        if self.competition.type == CompetitionType.WCA.value:
+            country_count = len(
+                set(map(lambda x: x["person"].wca_country_iso2, competitors))
+            )
+        elif self.competition.type == CompetitionType.SCJ.value:
+            country_count = len(
+                set(map(lambda x: x["person"].prefecture_id, competitors))
+            )
+
+        return {
+            "sum": returners + first_timers,
+            "returners": returners,
+            "first_timers": first_timers,
+            "country_count": country_count,
+        }
