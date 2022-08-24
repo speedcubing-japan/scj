@@ -54,7 +54,7 @@ class Refund(LoginRequiredMixin, Base):
         )
         competitors = Competitor.objects.filter(
             competition_id=self.competition.id
-        ).order_by("created_at")
+        ).exclude(status=CompetitorStatus.REGISTRATION.value)
 
         self.competitor_list = []
         for competitor in competitors:
