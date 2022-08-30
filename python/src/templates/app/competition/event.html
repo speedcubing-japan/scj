@@ -81,8 +81,8 @@
                       <th scope="col">{% trans "種目" %}</th>
                       <th scope="col">{% trans "ラウンド" %}</th>
                       <th scope="col">{% trans "形式" %}</th>
-                      <th scope="col">{% trans "カットオフ" %}<a href="" class="text-danger" data-toggle="modal" data-target="#cutoff">*</a></th>
-                      <th scope="col">{% trans "制限" %}<a href="" class="text-danger" data-toggle="modal" data-target="#limit">*</a></th>
+                      <th scope="col">{% trans "カットオフ" %}</th>
+                      <th scope="col">{% trans "制限時間" %}</th>
                       <th scope="col">{% trans "進出人数" %}</th>
                     </tr>
                   </thead>
@@ -99,7 +99,7 @@
                           {% endif %}
                         </td>
                         <td>{% if round.type > 0 %}{{ round.get_type_display }}{% endif %}</td>
-                        <td>{% if round.cutoff_attempt_count > 0 %}Best of {{ round.cutoff_attempt_count }}/{% endif %}{% if round.format_id > 0 %}{{ round.get_format_id_display }}{% endif %}{% if round.attempt_count > 0 %}&nbsp;({{ round.attempt_count }}{% trans "試技目" %}){% endif %}</td>
+                        <td>{% if round.cutoff_attempt_count > 0 %}Best of {{ round.cutoff_attempt_count }}&nbsp;/&nbsp;{% endif %}{% if round.format_id > 0 %}{{ round.get_format_id_display }}{% endif %}{% if round.attempt_count > 0 %}&nbsp;({{ round.attempt_count }}{% trans "試技目" %}){% endif %}</td>
                         <td>{% if round.cutoff_time > 0 %}{{ round.cutoff_time | time_convert }}{% endif %}</td>
                         <td>
                           {% if round.limit_time > 0 %}
@@ -115,9 +115,9 @@
                         </td>
                         <td>
                           {% if round.proceed_type == proceed_type.COUNT.value %}
-                             {% if round.proceed_count > 0 %}{{ round.proceed_count }}人{% endif %}
+                            {% if round.proceed_count > 0 %}{{ round.proceed_count }}人{% endif %}
                           {% elif round.proceed_type == proceed_type.RATE.value %}
-                             {% if round.proceed_rate > 0 %}上位{{ round.proceed_rate }}%が次のラウンドに進出します。{% endif %}
+                            {% if round.proceed_rate > 0 %}上位{{ round.proceed_rate }}%が次のラウンドに進出します。{% endif %}
                           {% endif %}
                         </td>
                       </tr>
@@ -129,43 +129,43 @@
         </div>
       </div>
     {% endfor %}
-  </div>
-</div>
-
-<div class="modal fade" id="limit" tabindex="-1" role="dialog" aria-labelledby="limitModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{% trans "制限タイム" %}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&#10005;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div>{% blocktrans with url="https://www.worldcubeassociation.org/regulations/translations/japanese/#A1a4" target="_blank" %}試技中に制限タイムを超過した場合、ジャッジは試技を中断し、その試技の記録はDNF(記録なし)となります(<a href="{{ url }}" target="{{ target }}">大会規則A1a4</a>参照)。{% endblocktrans %}</div>
-        <div>{% blocktrans with url="https://www.worldcubeassociation.org/regulations/translations/japanese/#A1a2" target="_blank" %}累積制限タイムが採用される場合があります(<a href="{{ url }}" target="{{ target }}">大会規則A1a2</a>参照)。{% endblocktrans %}</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "閉じる" %}</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="cutoff" tabindex="-1" role="dialog" aria-labelledby="cutoffModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{% trans "カットオフ" %}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&#10005;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div>{% blocktrans with url="https://www.worldcubeassociation.org/regulations/translations/japanese/#9g" %}最初の指定された回数の試技までに基準タイムを超えない場合、残りの試技を行うことができません(<a href="{{ url }}" target="{{ target }}">大会規則9g</a>参照)。{% endblocktrans %}</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "閉じる" %}</button>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5>形式</h5>
+        <div class="mb-3 table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr class="bg-dark text-white">
+                <th scope="col" style="width:30%;">{% trans "形式" %}</th>
+                <th scope="col">{% trans "説明" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Average of 5</td><td>{% trans "5回計測し最も速い記録と最も遅い記録を除き、残りの3つの記録の平均に基づいて順位を決定します。" %}</td>
+              </tr>
+              <tr>
+                <td>Mean of 3</td><td>{% trans "3回計測しその3つの記録の平均に基づいて順位を決定します。DNFやDNSがある場合、記録が3回未満なので平均記録はDNFとなります。" %}</td>
+              </tr>
+              <tr>
+                <td>Best of X</td><td>{% trans "X回計測しその中で最も速い記録に基づいて順位を決定します。" %}</td>
+              </tr>
+              <tr>
+                <td>Best of X / Average of 5 (Mean of 3)</td><td>{% trans "カットオフが設定されています。Beat of Xの中でカットオフの制限をクリアするとAverage of 5 (Mean of 3)の試技ができます。" %}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h5>{% trans "カットオフ" %}</h5>
+        <div class="mb-4">
+          <div>{% trans "形式にBest of X / Average of 5 (Mean of 3)と記載されます。" %}</div>
+          <div>{% trans "Best of Xでカットオフをクリアした場合にAverage of 5 (Mean of 3)での試技を行うことができます。" %}</div>
+        </div>
+        <h5>{% trans "制限時間" %}</h5>
+        <div class="mb-3">
+          <div>{% trans "各試技において制限時間をクリアできない場合、試技はDNFになります。" %}</div>
+          <div>{% trans "累積Xの制限時間はその時間内ですべての試技を終わらせる必要があり、パズルの完成を問わず制限時間は累積されます。" %}</div>
+        </div>
       </div>
     </div>
   </div>

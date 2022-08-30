@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-16 12:35+0000\n"
+"POT-Creation-Date: 2022-08-30 11:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,7 +55,8 @@ msgstr "Average"
 #, python-format
 msgid ""
 "%(first_timers)s 人 (初参加者) + %(returners)s 人 (大会経験者) = %(sum)s 人"
-msgstr "%(first_timers)s first-timers + %(returners)s returners = %(sum)s people"
+msgstr ""
+"%(first_timers)s first-timers + %(returners)s returners = %(sum)s people"
 
 #: templates/app/competition/competitor.html:72
 #, python-format
@@ -188,17 +189,17 @@ msgid "種目"
 msgstr "Events"
 
 #: templates/app/competition/event.html:83
+#: templates/app/competition/event.html:139
 msgid "形式"
 msgstr "Format"
 
 #: templates/app/competition/event.html:84
-#: templates/app/competition/event.html:159
 msgid "カットオフ"
 msgstr "Cutoff"
 
 #: templates/app/competition/event.html:85
-msgid "制限"
-msgstr "Time Limit"
+msgid "制限時間"
+msgstr "Limit Time"
 
 #: templates/app/competition/event.html:86
 msgid "進出人数"
@@ -208,45 +209,51 @@ msgstr "Competitors"
 msgid "試技目"
 msgstr "Attempt"
 
-#: templates/app/competition/event.html:139
-msgid "制限タイム"
-msgstr "Time Limit"
+#: templates/app/competition/event.html:140
+msgid "説明"
+msgstr "Description"
 
 #: templates/app/competition/event.html:145
-#, python-format
 msgid ""
-"試技中に制限タイムを超過した場合、ジャッジは試技を中断し、その試技の記録は"
-"DNF(記録なし)となります(<a href=\"%(url)s\" target=\"%(target)s\">大会規則"
-"A1a4</a>参照)。"
-msgstr ""
-"If you reach the time limit during your solve, the judge will stop you and "
-"your result will be DNF (see Regulation <a href=\"%(url)s\" target="
-"\"%(target)s\">A1a4</a>)."
+"5回計測し最も速い記録と最も遅い記録を除き、残りの3つの記録の平均に基づいて順"
+"位を決定します。"
+msgstr "The fastest and slowest records are excluded from the five attemps, and the ranking is determined based on the average of the remaining three attempts."
 
-#: templates/app/competition/event.html:146
-#, python-format
+#: templates/app/competition/event.html:148
 msgid ""
-"累積制限タイムが採用される場合があります(<a href=\"%(url)s\" target="
-"\"%(target)s\">大会規則A1a2</a>参照)。"
-msgstr ""
-"For events other than 3x3x3 Fewest Moves and 3x3x3 Multi-Blind, the "
-"organization team may define a cumulative time limit (see Regulation <a href="
-"\"%(url)s\" target=\"%(target)s\">A1a2</a>)."
+"3回計測しその3つの記録の平均に基づいて順位を決定します。DNFやDNSがある場合、"
+"記録が3回未満なので平均記録はDNFとなります。"
+msgstr "Three measurements will be taken and the ranking will be determined based on the average of the three attempts. If there is a DNF or DNS, the average record is DNF because the record is less than 3 attempts."
 
-#: templates/app/competition/event.html:149
-#: templates/app/competition/event.html:168
-msgid "閉じる"
-msgstr "Close"
+#: templates/app/competition/event.html:151
+msgid "X回計測しその中で最も速い記録に基づいて順位を決定します。"
+msgstr "X times, and the ranking is determined based on the fastest attempt among the X times."
 
-#: templates/app/competition/event.html:165
-#, python-format
+#: templates/app/competition/event.html:154
 msgid ""
-"最初の指定された回数の試技までに基準タイムを超えない場合、残りの試技を行うこ"
-"とができません(<a href=\"%(url)s\" target=\"%(target)s\">大会規則9g</a>参"
-"照)。"
-msgstr ""
-"The result to beat to proceed to the second phase of a combined round (see "
-"Regulation <a href=\"%(url)s\" target=\"%(target)s\">9g</a>)."
+"カットオフが設定されています。Beat of Xの中でカットオフの制限をクリアすると"
+"Average of 5 (Mean of 3)の試技ができます。"
+msgstr "A cutoff is set. if you clear the cutoff limit in the Beat of X, you can attempt an Average of 5 (Mean of 3)."
+
+#: templates/app/competition/event.html:161
+msgid "形式にBest of X / Average of 5 (Mean of 3)と記載されます。"
+msgstr "The format will be marked Best of X / Average of 5 (Mean of 3)."
+
+#: templates/app/competition/event.html:162
+msgid ""
+"Best of Xでカットオフをクリアした場合にAverage of 5 (Mean of 3)での試技を行う"
+"ことができます。"
+msgstr "You can try Average of 5 (Mean of 3) when you have cleared the cutoff at Best of X."
+
+#: templates/app/competition/event.html:166
+msgid "各試技において制限時間をクリアできない場合、試技はDNFになります。"
+msgstr "Failure to meet the time limit in each atempt will result in a DNF for the attempt."
+
+#: templates/app/competition/event.html:167
+msgid ""
+"累積Xの制限時間はその時間内ですべての試技を終わらせる必要があり、パズルの完成"
+"を問わず制限時間は累積されます。"
+msgstr "The cumulative X time limit requires that all attemps must be completed within that time, and the time limit is cumulative regardless of puzzle completion."
 
 #: templates/app/competition/fee.html:28
 #, python-format
@@ -400,8 +407,8 @@ msgid "申し込み"
 msgstr "Registration"
 
 #: templates/app/competition/menu.html:15
-msgid "競技者一覧"
-msgstr "Competitors"
+msgid "競技者"
+msgstr "Competitor"
 
 #: templates/app/competition/registration.html:22
 #, python-format
