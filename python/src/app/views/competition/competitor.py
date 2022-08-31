@@ -71,11 +71,26 @@ class Competitor(Base):
                 for competitor in competitors:
                     wca_ids.append(competitor.person.wca_id)
 
+        scj_returners = []
+        if self.competition.type == CompetitionType.SCJ.value:
+            person_ids = []
+            competitors = app.models.Competitor.objects.filter(
+                competition_id=self.competition.id
+            )
+            for competitor in competitors:
+                person_ids.append(competitor.person.id)
+            # 大会経験者か確認するために全BestRank引く
+            all_best_ranks = BestRank.objects.filter(person_id__in=person_ids)
+
+            for best_rank in all_best_ranks:
+                scj_returners.append(best_rank.person.id)
+
         competitor_list = []
         name = ""
         country = ""
         en_country = ""
         prefecture = ""
+        is_first_timer = False
         country_info = Country()
         for competitor in competitors:
             if self.competition.type == CompetitionType.SCJ.value:
@@ -91,6 +106,7 @@ class Competitor(Base):
                     if competitor.person.id in averages
                     else OUTLIERS
                 )
+                is_first_timer = competitor.person.id in scj_returners
             elif self.competition.type == CompetitionType.WCA.value:
                 name = competitor.person.wca_name
                 country = country_info.name(code=competitor.person.wca_country_iso2)
@@ -108,7 +124,7 @@ class Competitor(Base):
                     if competitor.person.wca_id in averages
                     else OUTLIERS
                 )
-
+                is_first_timer = competitor.person.wca_id == ""
             competitor_list.append(
                 {
                     "status": competitor.status,
@@ -119,6 +135,7 @@ class Competitor(Base):
                     "best": best,
                     "average": average,
                     "person": competitor.person,
+                    "is_first_timer": is_first_timer,
                 }
             )
 
@@ -147,11 +164,10 @@ class Competitor(Base):
         first_timers = 0
         country_count = 0
         for competitor in competitors:
-            if competitor["person"].wca_id:
-                returners += 1
-        for competitor in competitors:
-            if not competitor["person"].wca_id:
+            if competitor["is_first_timer"]:
                 first_timers += 1
+            else:
+                returners += 1
         if self.competition.type == CompetitionType.WCA.value:
             country_count = len(
                 set(map(lambda x: x["person"].wca_country_iso2, competitors))
