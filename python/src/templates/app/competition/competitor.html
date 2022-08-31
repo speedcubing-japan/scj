@@ -27,7 +27,6 @@
                 <th scope="col" style="width: 10%;"><i class="fas fa-sort"><span class="ml-2">{% trans "氏名" %}</span></th>
                 <th scope="col" style="width: 10%;"><i class="fas fa-sort"><span class="ml-2">{% trans "国籍" %}</span></th>
               {% elif competition.type == competition_type.SCJ.value %}
-                <th scope="col" style="width: 10%;"><i class="fas fa-sort"><span class="ml-2">SCJ ID</span></th>
                 <th scope="col" style="width: 10%;"><i class="fas fa-sort"><span class="ml-2">{% trans "氏名" %}</span></th>
                 <th scope="col" style="width: 10%;"><i class="fas fa-sort"><span class="ml-2">{% trans "都道府県" %}</span></th>
               {% endif %}
@@ -40,9 +39,6 @@
           <tbody>
             {% for competitor in competitors %}
               <tr {% if competitor.status == competitor_status.PENDING.value %} class="bg-light"{% endif %}>
-                {% if competition.type == competition_type.SCJ.value %}
-                  <td>{{ competitor.person.id }}
-                {% endif %}
                 {% if competition.type == competition_type.SCJ.value %}
                   <td>{{ competitor.name }}</td>
                   <td>{{ competitor.prefecture }}</td>
