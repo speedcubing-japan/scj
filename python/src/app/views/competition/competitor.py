@@ -71,20 +71,6 @@ class Competitor(Base):
                 for competitor in competitors:
                     wca_ids.append(competitor.person.wca_id)
 
-        scj_returners = []
-        if self.competition.type == CompetitionType.SCJ.value:
-            person_ids = []
-            competitors = app.models.Competitor.objects.filter(
-                competition_id=self.competition.id
-            )
-            for competitor in competitors:
-                person_ids.append(competitor.person.id)
-            # 大会経験者か確認するために全BestRank引く
-            all_best_ranks = BestRank.objects.filter(person_id__in=person_ids)
-
-            for best_rank in all_best_ranks:
-                scj_returners.append(best_rank.person.id)
-
         competitor_list = []
         name = ""
         country = ""
@@ -92,6 +78,7 @@ class Competitor(Base):
         prefecture = ""
         is_first_timer = False
         country_info = Country()
+        scj_competition_returner_list = self.get_scj_competition_returner_list()
         for competitor in competitors:
             if self.competition.type == CompetitionType.SCJ.value:
                 name = competitor.person.get_full_name()
@@ -106,7 +93,7 @@ class Competitor(Base):
                     if competitor.person.id in averages
                     else OUTLIERS
                 )
-                is_first_timer = competitor.person.id in scj_returners
+                is_first_timer = competitor.person.id in scj_competition_returner_list
             elif self.competition.type == CompetitionType.WCA.value:
                 name = competitor.person.wca_name
                 country = country_info.name(code=competitor.person.wca_country_iso2)
@@ -183,3 +170,19 @@ class Competitor(Base):
             "first_timers": first_timers,
             "country_count": country_count,
         }
+
+    def get_scj_competition_returner_list(self):
+        returners = []
+        if self.competition.type == CompetitionType.SCJ.value:
+            person_ids = []
+            competitors = app.models.Competitor.objects.filter(
+                competition_id=self.competition.id
+            )
+            for competitor in competitors:
+                person_ids.append(competitor.person.id)
+            # 大会経験者か確認するために全BestRank引く
+            all_best_ranks = BestRank.objects.filter(person_id__in=person_ids)
+
+            for best_rank in all_best_ranks:
+                returners.append(best_rank.person.id)
+        return returners
