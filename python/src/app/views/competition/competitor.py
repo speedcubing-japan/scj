@@ -93,7 +93,7 @@ class Competitor(Base):
                     if competitor.person.id in averages
                     else OUTLIERS
                 )
-                is_first_timer = competitor.person.id in scj_competition_returner_list
+                is_first_timer = competitor.person.id not in scj_competition_returner_list
             elif self.competition.type == CompetitionType.WCA.value:
                 name = competitor.person.wca_name
                 country = country_info.name(code=competitor.person.wca_country_iso2)
