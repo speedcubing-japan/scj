@@ -1,4 +1,6 @@
 from app.defines.define import OUTLIERS
+from app.utils.convert import Convert
+
 
 RESULT_DNF = -1
 RESULT_DNS = -2
@@ -76,14 +78,8 @@ def format_values(result):
     return modify_list
 
 
-def minutes_convert(result):
-    minutes, seconds = divmod(result, 60)
-    seconds = "{:05.02f}".format(seconds)
-
-    return str(int(minutes)) + ":" + str(seconds)
-
-
 def convert(result, event_id):
+    convert = Convert()
     if result == RESULT_DNF:
         return DNF
     elif result == RESULT_DNS:
@@ -93,35 +89,12 @@ def convert(result, event_id):
     elif result == OUTLIERS:
         return NA
     elif event_id == 17:
-        return mbf_convert(result)
+        return convert.mbf_convert_to_display(result)
     elif float(result) > 60.00:
-        return minutes_convert(result)
+        return convert.minutes_convert(result)
     else:
         return str("{:.02f}".format(result))
 
 
 def add_brackets(result):
     return f"({result})"
-
-
-def mbf_convert(value):
-    value = str(int(value))
-    difference = 99 - int(value[0:2])
-    seconds = value[2:7]
-    missed = value[7:9]
-
-    solved = difference + int(missed)
-    attempted = solved + int(missed)
-
-    minutes = int(seconds) // 60
-    seconds = int(seconds) - minutes * 60
-
-    return (
-        str(solved)
-        + "/"
-        + str(attempted)
-        + " "
-        + str(minutes)
-        + ":"
-        + str(seconds).zfill(2)
-    )

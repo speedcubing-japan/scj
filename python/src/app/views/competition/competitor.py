@@ -1,11 +1,13 @@
 import app.models
 from django.shortcuts import render, redirect
-from app.models import BestRank, AverageRank
-from app.defines.event import Event
+from app.models import BestRank, AverageRank, WcaRank
+from app.defines.event import Event, WinFormat
+from app.defines.record import Type as RecordType
 from app.defines.define import OUTLIERS
 from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
-from app.libs.country import Country
+from app.utils.country import Country
+from app.views.util.record import NA
 from .base import Base
 
 
@@ -48,7 +50,9 @@ class Competitor(Base):
 
         bests = {}
         averages = {}
+        sort_key = WinFormat.AVERAGE.name.lower()
         if event_id:
+            sort_key = Event.get_win_format(event_id).name.lower()
             if self.competition.type == CompetitionType.SCJ.value:
                 person_ids = []
                 for competitor in competitors:
@@ -67,15 +71,21 @@ class Competitor(Base):
                     averages[average_rank.person.id] = average_rank.best
 
             elif self.competition.type == CompetitionType.WCA.value:
-                wca_ids = []
-                for competitor in competitors:
-                    wca_ids.append(competitor.person.wca_id)
+                wca_ids = [competitor.person.wca_id for competitor in competitors]
+                wca_ranks = WcaRank.get_by_wca_ids_and_event_id(wca_ids, event_id)
+                for wca_rank in wca_ranks:
+                    if wca_rank.type == RecordType.SINGLE.value:
+                        bests[wca_rank.wca_id] = wca_rank
+                    elif wca_rank.type == RecordType.AVERAGE.value:
+                        averages[wca_rank.wca_id] = wca_rank
 
         competitor_list = []
         name = ""
         country = ""
         en_country = ""
         prefecture = ""
+        best_rank = ""
+        average_rank = ""
         is_first_timer = False
         country_info = Country()
         scj_competition_returner_list = self.get_scj_competition_returner_list()
@@ -93,7 +103,9 @@ class Competitor(Base):
                     if competitor.person.id in averages
                     else OUTLIERS
                 )
-                is_first_timer = competitor.person.id not in scj_competition_returner_list
+                is_first_timer = (
+                    competitor.person.id not in scj_competition_returner_list
+                )
             elif self.competition.type == CompetitionType.WCA.value:
                 name = competitor.person.wca_name
                 country = country_info.name(code=competitor.person.wca_country_iso2)
@@ -102,15 +114,28 @@ class Competitor(Base):
                 )
                 prefecture = competitor.person.get_prefecture_id_display()
                 best = (
-                    bests[competitor.person.wca_id]
+                    bests[competitor.person.wca_id].best
                     if competitor.person.wca_id in bests
                     else OUTLIERS
                 )
                 average = (
-                    averages[competitor.person.wca_id]
+                    averages[competitor.person.wca_id].best
                     if competitor.person.wca_id in averages
+                    and averages[competitor.person.wca_id].best > 0
                     else OUTLIERS
                 )
+                best_rank = (
+                    bests[competitor.person.wca_id].world_rank
+                    if competitor.person.wca_id in bests
+                    else NA
+                )
+                average_rank = (
+                    averages[competitor.person.wca_id].world_rank
+                    if competitor.person.wca_id in averages
+                    and averages[competitor.person.wca_id].best > 0
+                    else NA
+                )
+
                 is_first_timer = competitor.person.wca_id == ""
             competitor_list.append(
                 {
@@ -121,12 +146,14 @@ class Competitor(Base):
                     "prefecture": prefecture,
                     "best": best,
                     "average": average,
+                    "best_rank": best_rank,
+                    "average_rank": average_rank,
                     "person": competitor.person,
                     "is_first_timer": is_first_timer,
                 }
             )
 
-        competitor_list = sorted(competitor_list, key=lambda x: x["average"])
+        competitor_list = sorted(competitor_list, key=lambda x: x[sort_key])
         event_infos = list(
             map(lambda x: self.event_info(x), self.competition.event_ids)
         )

@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.defines.event import Event
-from app.libs.country import Country
+from app.utils.country import Country
 from app.defines.competition import Type as CompetitionType
 from app.models import Competition, Competitor, StripeProgress
 
