@@ -30,9 +30,15 @@
                 <th scope="col" style="width: 10%;"><i class="fas fa-sort"><span class="ml-2">{% trans "氏名" %}</span></th>
                 <th scope="col" style="width: 10%;"><i class="fas fa-sort"><span class="ml-2">{% trans "都道府県" %}</span></th>
               {% endif %}
-              {% if event_id_name != 'list' and competition.type == competition_type.SCJ.value %}
-                <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "ベスト" %}</span></th>
-                <th scope="col"><i class="fas fa-sort"><span class="ml-2">{% trans "平均" %}</span></th>
+              {% if event_id_name != 'list' %}
+                <th scope="col" style="width:5%;"><i class="fas fa-sort"><span class="ml-2">{% trans "平均" %}</span></th>
+                {% if competition.type == competition_type.WCA.value %}
+                  <th scope="col" style="width:5%;"><i class="fas fa-sort"><span class="ml-2">WR</span></th>
+                {% endif %}
+                <th scope="col" style="width:5%;"><i class="fas fa-sort"><span class="ml-2">{% trans "ベスト" %}</span></th>
+                {% if competition.type == competition_type.WCA.value %}
+                  <th scope="col" style="width:5%;"><i class="fas fa-sort"><span class="ml-2">WR</span></th>
+                {% endif %}
               {% endif %}
             </tr>
           </thead>
@@ -54,9 +60,15 @@
                     <td>{{ competitor.en_country }}</td>
                   {% endif %}
                 {% endif %}
-                {% if event_id_name != 'list' and competition.type == competition_type.SCJ.value %}
-                  <td>{{ competitor.best | result_convert:event_id }}</td>
+                {% if event_id_name != 'list' %}
                   <td>{{ competitor.average | result_convert:event_id }}</td>
+                  {% if competition.type == competition_type.WCA.value %}
+                    <td>{{ competitor.average_rank }}</td>
+                  {% endif %}
+                  <td>{{ competitor.best | result_convert:event_id }}</td>
+                  {% if competition.type == competition_type.WCA.value %}
+                    <td>{{ competitor.best_rank }}</td>
+                  {% endif %}
                 {% endif %}
               </tr>
             {% endfor %}
@@ -74,6 +86,14 @@
           </tfoot>
           {% endif %}
         </table>
+      </div>
+      {% if competition.type == competition_type.WCA.value %}
+        <div class="alert alert-light" role="alert">
+          <div>種目ごとに記載されているサイクシート(WCAの記録、順位)はWCA認証時のものです。</div>
+          <div>また試験運用中のため未表示、不正なデータの可能性があります。</div>
+          <div>より正確な記録はWCAに参加者が登録された後に<a href="https://www.worldcubeassociation.org/competitions/{{ competition.name_id }}/registrations/psych-sheet/">こちら</a>からご確認ください。</div>
+        <div>
+      {% endif %}
       </div>
     {% endif %}
   </div>

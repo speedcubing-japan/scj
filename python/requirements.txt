@@ -9,3 +9,4 @@ requests
 six
 stripe
 python-dateutil==2.8.1
+beautifulsoup4==4.11.1

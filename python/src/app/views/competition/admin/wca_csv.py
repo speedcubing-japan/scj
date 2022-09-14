@@ -8,7 +8,7 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.defines.event import Event
 from app.defines.gender import GenderEn
-from app.libs.country import Country
+from app.utils.country import Country
 from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
 from app.models import Competition, Competitor

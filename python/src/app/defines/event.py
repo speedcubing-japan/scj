@@ -23,35 +23,36 @@ class Format(Define):
                 return x.value[1]
 
 
+class WinFormat(Define):
+    BEST = 1
+    AVERAGE = 2
+
+
 # nameをイベント名にすると数字のリテラルは先頭では使えないので苦肉の策。
 class Event(Define):
-    EVENT1 = (1, _("3x3x3 キューブ"), "333", True)
-    EVENT2 = (2, _("2x2x2 キューブ"), "222", True)
-    EVENT3 = (3, _("4x4x4 キューブ"), "444", True)
-    EVENT4 = (4, _("5x5x5 キューブ"), "555", True)
-    EVENT5 = (5, _("6x6x6 キューブ"), "666", True)
-    EVENT6 = (6, _("7x7x7 キューブ"), "777", True)
-    EVENT7 = (7, _("3x3x3 目隠し"), "333bf", True)
-    EVENT8 = (8, _("3x3x3 最少手数"), "333fm", True)
-    EVENT9 = (9, _("3x3x3 片手"), "333oh", True)
-    EVENT10 = (10, _("クロック"), "clock", True)
-    EVENT11 = (11, _("メガミンクス"), "minx", True)
-    EVENT12 = (12, _("ピラミンクス"), "pyram", True)
-    EVENT13 = (13, _("スキューブ"), "skewb", True)
-    EVENT14 = (14, _("スクエア1"), "sq1", True)
-    EVENT15 = (15, _("4x4x4 目隠し"), "444bf", False)
-    EVENT16 = (16, _("5x5x5 目隠し"), "555bf", False)
-    EVENT17 = (17, _("3x3x3 複数目隠し"), "333mbf", False)
+    EVENT1 = (1, _("3x3x3 キューブ"), "333", WinFormat.AVERAGE)
+    EVENT2 = (2, _("2x2x2 キューブ"), "222", WinFormat.AVERAGE)
+    EVENT3 = (3, _("4x4x4 キューブ"), "444", WinFormat.AVERAGE)
+    EVENT4 = (4, _("5x5x5 キューブ"), "555", WinFormat.AVERAGE)
+    EVENT5 = (5, _("6x6x6 キューブ"), "666", WinFormat.AVERAGE)
+    EVENT6 = (6, _("7x7x7 キューブ"), "777", WinFormat.AVERAGE)
+    EVENT7 = (7, _("3x3x3 目隠し"), "333bf", WinFormat.BEST)
+    EVENT8 = (8, _("3x3x3 最少手数"), "333fm", WinFormat.BEST)
+    EVENT9 = (9, _("3x3x3 片手"), "333oh", WinFormat.AVERAGE)
+    EVENT10 = (10, _("クロック"), "clock", WinFormat.AVERAGE)
+    EVENT11 = (11, _("メガミンクス"), "minx", WinFormat.AVERAGE)
+    EVENT12 = (12, _("ピラミンクス"), "pyram", WinFormat.AVERAGE)
+    EVENT13 = (13, _("スキューブ"), "skewb", WinFormat.AVERAGE)
+    EVENT14 = (14, _("スクエア1"), "sq1", WinFormat.AVERAGE)
+    EVENT15 = (15, _("4x4x4 目隠し"), "444bf", WinFormat.BEST)
+    EVENT16 = (16, _("5x5x5 目隠し"), "555bf", WinFormat.BEST)
+    EVENT17 = (17, _("3x3x3 複数目隠し"), "333mbf", WinFormat.BEST)
 
-    def __init__(self, event_id, event_name, event_id_name, is_best_and_average_event):
+    def __init__(self, event_id, event_name, event_id_name, win_format):
         self.event_id = event_id
         self.event_name = event_name
         self.event_id_name = event_id_name
-        self.is_best_only = is_best_and_average_event
-
-    @classmethod
-    def is_best_and_average_event(cls, value):
-        return cls.get_name(value)[3]
+        self.win_format = win_format
 
     # event_idからevent_nameを引く
     @classmethod
@@ -66,6 +67,13 @@ class Event(Define):
         for x in cls:
             if x.value[0] == value:
                 return x.value[2]
+
+    # event_idからwin_formatを引く
+    @classmethod
+    def get_win_format(cls, value):
+        for x in cls:
+            if x.value[0] == value:
+                return x.value[3]
 
     # event_nameからevent_idを引く
     @classmethod

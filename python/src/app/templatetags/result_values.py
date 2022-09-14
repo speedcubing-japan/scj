@@ -1,30 +1,12 @@
 from django import template
+from app.utils.convert import Convert
 
 
 register = template.Library()
 
 
 def mbf_convert(value):
-    value = str(int(value))
-    difference = 99 - int(value[0:2])
-    seconds = value[2:7]
-    missed = value[7:9]
-
-    solved = difference + int(missed)
-    attempted = solved + int(missed)
-
-    minutes = int(seconds) // 60
-    seconds = int(seconds) - minutes * 60
-
-    return (
-        str(solved)
-        + "/"
-        + str(attempted)
-        + " "
-        + str(minutes)
-        + ":"
-        + str(seconds).zfill(2)
-    )
+    return Convert.mbf_convert_to_display(value)
 
 
 @register.filter
