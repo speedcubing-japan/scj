@@ -62,11 +62,6 @@ class Command(BaseCommand):
 
             Round.objects.bulk_create(rounds)
 
-            # 参照のためdictとして保持
-            tmpRounds = {}
-            for round in rounds:
-                tmpRounds[round.id] = round
-
         with open(self.get_fixtures_path("result")) as file:
             json_result = json.loads(file.read())
             results = []
@@ -76,7 +71,7 @@ class Command(BaseCommand):
                     competition_id=record["fields"]["competition_id"],
                     event_id=record["fields"]["event_id"],
                     person_id=record["fields"]["person_id"],
-                    round=tmpRounds[record["fields"]["round_id"]],
+                    round_type=record["fields"]["round_type"],
                     rank=record["fields"]["rank"],
                     best=record["fields"]["best"],
                     average=record["fields"]["average"],
@@ -242,7 +237,7 @@ class Command(BaseCommand):
                     id=record["pk"],
                     competition_id=record["fields"]["competition_id"],
                     event_id=record["fields"]["event_id"],
-                    round_id=record["fields"]["round_id"],
+                    round_type=record["fields"]["round_type"],
                     group_id=record["fields"]["group_id"],
                     scramble=record["fields"]["scramble"],
                 )

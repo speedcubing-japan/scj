@@ -61,6 +61,7 @@ dumpdata:
 	docker-compose run --rm python ./manage.py dumpdata app.${MODEL} > ${MODEL}.json
 
 makedata:
+	make load-proddata
 	docker-compose run --rm python ./manage.py makedata
 
 getwcadata:

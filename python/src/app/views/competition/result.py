@@ -2,6 +2,7 @@ import app.models
 from django.shortcuts import render
 from app.models import Competitor, Round
 from app.defines.event import Event
+from app.defines.competition import RoundType
 from app.views.util.record import format_values
 from .base import Base
 
@@ -24,6 +25,9 @@ class Result(Base):
             result.format_values = format_values(result)
 
         results = sorted(results, key=lambda x: x.rank)
+        for result in results:
+            result.set_round_name(RoundType.get_name(result.round_type))
+
         rounds = sorted(rounds, key=lambda x: x.type, reverse=True)
 
         competition_rounds = {}

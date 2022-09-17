@@ -38,7 +38,7 @@
                   </thead>
                   <tbody>
                     {% for result in results %}
-                      {% if result.event_id == event.event_id and result.round.get_type_display == round_name %}
+                      {% if result.event_id == event.event_id and result.round_name == round_name %}
                         <tr>
                           <th scope="row">{{ result.rank }}</th>
                           {% if competition.type == competition_type.SCJ.value %}

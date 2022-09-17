@@ -10,6 +10,7 @@ from django.utils.timezone import localtime
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from app.models import Person
+from pprint import pprint
 
 
 class Command(BaseCommand):
@@ -101,6 +102,14 @@ class Command(BaseCommand):
                 skip_count = 1
                 for result in results:
                     if result[rank_type] > 0:
+                        if not result["person_id"] in person_datas:
+                            pprint(
+                                "not found person_data. scj_id: "
+                                + str(result["person_id"])
+                            )
+                            pprint("please in advance run make load-proddata")
+                            exit()
+
                         # 世代計算
                         generation = (
                             self.get_generation(
