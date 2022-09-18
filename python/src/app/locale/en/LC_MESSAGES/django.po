@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-30 11:54+0000\n"
+"POT-Creation-Date: 2022-09-18 09:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,71 +46,71 @@ msgstr "Semi Final"
 msgid "決勝"
 msgstr "Final"
 
-#: app/defines/event.py:28
+#: app/defines/event.py:33
 msgid "3x3x3 キューブ"
 msgstr "3x3x3 Cube"
 
-#: app/defines/event.py:29
+#: app/defines/event.py:34
 msgid "2x2x2 キューブ"
 msgstr "2x2x2 Cube"
 
-#: app/defines/event.py:30
+#: app/defines/event.py:35
 msgid "4x4x4 キューブ"
 msgstr "4x4x4 Cube"
 
-#: app/defines/event.py:31
+#: app/defines/event.py:36
 msgid "5x5x5 キューブ"
 msgstr "5x5x5 Cube"
 
-#: app/defines/event.py:32
+#: app/defines/event.py:37
 msgid "6x6x6 キューブ"
 msgstr "6x6x6 Cube"
 
-#: app/defines/event.py:33
+#: app/defines/event.py:38
 msgid "7x7x7 キューブ"
 msgstr "7x7x7 Cube"
 
-#: app/defines/event.py:34
+#: app/defines/event.py:39
 msgid "3x3x3 目隠し"
 msgstr "3x3x3 Blindfolded"
 
-#: app/defines/event.py:35
+#: app/defines/event.py:40
 msgid "3x3x3 最少手数"
 msgstr "3x3x3 Fewest Moves"
 
-#: app/defines/event.py:36
+#: app/defines/event.py:41
 msgid "3x3x3 片手"
 msgstr "3x3x3 One-Handed"
 
-#: app/defines/event.py:37
+#: app/defines/event.py:42
 msgid "クロック"
 msgstr "Clock"
 
-#: app/defines/event.py:38
+#: app/defines/event.py:43
 msgid "メガミンクス"
 msgstr "Megaminx"
 
-#: app/defines/event.py:39
+#: app/defines/event.py:44
 msgid "ピラミンクス"
 msgstr "Pyraminx"
 
-#: app/defines/event.py:40
+#: app/defines/event.py:45
 msgid "スキューブ"
 msgstr "Skewb"
 
-#: app/defines/event.py:41
+#: app/defines/event.py:46
 msgid "スクエア1"
 msgstr "Square-1"
 
-#: app/defines/event.py:42
+#: app/defines/event.py:47
 msgid "4x4x4 目隠し"
 msgstr "4x4x4 Blindfolded"
 
-#: app/defines/event.py:43
+#: app/defines/event.py:48
 msgid "5x5x5 目隠し"
 msgstr "5x5x5 Blindfolded"
 
-#: app/defines/event.py:44
+#: app/defines/event.py:49
 msgid "3x3x3 複数目隠し"
 msgstr "3x3x3 Multi-Blind"
 
