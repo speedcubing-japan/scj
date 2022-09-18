@@ -64,8 +64,8 @@ makedata:
 	make load-proddata
 	docker-compose run --rm python ./manage.py makedata
 
-getwcadata:
-	docker-compose run --rm python ./manage.py getwcadata
+loadwcarank:
+	docker-compose run --rm python ./manage.py loadwcarank ${COMPETITION_ID}
 
 resetwca:
 	docker-compose run --rm python ./manage.py resetwca --person_id ${PERSON_ID}
@@ -106,6 +106,9 @@ prod-bulkdata:
 
 prod-resetwca:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py resetwca --person_id ${PERSON_ID}
+
+prod-loadwcarank:
+	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py loadwcarank ${COMPETITION_ID}
 
 prod-loadcompetitor:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py loadcompetitor
