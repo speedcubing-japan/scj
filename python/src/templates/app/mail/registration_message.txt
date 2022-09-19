@@ -1,4 +1,4 @@
-{{ user.last_name }} {{ user.first_name }} 様 
+{{ user.last_name }} {{ user.first_name }} 様
 ユーザー登録手続きを行っていただき、ありがとうございます。
 
 下記URLよりサイトにアクセスの上、引き続きユーザー登録をお願いいたします。
@@ -6,5 +6,8 @@
 
 本登録用URL
 {{ protocol }}://{{ domain }}{% url 'registration_complete' token %}
+
+このメールに直接返信いただいても回答はいたしかねます。
+サイトのお問い合わせより連絡をお願いします。
 
 Speedcubing Japan

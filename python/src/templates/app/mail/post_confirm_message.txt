@@ -4,4 +4,7 @@
 イベント確認URL
 {{ protocol }}://{{ domain }}{% url 'post_detail' post.pk %}
 
+このメールに直接返信いただいても回答はいたしかねます。
+サイトのお問い合わせより連絡をお願いします。
+
 Speedcubing Japan

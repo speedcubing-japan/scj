@@ -4,4 +4,7 @@
 
 {{ protocol }}://{{ domain }}{% url 'mail_change_complete' token %}
 
+このメールに直接返信いただいても回答はいたしかねます。
+サイトのお問い合わせより連絡をお願いします。
+
 Speedcubing Japan
