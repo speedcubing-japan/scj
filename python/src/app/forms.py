@@ -8,7 +8,7 @@ from django.contrib.auth.forms import (
     PasswordResetForm,
     SetPasswordForm,
 )
-from app.models import Person, User, Information
+from app.models import Person, User, Information, Competition
 from django.conf import settings
 from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse
@@ -162,15 +162,35 @@ class MailChangeForm(forms.ModelForm):
 
 
 class ContactForm(forms.Form):
+
+    COMPETITION_CLOSE_AFTER_DAYS = 7
+
     name = forms.CharField(
         label="お名前",
         max_length=100,
     )
     email = forms.EmailField(label="メールアドレス")
+
+    competitions = Competition.get_by_not_closed_before_days(
+        COMPETITION_CLOSE_AFTER_DAYS
+    )
+    related_info = (("info@speedcubing.or.jp", "SCJへのお問い合わせ"),)
+    for competition in competitions:
+        related_info += (
+            (competition.organizer_email, competition.name + "に関するお問い合わせ"),
+        )
+
+    related = forms.fields.ChoiceField(
+        choices=related_info,
+        required=True,
+        label="問い合わせ種別",
+        widget=forms.widgets.RadioSelect,
+    )
     message = forms.CharField(label="お問い合わせ内容", widget=forms.Textarea)
 
     def send_email(self):
         subject = "お問い合わせ"
+        related = self.cleaned_data["related"]
         message = self.cleaned_data["message"]
         name = self.cleaned_data["name"]
         email = self.cleaned_data["email"]
@@ -178,10 +198,10 @@ class ContactForm(forms.Form):
         message = "名前: " + name + "\r\n" + "メールアドレス: " + email + "\r\n\r\n" + message
 
         from_email = settings.EMAIL_HOST_USER
-        recipient_list = [
-            "info@speedcubing.or.jp",
-            "1c181577.speedcubing.or.jp@jp.teams.ms",
-        ]  # 受信者リスト
+
+        recipient_list = [related]
+        if related == "info@speedcubing.or.jp":
+            recipient_list.append("1c181577.speedcubing.or.jp@jp.teams.ms")
         try:
             send_mail(subject, message, from_email, recipient_list)
         except BadHeaderError:
@@ -361,9 +381,7 @@ class RankingForm(forms.Form):
 
 class PersonEditForm(forms.ModelForm):
 
-    is_active = forms.BooleanField(
-        label="承認", required=False
-    )
+    is_active = forms.BooleanField(label="承認", required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

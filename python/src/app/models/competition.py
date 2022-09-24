@@ -173,6 +173,14 @@ class Competition(models.Model):
     def delete(self):
         Competition.objects.filter(id=self.id).delete()
 
+    # 問い合わせ用。大会終了後指定時間は取得したいため
+    def get_by_not_closed_before_days(before_days):
+        now = localtime(
+            datetime.datetime.now(tz=datetime.timezone.utc)
+            - datetime.timedelta(days=before_days)
+        )
+        return Competition.objects.filter(close_at__gte=now)
+
     def publish(self):
         self.is_display = True
         self.is_private = False
