@@ -183,6 +183,7 @@ class ContactForm(forms.Form):
     related = forms.fields.ChoiceField(
         choices=related_info,
         required=True,
+        initial=("info@speedcubing.or.jp", "SCJへのお問い合わせ"),
         label="問い合わせ種別",
         widget=forms.widgets.RadioSelect,
     )
