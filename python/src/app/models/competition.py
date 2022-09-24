@@ -179,7 +179,9 @@ class Competition(models.Model):
             datetime.datetime.now(tz=datetime.timezone.utc)
             - datetime.timedelta(days=before_days)
         )
-        return Competition.objects.filter(close_at__gte=now)
+        return Competition.objects.filter(
+            close_at__gte=now, is_display=True, is_private=False
+        )
 
     def publish(self):
         self.is_display = True

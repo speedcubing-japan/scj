@@ -170,24 +170,25 @@ class ContactForm(forms.Form):
         max_length=100,
     )
     email = forms.EmailField(label="メールアドレス")
-
-    competitions = Competition.get_by_not_closed_before_days(
-        COMPETITION_CLOSE_AFTER_DAYS
-    )
-    related_info = (("info@speedcubing.or.jp", "SCJへのお問い合わせ"),)
-    for competition in competitions:
-        related_info += (
-            (competition.organizer_email, competition.name + "に関するお問い合わせ"),
-        )
-
     related = forms.fields.ChoiceField(
-        choices=related_info,
         required=True,
         initial=("info@speedcubing.or.jp", "SCJへのお問い合わせ"),
         label="問い合わせ種別",
         widget=forms.widgets.RadioSelect,
     )
     message = forms.CharField(label="お問い合わせ内容", widget=forms.Textarea)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        competitions = Competition.get_by_not_closed_before_days(
+            self.COMPETITION_CLOSE_AFTER_DAYS
+        )
+        related_info = (("info@speedcubing.or.jp", "SCJへのお問い合わせ"),)
+        for competition in competitions:
+            related_info += (
+                (competition.organizer_email, competition.name + "に関するお問い合わせ"),
+            )
+        self.fields["related"].choices = related_info
 
     def send_email(self):
         subject = "お問い合わせ"
