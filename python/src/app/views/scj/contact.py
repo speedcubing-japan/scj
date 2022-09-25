@@ -10,6 +10,13 @@ class Contact(FormView):
     template_name = "app/scj/contact.html"
     form_class = ContactForm
 
+    def get_initial(self):
+        initial = super().get_initial()
+        if self.request.user.is_authenticated:
+            initial["name"] = self.request.user.get_full_name()
+            initial["email"] = self.request.user.email
+        return initial
+
     def get_context_data(self, **kwargs):
         context = super(Contact, self).get_context_data(**kwargs)
         context["recaptcha_public_key"] = settings.RECAPTCHA_PUBLIC_KEY
