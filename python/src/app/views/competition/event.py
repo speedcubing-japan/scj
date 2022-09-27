@@ -2,6 +2,7 @@ from django.utils.timezone import localtime
 from django.shortcuts import render
 from app.models import Round
 from .base import Base
+import pprint
 
 
 class Event(Base):
@@ -14,16 +15,22 @@ class Event(Base):
     def get_context(self):
         context = super().get_context()
 
-        rounds = Round.objects.filter(competition_id=self.competition.id)
+        rounds = Round.objects.filter(competition_id=self.competition.id).order_by(
+            "begin_at"
+        )
         # 日付 -> 会場 -> record
         round_dict = {}
         for round in rounds:
             date = localtime(round.begin_at).strftime("%Y年%m月%d日")
-            if date in round_dict and round.room_name in round_dict[date]:
+            if date not in round_dict:
+                round_dict[date] = {}
+
+            if round.room_name in round_dict[date]:
                 round_dict[date][round.room_name].append(round)
             else:
-                round_dict[date] = {round.room_name: [round]}
+                round_dict[date].update({round.room_name: [round]})
 
+        pprint.pprint(round_dict)
         # 種目ごとにラウンドを分ける(FMCが複数レコードある)
         event_round_types = {}
         for round in rounds:
