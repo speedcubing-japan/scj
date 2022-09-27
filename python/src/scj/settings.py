@@ -78,6 +78,7 @@ LANGUAGES = [
 ]
 
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 3
 
 ROOT_URLCONF = "scj.urls"
 
