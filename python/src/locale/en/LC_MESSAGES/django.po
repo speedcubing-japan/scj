@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-27 15:11+0000\n"
+"POT-Creation-Date: 2022-09-27 15:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -205,7 +205,7 @@ msgstr "Limit Time"
 
 #: templates/app/competition/event.html:86
 msgid "進出人数"
-msgstr "Competitors"
+msgstr "Proceed"
 
 #: templates/app/competition/event.html:102
 msgid "試技目"
@@ -214,6 +214,16 @@ msgstr "Attempt"
 #: templates/app/competition/event.html:106
 msgid "累積"
 msgstr "Cumulative"
+
+#: templates/app/competition/event.html:118
+#, python-format
+msgid "%(proceed_count)s人"
+msgstr "Top %(proceed_count)s"
+
+#: templates/app/competition/event.html:120
+#, python-format
+msgid "%(proceed_rate)s%%"
+msgstr "Top %(proceed_rate)s%%"
 
 #: templates/app/competition/event.html:140
 msgid "説明"

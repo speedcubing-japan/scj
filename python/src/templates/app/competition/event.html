@@ -115,9 +115,9 @@
                         </td>
                         <td>
                           {% if round.proceed_type == proceed_type.COUNT.value %}
-                            {% if round.proceed_count > 0 %}{{ round.proceed_count }}人{% endif %}
+                            {% if round.proceed_count > 0 %}{% blocktrans with proceed_count=round.proceed_count %}{{ proceed_count }}人{% endblocktrans %}{% endif %}
                           {% elif round.proceed_type == proceed_type.RATE.value %}
-                            {% if round.proceed_rate > 0 %}上位{{ round.proceed_rate }}%が次のラウンドに進出します。{% endif %}
+                            {% if round.proceed_rate > 0 %}{% blocktrans with proceed_rate=round.proceed_rate %}{{ proceed_rate }}%{% endblocktrans %}{% endif %}
                           {% endif %}
                         </td>
                       </tr>
