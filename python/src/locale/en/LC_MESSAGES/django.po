@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-30 11:54+0000\n"
+"POT-Creation-Date: 2022-09-27 15:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid "全競技者"
 msgstr "All Competitors"
 
 #: templates/app/competition/competitor.html:27
-#: templates/app/competition/competitor.html:31
+#: templates/app/competition/competitor.html:30
 msgid "氏名"
 msgstr "Name"
 
@@ -39,31 +39,31 @@ msgstr "Name"
 msgid "国籍"
 msgstr "Citizen of"
 
-#: templates/app/competition/competitor.html:32
+#: templates/app/competition/competitor.html:31
 msgid "都道府県"
 msgstr "Prefecutre"
 
-#: templates/app/competition/competitor.html:35
-msgid "ベスト"
-msgstr "Best"
-
-#: templates/app/competition/competitor.html:36
+#: templates/app/competition/competitor.html:34
 msgid "平均"
 msgstr "Average"
 
-#: templates/app/competition/competitor.html:70
+#: templates/app/competition/competitor.html:38
+msgid "ベスト"
+msgstr "Best"
+
+#: templates/app/competition/competitor.html:79
 #, python-format
 msgid ""
 "%(first_timers)s 人 (初参加者) + %(returners)s 人 (大会経験者) = %(sum)s 人"
 msgstr ""
 "%(first_timers)s first-timers + %(returners)s returners = %(sum)s people"
 
-#: templates/app/competition/competitor.html:72
+#: templates/app/competition/competitor.html:81
 #, python-format
 msgid "%(country_count)s都道府県"
 msgstr "%(country_count)s prefecture"
 
-#: templates/app/competition/competitor.html:74
+#: templates/app/competition/competitor.html:83
 #, python-format
 msgid "%(country_count)sヶ国"
 msgstr "%(country_count)s country"
@@ -194,10 +194,12 @@ msgid "形式"
 msgstr "Format"
 
 #: templates/app/competition/event.html:84
+#: templates/app/competition/event.html:159
 msgid "カットオフ"
 msgstr "Cutoff"
 
 #: templates/app/competition/event.html:85
+#: templates/app/competition/event.html:164
 msgid "制限時間"
 msgstr "Limit Time"
 
@@ -209,6 +211,10 @@ msgstr "Competitors"
 msgid "試技目"
 msgstr "Attempt"
 
+#: templates/app/competition/event.html:106
+msgid "累積"
+msgstr "Cumulative"
+
 #: templates/app/competition/event.html:140
 msgid "説明"
 msgstr "Description"
@@ -217,23 +223,32 @@ msgstr "Description"
 msgid ""
 "5回計測し最も速い記録と最も遅い記録を除き、残りの3つの記録の平均に基づいて順"
 "位を決定します。"
-msgstr "The fastest and slowest records are excluded from the five attemps, and the ranking is determined based on the average of the remaining three attempts."
+msgstr ""
+"The fastest and slowest records are excluded from the five attemps, and the "
+"ranking is determined based on the average of the remaining three attempts."
 
 #: templates/app/competition/event.html:148
 msgid ""
 "3回計測しその3つの記録の平均に基づいて順位を決定します。DNFやDNSがある場合、"
 "記録が3回未満なので平均記録はDNFとなります。"
-msgstr "Three measurements will be taken and the ranking will be determined based on the average of the three attempts. If there is a DNF or DNS, the average record is DNF because the record is less than 3 attempts."
+msgstr ""
+"Three measurements will be taken and the ranking will be determined based on "
+"the average of the three attempts. If there is a DNF or DNS, the average "
+"record is DNF because the record is less than 3 attempts."
 
 #: templates/app/competition/event.html:151
 msgid "X回計測しその中で最も速い記録に基づいて順位を決定します。"
-msgstr "X times, and the ranking is determined based on the fastest attempt among the X times."
+msgstr ""
+"X times, and the ranking is determined based on the fastest attempt among "
+"the X times."
 
 #: templates/app/competition/event.html:154
 msgid ""
 "カットオフが設定されています。Beat of Xの中でカットオフの制限をクリアすると"
 "Average of 5 (Mean of 3)の試技ができます。"
-msgstr "A cutoff is set. if you clear the cutoff limit in the Beat of X, you can attempt an Average of 5 (Mean of 3)."
+msgstr ""
+"A cutoff is set. if you clear the cutoff limit in the Beat of X, you can "
+"attempt an Average of 5 (Mean of 3)."
 
 #: templates/app/competition/event.html:161
 msgid "形式にBest of X / Average of 5 (Mean of 3)と記載されます。"
@@ -243,17 +258,24 @@ msgstr "The format will be marked Best of X / Average of 5 (Mean of 3)."
 msgid ""
 "Best of Xでカットオフをクリアした場合にAverage of 5 (Mean of 3)での試技を行う"
 "ことができます。"
-msgstr "You can try Average of 5 (Mean of 3) when you have cleared the cutoff at Best of X."
+msgstr ""
+"You can try Average of 5 (Mean of 3) when you have cleared the cutoff at "
+"Best of X."
 
 #: templates/app/competition/event.html:166
 msgid "各試技において制限時間をクリアできない場合、試技はDNFになります。"
-msgstr "Failure to meet the time limit in each atempt will result in a DNF for the attempt."
+msgstr ""
+"Failure to meet the time limit in each atempt will result in a DNF for the "
+"attempt."
 
 #: templates/app/competition/event.html:167
 msgid ""
 "累積Xの制限時間はその時間内ですべての試技を終わらせる必要があり、パズルの完成"
 "を問わず制限時間は累積されます。"
-msgstr "The cumulative X time limit requires that all attemps must be completed within that time, and the time limit is cumulative regardless of puzzle completion."
+msgstr ""
+"The cumulative X time limit requires that all attemps must be completed "
+"within that time, and the time limit is cumulative regardless of puzzle "
+"completion."
 
 #: templates/app/competition/fee.html:28
 #, python-format

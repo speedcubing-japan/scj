@@ -103,7 +103,7 @@
                         <td>{% if round.cutoff_time > 0 %}{{ round.cutoff_time | time_convert }}{% endif %}</td>
                         <td>
                           {% if round.limit_time > 0 %}
-                            {% if round.limit_type == round_limit_type.CUMULATIVE.value %}累積&nbsp;{% endif %}{{ round.limit_time | time_convert }}
+                            {% if round.limit_type == round_limit_type.CUMULATIVE.value %}{% trans "累積" %}&nbsp;{% endif %}{{ round.limit_time | time_convert }}
                             {% if round.limit_event_ids %}
                               (
                               {% for limit_event_id in round.limit_event_ids %}
