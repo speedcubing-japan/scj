@@ -6,6 +6,17 @@
 {% trans "ユーザー新規登録" as title %}
 {% include "app/common/title.html" with title=title %}
 
+<div class="list-group mb-3 col-lg-2">
+  <form method="POST" id="language_select" action="{% url 'set_language' %}">
+    {% csrf_token %}
+    {% if LANGUAGE_CODE == 'en' %}
+      <input name="language" type="hidden" value="ja">
+    {% else %}
+      <input name="language" type="hidden" value="en">
+    {% endif %}
+    <button type="button" class="language list-group-item list-group-item-action"><i class="fas fa-language mr-2"></i>{% if LANGUAGE_CODE == 'en' %}日本語{% else %}English{% endif %}</button></a>
+  </form>
+</div>
 <div class="card">
   <div class="card-body">
     <form action="" method="POST">
