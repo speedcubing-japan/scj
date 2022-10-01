@@ -30,7 +30,6 @@
                   <th scope="col"><i class="fas fa-sort mr-2"></i>都道府県</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>同伴数</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払額</th>
-                  <th scope="col"><i class="fas fa-sort mr-2"></i>支払日時</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>申込日時</th>
                 </tr>
               </thead>
@@ -44,7 +43,6 @@
                     <td>{{ competitor.person.get_prefecture_id_display }}</td>
                     <td>{{ competitor.guest_count }}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
-                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_at | date:"Y年m月d日 H:i:s" }}{% endif %}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
                   </tr>
                 {% endfor %}
@@ -69,7 +67,6 @@
                   <th scope="col"><i class="fas fa-sort mr-2"></i>都道府県</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>同伴数</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払額</th>
-                  <th scope="col"><i class="fas fa-sort mr-2"></i>支払日時</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>申込日時</th>
                 </tr>
               </thead>
@@ -83,7 +80,6 @@
                     <td>{{ competitor.person.get_prefecture_id_display }}</td>
                     <td>{{ competitor.guest_count }}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
-                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_at | date:"Y年m月d日 H:i:s" }}{% endif %}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
                   </tr>
                 {% endfor %}
@@ -108,9 +104,6 @@
                   <th scope="col"><i class="fas fa-sort mr-2"></i>都道府県</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>同伴数</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払額</th>
-                  <th scope="col"><i class="fas fa-sort mr-2"></i>支払日時</th>
-                  <th scope="col"><i class="fas fa-sort mr-2"></i>返金額</th>
-                  <th scope="col"><i class="fas fa-sort mr-2"></i>返金日時</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>申込日時</th>
                 </tr>
               </thead>
@@ -123,10 +116,7 @@
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     <td>{{ competitor.person.get_prefecture_id_display }}</td>
                     <td>{{ competitor.guest_count }}</td>
-                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
-                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_at | date:"Y年m月d日 H:i:s" }}{% endif %}</td>
-                    <td>{% if competitor.stripe_progress.refund_price > 0 %}{{ competitor.stripe_progress.refund_price }}円{% endif %}</td>
-                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.refund_at | date:"Y年m月d日 H:i:s" }}{% endif %}</td>
+                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% if competitor.stripe_progress.refund_price > 0 %}&nbsp;<i class="fas fa-undo fa-fw"></i>{{ competitor.stripe_progress.refund_price }}円{% endif %}{% endif %}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
                   </tr>
                 {% endfor %}
