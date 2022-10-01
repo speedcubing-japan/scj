@@ -177,19 +177,39 @@ class Competitor(Base):
         returners = 0
         first_timers = 0
         country_count = 0
+        pending_count = 0
         for competitor in competitors:
+            if competitor["status"] == CompetitorStatus.PENDING.value:
+                pending_count += 1
+                continue
+
             if competitor["is_first_timer"]:
                 first_timers += 1
             else:
                 returners += 1
         if self.competition.type == CompetitionType.WCA.value:
-            country_count = len(
-                set(map(lambda x: x["person"].wca_country_iso2, competitors))
+            countries = set(
+                map(
+                    lambda x: x["person"].wca_country_iso2
+                    if x["status"] == CompetitorStatus.REGISTRATION.value
+                    else NA,
+                    competitors,
+                )
             )
+            countries.remove(NA)
+            country_count = len(countries)
+
         elif self.competition.type == CompetitionType.SCJ.value:
-            country_count = len(
-                set(map(lambda x: x["person"].prefecture_id, competitors))
+            countries = set(
+                map(
+                    lambda x: x["person"].prefecture_id
+                    if x["status"] == CompetitorStatus.REGISTRATION.value
+                    else NA,
+                    competitors,
+                )
             )
+            countries.remove(NA)
+            country_count = len(countries)
 
         return {
             "sum": returners + first_timers,

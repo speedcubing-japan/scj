@@ -44,7 +44,7 @@
           </thead>
           <tbody>
             {% for competitor in competitors %}
-              <tr {% if competitor.status == competitor_status.PENDING.value %} class="bg-light"{% endif %}>
+              <tr {% if competitor.status == competitor_status.PENDING.value %} class="bg-secondary text-light"{% endif %}>
                 {% if competition.type == competition_type.SCJ.value %}
                   <td>{{ competitor.name }}</td>
                   <td>{{ competitor.prefecture }}</td>

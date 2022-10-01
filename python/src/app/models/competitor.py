@@ -85,6 +85,10 @@ class Competitor(models.Model):
         self.person = person
         self.save()
 
+    def update_created_at(self, now):
+        self.created_at = now
+        self.save()
+
     def update(
         self, status, event_ids, guest_count, comment, is_update_created_at, now
     ):
