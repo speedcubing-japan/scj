@@ -196,7 +196,8 @@ class Competitor(Base):
                     competitors,
                 )
             )
-            countries.remove(NA)
+            if NA in countries:
+                countries.remove(NA)
             country_count = len(countries)
 
         elif self.competition.type == CompetitionType.SCJ.value:
@@ -208,7 +209,8 @@ class Competitor(Base):
                     competitors,
                 )
             )
-            countries.remove(NA)
+            if NA in countries:
+                countries.remove(NA)
             country_count = len(countries)
 
         return {
