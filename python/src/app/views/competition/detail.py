@@ -72,6 +72,18 @@ class Detail(Base):
             ),
         ).count()
 
+        # 承認待ち数
+        pending_competitors = Competitor.objects.filter(
+            competition_id=self.competition.id,
+            status=CompetitorStatus.PENDING.value,
+        ).order_by("created_at")
+
+        pending_waiting_number = 0
+        for pending_competitor in pending_competitors:
+            pending_waiting_number += 1
+            if pending_competitor.person.id == self.user.person.id:
+                break
+
         # 承認者数
         competitor_registration_count = Competitor.objects.filter(
             competition_id=self.competition.id,
@@ -104,6 +116,7 @@ class Detail(Base):
         context["competitor_registration_count"] = competitor_registration_count
         context["competitor_registration_rate"] = competitor_registration_rate
         context["competitor_offer_count"] = competitor_offer_count
+        context["pending_waiting_number"] = pending_waiting_number
         context["fee_pay_type_text"] = fee_pay_type_text
         context["fee_calc_type_text"] = fee_calc_type_text
         context["google_api_key"] = settings.GOOGLE_API_KEY
