@@ -38,6 +38,9 @@ class Webhook(View):
             payment_intent = event.data.object
             # 基本一つだけ。
             charges = payment_intent.charges.data[0]
+            now = datetime.datetime.fromtimestamp(
+                charges.created, tz=datetime.timezone.utc
+            )
 
             # 決済が存在していた場合は支払い済み。
             if StripeProgress.exist_charge_id(self, charges.id):
@@ -68,6 +71,8 @@ class Webhook(View):
                     comment,
                     person,
                 )
+                # 作成時間をchargeのcreateに合わせる。作成時はauto_now_addのために現在時刻が適用されてしまうため。
+                competitor.update_created_at(now)
 
             elif competition.fee_pay_type == FeePayType.LOCAL_AND_REMOTE.value:
                 competitor = Competitor.objects.get(pk=charges.metadata.competitor_id)
@@ -78,9 +83,7 @@ class Webhook(View):
             stripe_progress.competitor_id = competitor.id
             stripe_progress.charge_id = charges.id
             stripe_progress.pay_price = charges.amount
-            stripe_progress.pay_at = datetime.datetime.fromtimestamp(
-                charges.created, tz=datetime.timezone.utc
-            )
+            stripe_progress.pay_at = now
             stripe_progress.save()
 
             send_mail(
