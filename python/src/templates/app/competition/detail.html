@@ -32,7 +32,7 @@
           <div class="mb-2"><span class="h1">{{ competitor_registration_count }}</span> <span class="h3">/</span> <span class="h4">{{ competition.limit }}</span></div>
           <div class="mb-2">{% include "app/competition/progress.html" with rate=competitor_registration_rate %}</div>
           <div>申し込み数: <span class="h5">{% if competition.registration_open_at > now %}0{% else %}{{ competitor_offer_count }}{% endif %}</span></div>
-          {% if competition.is_display_pending_competitor and pending_waiting_number > 0 %}
+          {% if user.is_authenticated and competition.is_display_pending_competitor and pending_waiting_number > 0 %}
             <div>承認待ち順番: <span class="h5">{{ pending_waiting_number }}</div>
           {% endif %}
         </div>

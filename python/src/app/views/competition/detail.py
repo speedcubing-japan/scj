@@ -73,16 +73,17 @@ class Detail(Base):
         ).count()
 
         # 承認待ち数
-        pending_competitors = Competitor.objects.filter(
-            competition_id=self.competition.id,
-            status=CompetitorStatus.PENDING.value,
-        ).order_by("created_at")
-
         pending_waiting_number = 0
-        for pending_competitor in pending_competitors:
-            pending_waiting_number += 1
-            if pending_competitor.person.id == self.user.person.id:
-                break
+        if self.request.user.is_authenticated:
+            pending_competitors = Competitor.objects.filter(
+                competition_id=self.competition.id,
+                status=CompetitorStatus.PENDING.value,
+            ).order_by("created_at")
+
+            for pending_competitor in pending_competitors:
+                pending_waiting_number += 1
+                if pending_competitor.person.id == self.user.person.id:
+                    break
 
         # 承認者数
         competitor_registration_count = Competitor.objects.filter(
