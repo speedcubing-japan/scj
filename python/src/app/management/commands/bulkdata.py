@@ -179,6 +179,7 @@ class Command(BaseCommand):
                     stripe_user_person_id=record["fields"]["stripe_user_person_id"],
                     judge_person_ids=record["fields"]["judge_person_ids"],
                     event_ids=record["fields"]["event_ids"],
+                    event_limits=record["fields"]["event_limits"],
                     prefecture_id=record["fields"]["prefecture_id"],
                     organizer_name=record["fields"]["organizer_name"],
                     organizer_email=record["fields"]["organizer_email"],

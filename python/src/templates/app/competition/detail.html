@@ -1,5 +1,6 @@
 {% extends "app/common/base.html" %}
 {% load strip %}
+{% load index %}
 {% load event_name %}
 {% load event_id_name %}
 {% load i18n %}
@@ -93,9 +94,28 @@
         </li>
         <li class="list-group-item">
           <h6>{% trans "定員" %}</h6>
-          <div>
-            {{ competition.limit }}
-          </div>
+          {% if not competition.event_limits %}
+            <div>{{ competition.limit }}</div>
+          {% else %}
+            <div class="text-nowrap table-responsive">
+              <table id="competitor" class="table table-hover table-bordered table-sm">
+                <thead>
+                  <tr>
+                    <th>{% trans "種目" %}</th>
+                    <th>{% trans "定員" %}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for event_id in competition.event_ids %}
+                    <tr>
+                      <td><span class="cubing-icon event-{{ event_id | event_id_name }} mr-2 md-2 h5"></span>{{ event_id | event_name }}</td>
+                      <td>{{ competition.event_limits | index:forloop.counter0 }}</td>
+                    <tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% endif %}
         </li>
       </ul>
     </div>

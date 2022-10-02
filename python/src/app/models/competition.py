@@ -26,6 +26,7 @@ class Competition(models.Model):
     judge_person_ids = JSONField("審判員ID")
     stripe_user_person_id = models.IntegerField("Stripe使用者ID", default=0)
     event_ids = JSONField("イベントID")
+    event_limits = JSONField("イベント別定員")
     prefecture_id = models.SmallIntegerField(
         "都道府県ID", choices=PrefectureAndOversea.choices()
     )
