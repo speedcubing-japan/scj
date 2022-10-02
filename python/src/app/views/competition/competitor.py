@@ -62,13 +62,19 @@ class Competitor(Base):
                     event_id=event_id, person_id__in=person_ids
                 )
                 for best_rank in best_ranks:
-                    bests[best_rank.person.id] = best_rank.best
+                    bests[best_rank.person.id] = {
+                        "rank": best_rank.rank,
+                        "best": best_rank.best,
+                    }
 
                 average_ranks = AverageRank.objects.filter(
                     event_id=event_id, person_id__in=person_ids
                 )
                 for average_rank in average_ranks:
-                    averages[average_rank.person.id] = average_rank.best
+                    averages[average_rank.person.id] = {
+                        "rank": average_rank.rank,
+                        "best": average_rank.best,
+                    }
 
             elif self.competition.type == CompetitionType.WCA.value:
                 wca_ids = [competitor.person.wca_id for competitor in competitors]
@@ -94,14 +100,26 @@ class Competitor(Base):
                 name = competitor.person.get_full_name()
                 prefecture = competitor.person.get_prefecture_id_display()
                 best = (
-                    bests[competitor.person.id]
+                    bests[competitor.person.id]["best"]
                     if competitor.person.id in bests
                     else OUTLIERS
                 )
                 average = (
-                    averages[competitor.person.id]
+                    averages[competitor.person.id]["best"]
                     if competitor.person.id in averages
+                    and averages[competitor.person.id]["best"] > 0
                     else OUTLIERS
+                )
+                best_rank = (
+                    bests[competitor.person.id]["rank"]
+                    if competitor.person.id in bests
+                    else NA
+                )
+                average_rank = (
+                    averages[competitor.person.id]["rank"]
+                    if competitor.person.id in averages
+                    and averages[competitor.person.id]["best"] > 0
+                    else NA
                 )
                 is_first_timer = (
                     competitor.person.id not in scj_competition_returner_list
