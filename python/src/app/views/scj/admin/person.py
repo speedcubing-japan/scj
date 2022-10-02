@@ -1,6 +1,6 @@
 from app.models import Person
 from copy import deepcopy
-from app.defines.prefecture import Prefecture
+from app.defines.prefecture import PrefectureAndOversea
 from app.defines.gender import Gender
 from .admin_base import AdminBase
 
@@ -16,7 +16,9 @@ class AdminPerson(AdminBase):
             person_dict = person.__dict__
             new_person = deepcopy(person_dict)
             new_person["gender"] = Gender.get_name(person.gender)
-            new_person["prefecture"] = Prefecture.get_name(person.prefecture_id)
+            new_person["prefecture"] = PrefectureAndOversea.get_name(
+                person.prefecture_id
+            )
             new_person["is_active"] = person.user.is_active
             modified.append(new_person)
         context["modified"] = modified
@@ -24,6 +26,6 @@ class AdminPerson(AdminBase):
         if self.request.session.get("notification") is not None:
             del self.request.session["notification"]
         context["notification"] = notification
-        prefecture_list = [x[1] for x in Prefecture.choices()]
+        prefecture_list = [x[1] for x in PrefectureAndOversea.choices()]
         context["prefecture_list"] = prefecture_list
         return context
