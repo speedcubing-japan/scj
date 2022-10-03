@@ -8,7 +8,7 @@
   {% include "app/common/title.html" with title="お知らせ投稿" %}
 {% endif %}
 
-<div class="card">
+<div class="card mb-3">
   <div class="card-body">
     <form action="" method="POST">
       {% csrf_token %}
@@ -16,9 +16,42 @@
       <div class="form-group row">
         <div class="offset-md-3 col-md-9">
           <input class="btn btn-dark" type="submit" value="送信">
+          {% if format == 'information' %}
+            <button type="button" class="btn btn-primary preview">プレビュー</button>
+            <div class="caution text-danger font-weight-bold">タイトルと本文を入力してください。</div>
+          {% endif %}
         </div>
       </div>
     </form>
   </div>
 </div>
+
+{% if format == 'information' %}
+<div class="card mb-3 preview-card">
+  <div class="card-header lead preview-title"></div>
+  <div class="card-body preview-text"></div>
+  <div class="card-footer small text-right">
+    {% now "Y年m月d日" %}&nbsp;投稿者:&nbsp{{ user.person.get_full_name }}
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(".preview-card").hide()
+  $(".caution").hide()
+
+  $(".preview").click(function () {
+    var title = $(".information-title").val()
+    var text = $(".information-text").val()
+    if (title != "" && text != "") {
+      $(".preview-card").show()
+      $(".preview-title").html(title)
+      $(".preview-text").html(text)
+      $(".caution").hide()
+    } else {
+      $(".caution").show()
+    }
+  });
+</script>
+
+{% endif %}
 {% endblock %}

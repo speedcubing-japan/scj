@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.forms import PostForm, InformationForm
+from app.models import Information
+from app.defines.session import Notification
 
 
 class Input(LoginRequiredMixin, TemplateView):
@@ -43,9 +45,38 @@ class Input(LoginRequiredMixin, TemplateView):
             return redirect("index")
 
         if form.is_valid():
-            request.session["post_form_data"] = request.POST
-            request.session["post_form_data_format"] = format
-            return redirect("post_confirm")
+            if format == "event":
+                request.session["post_form_data"] = request.POST
+                request.session["post_form_data_format"] = format
+                return redirect("post_confirm")
+            elif format == "information":
+                type = form.cleaned_data["type"]
+                text = form.cleaned_data["text"]
+
+                if request.user.is_superuser:
+                    information = Information(
+                        type=type,
+                        title=form.cleaned_data["title"],
+                        text=text,
+                        person=request.user.person,
+                        is_public=form.cleaned_data["is_public"],
+                    )
+                    information.save()
+                    request.session["notification"] = Notification.POST
+                elif request.user.is_staff:
+                    information = Information(
+                        type=type,
+                        title=form.cleaned_data["title"],
+                        text=text,
+                        person=request.user.person,
+                        is_public=False,
+                    )
+                    information.save()
+                    request.session["notification"] = Notification.POST
+                else:
+                    return redirect("post_input")
+
+                return redirect("post_list")
 
         context = {
             "form": form,

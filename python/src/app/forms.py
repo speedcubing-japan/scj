@@ -360,6 +360,11 @@ class InformationForm(forms.ModelForm):
     class Meta:
         model = Information
         fields = ("type", "title", "text", "is_public")
+        widgets = {
+            "type": forms.Select(attrs={"class": "information-type"}),
+            "title": forms.TextInput(attrs={"class": "information-title"}),
+            "text": forms.Textarea(attrs={"class": "information-text"}),
+        }
 
 
 class RankingForm(forms.Form):

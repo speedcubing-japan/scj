@@ -14,7 +14,6 @@
           <span class="date text-muted">{{ post.created_at | date:"Y年m月d日" }}</span>
           <span class="post-type">{% include "app/common/information_type_badge.html" with type_display_name=post.get_type_display %}</span>
           <span class="post-title">{{ post.title }}</span>
-           </span>
         </a>
       </li>
     {% endfor %}
@@ -33,7 +32,7 @@
           <span class="post-title">{{ information.title }}</span>
         </a>
       </li>
-    {% endfor %}  
+    {% endfor %}
   {% else %}
     <li class="list-group-item">公開待ちのお知らせはありません。</li>
   {% endif %}
