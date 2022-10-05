@@ -1,3 +1,4 @@
+import datetime
 import app.models
 from django.shortcuts import render, redirect
 from app.models import BestRank, AverageRank, WcaRank
@@ -176,11 +177,15 @@ class Competitor(Base):
             map(lambda x: self.event_info(x), self.competition.event_ids)
         )
 
+        # 現在時刻
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
+
         context["competitors"] = competitor_list
         context["competitors_count_info"] = self.competitior_count_info(competitor_list)
         context["event_id"] = event_id
         context["event_id_name"] = self.event_id_name
         context["event_infos"] = event_infos
+        context["now"] = now
 
         return context
 
