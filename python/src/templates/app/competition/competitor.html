@@ -18,7 +18,7 @@
         <option value="{% url 'competition_competitor' competition.name_id event_info.event_id_name %}" {% if event_id_name == event_info.event_id_name %}selected{% endif %}>{{ event_info.event_name }}</option>
       {% endfor %}
     </select>
-    {% if competitors and competition.registration_open_at > now %}
+    {% if competitors %}
       <div class="mb-3 text-nowrap table-responsive">
         <table id="competitor" class="table table-hover table-striped table-sm">
           <thead>
