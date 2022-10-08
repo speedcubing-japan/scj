@@ -95,7 +95,11 @@
         <div class="alert alert-light" role="alert">
           <div>種目ごとに記載されているサイクシート(WCAの記録、順位)はWCA認証時のものです。</div>
           <div>また試験運用中のため未表示、不正なデータの可能性があります。</div>
-          <div>より正確な記録はWCAに参加者が登録された後に<a href="https://www.worldcubeassociation.org/competitions/{{ competition.name_id }}/registrations/psych-sheet/">こちら</a>からご確認ください。</div>
+          {% if event_id_name == 'list' %}
+            <div>より正確な記録はWCAに参加者が登録された後に<a href="https://www.worldcubeassociation.org/competitions/{{ competition.name_id }}/registrations/psych-sheet/">こちら</a>からご確認ください。</div>
+          {% else %}
+            <div>より正確な記録はWCAに参加者が登録された後に<a href="https://www.worldcubeassociation.org/competitions/{{ competition.name_id }}/registrations/psych-sheet/{{ event_id_name }}">こちら</a>からご確認ください。</div>
+          {% endif %}
         <div>
       {% endif %}
       </div>
