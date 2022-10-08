@@ -1,6 +1,8 @@
 {% extends "app/common/base.html" %}
 {% load bootstrap4 %}
 {% load competition_logo %}
+{% load event_name %}
+{% load event_id_name %}
 {% load static %}
 
 {% block content %}
@@ -25,6 +27,7 @@
                 <tr>
                   <th scope="col"><input type="checkbox" class="competition_admin_all_pending competition_admin_checkbox" /></th>
                   <th scope="col"></th>
+                  <th scope="col"><i class="fas fa-sort mr-2"></i>#</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>WCA ID</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ 氏名</th>
@@ -35,9 +38,10 @@
               </thead>
               <tbody>
                 {% for competitor in pending_competitors %}
-                  <tr data-toggle="tooltip" data-placement="auto" title="{{ competitor.comment }}">
+                  <tr {% if remaining_registration_count > 0 and remaining_registration_count <= forloop.counter0 %}class="table-danger"{% endif %} data-toggle="tooltip" data-placement="auto" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_pending competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.wca_email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
+                    <td>{{ competitor.registration_number }}</td>
                     <td>{% if competitor.person.wca_id %}<a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a>{% endif %}</td>
                     <td><span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span><a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}{% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}{% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>
@@ -62,6 +66,7 @@
                 <tr>
                   <th scope="col"><input type="checkbox" class="competition_admin_all_admit competition_admin_checkbox" /></th>
                   <th scope="col"></th>
+                  <th scope="col"><i class="fas fa-sort mr-2"></i>#</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>WCA ID</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ 氏名</th>
@@ -75,6 +80,7 @@
                   <tr data-toggle="tooltip" data-placement="auto" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_admit competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.wca_email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
+                    <td>{{ competitor.registration_number }}</td>
                     <td>{% if competitor.person.wca_id %}<a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a>{% endif %}</td>
                     <td><span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span><a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}{% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}{% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>
@@ -99,6 +105,7 @@
                 <tr>
                   <th scope="col" ><input type="checkbox" class="competition_admin_all_cancel competition_admin_checkbox" /></th>
                   <th scope="col"></th>
+                  <th scope="col"><i class="fas fa-sort mr-2"></i>#</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>WCA ID</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ 氏名</th>
@@ -112,6 +119,7 @@
                   <tr data-toggle="tooltip" data-placement="auto" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_cancel competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.wca_email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
+                    <td>{{ competitor.registration_number }}</td>
                     <td>{% if competitor.person.wca_id %}<a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a>{% endif %}</td>
                     <td><span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span><a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment"></i>{% endif %}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>

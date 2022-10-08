@@ -18,7 +18,7 @@
         <option value="{% url 'competition_competitor' competition.name_id event_info.event_id_name %}" {% if event_id_name == event_info.event_id_name %}selected{% endif %}>{{ event_info.event_name }}</option>
       {% endfor %}
     </select>
-    {% if competitors %}
+    {% if competitors and competition.is_registration_open %}
       <div class="mb-3 text-nowrap table-responsive">
         <table id="competitor" class="table table-hover table-striped table-sm">
           <thead>
@@ -73,18 +73,22 @@
               </tr>
             {% endfor %}
           </tbody>
-          {% if event_id_name == 'list' %}
           <tfoot>
-            <tr>
-              <td>{% blocktrans with first_timers=competitors_count_info.first_timers returners=competitors_count_info.returners sum=competitors_count_info.sum %}{{ first_timers }} 人 (初参加者) + {{ returners }} 人 (大会経験者) = {{ sum }} 人{% endblocktrans %}</td>
-              {% if competition.type == competition_type.SCJ.value %}
-                <td>{% blocktrans with country_count=competitors_count_info.country_count %}{{ country_count}}都道府県{% endblocktrans %}</td>
-              {% elif competition.type == competition_type.WCA.value %}
-                <td>{% blocktrans with country_count=competitors_count_info.country_count %}{{ country_count}}ヶ国{% endblocktrans %}</td>
-              {% endif %}
-            </tr>
+            {% if event_id_name == 'list' %}
+              <tr>
+                <td>{% blocktrans with first_timers=competitors_count_info.first_timers returners=competitors_count_info.returners sum=competitors_count_info.sum %}{{ first_timers }} 人 (初参加者) + {{ returners }} 人 (大会経験者) = {{ sum }} 人{% endblocktrans %}</td>
+                {% if competition.type == competition_type.SCJ.value %}
+                  <td>{% blocktrans with country_count=competitors_count_info.country_count %}{{ country_count}} 都道府県{% endblocktrans %}</td>
+                {% elif competition.type == competition_type.WCA.value %}
+                  <td>{% blocktrans with country_count=competitors_count_info.country_count %}{{ country_count}} ヶ国{% endblocktrans %}</td>
+                {% endif %}
+              </tr>
+            {% else %}
+              <tr>
+                <td>{% blocktrans with registration_count=competitors_count_info.registration_count %}{{ registration_count }} 名{% endblocktrans %}</td>
+              </tr>
+            {% endif %}
           </tfoot>
-          {% endif %}
         </table>
       </div>
       {% if competition.type == competition_type.WCA.value %}

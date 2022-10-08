@@ -1,7 +1,8 @@
 {% extends "app/common/base.html" %}
 {% load bootstrap4 %}
 {% load static %}
-
+{% load event_name %}
+{% load event_id_name %}
 
 {% block content %}
 {% include "app/common/competition_title.html" %}
@@ -25,6 +26,7 @@
                 <tr>
                   <th scope="col"><input type="checkbox" class="competition_admin_all_pending competition_admin_checkbox" /></th>
                   <th scope="col"></th>
+                  <th scope="col"><i class="fas fa-sort mr-2"></i>#</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ ID</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>都道府県</th>
@@ -38,6 +40,7 @@
                   <tr data-toggle="tooltip" data-placement="auto" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_pending competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.user.email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
+                    <td>{{ competitor.registration_number }}</td>
                     <td>{{ competitor.person.id }}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     <td>{{ competitor.person.get_prefecture_id_display }}</td>
@@ -62,6 +65,7 @@
                 <tr>
                   <th scope="col"><input type="checkbox" class="competition_admin_all_admit competition_admin_checkbox" /></th>
                   <th scope="col"></th>
+                  <th scope="col"><i class="fas fa-sort mr-2"></i>#</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ ID</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>都道府県</th>
@@ -75,6 +79,7 @@
                   <tr data-toggle="tooltip" data-placement="auto" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_admit competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.user.email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
+                    <td>{{ competitor.registration_number }}</td>
                     <td>{{ competitor.person.id }}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     <td>{{ competitor.person.get_prefecture_id_display }}</td>
@@ -99,6 +104,7 @@
                 <tr>
                   <th scope="col"><input type="checkbox" class="competition_admin_all_cancel competition_admin_checkbox" /></th>
                   <th scope="col"></th>
+                  <th scope="col"><i class="fas fa-sort mr-2"></i>#</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ ID</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>都道府県</th>
@@ -109,9 +115,10 @@
               </thead>
               <tbody>
                 {% for competitor in cancel_competitors %}
-                  <tr data-toggle="tooltip" data-placement="auto" title="{{ competitor.comment }}">
+                  <tr {% if remaining_registration_count > 0 and remaining_registration_count <= forloop.counter0 %}class="table-danger"{% endif %} data-toggle="tooltip" data-placement="auto" title="{{ competitor.comment }}">
                     <td><input type="checkbox" class="competition_admin_cancel competition_admin_checkbox" name="competitor_id_{{ competitor.id }}" value="{{ competitor.id }}" data-email="{{ competitor.person.user.email }}">
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
+                    <td>{{ competitor.registration_number }}</td>
                     <td>{{ competitor.person.id }}</td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
                     <td>{{ competitor.person.get_prefecture_id_display }}</td>

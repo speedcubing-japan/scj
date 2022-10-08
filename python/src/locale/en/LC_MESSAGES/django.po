@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-28 13:02+0000\n"
+"POT-Creation-Date: 2022-10-08 03:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,7 +47,7 @@ msgstr "Prefecutre"
 msgid "平均"
 msgstr "Average"
 
-#: templates/app/competition/competitor.html:38
+#: templates/app/competition/competitor.html:40
 msgid "ベスト"
 msgstr "Best"
 
@@ -59,94 +59,106 @@ msgstr ""
 "%(first_timers)s first-timers + %(returners)s returners = %(sum)s people"
 
 #: templates/app/competition/competitor.html:81
-#, python-format
-msgid "%(country_count)s都道府県"
+msgid "%(country_count)s 都道府県"
 msgstr "%(country_count)s prefecture"
 
 #: templates/app/competition/competitor.html:83
-#, python-format
-msgid "%(country_count)sヶ国"
+msgid "%(country_count)s ヶ国"
 msgstr "%(country_count)s country"
 
-#: templates/app/competition/detail.html:28
+#: templates/app/competition/competitor.html:88
+msgid "%(registration_count)s 名"
+msgstr "%(registration_count)s people"
+
+#: templates/app/competition/detail.html:29
 msgid "承認者数"
 msgstr "Number of approved"
 
-#: templates/app/competition/detail.html:41
+#: templates/app/competition/detail.html:45
 #: templates/app/competition/menu.html:4
 msgid "基本情報"
 msgstr "General info"
 
-#: templates/app/competition/detail.html:45
+#: templates/app/competition/detail.html:49
 msgid "種別"
 msgstr "Type"
 
-#: templates/app/competition/detail.html:50
+#: templates/app/competition/detail.html:54
 msgid "WCA大会"
 msgstr "WCA competition"
 
-#: templates/app/competition/detail.html:52
+#: templates/app/competition/detail.html:56
 msgid "SCJ大会"
 msgstr "SCJ competition"
 
-#: templates/app/competition/detail.html:56
+#: templates/app/competition/detail.html:60
 msgid "日付"
 msgstr "Date"
 
-#: templates/app/competition/detail.html:64
+#: templates/app/competition/detail.html:68
 msgid "Google Calendarに追加"
 msgstr "Add to Google Calendar"
 
-#: templates/app/competition/detail.html:67
+#: templates/app/competition/detail.html:71
 msgid "会場"
 msgstr "Venue"
 
-#: templates/app/competition/detail.html:73
+#: templates/app/competition/detail.html:77
 msgid "会場住所"
 msgstr "Address"
 
-#: templates/app/competition/detail.html:82
+#: templates/app/competition/detail.html:86
 msgid "開催イベント"
 msgstr "Event"
 
-#: templates/app/competition/detail.html:92
+#: templates/app/competition/detail.html:96
+#: templates/app/competition/detail.html:105
 msgid "定員"
 msgstr "Limit"
 
-#: templates/app/competition/detail.html:103
+#: templates/app/competition/detail.html:104
+#: templates/app/competition/event.html:81
+#: templates/app/competition/fee.html:137
+#: templates/app/competition/fee.html:153
+#: templates/app/competition/fee.html:165
+#: templates/app/competition/registration.html:327
+msgid "種目"
+msgstr "Events"
+
+#: templates/app/competition/detail.html:126
 msgid "その他"
 msgstr "Other"
 
-#: templates/app/competition/detail.html:107
+#: templates/app/competition/detail.html:130
 msgid "申し込み日時"
 msgstr "Registration period"
 
-#: templates/app/competition/detail.html:117
+#: templates/app/competition/detail.html:140
 msgid "お知らせ"
 msgstr "Information"
 
-#: templates/app/competition/detail.html:130
+#: templates/app/competition/detail.html:153
 #: templates/app/competition/registration.html:85
 msgid "参加資格"
 msgstr "Qualification"
 
-#: templates/app/competition/detail.html:145
+#: templates/app/competition/detail.html:168
 msgid "WCA Delegate"
 msgstr ""
 
-#: templates/app/competition/detail.html:147
+#: templates/app/competition/detail.html:170
 msgid "SCJ 審判員"
 msgstr "SCJ Judge"
 
-#: templates/app/competition/detail.html:169
+#: templates/app/competition/detail.html:192
 msgid "主催者"
 msgstr "Organiser"
 
-#: templates/app/competition/detail.html:173
+#: templates/app/competition/detail.html:196
 msgid "ご不明点があれば、お気軽にご連絡ください。"
 msgstr "Feel free ask us if you have any question."
 
-#: templates/app/competition/detail.html:175
+#: templates/app/competition/detail.html:198
 #, python-format
 msgid ""
 "<a href=\"%(url)s\" target=\"_blank\">よくある質問</a>も合わせてご確認くださ"
@@ -179,14 +191,6 @@ msgstr "Begin"
 #: templates/app/competition/event.html:80
 msgid "終了"
 msgstr "End"
-
-#: templates/app/competition/event.html:81
-#: templates/app/competition/fee.html:137
-#: templates/app/competition/fee.html:153
-#: templates/app/competition/fee.html:165
-#: templates/app/competition/registration.html:327
-msgid "種目"
-msgstr "Events"
 
 #: templates/app/competition/event.html:83
 #: templates/app/competition/event.html:139
@@ -902,7 +906,7 @@ msgid "このページに記載されている内容に同意します"
 msgstr "I agree to the information on this page."
 
 #: templates/app/competition/registration.html:389
-#: templates/app/registration/input.html:40
+#: templates/app/registration/input.html:51
 msgid "登録"
 msgstr "Register"
 
@@ -935,23 +939,23 @@ msgstr "Submit"
 msgid "戻る"
 msgstr "Back"
 
-#: templates/app/registration/input.html:20
+#: templates/app/registration/input.html:31
 msgid "利用規約"
 msgstr "Terms of Use"
 
-#: templates/app/registration/input.html:21
+#: templates/app/registration/input.html:32
 msgid "プライバシーポリシー"
 msgstr "Privacy Policy"
 
-#: templates/app/registration/input.html:25
+#: templates/app/registration/input.html:36
 msgid "利用規約に同意します"
 msgstr "I agree to the Terms of Use."
 
-#: templates/app/registration/input.html:31
+#: templates/app/registration/input.html:42
 msgid "プライバシーポリシーに同意します"
 msgstr "I agree to the Privacy Policy."
 
-#: templates/app/registration/input.html:36
+#: templates/app/registration/input.html:47
 msgid ""
 "アカウント登録後にSCJ大会に参加した場合、登録した生年月日に基づいて年代別ラン"
 "キングが作成され、あなたの記録とその時点での年齢が使用されます。"
@@ -960,7 +964,7 @@ msgstr ""
 "records and your age at that time will be used to age ranking based on your "
 "registered birth date."
 
-#: templates/app/registration/input.html:36
+#: templates/app/registration/input.html:47
 msgid ""
 "一旦掲載された大会記録は、後から削除することはできません。利用規約とプライバ"
 "シーポリシーを必ず確認してください。"

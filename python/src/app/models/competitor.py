@@ -16,6 +16,7 @@ class Competitor(models.Model):
     created_at = models.DateTimeField("作成日時", auto_now_add=True)
     updated_at = models.DateTimeField("更新日時", auto_now=True)
 
+    registration_number = 0
     stripe_progress = None
     is_duplicated_twin_competitions = False
     is_diffrence_event_and_price = False
@@ -54,6 +55,9 @@ class Competitor(models.Model):
         return Competitor.objects.filter(
             competition_id=competition_id, person_id=person_id
         ).exists()
+
+    def set_registration_number(self, number):
+        self.registration_number = number
 
     def set_stripe_progress(self, stripe_progress):
         self.stripe_progress = stripe_progress

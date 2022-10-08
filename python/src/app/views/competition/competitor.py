@@ -196,6 +196,7 @@ class Competitor(Base):
         first_timers = 0
         country_count = 0
         pending_count = 0
+        registration_count = 0
         for competitor in competitors:
             if competitor["status"] == CompetitorStatus.PENDING.value:
                 pending_count += 1
@@ -231,11 +232,15 @@ class Competitor(Base):
                 countries.remove(NA)
             country_count = len(countries)
 
+        registration_count = max(0, returners + first_timers - pending_count)
+
         return {
             "sum": returners + first_timers,
             "returners": returners,
             "first_timers": first_timers,
             "country_count": country_count,
+            "pending_count": pending_count,
+            "registration_count": registration_count,
         }
 
     def get_scj_competition_returner_list(self):

@@ -115,7 +115,8 @@ class Index(LoginRequiredMixin, Base):
         stripe_progresses = StripeProgress.objects.filter(
             competition_id=self.competition.id
         )
-        for competitor in self.competitors:
+        for number, competitor in enumerate(self.competitors):
+            competitor.set_registration_number(number + 1)
 
             amount = calc_fee(self.competition, competitor)
             for stripe_progress in stripe_progresses:
@@ -139,6 +140,9 @@ class Index(LoginRequiredMixin, Base):
         context["cancel_competitors"] = cancel_competitors
         context["now"] = datetime.datetime.now(tz=datetime.timezone.utc)
         context["is_registration_open"] = self.competition.is_registration_open()
+        context["remaining_registration_count"] = self.competition.limit - len(
+            registration_competitors
+        )
 
         return context
 
@@ -150,8 +154,3 @@ class Index(LoginRequiredMixin, Base):
             competition_type = CompetitionType.WCA.name.lower()
 
         return "app/competition/admin/index_{}.html".format(competition_type)
-
-    def check_stripe_progress_pay_at(self, competitor, now):
-        if competitor.stripe_progress is None:
-            return now
-        return competitor.stripe_progress.pay_at
