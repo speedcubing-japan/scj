@@ -43,7 +43,14 @@
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{{ competitor.registration_number }}</td>
                     <td>{% if competitor.person.wca_id %}<a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a>{% endif %}</td>
-                    <td><span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span><a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}{% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}{% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}</td>
+                    <td>
+                      <span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span>
+                      <a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>
+                      {% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}
+                      {% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}
+                      {% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}
+                      {% if not competitor.person.wca_birth_at %}<i class="fas fa-birthday-cake ml-1"></i>{% endif %}
+                    </td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>
                     <td>{{ competitor.guest_count }}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% if competitor.stripe_progress.refund_price > 0 %}&nbsp;<i class="fas fa-undo fa-fw"></i>{{ competitor.stripe_progress.refund_price }}円{% endif %}{% endif %}</td>
@@ -82,7 +89,14 @@
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{{ competitor.registration_number }}</td>
                     <td>{% if competitor.person.wca_id %}<a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a>{% endif %}</td>
-                    <td><span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span><a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}{% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}{% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}</td>
+                    <td>
+                      <span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span>
+                      <a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>
+                      {% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}
+                      {% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}
+                      {% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}
+                      {% if not competitor.person.wca_birth_at %}<i class="fas fa-birthday-cake ml-1"></i>{% endif %}
+                    </td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>
                     <td>{{ competitor.guest_count }}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
@@ -121,7 +135,14 @@
                     <td><a href="{% url 'competition_admin_competitor' competition.name_id competitor.id %}">編集</a></td>
                     <td>{{ competitor.registration_number }}</td>
                     <td>{% if competitor.person.wca_id %}<a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a>{% endif %}</td>
-                    <td><span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span><a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment"></i>{% endif %}</td>
+                    <td>
+                      <span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span>
+                      <a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>
+                      {% if competitor.comment %}<i class="far fa-comment"></i>{% endif %}
+                      {% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}
+                      {% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}
+                      {% if not competitor.person.wca_birth_at %}<i class="fas fa-birthday-cake ml-1"></i>{% endif %}
+                    </td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>
                     <td>{{ competitor.guest_count }}</td>
                     <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% if competitor.stripe_progress.refund_price > 0 %}&nbsp;<i class="fas fa-undo fa-fw"></i>{{ competitor.stripe_progress.refund_price }}円{% endif %}{% endif %}</td>
@@ -137,6 +158,7 @@
         <div class="alert alert-light" role="alert">
           <div><i class="fas fa-money-check mr-1"></i>種目変更により支払額と差額が発生している際に表示されます。</div>
           <div><i class="fas fa-bomb mr-1"></i>シリーズ大会において重複申し込みが発生している際に表示されます。</div>
+          <div><i class="fas fa-birthday-cake mr-1"></i>WCAアカウントに誕生日が設定されていない際に表示されます。</div>
         </div>
         <div class="alert alert-light" role="alert">
           <div>チェックを入れた参加者のステータスを下部の[承認][否認]ボタンで変更できます。</div>
