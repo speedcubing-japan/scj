@@ -1,11 +1,13 @@
 import re
 import app.models
+import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.models import StripeProgress
 from app.defines.event import Event
 from app.views.competition.base import Base
 from app.defines.session import Notification
+from app.defines.prefecture import PrefectureAndOversea
 
 
 class Competitor(LoginRequiredMixin, Base):
@@ -56,12 +58,24 @@ class Competitor(LoginRequiredMixin, Base):
         if request.POST.get("guest_count"):
             guest_count = int(request.POST.get("guest_count"))
 
-        wca_name = request.POST.get("wca_name", "")
         if self.is_wca_competition():
-            if self.target_competitor.person.wca_id:
-                wca_name = self.target_competitor.person.wca_name
+            wca_name = request.POST.get("wca_name", "")
+            wca_birth_at = request.POST.get("wca_birth_at", "")
             if not wca_name:
                 self.admin_errors.append("WCA氏名が規格外です。")
+            if not wca_birth_at:
+                self.admin_errors.append("WCA誕生日が規格外です。")
+
+            if self.target_competitor.person.wca_id:
+                wca_name = self.target_competitor.person.wca_name
+                wca_birth_at = self.target_competitor.person.wca_birth_at
+            else:
+                wca_birth_at = self.get_date(wca_birth_at, True)
+
+        birth_at = request.POST.get("birth_at", "")
+        birth_at = self.get_date(birth_at, False)
+
+        prefecture_id = int(request.POST.get("prefecture_id", ""))
 
         last_name = request.POST.get("last_name")
         if not last_name:
@@ -105,7 +119,10 @@ class Competitor(LoginRequiredMixin, Base):
             self.target_competitor.update_admin_competitor(
                 event_ids,
                 guest_count,
+                prefecture_id,
+                birth_at,
                 wca_name,
+                wca_birth_at,
                 last_name,
                 first_name,
                 last_name_kana,
@@ -131,5 +148,28 @@ class Competitor(LoginRequiredMixin, Base):
         context["guest_counts"] = range(self.competition.guest_limit + 1)
         context["is_prepaid"] = is_prepaid
         context["admin_errors"] = self.admin_errors
+        context["request_method"] = self.request.method
+        context["prefectures"] = PrefectureAndOversea.choices()
 
         return context
+
+    def get_date(self, birth_at, is_wca):
+        head_string = "誕生日"
+        if is_wca:
+            head_string = "WCA" + head_string
+
+        pattern = r"(\d{4})-(\d{2})-(\d{2})"
+        prog = re.compile(pattern)
+        result = prog.match(birth_at)
+        if not result:
+            self.admin_errors.append(head_string + "がフォーマット規格外です。")
+        else:
+            try:
+                new_data_str = "%04d-%02d-%02d" % (
+                    int(result.group(1)),
+                    int(result.group(2)),
+                    int(result.group(3)),
+                )
+                return datetime.datetime.strptime(new_data_str, "%Y-%m-%d")
+            except ValueError:
+                self.admin_errors.append(head_string + "が不正な日付です。")

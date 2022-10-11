@@ -121,7 +121,10 @@ class Competitor(models.Model):
         self,
         event_ids,
         guest_count,
+        prefecture_id,
+        birth_at,
         wca_name,
+        wca_birth_at,
         last_name,
         first_name,
         last_name_kana,
@@ -148,6 +151,8 @@ class Competitor(models.Model):
             last_name_roma,
             wca_name,
         )
+        self.person.update_prefecture_id(prefecture_id)
+        self.person.update_birth_at(birth_at, wca_birth_at)
 
     def __str__(self):
         return self.competition_id + " [" + self.person.get_full_name() + "]"

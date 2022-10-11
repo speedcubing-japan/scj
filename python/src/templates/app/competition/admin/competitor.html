@@ -72,14 +72,22 @@
       {% if competition.type == competition_type.WCA.value %}
         <div class="card mb-3">
           <div class="card-header lead">
-            WCA氏名
+            WCA情報{% if competitor.person.wca_id %}&nbsp;ID:&nbsp;{{ competitor.person.wca_id }}{% endif %}
           </div>
           <div>
-            <div class="ml-2 mr-2 mt-3 row">
-              <div class="form-group col-md-12">
+            <div class="ml-2 mr-2 mt-2 row">
+              <div class="form-group col-md-6">
+                <label>氏名</label>
                 <input class="form-control" placeholder="WCA氏名" name="wca_name" type="text" value="{{ competitor.person.wca_name }}" {% if competitor.person.wca_id %}disabled{% endif %}>
                 {% if competitor.person.wca_id %}
                   <span class="small text-danger helptext">WCA IDが発行されているため、WCA氏名を修正することはできません。</span>
+                {% endif %}
+              </div>
+              <div class="form-group col-md-6">
+                <label>誕生日</label>
+                <input class="form-control" placeholder="WCA誕生日 (YYYY-MM-DD)" name="wca_birth_at" type="text" {% if competitor.person.wca_birth_at %}value="{{ competitor.person.wca_birth_at |date:'Y-m-d' }}"{% endif %} {% if competitor.person.wca_id %}disabled{% endif %}>
+                {% if competitor.person.wca_id %}
+                  <span class="small text-danger helptext">WCA IDが発行されているため、WCA誕生日を修正することはできません。</span>
                 {% endif %}
               </div>
             </div>
@@ -88,10 +96,26 @@
       {% endif %}
       <div class="card mb-3">
         <div class="card-header lead">
-          SCJ氏名
+          SCJ情報&nbsp;ID:&nbsp;{{ competitor.person.id }}
         </div>
         <div>
           <div class="ml-2 mr-2 mt-2 row">
+            <div class="form-group col-md-6">
+              <label>誕生日</label>
+              <input class="form-control" placeholder="誕生日" name="birth_at" type="text" value="{{ competitor.person.birth_at |date:'Y-m-d' }}">
+            </div>
+            <div class="form-group col-md-6">
+              <label>都道府県</label>
+              <select class="form-control" placeholder="都道府県" name="prefecture_id">
+                {% for prefecture in prefectures %}
+                  <option value="{{ prefecture.0 }}" {% if competitor.person.prefecture_id == prefecture.0 %}selected{% endif %}>{{ prefecture.1 }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="ml-2 mr-2 row">
             <div class="form-group col-md-6">
               <label>姓</label>
               <input class="form-control" placeholder="姓" name="last_name" type="text" value="{{ competitor.person.last_name }}">
@@ -112,7 +136,7 @@
             <input class="form-control" placeholder="名(カナ)" name="first_name_kana" type="text" value="{{ competitor.person.first_name_kana }}">
           </div>
         </div>
-        <div class="ml-2 mr-2 mt-2 row">
+        <div class="ml-2 mr-2 row">
           <div class="form-group col-md-6">
             <label>姓(Rome)</label>
             <input class="form-control" placeholder="姓(Roma)" name="last_name_roma" type="text" value="{{ competitor.person.last_name_roma }}">

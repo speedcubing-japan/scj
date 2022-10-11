@@ -85,5 +85,25 @@ class Person(models.Model):
             ]
         )
 
+    def update_birth_at(self, birth_at, wca_birth_at):
+        self.birth_at = birth_at
+        self.wca_birth_at = wca_birth_at
+        self.save(
+            update_fields=[
+                "birth_at",
+                "wca_birth_at",
+                "updated_at",
+            ]
+        )
+
+    def update_prefecture_id(self, prefecture_id):
+        self.prefecture_id = prefecture_id
+        self.save(
+            update_fields=[
+                "prefecture_id",
+                "updated_at",
+            ]
+        )
+
     def __str__(self):
         return self.get_full_name()
