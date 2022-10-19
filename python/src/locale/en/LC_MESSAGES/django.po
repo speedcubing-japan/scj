@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-08 03:27+0000\n"
+"POT-Creation-Date: 2022-10-19 11:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,14 +59,17 @@ msgstr ""
 "%(first_timers)s first-timers + %(returners)s returners = %(sum)s people"
 
 #: templates/app/competition/competitor.html:81
+#, python-format
 msgid "%(country_count)s 都道府県"
 msgstr "%(country_count)s prefecture"
 
 #: templates/app/competition/competitor.html:83
+#, python-format
 msgid "%(country_count)s ヶ国"
 msgstr "%(country_count)s country"
 
 #: templates/app/competition/competitor.html:88
+#, python-format
 msgid "%(registration_count)s 名"
 msgstr "%(registration_count)s people"
 
@@ -906,7 +909,7 @@ msgid "このページに記載されている内容に同意します"
 msgstr "I agree to the information on this page."
 
 #: templates/app/competition/registration.html:389
-#: templates/app/registration/input.html:51
+#: templates/app/registration/input.html:55
 msgid "登録"
 msgstr "Register"
 
@@ -971,3 +974,10 @@ msgid ""
 msgstr ""
 "Once a your competition record is posted, it cannot be deleted later. Be "
 "sure to review the Terms of Use and Privacy Policy."
+
+#: templates/app/registration/input.html:50
+msgid ""
+"このユーザー新規登録は必ず競技者本人の名義で作成してください。登録されたユー"
+"ザーが実際の参加者と名義が異なる場合は大会の参加をお断りします。また複数の同"
+"一名義のユーザー作成はお控えください。"
+msgstr "This sign up must be made in the name of the competitor himself/herself. If the registered user's name is different from the actual competitor's name, the competitor will not be allowed to participate in the competition. Please refrain from creating multiple sign up under the same person."
