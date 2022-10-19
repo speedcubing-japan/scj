@@ -125,6 +125,10 @@ class Competitor(Base):
                     competitor.person.id not in scj_competition_returner_list
                 )
             elif self.competition.type == CompetitionType.WCA.value:
+                # WCA連携解除した人がいるとエラーになるので回避
+                if not competitor.person.wca_id:
+                    continue
+
                 name = competitor.person.wca_name
                 country = country_info.name(code=competitor.person.wca_country_iso2)
                 en_country = country_info.en_name(
