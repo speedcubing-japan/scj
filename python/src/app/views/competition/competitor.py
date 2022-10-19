@@ -126,7 +126,7 @@ class Competitor(Base):
                 )
             elif self.competition.type == CompetitionType.WCA.value:
                 # WCA連携解除した人がいるとエラーになるので回避
-                if not competitor.person.wca_id:
+                if not competitor.person.wca_user_id:
                     continue
 
                 name = competitor.person.wca_name
