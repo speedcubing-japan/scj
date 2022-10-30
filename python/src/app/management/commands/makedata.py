@@ -6,11 +6,12 @@ from app.defines.prefecture import PrefectureAndOversea
 from app.defines.competitor import GENERATION_MAX
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
+from django.utils import timezone
 from django.utils.timezone import localtime
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from app.models import Person
-from pprint import pprint
+import pprint
 
 
 class Command(BaseCommand):
@@ -19,11 +20,8 @@ class Command(BaseCommand):
     def get_fixtures_path(self, model):
         return os.path.join(settings.BASE_DIR, "app/fixtures/" + model + ".json")
 
-    def get_generation(self, birth_at, competition_close_at):
-        close_at = localtime(
-            datetime.fromisoformat(competition_close_at.replace("Z", "+00:00"))
-        ).date()
-        age = relativedelta(close_at, birth_at).years
+    def get_generation(self, birth_at, now):
+        age = relativedelta(now, birth_at).years
         return age // GENERATION_MAX
 
     def handle(self, *args, **kwargs):
@@ -100,6 +98,7 @@ class Command(BaseCommand):
 
                 before_record = 0
                 skip_count = 1
+                now = localtime(timezone.now()).date()
                 for result in results:
                     if result[rank_type] > 0:
                         if not result["person_id"] in person_datas:
@@ -114,7 +113,7 @@ class Command(BaseCommand):
                         generation = (
                             self.get_generation(
                                 person_datas[result["person_id"]].birth_at,
-                                competiton_datas[result["competition_id"]]["close_at"],
+                                now,
                             )
                             * GENERATION_MAX
                         )
