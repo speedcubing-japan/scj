@@ -106,10 +106,18 @@
                             {% if round.limit_type == round_limit_type.CUMULATIVE.value %}{% trans "累積" %}&nbsp;{% endif %}{{ round.limit_time | time_convert }}
                             {% if round.limit_event_ids %}
                               (
-                              {% for limit_event_id in round.limit_event_ids %}
-                                {{ limit_event_id | event_name }}
-                              {% endfor %}
-                              の累積 )
+                                {% if request.LANGUAGE_CODE == 'en' %}
+                                  Cumulative of
+                                  {% for limit_event_id in round.limit_event_ids %}
+                                    {{ limit_event_id | event_name }}
+                                  {% endfor %}
+                                {% else %}
+                                  {% for limit_event_id in round.limit_event_ids %}
+                                    {{ limit_event_id | event_name }}
+                                  {% endfor %}
+                                  の累積
+                                {% endif %}
+                              )
                             {% endif %}
                           {% endif %}
                         </td>
