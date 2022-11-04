@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-03 14:11+0000\n"
+"POT-Creation-Date: 2022-10-19 11:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -221,14 +221,6 @@ msgstr "Attempt"
 #: templates/app/competition/event.html:106
 msgid "累積"
 msgstr "Cumulative"
-
-#: templates/app/competition/event.html:108
-msgid " "
-msgstr "Cumulative of"
-
-#: templates/app/competition/event.html:112
-msgid "の累積"
-msgstr " "
 
 #: templates/app/competition/event.html:118
 #, python-format
@@ -988,8 +980,4 @@ msgid ""
 "このユーザー新規登録は必ず競技者本人の名義で作成してください。登録されたユー"
 "ザーが実際の参加者と名義が異なる場合は大会の参加をお断りします。また複数の同"
 "一名義のユーザー作成はお控えください。"
-msgstr ""
-"This sign up must be made in the name of the competitor himself/herself. If "
-"the registered user's name is different from the actual competitor's name, "
-"the competitor will not be allowed to participate in the competition. Please "
-"refrain from creating multiple sign up under the same person."
+msgstr "This sign up must be made in the name of the competitor himself/herself. If the registered user's name is different from the actual competitor's name, the competitor will not be allowed to participate in the competition. Please refrain from creating multiple sign up under the same person."
