@@ -66,8 +66,8 @@ class Refund(LoginRequiredMixin, Base):
             if request.POST.get("competitor_id_" + str(competitor.id)):
                 stripe_progress = competitor.stripe_progress
 
-                fee = calc_fee(self.competition, competitor)
-                amount = int(fee["price"])
+                # 返金額が参加者の種目変更で変動するので、参加種目からの計算は良くない。あくまで支払った金額をamountにする。
+                amount = competitor.stripe_progress.pay_price
                 if request.POST.get("competitor_refund_" + str(competitor.id)):
                     part_amount = int(
                         request.POST.get("competitor_refund_" + str(competitor.id))
