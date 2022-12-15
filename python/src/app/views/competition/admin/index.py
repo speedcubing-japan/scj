@@ -99,6 +99,7 @@ class Index(LoginRequiredMixin, Base):
         # 重複確認
         series_competition_competitor_person_ids = []
         if self.competition.series_competition_ids:
+            self.competition.series_competition_ids.remove(self.competition.id)
             series_competition_competitors = Competitor.objects.filter(
                 competition_id__in=self.competition.series_competition_ids
             )
