@@ -18,7 +18,7 @@ class Competitor(models.Model):
 
     registration_number = 0
     stripe_progress = None
-    is_duplicated_twin_competitions = False
+    is_duplicated_series_competitions = False
     is_diffrence_event_and_price = False
 
     class Meta:
@@ -65,8 +65,8 @@ class Competitor(models.Model):
     def unset_stripe_progress(self):
         self.stripe_progress = None
 
-    def set_is_duplicated_twin_competitions(self):
-        self.is_duplicated_twin_competitions = True
+    def set_is_duplicated_series_competitions(self):
+        self.is_duplicated_series_competitions = True
 
     def set_is_diffrence_event_and_price(self):
         self.is_diffrence_event_and_price = True

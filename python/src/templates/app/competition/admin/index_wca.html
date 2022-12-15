@@ -47,7 +47,7 @@
                       <span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span>
                       <a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>
                       {% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}
-                      {% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}
+                      {% if competitor.is_duplicated_series_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}
                       {% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}
                       {% if not competitor.person.wca_birth_at %}<i class="fas fa-birthday-cake ml-1"></i>{% endif %}
                     </td>
@@ -93,7 +93,7 @@
                       <span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span>
                       <a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>
                       {% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}
-                      {% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}
+                      {% if competitor.is_duplicated_series_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}
                       {% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}
                       {% if not competitor.person.wca_birth_at %}<i class="fas fa-birthday-cake ml-1"></i>{% endif %}
                     </td>
@@ -139,7 +139,7 @@
                       <span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span>
                       <a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>
                       {% if competitor.comment %}<i class="far fa-comment"></i>{% endif %}
-                      {% if competitor.is_duplicated_twin_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}
+                      {% if competitor.is_duplicated_series_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}
                       {% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}
                       {% if not competitor.person.wca_birth_at %}<i class="fas fa-birthday-cake ml-1"></i>{% endif %}
                     </td>
