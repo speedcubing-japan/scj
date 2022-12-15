@@ -197,7 +197,7 @@ class Command(BaseCommand):
                     fee_pay_type=record["fields"]["fee_pay_type"],
                     fee_calc_type=record["fields"]["fee_calc_type"],
                     fee_pay_close_at=record["fields"]["fee_pay_close_at"],
-                    twin_competition_id=record["fields"]["twin_competition_id"],
+                    series_competition_ids=record["fields"]["series_competition_ids"],
                     description=record["fields"]["description"],
                     description_en=record["fields"]["description_en"],
                     qualification_description=record["fields"][

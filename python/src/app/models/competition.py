@@ -50,7 +50,7 @@ class Competition(models.Model):
         "参加費計算タイプ", default=0, choices=FeeCalcType.choices()
     )
     fee_pay_close_at = models.DateTimeField("参加費支払い期限", default=None, null=True)
-    twin_competition_id = models.IntegerField("双子大会ID", default=0)
+    series_competition_ids = JSONField("シリーズ大会ID", default=0)
     description = models.TextField("大会説明", default="")
     description_en = models.TextField("大会説明(英文)", default="")
     qualification_description = models.TextField("参加資格", default="")
@@ -107,7 +107,7 @@ class Competition(models.Model):
         self.fee_pay_type = competition["fee_pay_type"]
         self.fee_calc_type = competition["fee_calc_type"]
         self.fee_pay_close_at = competition["fee_pay_close_at"]
-        self.twin_competition_id = competition["twin_competition_id"]
+        self.series_competition_ids = competition["series_competition_ids"]
         self.description = competition["description"]
         self.description_en = competition["description_en"]
         self.qualification_description = competition["qualification_description"]
@@ -156,7 +156,7 @@ class Competition(models.Model):
         self.fee_pay_type = competition["fee_pay_type"]
         self.fee_calc_type = competition["fee_calc_type"]
         self.fee_pay_close_at = competition["fee_pay_close_at"]
-        self.twin_competition_id = competition["twin_competition_id"]
+        self.series_competition_ids = competition["series_competition_ids"]
         self.description = competition["description"]
         self.description_en = competition["description_en"]
         self.qualification_description = competition["qualification_description"]

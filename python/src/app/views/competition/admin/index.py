@@ -97,15 +97,19 @@ class Index(LoginRequiredMixin, Base):
         context = super().get_context()
 
         # 重複確認
-        twin_competition_competitor_person_ids = []
-        if self.competition.twin_competition_id != 0:
-            twin_competition_competitors = Competitor.objects.filter(
-                competition_id=self.competition.twin_competition_id
+        series_competition_competitor_person_ids = []
+        if self.competition.series_competition_ids:
+            self.competition.series_competition_ids.remove(self.competition.id)
+            series_competition_competitors = Competitor.objects.filter(
+                competition_id__in=self.competition.series_competition_ids
             )
-            for twin_competition_competitor in twin_competition_competitors:
-                if twin_competition_competitor.status != CompetitorStatus.CANCEL.value:
-                    twin_competition_competitor_person_ids.append(
-                        twin_competition_competitor.person_id
+            for series_competition_competitor in series_competition_competitors:
+                if (
+                    series_competition_competitor.status
+                    != CompetitorStatus.CANCEL.value
+                ):
+                    series_competition_competitor_person_ids.append(
+                        series_competition_competitor.person_id
                     )
 
         pending_competitors = []
@@ -125,8 +129,8 @@ class Index(LoginRequiredMixin, Base):
                     if amount["price"] != stripe_progress.pay_price:
                         competitor.set_is_diffrence_event_and_price()
 
-            if competitor.person.id in twin_competition_competitor_person_ids:
-                competitor.set_is_duplicated_twin_competitions()
+            if competitor.person.id in series_competition_competitor_person_ids:
+                competitor.set_is_duplicated_series_competitions()
 
             if competitor.status == CompetitorStatus.PENDING.value:
                 pending_competitors.append(competitor)
