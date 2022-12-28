@@ -1,5 +1,6 @@
 html {
-    font-size: 14px; /* ルート要素のフォントサイズを1rem=14pxと定義する */
+    font-size: 14px;
+    /* ルート要素のフォントサイズを1rem=14pxと定義する */
 }
 
 body {
@@ -12,11 +13,11 @@ body {
     width: 4rem !important;
 }
 
-.competition-list li:nth-child(odd){
+.competition-list li:nth-child(odd) {
     background-color: rgb(230, 228, 228);
 }
 
-.post-list li:nth-child(odd){
+.post-list li:nth-child(odd) {
     background-color: rgb(230, 228, 228);
 }
 
@@ -25,11 +26,11 @@ body {
 }
 
 .wca-avator-thumb {
-    width:2rem;
+    width: 2rem;
 }
 
 .type-badge {
-    width:4.5rem;
+    width: 4.5rem;
 }
 
 .title-logo {
@@ -61,12 +62,15 @@ body {
     margin-right: 0.5rem;
 }
 
-.information-title, .post-title {
+.information-title,
+.post-title {
     display: block;
 }
 
 @media (max-width: 768px) {
-    .information-title, .post-title {
+
+    .information-title,
+    .post-title {
         display: block;
         font-size: 1rem;
     }
@@ -77,13 +81,12 @@ body {
     padding-right: 0.5rem;
 }
 
-.competition-name, .post-type {
+.competition-name,
+.post-type {
     display: inline-block;
     margin-right: 20px;
     width: 250px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     vertical-align: bottom;
 }
 
@@ -103,18 +106,20 @@ button.stripe-button-el>span {
 }
 
 table.table-bordered {
-    border:1px solid #dcdcdc;
-    margin-top:20px;
+    border: 1px solid #dcdcdc;
+    margin-top: 20px;
 }
-table.table-bordered > thead > tr > th {
-    border:1px solid #dcdcdc;
+
+table.table-bordered>thead>tr>th {
+    border: 1px solid #dcdcdc;
 }
-table.table-bordered > tbody > tr > td {
-    border:1px solid #dcdcdc;
+
+table.table-bordered>tbody>tr>td {
+    border: 1px solid #dcdcdc;
 }
 
 .footer {
-    border:solid 0.1em #d3d3d3;
+    border: solid 0.1em #d3d3d3;
 }
 
 .modal-dialog {
