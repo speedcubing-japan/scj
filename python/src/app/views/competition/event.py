@@ -2,7 +2,6 @@ from django.utils.timezone import localtime
 from django.shortcuts import render
 from app.models import Round
 from .base import Base
-import pprint
 
 
 class Event(Base):
@@ -30,7 +29,6 @@ class Event(Base):
             else:
                 round_dict[date].update({round.room_name: [round]})
 
-        pprint.pprint(round_dict)
         # 種目ごとにラウンドを分ける(FMCが複数レコードある)
         event_round_types = {}
         for round in rounds:
