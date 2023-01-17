@@ -2,7 +2,7 @@ import datetime
 from django.conf import settings
 from django.shortcuts import render
 from django.utils.timezone import localtime
-from app.models import Person, Competitor, Result, Round
+from app.models import Person, Competitor, Result, Round, Competition
 from app.defines.fee import PayType as FeePayType
 from app.defines.fee import CalcType as FeeCalcType
 from app.defines.competition import Type as CompetitionType
@@ -104,6 +104,14 @@ class Detail(Base):
         close_at = localtime(self.competition.close_at).strftime("%Y%m%dT235959")
         google_calendar_date_param = open_at + "/" + close_at
 
+        # シリーズ大会(自大会は除く)
+        series_competitions = []
+        if self.competition.series_competition_ids:
+            self.competition.series_competition_ids.remove(self.competition.id)
+            series_competitions = Competition.objects.filter(
+                id__in=self.competition.series_competition_ids
+            )
+
         # 作成時のエラー
         admin_errors = self.request.session.get("competition_admin_errors")
         if self.request.session.get("competition_admin_errors") is not None:
@@ -124,6 +132,7 @@ class Detail(Base):
         context["google_map_url"] = settings.GOOGLE_MAP_URL
         context["google_calendar_url"] = settings.GOOGLE_CALENDAR_URL
         context["google_calendar_date_param"] = google_calendar_date_param
+        context["series_competitions"] = series_competitions
         context["now"] = now
         context["is_noindex_nofollow"] = not self.competition.is_display
         context["admin_errors"] = admin_errors
