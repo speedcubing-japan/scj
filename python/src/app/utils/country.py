@@ -8,6 +8,7 @@ class Country:
 
     cache = {}
     en_cache = {}
+    id_cache = {}
 
     def __init__(self):
         with open(self.get_json_path()) as file:
@@ -31,3 +32,11 @@ class Country:
         query = '.[] | select(.iso2 == "' + code + '")'
         result = pyjq.first(query, self.json)
         return result["en_name"]
+
+    def id(self, code=""):
+        if code in self.id_cache:
+            return self.id_cache[code]
+
+        query = '.[] | select(.iso2 == "' + code + '")'
+        result = pyjq.first(query, self.json)
+        return result["id"]
