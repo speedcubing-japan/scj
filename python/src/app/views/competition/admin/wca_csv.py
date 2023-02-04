@@ -92,7 +92,7 @@ class WcaCsv(LoginRequiredMixin, View):
                 row = [
                     status,
                     competitor.person.wca_name,
-                    country.en_name(code=competitor.person.wca_country_iso2),
+                    country.id(code=competitor.person.wca_country_iso2),
                     competitor.person.wca_id,
                     competitor.person.wca_birth_at,
                     gender[competitor.person.gender],
