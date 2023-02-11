@@ -65,6 +65,7 @@ class Csv(LoginRequiredMixin, View):
                 "wca_country",
                 "email",
                 "birth_at",
+                "prefecture",
             ]
         elif competition.type == CompetitionType.SCJ.value:
             row = [
@@ -111,6 +112,7 @@ class Csv(LoginRequiredMixin, View):
                         country.en_name(code=competitor.person.wca_country_iso2),
                         competitor.person.wca_email,
                         competitor.person.wca_birth_at,
+                        competitor.person.get_prefecture_id_display(),
                     ]
 
                 elif competition.type == CompetitionType.SCJ.value:
