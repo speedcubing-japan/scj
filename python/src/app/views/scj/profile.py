@@ -28,8 +28,6 @@ class Profile(LoginRequiredMixin, TemplateView):
             "form": form,
             "wca_oauth_authorization": settings.WCA_OAUTH_AUTHORIZATION,
             "wca_client_id": settings.WCA_CLIENT_ID,
-            "stripe_oauth_authorization": settings.STRIPE_OAUTH_AUTHORIZATION,
-            "stripe_client_id": settings.STRIPE_CLIENT_ID,
             "redirect_uri": redirect_uri,
             "notification": notification,
         }

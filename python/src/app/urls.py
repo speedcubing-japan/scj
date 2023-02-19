@@ -10,6 +10,7 @@ from .views.scj.terms import Terms
 from .views.scj.terms_of_sale import TermsOfSale
 from .views.scj.contact import Contact
 from .views.scj.profile import Profile
+from .views.scj.stripe_connect import StripeConnect
 
 from .views.scj.admin.person import AdminPerson
 from .views.scj.admin.person_edit import AdminPersonEdit
@@ -96,6 +97,7 @@ urlpatterns = [
     path("terms_of_sale/", TermsOfSale.as_view(), name="terms_of_sale"),
     path("contact/", Contact.as_view(), name="contact"),
     path("profile/", Profile.as_view(), name="profile"),
+    path("stripe_connect/", StripeConnect.as_view(), name="stripe_connect"),
     path(
         "information/list/<str:type>/",
         InformationList.as_view(),

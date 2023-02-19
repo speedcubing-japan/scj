@@ -31,4 +31,4 @@ class Authorization(View):
 
             request.session["notification"] = Notification.STRIPE_AUTHORIZATION_COMPLETE
 
-        return redirect("profile")
+        return redirect("stripe_connect")
