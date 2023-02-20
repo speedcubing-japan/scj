@@ -70,6 +70,9 @@ loadwcarank:
 resetwca:
 	docker-compose run --rm python ./manage.py resetwca --person_id ${PERSON_ID}
 
+deauthorization:
+	docker-compose run --rm python ./manage.py deauthorization --person_id ${PERSON_ID}
+
 loadcompetitor:
 	docker-compose run --rm python ./manage.py loadcompetitor
 
@@ -106,6 +109,9 @@ prod-bulkdata:
 
 prod-resetwca:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py resetwca --person_id ${PERSON_ID}
+
+prod-deauthorization:
+	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py deauthorization --person_id ${PERSON_ID}
 
 prod-loadwcarank:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py loadwcarank ${COMPETITION_ID}
