@@ -21,3 +21,11 @@ class Command(BaseCommand):
         stripe.OAuth.deauthorize(
             client_id=settings.STRIPE_CLIENT_ID, stripe_user_id=person.stripe_user_id
         )
+
+        person.stripe_user_id = ""
+        person.save(
+            update_fields=[
+                "stripe_user_id",
+                "updated_at",
+            ]
+        )
