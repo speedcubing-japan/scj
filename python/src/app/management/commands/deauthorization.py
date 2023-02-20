@@ -16,6 +16,8 @@ class Command(BaseCommand):
             exit()
 
         person = Person.objects.get(pk=options["person_id"])
+        if person.stripe_user_id is None:
+            exit()
 
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe.OAuth.deauthorize(
