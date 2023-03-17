@@ -73,6 +73,9 @@ resetwca:
 deauthorization:
 	docker-compose run --rm python ./manage.py deauthorization --person_id ${PERSON_ID}
 
+openwcapage:
+	docker-compose run --rm python ./manage.py openwcapage
+
 loadcompetitor:
 	docker-compose run --rm python ./manage.py loadcompetitor
 
@@ -112,6 +115,9 @@ prod-resetwca:
 
 prod-deauthorization:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py deauthorization --person_id ${PERSON_ID}
+
+prod-openwcapage:
+	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py openwcapage
 
 prod-loadwcarank:
 	COMPOSE_FILE=docker-compose.yml:docker-compose-prod.yml docker-compose run --rm python ./manage.py loadwcarank ${COMPETITION_ID}

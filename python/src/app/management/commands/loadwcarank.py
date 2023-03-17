@@ -6,7 +6,7 @@ import time
 
 
 class Command(BaseCommand):
-    help = "test wca scraiping"
+    help = "wca scraiping to load personal ranks."
 
     def handle(self, *args, **options):
         competition_id = options["competition_id"]

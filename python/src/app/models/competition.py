@@ -187,12 +187,22 @@ class Competition(models.Model):
     def publish(self):
         self.is_display = True
         self.is_private = False
-        self.save()
+        self.save(
+            update_fields=[
+                "is_display",
+                "is_private",
+            ]
+        )
 
     def hidden(self):
         self.is_display = False
         self.is_private = False
-        self.save()
+        self.save(
+            update_fields=[
+                "is_display",
+                "is_private",
+            ]
+        )
 
     def is_open(self):
         now = localtime(datetime.datetime.now(tz=datetime.timezone.utc))
