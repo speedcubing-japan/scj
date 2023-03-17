@@ -16,6 +16,7 @@ from django.utils import timezone
 from app.defines.prefecture import PrefectureAndOversea
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.backends import AllowAllUsersModelBackend
+from django.core.mail import EmailMessage
 
 
 class UserCreateForm(UserCreationForm):
@@ -196,16 +197,20 @@ class ContactForm(forms.Form):
         message = self.cleaned_data["message"]
         name = self.cleaned_data["name"]
         email = self.cleaned_data["email"]
+        reply_to = [email]
+        cc = []
+        if related != "info@speedcubing.or.jp":
+            cc = ["info@speedcubing.or.jp"]
 
         message = "名前: " + name + "\r\n" + "メールアドレス: " + email + "\r\n\r\n" + message
 
         from_email = settings.EMAIL_HOST_USER
-
         recipient_list = [related]
-        if related == "info@speedcubing.or.jp":
-            recipient_list.append("1c181577.speedcubing.or.jp@jp.teams.ms")
         try:
-            send_mail(subject, message, from_email, recipient_list)
+            email = EmailMessage(
+                subject, message, from_email, recipient_list, cc=cc, reply_to=reply_to
+            )
+            email.send()
         except BadHeaderError:
             return HttpResponse("無効なヘッダが検出されました。")
 
