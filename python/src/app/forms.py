@@ -207,10 +207,10 @@ class ContactForm(forms.Form):
         from_email = settings.EMAIL_HOST_USER
         recipient_list = [related]
         try:
-            email = EmailMessage(
+            email_message = EmailMessage(
                 subject, message, from_email, recipient_list, cc=cc, reply_to=reply_to
             )
-            email.send()
+            email_message.send()
         except BadHeaderError:
             return HttpResponse("無効なヘッダが検出されました。")
 
