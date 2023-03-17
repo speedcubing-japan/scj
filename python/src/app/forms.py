@@ -173,7 +173,7 @@ class ContactForm(forms.Form):
     email = forms.EmailField(label="メールアドレス")
     related = forms.fields.ChoiceField(
         required=True,
-        initial=("info@speedcubing.or.jp", "SCJへのお問い合わせ"),
+        initial=(settings.EMAIL_INFO, "SCJへのお問い合わせ"),
         label="問い合わせ種別",
         widget=forms.widgets.RadioSelect,
     )
@@ -184,7 +184,7 @@ class ContactForm(forms.Form):
         competitions = Competition.get_by_not_closed_before_days(
             self.COMPETITION_CLOSE_AFTER_DAYS
         )
-        related_info = (("info@speedcubing.or.jp", "SCJへのお問い合わせ"),)
+        related_info = ((settings.EMAIL_INFO, "SCJへのお問い合わせ"),)
         for competition in competitions:
             related_info += (
                 (competition.organizer_email, competition.name + "に関するお問い合わせ"),
@@ -199,8 +199,8 @@ class ContactForm(forms.Form):
         email = self.cleaned_data["email"]
         reply_to = [email]
         cc = []
-        if related != "info@speedcubing.or.jp":
-            cc = ["info@speedcubing.or.jp"]
+        if related != settings.EMAIL_INFO:
+            cc = [settings.EMAIL_INFO]
 
         message = "名前: " + name + "\r\n" + "メールアドレス: " + email + "\r\n\r\n" + message
 

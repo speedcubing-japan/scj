@@ -220,6 +220,8 @@ EMAIL_HOST_USER = "admin@speedcubing.or.jp"
 EMAIL_HOST_PASSWORD = get_secret("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 
+EMAIL_INFO = "info@speedcubing.or.jp"
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

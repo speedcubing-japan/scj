@@ -64,7 +64,7 @@ class Complete(LoginRequiredMixin, View):
                     subject,
                     message,
                     settings.EMAIL_HOST_USER,
-                    ["info@speedcubing.or.jp"],
+                    [settings.EMAIL_INFO],
                 )
 
                 request.session["notification"] = Notification.POST_OFFER
