@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from app.utils.wca_scraping import WCAScraping
+from app.utils.wca_scraping import WcaScraping
 from app.defines.competitor import Status as CompetitorStatus
 from app.models import Competitor, Person
 import time
@@ -26,7 +26,7 @@ class Command(BaseCommand):
 
         for wca_id in wca_id_list:
             try:
-                wca_scraping = WCAScraping(wca_id)
+                wca_scraping = WcaScraping(wca_id)
                 wca_scraping.save()
                 time.sleep(1)
             except Exception:

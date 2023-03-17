@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.views.generic import View
 from app.models import Person
 from app.defines.session import Notification
-from app.utils.wca_scraping import WCAScraping
+from app.utils.wca_scraping import WcaScraping
 
 
 class Authorization(View):
@@ -40,7 +40,7 @@ class Authorization(View):
             access_token = response.json()["access_token"]
             refresh_token = response.json()["refresh_token"]
             headers = {"Authorization": "Bearer " + access_token}
-            response = requests.get(settings.WCA_API_URL, headers=headers)
+            response = requests.get(settings.WCA_API_URL + "/me", headers=headers)
 
             if response.status_code == requests.codes.ok:
 
@@ -104,7 +104,7 @@ class Authorization(View):
 
                     # WCAレコードを取得
                     try:
-                        wca_scraping = WCAScraping(wca_id)
+                        wca_scraping = WcaScraping(wca_id)
                         wca_scraping.save()
                     except Exception:
                         pass

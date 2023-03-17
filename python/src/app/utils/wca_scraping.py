@@ -8,7 +8,7 @@ from app.models import WcaRank
 from requests.exceptions import Timeout, RequestException
 
 
-class WCAScraping:
+class WcaScraping:
 
     TIMEOUT_SEC = 3.5
     RANK_NAMES = ["country-rank", "continent-rank", "world-rank"]
@@ -68,7 +68,7 @@ class WCAScraping:
         for index, event_id_name in enumerate(event_id_name_list):
             data[event_id_name] = {}
             # 並びはSCJのevent_id順がWCAのevent_id順と同じためそのまま。
-            # single, average, single, averageの順でスクレイピングしているためindexがこうなります   。
+            # single, average, single, averageの順でスクレイピングしているためindexがこうなります。
             single_index = index * 2
             average_index = index * 2 + 1
 

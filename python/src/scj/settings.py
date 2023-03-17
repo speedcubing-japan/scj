@@ -208,7 +208,7 @@ WCA_CLIENT_ID = get_secret("WCA_CLIENT_ID")
 WCA_CLIENT_SECRET = get_secret("WCA_CLIENT_SECRET")
 WCA_OAUTH_AUTHORIZATION = "https://www.worldcubeassociation.org/oauth/authorize"
 WCA_OAUTH_TOKEN_URL = "https://www.worldcubeassociation.org/oauth/token"
-WCA_API_URL = "https://www.worldcubeassociation.org/api/v0/me"
+WCA_API_URL = "https://www.worldcubeassociation.org/api/v0"
 WCA_TSV_URL = "https://www.worldcubeassociation.org/results/misc/WCA_export.tsv.zip"
 WCA_PERSONS_URL = "https://www.worldcubeassociation.org/persons"
 
