@@ -3,6 +3,7 @@ version: '3.7'
 services:
   nginx:
     image: nginx:1.17
+    container_name: scj_nginx_1
     ports:
       - "8000:8000"
     volumes:
@@ -20,6 +21,7 @@ services:
 
   db: 
     build: ./mysql
+    container_name: scj_db_1
     restart: always
     expose:
       - "3306"
@@ -39,6 +41,7 @@ services:
 
   python:
     build: ./python
+    container_name: scj_python_1
     command: uwsgi --socket :8001 --module scj.wsgi --wsgi-file code/scj/wsgi.py
     volumes:
       - ./python/src:/code
