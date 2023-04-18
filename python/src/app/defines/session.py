@@ -44,7 +44,7 @@ class Notification(tuple, Define):
     COMPETITION_PRIVATE = (Status.DANGER.value, _("この大会は非公開です。関係者のみ表示されます。"))
     COMPETITION_NOT_DISPLAY = (
         Status.WARNING.value,
-        _("この大会は非表示です。一覧には表示されませんが、直接アクセスは可能です。管理等十分にお気をつけ下さい。"),
+        _("この大会は非表示です。一覧には表示されませんが、管理等十分にお気をつけ下さい。"),
     )
     COMPETITION_CANCELED = (Status.DANGER.value, "この大会は中止になりました。")
     COMPETITION_REGISTER = (Status.SUCCESS.value, _("申し込み完了しました。承認されるまでお待ち下さい。"))

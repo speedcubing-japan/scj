@@ -1,6 +1,6 @@
 import datetime
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.timezone import localtime
 from app.models import Person, Competitor, Result, Round, Competition
 from app.defines.fee import PayType as FeePayType
@@ -16,6 +16,10 @@ class Detail(Base):
     template_name = "app/competition/detail.html"
 
     def get(self, request, **kwargs):
+        if not self.competition.is_display and not self.competition.is_superuser(
+            self.request.user
+        ):
+            return redirect("competition_index")
         return render(request, self.template_name, self.get_context())
 
     def get_context(self):
