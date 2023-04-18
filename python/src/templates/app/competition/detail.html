@@ -100,7 +100,7 @@
             {{ competition.venue_address }}
           </div>
           <div class="card-body embed-responsive iframe embed-responsive-16by9">
-            <iframe src="{{ google_map_url }}?key={{ google_api_key }}&q={{ competition.venue_address }}&center={{ competition.latitude }},{{ competition.longitude }}"></iframe>
+            <iframe src="{{ google_map_url }}?key={{ google_api_key }}&q={{ competition.latitude }},{{ competition.longitude }}"></iframe>
           </div>
         </li>
         <li class="list-group-item">
@@ -179,6 +179,20 @@
                 {{ competition.qualification_description_en | strip | safe }}
               {% else %}
                 {{ competition.qualification_description | strip | safe }}
+              {% endif %}
+            </div>
+          </li>
+        {% endif %}
+        {% if competition.visitor_description or competition.visitor_description_en %}
+          <li class="list-group-item">
+            <h6>{% trans "競技参加者以外の来場要件" %}</h6>
+            <div>
+              {% if not competition.visitor_description_en %}
+                {{ competition.visitor_description | strip | safe }}
+              {% elif request.LANGUAGE_CODE == 'en' %}
+                {{ competition.visitor_description_en | strip | safe }}
+              {% else %}
+                {{ competition.visitor_description | strip | safe }}
               {% endif %}
             </div>
           </li>

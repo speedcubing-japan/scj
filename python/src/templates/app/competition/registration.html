@@ -151,7 +151,7 @@
       <span id="request-for-observation-as-a-visitor"></span>
       <div class="card mb-3">
         <div class="card-header lead">
-          {% trans "見学の申請" %}
+          {% trans "競技参加者以外の来場要件" %}
         </div>
         <div class="card-body">
           {% if request.LANGUAGE_CODE == 'en' %}
@@ -340,6 +340,12 @@
           </div>
         {% endif %}
 
+        {% if is_registration_another_series_competition %}
+          <div class="alert alert-danger" role="alert">
+            {% trans "既に他のシリーズ大会に申し込んでいます。この大会の申し込みは他のシリーズ大会をキャンセルしない限り無効になります。" %}
+          </div>
+        {% endif %}
+
         <div class="card border-dark">
           {% if competition.registration_open_at > now and is_superuser %}
             <div class="card-header text-white bg-danger lead">
@@ -425,9 +431,9 @@
       const guestElements = guestElement.options;
       var guest_count = 0;
       for (let i = 0, size = guestElements.length; i < size; i++) {
-      	if (guestElements[i].selected) {
+        if (guestElements[i].selected) {
           guest_count = parseInt(guestElements[i].value);
-      	}
+        }
       }
 
       const comment = document.getElementById("id_comment").value;

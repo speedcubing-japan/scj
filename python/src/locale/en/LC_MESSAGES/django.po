@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-03 12:59+0000\n"
+"POT-Creation-Date: 2023-04-18 13:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,24 +51,24 @@ msgstr "Average"
 msgid "ベスト"
 msgstr "Best"
 
-#: templates/app/competition/competitor.html:79
+#: templates/app/competition/competitor.html:78
 #, python-format
 msgid ""
 "%(first_timers)s 人 (初参加者) + %(returners)s 人 (大会経験者) = %(sum)s 人"
 msgstr ""
 "%(first_timers)s first-timers + %(returners)s returners = %(sum)s people"
 
-#: templates/app/competition/competitor.html:81
+#: templates/app/competition/competitor.html:80
 #, python-format
 msgid "%(country_count)s 都道府県"
 msgstr "%(country_count)s prefecture"
 
-#: templates/app/competition/competitor.html:83
+#: templates/app/competition/competitor.html:82
 #, python-format
 msgid "%(country_count)s ヶ国"
 msgstr "%(country_count)s country"
 
-#: templates/app/competition/competitor.html:88
+#: templates/app/competition/competitor.html:85
 #, python-format
 msgid "%(registration_count)s 名"
 msgstr "%(registration_count)s people"
@@ -169,23 +169,28 @@ msgstr "Information"
 msgid "参加資格"
 msgstr "Qualification"
 
-#: templates/app/competition/detail.html:189
+#: templates/app/competition/detail.html:188
+#: templates/app/competition/registration.html:154
+msgid "競技参加者以外の来場要件"
+msgstr "Entry requirements for non-competitors"
+
+#: templates/app/competition/detail.html:203
 msgid "WCA Delegate"
 msgstr ""
 
-#: templates/app/competition/detail.html:191
+#: templates/app/competition/detail.html:205
 msgid "SCJ 審判員"
 msgstr "SCJ Judge"
 
-#: templates/app/competition/detail.html:213
+#: templates/app/competition/detail.html:227
 msgid "主催者"
 msgstr "Organiser"
 
-#: templates/app/competition/detail.html:217
+#: templates/app/competition/detail.html:231
 msgid "ご不明点があれば、お気軽にご連絡ください。"
 msgstr "Feel free ask us if you have any question."
 
-#: templates/app/competition/detail.html:219
+#: templates/app/competition/detail.html:233
 #, python-format
 msgid ""
 "<a href=\"%(url)s\" target=\"_blank\">よくある質問</a>も合わせてご確認くださ"
@@ -356,7 +361,7 @@ msgid "返金ポリシー"
 msgstr "Refund policy"
 
 #: templates/app/competition/fee.html:69
-#: templates/app/competition/registration.html:368
+#: templates/app/competition/registration.html:374
 msgid "参加費支払い"
 msgstr "Fee payment"
 
@@ -465,7 +470,7 @@ msgstr "Event"
 #: templates/app/competition/menu.html:13
 #: templates/app/competition/registration.html:178
 #: templates/app/competition/registration.html:191
-#: templates/app/competition/registration.html:350
+#: templates/app/competition/registration.html:356
 msgid "申し込み"
 msgstr "Registration"
 
@@ -639,7 +644,9 @@ msgstr "Health and Safety Protocols"
 msgid ""
 "会場内での衛生・安全のため、すべての来場者の方々は以下の事項および実行委員会"
 "の指示に従っていただきます。"
-msgstr "All attendees are required to follow below and instructions of the organizing team for the sake of health and safety."
+msgstr ""
+"All attendees are required to follow below and instructions of the "
+"organizing team for the sake of health and safety."
 
 #: templates/app/competition/registration.html:140
 msgid "個別に配慮を要する特別な事情があれば必ず事前にお問い合わせください。"
@@ -682,10 +689,6 @@ msgstr ""
 #: templates/app/competition/registration.html:147
 msgid "他者との間には十分な距離を保ち、密を避けてください。"
 msgstr "Please keep enough distance with other attendees."
-
-#: templates/app/competition/registration.html:154
-msgid "見学の申請"
-msgstr "Request for observation as a visitor"
 
 #: templates/app/competition/registration.html:166
 msgid "初参加者の身分証明のお願い"
@@ -908,21 +911,30 @@ msgstr ""
 "been reached. If you register, your registration will be placed on a waiting "
 "list. It may not be approved unless a spot frees up."
 
-#: templates/app/competition/registration.html:346
+#: templates/app/competition/registration.html:345
+msgid ""
+"既に他のシリーズ大会に申し込んでいます。この大会の申し込みは他のシリーズ大会"
+"をキャンセルしない限り無効になります。"
+msgstr ""
+"You have already registered for another series competition. This "
+"registration for this competition will be invalid unless you cancel the "
+"other series competition."
+
+#: templates/app/competition/registration.html:352
 msgid "運営先行申し込み"
 msgstr "Prior Registration"
 
-#: templates/app/competition/registration.html:359
-#: templates/app/competition/registration.html:382
+#: templates/app/competition/registration.html:365
+#: templates/app/competition/registration.html:388
 msgid "このページに記載されている内容に同意します"
 msgstr "I agree to the information on this page."
 
-#: templates/app/competition/registration.html:389
+#: templates/app/competition/registration.html:395
 #: templates/app/registration/input.html:55
 msgid "登録"
 msgstr "Register"
 
-#: templates/app/competition/registration.html:396
+#: templates/app/competition/registration.html:402
 #, python-format
 msgid "申し込みは&nbsp;%(rest_time)s後&nbsp;%(date)sに終了します。"
 msgstr "Registration closes in about %(rest_time)s later on %(date)s"
@@ -994,6 +1006,9 @@ msgstr ""
 "the registered user's name is different from the actual competitor's name, "
 "the competitor will not be allowed to participate in the competition. Please "
 "refrain from creating multiple sign up under the same person."
+
+#~ msgid "見学の申請"
+#~ msgstr "Request for observation as a visitor"
 
 #~ msgid "新型コロナウイルス感染症対策"
 #~ msgstr "Covid 19 countermeasures"
