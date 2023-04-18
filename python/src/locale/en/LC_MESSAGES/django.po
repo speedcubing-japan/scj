@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-18 13:16+0000\n"
+"POT-Creation-Date: 2023-04-18 14:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -637,7 +637,7 @@ msgid "大会に申込みをする前に、以下をご了承ください。"
 msgstr "Please agree the following precautions before registration"
 
 #: templates/app/competition/registration.html:136
-msgid "会場内での衛生・安全のため"
+msgid "会場内での衛生・安全について"
 msgstr "Health and Safety Protocols"
 
 #: templates/app/competition/registration.html:139
@@ -653,29 +653,28 @@ msgid "個別に配慮を要する特別な事情があれば必ず事前にお�
 msgstr "Please inquire in advance if you have any special circumstances."
 
 #: templates/app/competition/registration.html:142
-msgid "すべての来場者に新型コロナワクチンの接種を推奨します。"
-msgstr "Valid vaccination is encouraged for all attendees."
+msgid "すべての来場者に新型コロナワクチンの接種を強く推奨します。"
+msgstr "All attendees are strongly recommended to be fully vaccinated."
 
 #: templates/app/competition/registration.html:143
-msgid "不織布マスクを常に着用することを強く推奨します。"
-msgstr ""
-"Strongly recommended to wear a non-woven face mask always to prevent the "
-"spread of droplets."
+msgid "マスクの着用有無は各自の判断でお願いします。"
+msgstr "All attendees have individual discretion whether wearing mask or not."
 
 #: templates/app/competition/registration.html:144
 msgid ""
 "競技参加者の同伴者や見学者は事前申請制で、原則として競技参加者1人につき1名の"
-"みが認められます。事前申請のない同伴者は入場をお断りする場合があります。"
+"みが認められます。"
 msgstr ""
 "One guest is only permitted for each competitor, and should be informed in "
 "advance. Guests who do not apply in advance may be denied entry."
 
 #: templates/app/competition/registration.html:145
 msgid ""
-"風邪や発熱など、COVID-19 に類似の症状がある場合には来場しないでください。"
+"風邪や発熱などの症状がある場合には<span class=\"font-weight-bold\">来場しない"
+"でください</span>。"
 msgstr ""
-"Please do not attend the competition if you have symptoms related to "
-"COVID-19 such as cough, fever, shortness of breath, etc."
+"Please do not attend the competition if you have symptoms such as cough, "
+"fever, shortness of breath, etc."
 
 #: templates/app/competition/registration.html:146
 msgid ""
@@ -1006,6 +1005,11 @@ msgstr ""
 "the registered user's name is different from the actual competitor's name, "
 "the competitor will not be allowed to participate in the competition. Please "
 "refrain from creating multiple sign up under the same person."
+
+#~ msgid "不織布マスクを常に着用することを強く推奨します。"
+#~ msgstr ""
+#~ "Strongly recommended to wear a non-woven face mask always to prevent the "
+#~ "spread of droplets."
 
 #~ msgid "見学の申請"
 #~ msgstr "Request for observation as a visitor"
