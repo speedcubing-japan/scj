@@ -152,7 +152,10 @@ class Registration(Base):
         # 自分が他のシリーズ大会に申し込んでいるかどうか
         # シリーズ大会
         is_registration_another_series_competition = False
-        if self.competition.series_competition_ids:
+        if (
+            self.competition.series_competition_ids
+            and self.request.user.is_authenticated
+        ):
             # 自大会は除く
             self.competition.series_competition_ids.remove(self.competition.id)
             if (
