@@ -160,7 +160,9 @@ class Registration(Base):
                     Competitor.objects.filter(
                         competition_id__in=self.competition.series_competition_ids,
                         person__id=self.user.person.id,
-                    ).count()
+                    )
+                    .exclude(status=CompetitorStatus.CANCEL.value)
+                    .count()
                     > 0
                 ):
                     is_registration_another_series_competition = True
