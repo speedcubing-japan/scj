@@ -152,20 +152,18 @@ class Registration(Base):
         # 自分が他のシリーズ大会に申し込んでいるかどうか
         # シリーズ大会
         is_registration_another_series_competition = False
-        if (
-            self.competition.series_competition_ids
-            and self.request.user.is_authenticated
-        ):
-            # 自大会は除く
-            self.competition.series_competition_ids.remove(self.competition.id)
-            if (
-                Competitor.objects.filter(
-                    competition_id__in=self.competition.series_competition_ids,
-                    person__id=self.user.person.id,
-                ).count()
-                > 0
-            ):
-                is_registration_another_series_competition = True
+        if self.request.user.is_authenticated:
+            if self.competition.series_competition_ids:
+                # 自大会は除く
+                self.competition.series_competition_ids.remove(self.competition.id)
+                if (
+                    Competitor.objects.filter(
+                        competition_id__in=self.competition.series_competition_ids,
+                        person__id=self.user.person.id,
+                    ).count()
+                    > 0
+                ):
+                    is_registration_another_series_competition = True
 
         context["form"] = self.form
         context["is_limit"] = is_limit
