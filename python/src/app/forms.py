@@ -100,6 +100,12 @@ class PersonCreateForm(forms.ModelForm):
             raise forms.ValidationError(_("先頭文字が大文字、それ以降の文字は小文字でお願いします。"))
         return last_name_roma
 
+    def clean_birth_at(self):
+        birth_at = self.cleaned_data["birth_at"]
+        if birth_at >= datetime.date.today():
+            raise forms.ValidationError(_("誕生日が不正です。正しく入力してください。"))
+        return birth_at
+
 
 class LoginForm(AuthenticationForm):
     class Meta:
@@ -464,3 +470,9 @@ class PersonEditForm(forms.ModelForm):
         if last_name_roma != last_name_roma.capitalize():
             raise forms.ValidationError(_("先頭文字が大文字、それ以降の文字は小文字でお願いします。"))
         return last_name_roma
+
+    def clean_birth_at(self):
+        birth_at = self.cleaned_data["birth_at"]
+        if birth_at >= datetime.date.today():
+            raise forms.ValidationError(_("誕生日が不正です。正しく入力してください。"))
+        return birth_at

@@ -18,11 +18,15 @@ class AdminPersonEdit(AdminBase):
         return render(request, "app/scj/admin/person_edit.html", dict(form=form))
 
     def post(self, request, **kwargs):
-        return self.form_valid(request.POST, **kwargs)
+        return self.form_valid(request.POST, request, **kwargs)
 
-    def form_valid(self, form, **kwargs):
+    def form_valid(self, form, request, **kwargs):
         person = Person.objects.get(id=kwargs["user_id"])
         save_form = PersonEditForm(form, instance=person)
+        if not save_form.is_valid():
+            return render(
+                request, "app/scj/admin/person_edit.html", dict(form=save_form)
+            )
         save_form.save()
         user = User.objects.get(id=kwargs["user_id"])
         user.is_active = save_form.cleaned_data["is_active"]
