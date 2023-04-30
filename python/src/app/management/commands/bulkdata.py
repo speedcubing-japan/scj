@@ -72,7 +72,6 @@ class Command(BaseCommand):
                     event_id=record["fields"]["event_id"],
                     person_id=record["fields"]["person_id"],
                     round_type=record["fields"]["round_type"],
-                    rank=record["fields"]["rank"],
                     best=record["fields"]["best"],
                     average=record["fields"]["average"],
                     value1=record["fields"]["value1"],

@@ -11,7 +11,6 @@ class Result(models.Model):
     round_type = models.SmallIntegerField(
         "ラウンドタイプ", choices=RoundType.choices(), default=0
     )
-    rank = models.SmallIntegerField("順位")
     best = models.FloatField("Best")
     average = models.FloatField("Average")
     value1 = models.FloatField("値1")
