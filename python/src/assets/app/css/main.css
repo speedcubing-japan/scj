@@ -129,3 +129,7 @@ table.table-bordered>tbody>tr>td {
     bottom: 0;
     margin: 1.75rem auto;
 }
+
+.bootstrap4-multi-input + .invalid-feedback {
+    display: block;
+}
