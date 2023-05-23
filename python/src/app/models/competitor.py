@@ -1,18 +1,22 @@
 from django.db import models
 from django_mysql.models import JSONField
 from .person import Person
-from app.defines.competitor import Status as CompetitorStatus
+from app.defines.competitor import Status as CompetitorStatus, ReceptionStatus
 from app.defines.competition import Type as CompetitionType
 
 
 class Competitor(models.Model):
-
     competition_id = models.IntegerField("大会ID")
     status = models.SmallIntegerField("状態", choices=CompetitorStatus.choices())
     event_ids = JSONField("申し込み種目ID")
     guest_count = models.SmallIntegerField("同伴者数")
+    actual_guest_count = models.SmallIntegerField("当日同伴者数", default=0)
+    visitor_count = models.SmallIntegerField("見学者数", default=0)
     comment = models.TextField("コメント")
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    reception_status = models.SmallIntegerField(
+        "受付状態", choices=ReceptionStatus.choices(), default=1
+    )
     created_at = models.DateTimeField("作成日時", auto_now_add=True)
     updated_at = models.DateTimeField("更新日時", auto_now=True)
 
@@ -85,6 +89,7 @@ class Competitor(models.Model):
         self.status = status
         self.event_ids = event_ids
         self.guest_count = guest_count
+        self.actual_guest_count = guest_count
         self.comment = comment
         self.person = person
         self.save()
@@ -116,6 +121,14 @@ class Competitor(models.Model):
     def update_status(self, status):
         self.status = status
         self.save(update_fields=["status", "updated_at"])
+
+    def update_actual_guest_count(self, actual_guest_count):
+        self.actual_guest_count = actual_guest_count
+        self.save(update_fields=["actual_guest_count", "updated_at"])
+
+    def update_visitor_count(self, visitor_count):
+        self.visitor_count = visitor_count
+        self.save(update_fields=["visitor_count", "updated_at"])
 
     def update_admin_competitor(
         self,

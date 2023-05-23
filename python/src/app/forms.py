@@ -8,9 +8,9 @@ from django.contrib.auth.forms import (
     PasswordResetForm,
     SetPasswordForm,
 )
-from app.models import Person, User, Information, Competition
+from app.models import Person, User, Information, Competition, Competitor
 from django.conf import settings
-from django.core.mail import BadHeaderError, send_mail
+from django.core.mail import BadHeaderError
 from django.http import HttpResponse
 from django.utils import timezone
 from app.defines.prefecture import PrefectureAndOversea
@@ -169,7 +169,6 @@ class MailChangeForm(forms.ModelForm):
 
 
 class ContactForm(forms.Form):
-
     COMPETITION_CLOSE_AFTER_DAYS = 7
 
     name = forms.CharField(
@@ -398,7 +397,6 @@ class RankingForm(forms.Form):
 
 
 class PersonEditForm(forms.ModelForm):
-
     is_active = forms.BooleanField(label="承認", required=False)
 
     def __init__(self, *args, **kwargs):
@@ -476,3 +474,48 @@ class PersonEditForm(forms.ModelForm):
         if birth_at >= datetime.date.today():
             raise forms.ValidationError(_("誕生日が不正です。正しく入力してください。"))
         return birth_at
+
+
+class ReceptionForm(forms.ModelForm):
+    class Meta:
+        model = Competitor
+        fields = ("actual_guest_count", "visitor_count")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["full_name"] = forms.fields.CharField(
+            label="氏名", disabled=True, required=False
+        )
+        self.fields["guest_count"] = forms.fields.IntegerField(
+            label="申請時同伴者数", required=False
+        )
+        self.fields["guest_count"].widget.attrs["disabled"] = True
+        self.fields.move_to_end("guest_count", False)
+        self.fields.move_to_end("full_name", False)
+
+    def clean_actual_guest_count(self):
+        actual_guest_count = self.cleaned_data["actual_guest_count"]
+        if re.fullmatch(r"^[0-9]+", str(actual_guest_count)) is None:
+            raise forms.ValidationError("無効な数値です。")
+        return actual_guest_count
+
+    def clean_visitor_count(self):
+        visitor_count = self.cleaned_data["visitor_count"]
+        if re.fullmatch(r"^[0-9]+", str(visitor_count)) is None:
+            raise forms.ValidationError("無効な数値です。")
+        return visitor_count
+
+
+class VisitorForm(forms.ModelForm):
+    class Meta:
+        model = Competition
+        fields = ("free_visitor_count",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def clean_free_visitor_count(self):
+        free_visitor_count = self.cleaned_data["free_visitor_count"]
+        if re.fullmatch(r"^[0-9]+", str(free_visitor_count)) is None:
+            raise forms.ValidationError("無効な数値です。")
+        return free_visitor_count

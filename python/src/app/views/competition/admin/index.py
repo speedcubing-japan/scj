@@ -7,10 +7,13 @@ from app.defines.competition import Type as CompetitionType
 from app.views.competition.base import Base
 from app.defines.session import Notification
 from app.views.competition.util import calc_fee
+import qrcode
+import base64
+from io import BytesIO
+import hashlib
 
 
 class Index(LoginRequiredMixin, Base):
-
     competitors = None
 
     def get(self, request, **kwargs):
@@ -21,7 +24,7 @@ class Index(LoginRequiredMixin, Base):
             competition_id=self.competition.id
         ).order_by("created_at")
 
-        return render(request, self.get_template_name(), self.get_context())
+        return render(request, self.get_template_name(), self.get_context(request))
 
     def post(self, request, **kwargs):
         if not self.competition.is_superuser(request.user):
@@ -91,9 +94,9 @@ class Index(LoginRequiredMixin, Base):
         else:
             self.notification = Notification.NOT_UPDATE
 
-        return render(request, self.get_template_name(), self.get_context())
+        return render(request, self.get_template_name(), self.get_context(request))
 
-    def get_context(self):
+    def get_context(self, request):
         context = super().get_context()
 
         # 重複確認
@@ -138,7 +141,14 @@ class Index(LoginRequiredMixin, Base):
                 registration_competitors.append(competitor)
             if competitor.status == CompetitorStatus.CANCEL.value:
                 cancel_competitors.append(competitor)
-
+        encoded = f"{str(self.competition.id) + self.competition.name_id}".encode()
+        competition_serial = hashlib.md5(encoded).hexdigest()
+        img = qrcode.make(
+            f"https://{request.get_host()}/competition/{self.competition.name_id}/reception/{competition_serial}"
+        )
+        buffer = BytesIO()
+        img.save(buffer, format="PNG")
+        qr = base64.b64encode(buffer.getvalue()).decode().replace("'", "")
         context["pending_competitors"] = pending_competitors
         context["registration_competitors"] = registration_competitors
         context["cancel_competitors"] = cancel_competitors
@@ -147,6 +157,7 @@ class Index(LoginRequiredMixin, Base):
         context["remaining_registration_count"] = self.competition.limit - len(
             registration_competitors
         )
+        context["qr"] = qr
 
         return context
 

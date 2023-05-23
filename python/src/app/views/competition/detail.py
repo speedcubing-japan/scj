@@ -6,13 +6,12 @@ from app.models import Person, Competitor, Result, Round, Competition
 from app.defines.fee import PayType as FeePayType
 from app.defines.fee import CalcType as FeeCalcType
 from app.defines.competition import Type as CompetitionType
-from app.defines.competitor import Status as CompetitorStatus
+from app.defines.competitor import Status as CompetitorStatus, ReceptionStatus
 from app.defines.session import Notification
 from .base import Base
 
 
 class Detail(Base):
-
     template_name = "app/competition/detail.html"
 
     def get(self, request, **kwargs):
@@ -54,7 +53,21 @@ class Detail(Base):
                 elif self.competition.type == CompetitionType.WCA.value:
                     notification = Notification.COMPETITION_WCA_END
         elif self.competitor:
-            if self.competitor.status == CompetitorStatus.PENDING.value:
+            if self.competition.use_reception:
+                if (
+                    self.competitor.reception_status
+                    == ReceptionStatus.ALL_RECEPTION.value
+                ):
+                    notification = Notification.RECEPTION_FINISHED
+                elif (
+                    self.competitor.reception_status
+                    == ReceptionStatus.SELF_RECEPTION.value
+                ):
+                    if self.competitor.is_diffrence_event_and_price:
+                        notification = Notification.SELF_RECEPTION_DIFFERENCE_PRICE
+                    else:
+                        notification = Notification.SELF_RECEPTION_FINISHED
+            elif self.competitor.status == CompetitorStatus.PENDING.value:
                 notification = Notification.COMPETITOR_PENGING
             elif self.competitor.status == CompetitorStatus.REGISTRATION.value:
                 notification = Notification.COMPETITOR_REGISTRATION

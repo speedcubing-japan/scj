@@ -11,7 +11,6 @@ from django.utils.timezone import localtime
 
 
 class Competition(models.Model):
-
     type = models.SmallIntegerField(
         "大会タイプ", default=0, choices=CompetitionType.choices()
     )
@@ -65,10 +64,12 @@ class Competition(models.Model):
     assignment_description_en = models.TextField("表彰(英文)", default="")
     visitor_description = models.TextField("見学事項", default="")
     visitor_description_en = models.TextField("見学事項(英文)", default="")
+    use_reception = models.BooleanField("受付システムの使用要否", default=False)
     is_cancel = models.BooleanField("キャンセル可否", default=False)
     is_payment = models.BooleanField("課金可否", default=False)
     is_display = models.BooleanField("表示可否", default=False)
     is_private = models.BooleanField("プライベート可否", default=False)
+    free_visitor_count = models.SmallIntegerField("見学者数", default=0)
 
     is_superuser = False
 

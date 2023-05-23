@@ -1,0 +1,28 @@
+{% extends "app/common/base.html" %}
+{% load bootstrap4 %}
+{% load static %}
+{% load competition_logo %}
+{% load event_name %}
+{% load event_id_name %}
+
+{% block content %}
+{% include "app/common/competition_title.html" %}
+{% include "app/common/title.html" with title="参加受付" %}
+<div class="card mb-3">
+  <div class="card-body">
+    <form action="" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form form layout='horizontal' %}
+      <div class="form-group row justify-content-between">
+        <div class="offset-md-3 col-md-2">
+          <input class="btn btn-success" type="submit" value="受付" />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="alert alert-light" role="alert">
+  <div>同伴者数と見学者数を入力して「受付」ボタンを押してください。</div>
+  <div>同伴者がいる場合は、サイトでの受付後に会場受付にお越しください。</div>
+</div>
+{% endblock %}
