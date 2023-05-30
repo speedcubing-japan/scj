@@ -21,20 +21,22 @@
     {% include "app/competition/menu.html" with active='round' %}
   </div>
   <div class="col-lg-10">
-    <div class="card mb-3">
-      <div class="card-header lead">
-        {% trans "表彰" %}
+    {% if competition.awards_description %}
+      <div class="card mb-3">
+        <div class="card-header lead">
+          {% trans "表彰" %}
+        </div>
+        <div class="card-body">
+          {% if not competition.awards_description_en %}
+            {{ competition.awards_description | strip | safe }}
+          {% elif request.LANGUAGE_CODE == 'en' %}
+            {{ competition.awards_description_en | strip | safe }}
+          {% else %}
+            {{ competition.awards_description | strip | safe }}
+          {% endif %}
+        </div>
       </div>
-      <div class="card-body">
-        {% if not competition.awards_description_en %}
-          {{ competition.awards_description | strip | safe }}
-        {% elif request.LANGUAGE_CODE == 'en' %}
-          {{ competition.awards_description_en | strip | safe }}
-        {% else %}
-          {{ competition.awards_description | strip | safe }}
-        {% endif %}
-      </div>
-    </div>
+    {% endif %}
     {% if competition.assignment_description or competition.assignment_description_en %}
       <div class="card mb-3">
         <div class="card-header lead">
