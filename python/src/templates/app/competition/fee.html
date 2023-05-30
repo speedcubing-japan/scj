@@ -124,22 +124,37 @@
           {% elif competition.fee_calc_type == fee_calc_type.EVENT_COUNT.value %}
             <div class="card">
               <ul class="list-group">
-                {% for item, price in prepaid_fees.items %}
-                  <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
-                    <span>
-                      {% if item == 0 %}
-                        {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
-                          {% trans "支払い料金" %}
-                        {% elif competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value %}
-                          {% trans "事前支払い料金" %}
-                        {% endif %}
-                      {% else %}
-                        {{ item }}&nbsp;{% trans "種目" %}
-                      {% endif %}
-                    </span>
-                    {% if price != 0 %}<span class="float-right">{{ price }}&nbsp;{% trans "円" %}</span>{% endif %}
+                {% if prepaid_fee %}
+                  <li class="card-header lead list-group-item">
+                    {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
+                      {% trans "支払い料金" %}
+                    {% elif competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value %}
+                      {% trans "事前支払い料金" %}
+                    {% endif %}
+                    {% if prepaid_fees.0 != 0 %}<span class="float-right">{{ prepaid_fees.0 }}&nbsp;{% trans "円" %}</span>{% endif %}
                   </li>
-                {% endfor %}
+                  <li class="list-group-item">
+                    <span>{% trans "参加種目数に関わらず" %}</span>
+                    <span class="float-right">{{ prepaid_fee }}&nbsp;{% trans "円" %}</span>
+                  </li>
+                {% else %}
+                  {% for item, price in prepaid_fees.items %}
+                    <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
+                      <span>
+                        {% if item == 0 %}
+                          {% if competition.fee_pay_type == fee_pay_type.REMOTE_ONLY.value %}
+                            {% trans "支払い料金" %}
+                          {% elif competition.fee_pay_type == fee_pay_type.LOCAL_AND_REMOTE.value %}
+                            {% trans "事前支払い料金" %}
+                          {% endif %}
+                        {% else %}
+                          {{ item }}&nbsp;{% trans "種目" %}
+                        {% endif %}
+                      </span>
+                      {% if price != 0 %}<span class="float-right">{{ price }}&nbsp;{% trans "円" %}</span>{% endif %}
+                    </li>
+                  {% endfor %}
+                {% endif %}
               </ul>
             </div>
           {% endif %}
@@ -160,6 +175,16 @@
           {% elif competition.fee_calc_type == fee_calc_type.EVENT_COUNT.value %}
             <div class="card">
               <ul class="list-group">
+              {% if fee %}
+                  <li class="card-header lead list-group-item">
+                    <span>{% trans "現地支払い料金" %}</span>
+                    {% if fees.0 > 0 %}<span class="float-right">{{ fees.0 }}&nbsp;{% trans "円" %}</span>{% endif %}
+                  </li>
+                  <li class="list-group-item">
+                    <span>{% trans "参加種目数に関わらず" %}</span>
+                    <span class="float-right">{{ fee }}&nbsp;{% trans "円" %}</span>
+                  </li>
+              {% else %}
                 {% for item, price in fees.items %}
                   <li class="{% if item == 0 %}card-header lead{% endif %} list-group-item">
                     <span>{% if item == 0 %}{% trans "現地支払い料金" %}{% else %}{{ item }}&nbsp;{% trans "種目" %}{% endif %}
@@ -167,6 +192,7 @@
                     {% if price != 0 %}<span class="float-right">{{ price }}&nbsp;{% trans "円" %}</span>{% endif %}
                   </li>
                 {% endfor %}
+              {% endif %}
               </ul>
             </div>
           {% endif %}

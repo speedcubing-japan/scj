@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-21 10:15+0000\n"
+"POT-Creation-Date: 2023-05-30 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -144,10 +144,10 @@ msgid "定員"
 msgstr "Limit"
 
 #: templates/app/competition/detail.html:125
-#: templates/app/competition/event.html:81
-#: templates/app/competition/fee.html:137
-#: templates/app/competition/fee.html:153
-#: templates/app/competition/fee.html:165
+#: templates/app/competition/event.html:83
+#: templates/app/competition/fee.html:151
+#: templates/app/competition/fee.html:168
+#: templates/app/competition/fee.html:190
 #: templates/app/competition/registration.html:326
 msgid "種目"
 msgstr "Events"
@@ -199,73 +199,73 @@ msgstr ""
 "Please also check our <a href=\"%(url)s\" target=\"_blank\">Frequently Asked "
 "Questions</a>."
 
-#: templates/app/competition/event.html:26
+#: templates/app/competition/event.html:27
 msgid "表彰"
 msgstr "Awards"
 
-#: templates/app/competition/event.html:41
+#: templates/app/competition/event.html:43
 msgid "役割分担表"
 msgstr "Assignment Table"
 
-#: templates/app/competition/event.html:56
+#: templates/app/competition/event.html:58
 msgid "スケジュール"
 msgstr "Schedule"
 
-#: templates/app/competition/event.html:62
-#: templates/app/competition/event.html:82
+#: templates/app/competition/event.html:64
+#: templates/app/competition/event.html:84
 msgid "ラウンド"
 msgstr "Round"
 
-#: templates/app/competition/event.html:79
+#: templates/app/competition/event.html:81
 msgid "開始"
 msgstr "Begin"
 
-#: templates/app/competition/event.html:80
+#: templates/app/competition/event.html:82
 msgid "終了"
 msgstr "End"
 
-#: templates/app/competition/event.html:83
-#: templates/app/competition/event.html:147
+#: templates/app/competition/event.html:85
+#: templates/app/competition/event.html:149
 msgid "形式"
 msgstr "Format"
 
-#: templates/app/competition/event.html:84
-#: templates/app/competition/event.html:167
+#: templates/app/competition/event.html:86
+#: templates/app/competition/event.html:169
 msgid "カットオフ"
 msgstr "Cutoff"
 
-#: templates/app/competition/event.html:85
-#: templates/app/competition/event.html:172
+#: templates/app/competition/event.html:87
+#: templates/app/competition/event.html:174
 msgid "制限時間"
 msgstr "Limit Time"
 
-#: templates/app/competition/event.html:86
+#: templates/app/competition/event.html:88
 msgid "進出人数"
 msgstr "Proceed"
 
-#: templates/app/competition/event.html:102
+#: templates/app/competition/event.html:104
 msgid "試技目"
 msgstr "Attempt"
 
-#: templates/app/competition/event.html:106
+#: templates/app/competition/event.html:108
 msgid "累積"
 msgstr "Cumulative"
 
-#: templates/app/competition/event.html:126
+#: templates/app/competition/event.html:128
 #, python-format
 msgid "%(proceed_count)s人"
 msgstr "Top %(proceed_count)s"
 
-#: templates/app/competition/event.html:128
+#: templates/app/competition/event.html:130
 #, python-format
 msgid "%(proceed_rate)s%%"
 msgstr "Top %(proceed_rate)s%%"
 
-#: templates/app/competition/event.html:148
+#: templates/app/competition/event.html:150
 msgid "説明"
 msgstr "Description"
 
-#: templates/app/competition/event.html:153
+#: templates/app/competition/event.html:155
 msgid ""
 "5回計測し最も速い記録と最も遅い記録を除き、残りの3つの記録の平均に基づいて順"
 "位を決定します。"
@@ -273,7 +273,7 @@ msgstr ""
 "The fastest and slowest records are excluded from the five attemps, and the "
 "ranking is determined based on the average of the remaining three attempts."
 
-#: templates/app/competition/event.html:156
+#: templates/app/competition/event.html:158
 msgid ""
 "3回計測しその3つの記録の平均に基づいて順位を決定します。DNFやDNSがある場合、"
 "記録が3回未満なので平均記録はDNFとなります。"
@@ -282,13 +282,13 @@ msgstr ""
 "the average of the three attempts. If there is a DNF or DNS, the average "
 "record is DNF because the record is less than 3 attempts."
 
-#: templates/app/competition/event.html:159
+#: templates/app/competition/event.html:161
 msgid "X回計測しその中で最も速い記録に基づいて順位を決定します。"
 msgstr ""
 "X times, and the ranking is determined based on the fastest attempt among "
 "the X times."
 
-#: templates/app/competition/event.html:162
+#: templates/app/competition/event.html:164
 msgid ""
 "カットオフが設定されています。Beat of Xの中でカットオフの制限をクリアすると"
 "Average of 5 (Mean of 3)の試技ができます。"
@@ -296,11 +296,11 @@ msgstr ""
 "A cutoff is set. if you clear the cutoff limit in the Beat of X, you can "
 "attempt an Average of 5 (Mean of 3)."
 
-#: templates/app/competition/event.html:169
+#: templates/app/competition/event.html:171
 msgid "形式にBest of X / Average of 5 (Mean of 3)と記載されます。"
 msgstr "The format will be marked Best of X / Average of 5 (Mean of 3)."
 
-#: templates/app/competition/event.html:170
+#: templates/app/competition/event.html:172
 msgid ""
 "Best of Xでカットオフをクリアした場合にAverage of 5 (Mean of 3)での試技を行う"
 "ことができます。"
@@ -308,13 +308,13 @@ msgstr ""
 "You can try Average of 5 (Mean of 3) when you have cleared the cutoff at "
 "Best of X."
 
-#: templates/app/competition/event.html:174
+#: templates/app/competition/event.html:176
 msgid "各試技において制限時間をクリアできない場合、試技はDNFになります。"
 msgstr ""
 "Failure to meet the time limit in each atempt will result in a DNF for the "
 "attempt."
 
-#: templates/app/competition/event.html:175
+#: templates/app/competition/event.html:177
 msgid ""
 "累積Xの制限時間はその時間内ですべての試技を終わらせる必要があり、パズルの完成"
 "を問わず制限時間は累積されます。"
@@ -406,9 +406,13 @@ msgid "計"
 msgstr "Total"
 
 #: templates/app/competition/fee.html:90 templates/app/competition/fee.html:119
-#: templates/app/competition/fee.html:140
-#: templates/app/competition/fee.html:155
-#: templates/app/competition/fee.html:167
+#: templates/app/competition/fee.html:134
+#: templates/app/competition/fee.html:138
+#: templates/app/competition/fee.html:154
+#: templates/app/competition/fee.html:170
+#: templates/app/competition/fee.html:181
+#: templates/app/competition/fee.html:185
+#: templates/app/competition/fee.html:192
 #: templates/app/competition/registration.html:316
 #: templates/app/competition/registration.html:328
 msgid "円"
@@ -423,19 +427,27 @@ msgid "支払い済み"
 msgstr "You've paid."
 
 #: templates/app/competition/fee.html:111
-#: templates/app/competition/fee.html:132
+#: templates/app/competition/fee.html:130
+#: templates/app/competition/fee.html:146
 #: templates/app/competition/registration.html:314
 #: templates/app/competition/registration.html:326
 msgid "支払い料金"
 msgstr "Payment fees"
 
 #: templates/app/competition/fee.html:113
-#: templates/app/competition/fee.html:134
+#: templates/app/competition/fee.html:132
+#: templates/app/competition/fee.html:148
 msgid "事前支払い料金"
 msgstr "Payment fees on the site"
 
-#: templates/app/competition/fee.html:153
-#: templates/app/competition/fee.html:165
+#: templates/app/competition/fee.html:137
+#: templates/app/competition/fee.html:184
+msgid "参加種目数に関わらず"
+msgstr "Regardless of the number of events"
+
+#: templates/app/competition/fee.html:168
+#: templates/app/competition/fee.html:180
+#: templates/app/competition/fee.html:190
 msgid "現地支払い料金"
 msgstr "Payment fees at the venue"
 
@@ -467,7 +479,7 @@ msgstr "Fees"
 msgid "イベント"
 msgstr "Event"
 
-#: templates/app/competition/menu.html:13
+#: templates/app/competition/menu.html:14
 #: templates/app/competition/registration.html:177
 #: templates/app/competition/registration.html:190
 #: templates/app/competition/registration.html:355

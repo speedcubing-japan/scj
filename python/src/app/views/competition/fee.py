@@ -4,7 +4,7 @@ from django.shortcuts import render
 from app.models import Person, StripeProgress
 from app.defines.session import Notification
 from .base import Base
-from .util import calc_fee
+from .util import calc_fee, check_same_fee_and_get_value
 
 
 class Fee(Base):
@@ -53,6 +53,10 @@ class Fee(Base):
         context["fee_pay_close_at_timedelta"] = fee_pay_close_at_timedelta
         context["fees"] = amount["fees"]
         context["prepaid_fees"] = amount["prepaid_fees"]
+        # 料金が一緒の場合、その値
+        context["fee"] = check_same_fee_and_get_value(amount["fees"])
+        # 料金が一緒の場合、その値
+        context["prepaid_fee"] = check_same_fee_and_get_value(amount["prepaid_fees"])
         context["price"] = amount["price"]
         context["is_paid"] = is_paid
         context["stripe_public_key"] = settings.STRIPE_PUBLIC_KEY
