@@ -8,6 +8,7 @@ from app.defines.event import Event
 from app.views.competition.base import Base
 from app.defines.session import Notification
 from app.defines.prefecture import PrefectureAndOversea
+import pprint
 
 
 class Competitor(LoginRequiredMixin, Base):
@@ -59,12 +60,13 @@ class Competitor(LoginRequiredMixin, Base):
             guest_count = int(request.POST.get("guest_count"))
 
         if self.is_wca_competition():
-            wca_name = request.POST.get("wca_name", "")
-            wca_birth_at = request.POST.get("wca_birth_at", "")
-            if not wca_name:
-                self.admin_errors.append("WCA氏名が規格外です。")
-            if not wca_birth_at:
-                self.admin_errors.append("WCA誕生日が規格外です。")
+            if not self.target_competitor.person.wca_id:
+                wca_name = request.POST.get("wca_name", "")
+                wca_birth_at = request.POST.get("wca_birth_at", "")
+                if not wca_name:
+                    self.admin_errors.append("WCA氏名が規格外です。")
+                if not wca_birth_at:
+                    self.admin_errors.append("WCA誕生日が規格外です。")
 
             if self.target_competitor.person.wca_id:
                 wca_name = self.target_competitor.person.wca_name
