@@ -8,7 +8,6 @@ from app.defines.event import Event
 from app.views.competition.base import Base
 from app.defines.session import Notification
 from app.defines.prefecture import PrefectureAndOversea
-import pprint
 
 
 class Competitor(LoginRequiredMixin, Base):
