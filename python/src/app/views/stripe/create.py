@@ -33,6 +33,9 @@ class Create(View):
         if competition.fee_pay_type == FeePayType.LOCAL_ONLY.value:
             return JsonResponse({"error": "支払いは現地のみです。"})
 
+        if competition.guest_limit < datas["guest_count"]:
+            return JsonResponse({"error": "不正な同伴者数です。"})
+
         if len(datas["event_ids"]) <= 0:
             return JsonResponse({"error": "種目が選択されていません。"})
 
