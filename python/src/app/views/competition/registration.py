@@ -1,4 +1,5 @@
 import datetime
+from django import forms
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.sites.shortcuts import get_current_site
@@ -196,10 +197,13 @@ class Registration(Base):
         return context
 
     def create_form(self):
-        guests = []
-        for guest_count in range(self.competition.guest_limit + 1):
-            guests.append((int(guest_count), str(guest_count) + "人"))
-        self.form.fields["guest_count"].choices = guests
+        if self.competition.guest_limit:
+            guests = []
+            for guest_count in range(self.competition.guest_limit + 1):
+                guests.append((int(guest_count), str(guest_count) + "人"))
+                self.form.fields["guest_count"].choices = guests
+        else:
+            self.form.fields["guest_count"].widget = forms.HiddenInput()
 
         events = []
         for event_id in self.competition.event_ids:

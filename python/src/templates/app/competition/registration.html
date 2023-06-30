@@ -426,14 +426,16 @@
         }
       }
 
-      const guestElement = document.getElementById("id_guest_count");
-      const guestElements = guestElement.options;
       var guest_count = 0;
-      for (let i = 0, size = guestElements.length; i < size; i++) {
-        if (guestElements[i].selected) {
-          guest_count = parseInt(guestElements[i].value);
+      {% if competition.guest_limit %}
+        const guestElement = document.getElementById("id_guest_count");
+        const guestElements = guestElement.options;
+        for (let i = 0, size = guestElements.length; i < size; i++) {
+          if (guestElements[i].selected) {
+            guest_count = parseInt(guestElements[i].value);
+          }
         }
-      }
+      {% endif %}
 
       const comment = document.getElementById("id_comment").value;
 
