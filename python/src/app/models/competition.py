@@ -1,13 +1,19 @@
 import datetime
 import json
 from django.db import models
+from app.models import Competitor, Result
 from django_mysql.models import JSONField
 from app.defines.prefecture import PrefectureAndOversea
 from app.defines.competition import Type as CompetitionType
 from app.defines.fee import PayType as FeePayType
 from app.defines.fee import CalcType as FeeCalcType
+from app.defines.session import Notification
 from django.utils import timezone
 from django.utils.timezone import localtime
+import qrcode
+import base64
+from io import BytesIO
+import hashlib
 
 
 class Competition(models.Model):
@@ -69,7 +75,6 @@ class Competition(models.Model):
     is_payment = models.BooleanField("課金可否", default=False)
     is_display = models.BooleanField("表示可否", default=False)
     is_private = models.BooleanField("プライベート可否", default=False)
-    free_visitor_count = models.SmallIntegerField("見学者数", default=0)
 
     is_superuser = False
 
@@ -265,6 +270,47 @@ class Competition(models.Model):
             if user.person.id == self.stripe_user_person_id:
                 is_refunder = True
         return is_refunder
+
+    def get_competitors(self):
+        return Competitor.objects.filter(competition_id=self.id).order_by("created_at")
+
+    def get_serial(self):
+        encoded = (str(self.id) + self.name_id).encode()
+        return hashlib.md5(encoded).hexdigest()
+
+    def get_reception_url(self, host):
+        competition_serial = self.get_serial()
+        return "https://{host}/competition/{name_id}/reception/{serial}".format(
+            host=host,
+            name_id=self.name_id,
+            serial=competition_serial,
+        )
+
+    def get_qr_image(self, text):
+        img = qrcode.make(text)
+        buffer = BytesIO()
+        img.save(buffer, format="PNG")
+        return base64.b64encode(buffer.getvalue()).decode().replace("'", "")
+
+    def get_notification(self):
+        has_results = Result.objects.filter(competition_id=self.id).exists()
+
+        if self.is_private:
+            return Notification.COMPETITION_PRIVATE
+        elif not self.is_display:
+            return Notification.COMPETITION_NOT_DISPLAY
+        elif self.is_cancel:
+            return Notification.COMPETITION_CANCELED
+        elif self.is_finish():
+            if has_results:
+                return Notification.COMPETITION_SCJ_HAS_RESULT_END
+            else:
+                if self.type == CompetitionType.SCJ.value:
+                    return Notification.COMPETITION_SCJ_END
+                elif self.type == CompetitionType.WCA.value:
+                    return Notification.COMPETITION_WCA_END
+        else:
+            return ""
 
     def __str__(self):
         return self.name

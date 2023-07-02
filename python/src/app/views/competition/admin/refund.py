@@ -3,15 +3,13 @@ import datetime
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from app.models import Person, Competitor, StripeProgress
+from app.models import Person, StripeProgress
 from app.views.competition.base import Base
-from app.views.competition.util import calc_fee
 from app.defines.session import Notification
 from app.defines.competitor import Status as CompetitorStatus
 
 
 class Refund(LoginRequiredMixin, Base):
-
     template_name = "app/competition/admin/refund.html"
     competitor_list = []
 
@@ -22,9 +20,9 @@ class Refund(LoginRequiredMixin, Base):
         stripe_progresses = StripeProgress.objects.filter(
             competition_id=self.competition.id, refund_price=0
         )
-        competitors = Competitor.objects.filter(
-            competition_id=self.competition.id
-        ).exclude(status=CompetitorStatus.REGISTRATION.value)
+        competitors = self.competition.get_competitors().exclude(
+            status=CompetitorStatus.REGISTRATION.value
+        )
 
         self.competitor_list = []
         for competitor in competitors:
@@ -52,13 +50,12 @@ class Refund(LoginRequiredMixin, Base):
         stripe_progresses = StripeProgress.objects.filter(
             competition_id=self.competition.id, refund_price=0
         )
-        competitors = Competitor.objects.filter(
-            competition_id=self.competition.id
-        ).exclude(status=CompetitorStatus.REGISTRATION.value)
+        competitors = self.competition.get_competitors().exclude(
+            status=CompetitorStatus.REGISTRATION.value
+        )
 
         self.competitor_list = []
         for competitor in competitors:
-
             for stripe_progress in stripe_progresses:
                 if competitor.id == stripe_progress.competitor_id:
                     competitor.set_stripe_progress(stripe_progress)

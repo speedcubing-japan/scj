@@ -4,7 +4,7 @@ from app.views.competition.util import send_mail, send_mass_mail
 from app.models import Competition, Competitor, Result, StripeProgress
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.competition import Type as CompetitionType
-from app.views.competition.util import calc_fee
+from app.views.competition.calc_fee import calc_fee
 
 
 class Base(TemplateView):
@@ -80,15 +80,15 @@ class Base(TemplateView):
             )
 
     def set_is_diffrence_event_and_price(self):
-        stripe_progresses = StripeProgress.objects.filter(
-            competition_id=self.competition.id
-        )
+        stripe_progress = StripeProgress.objects.filter(
+            competition_id=self.competition.id, competitor_id=self.competitor.id
+        ).first()
+        if stripe_progress is None:
+            return
         amount = calc_fee(self.competition, self.competitor)
-        for stripe_progress in stripe_progresses:
-            if self.competitor.id == stripe_progress.competitor_id:
-                self.competitor.set_stripe_progress(stripe_progress)
-                if amount["price"] != stripe_progress.pay_price:
-                    self.competitor.set_is_diffrence_event_and_price()
+        self.competitor.set_stripe_progress(stripe_progress)
+        if amount["price"] != stripe_progress.pay_price:
+            self.competitor.set_is_diffrence_event_and_price()
 
     def set_has_results(self):
         self.has_results = Result.objects.filter(

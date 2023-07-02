@@ -13,6 +13,6 @@ class Status(Define):
 
 @unique
 class ReceptionStatus(Define):
-    NOT_YET_RECEPTION = 1
-    SELF_RECEPTION = 2
-    ALL_RECEPTION = 3
+    NOT_YET_RECEPTION = 0
+    SELF_RECEPTION = 1
+    ALL_RECEPTION = 2

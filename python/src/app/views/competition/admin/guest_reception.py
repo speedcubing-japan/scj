@@ -16,7 +16,6 @@ class GuestReception(LoginRequiredMixin, Base):
         competitor_id = kwargs.get("competitor_id")
         competitor = Competitor.objects.get(id=competitor_id)
         competitor_dict = competitor.__dict__
-        competitor_dict["actual_guest_count"] = competitor.guest_count
         competitor_dict["full_name"] = competitor.person.get_full_name()
         form = ReceptionForm(initial=competitor_dict)
         return render(request, self.template_name, self.get_context(form))
@@ -29,10 +28,7 @@ class GuestReception(LoginRequiredMixin, Base):
     def post(self, request, **kwargs):
         if "cancel" in request.POST:
             competitor = Competitor.objects.get(id=kwargs["competitor_id"])
-            competitor.actual_guest_count = 0
-            competitor.visitor_count = 0
-            competitor.reception_status = ReceptionStatus.NOT_YET_RECEPTION.value
-            competitor.save()
+            competitor.update_reception_status(ReceptionStatus.NOT_YET_RECEPTION.value)
             self.request.session["notification"] = Notification.RECEPTION_CANCEL
             return redirect("competition_admin_reception", self.competition.name_id)
         return self.form_valid(request.POST, request, **kwargs)

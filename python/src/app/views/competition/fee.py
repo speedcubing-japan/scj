@@ -4,11 +4,11 @@ from django.shortcuts import render
 from app.models import Person, StripeProgress
 from app.defines.session import Notification
 from .base import Base
-from .util import calc_fee, check_same_fee_and_get_value
+from .util import check_same_fee_and_get_value
+from .calc_fee import calc_fee
 
 
 class Fee(Base):
-
     template_name = "app/competition/fee.html"
     status = ""
 

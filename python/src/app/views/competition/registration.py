@@ -11,11 +11,10 @@ from app.defines.competitor import Status as CompetitorStatus
 from app.defines.session import Notification
 from app.defines.fee import PayTypeEn as FeePayType
 from .base import Base
-from .util import calc_fee
+from .calc_fee import calc_fee
 
 
 class Registration(Base):
-
     template_name = "app/competition/registration.html"
     form = None
 

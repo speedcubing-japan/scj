@@ -479,7 +479,7 @@ class PersonEditForm(forms.ModelForm):
 class ReceptionForm(forms.ModelForm):
     class Meta:
         model = Competitor
-        fields = ("actual_guest_count", "visitor_count")
+        fields = ("guest_count",)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -487,35 +487,12 @@ class ReceptionForm(forms.ModelForm):
             label="氏名", disabled=True, required=False
         )
         self.fields["guest_count"] = forms.fields.IntegerField(
-            label="申請時同伴者数", required=False
+            label="同伴者数", required=False
         )
-        self.fields["guest_count"].widget.attrs["disabled"] = True
-        self.fields.move_to_end("guest_count", False)
         self.fields.move_to_end("full_name", False)
 
-    def clean_actual_guest_count(self):
-        actual_guest_count = self.cleaned_data["actual_guest_count"]
-        if re.fullmatch(r"^[0-9]+", str(actual_guest_count)) is None:
+    def clean_guest_count(self):
+        guest_count = self.cleaned_data["guest_count"]
+        if re.fullmatch(r"^[0-9]+", str(guest_count)) is None:
             raise forms.ValidationError("無効な数値です。")
-        return actual_guest_count
-
-    def clean_visitor_count(self):
-        visitor_count = self.cleaned_data["visitor_count"]
-        if re.fullmatch(r"^[0-9]+", str(visitor_count)) is None:
-            raise forms.ValidationError("無効な数値です。")
-        return visitor_count
-
-
-class VisitorForm(forms.ModelForm):
-    class Meta:
-        model = Competition
-        fields = ("free_visitor_count",)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def clean_free_visitor_count(self):
-        free_visitor_count = self.cleaned_data["free_visitor_count"]
-        if re.fullmatch(r"^[0-9]+", str(free_visitor_count)) is None:
-            raise forms.ValidationError("無効な数値です。")
-        return free_visitor_count
+        return guest_count

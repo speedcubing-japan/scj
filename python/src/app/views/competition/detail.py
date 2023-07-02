@@ -2,11 +2,10 @@ import datetime
 from django.conf import settings
 from django.shortcuts import render
 from django.utils.timezone import localtime
-from app.models import Person, Competitor, Result, Round, Competition
+from app.models import Person, Competitor, Round, Competition
 from app.defines.fee import PayType as FeePayType
 from app.defines.fee import CalcType as FeeCalcType
-from app.defines.competition import Type as CompetitionType
-from app.defines.competitor import Status as CompetitorStatus, ReceptionStatus
+from app.defines.competitor import Status as CompetitorStatus
 from app.defines.session import Notification
 from .base import Base
 
@@ -34,46 +33,10 @@ class Detail(Base):
         # 現在時刻
         now = datetime.datetime.now(tz=datetime.timezone.utc)
 
-        # 結果があるか
-        has_results = Result.objects.filter(competition_id=self.competition.id).exists()
-
-        notification = ""
-        if self.competition.is_private:
-            notification = Notification.COMPETITION_PRIVATE
-        elif not self.competition.is_display:
-            notification = Notification.COMPETITION_NOT_DISPLAY
-        elif self.competition.is_cancel:
-            notification = Notification.COMPETITION_CANCELED
-        elif self.competition.is_finish():
-            if has_results:
-                notification = Notification.COMPETITION_SCJ_HAS_RESULT_END
-            else:
-                if self.competition.type == CompetitionType.SCJ.value:
-                    notification = Notification.COMPETITION_SCJ_END
-                elif self.competition.type == CompetitionType.WCA.value:
-                    notification = Notification.COMPETITION_WCA_END
-        elif self.competitor:
-            if self.competition.use_reception:
-                if (
-                    self.competitor.reception_status
-                    == ReceptionStatus.ALL_RECEPTION.value
-                ):
-                    notification = Notification.RECEPTION_FINISHED
-                elif (
-                    self.competitor.reception_status
-                    == ReceptionStatus.SELF_RECEPTION.value
-                ):
-                    if self.competitor.is_diffrence_event_and_price:
-                        notification = Notification.SELF_RECEPTION_DIFFERENCE_PRICE
-                    else:
-                        notification = Notification.SELF_RECEPTION_FINISHED
-            elif self.competitor.status == CompetitorStatus.PENDING.value:
-                notification = Notification.COMPETITOR_PENGING
-            elif self.competitor.status == CompetitorStatus.REGISTRATION.value:
-                notification = Notification.COMPETITOR_REGISTRATION
-            elif self.competitor.status == CompetitorStatus.CANCEL.value:
-                notification = Notification.COMPETITOR_CANCEL
-        elif self.competition.is_registration_finish():
+        notification = self.competition.get_notification()
+        if notification == "" and self.competitor:
+            notification = self.competitor.get_notification(self.competition)
+        if notification == "" and self.competition.is_registration_finish():
             notification = Notification.COMPETITION_REGISTRATION_END
 
         # 申し込み者数(未承認+承認)

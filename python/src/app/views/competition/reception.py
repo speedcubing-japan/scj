@@ -3,11 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from app.defines.session import Notification
 from app.defines.competitor import Status as CompetitionStatus, ReceptionStatus
 from .base import Base
-import hashlib
-from datetime import datetime as dt, timezone
+import datetime
 from app.forms import ReceptionForm
-from app.models import StripeProgress
-from app.views.competition.util import calc_fee
+from django.utils.timezone import localtime
 
 
 class Reception(LoginRequiredMixin, Base):
@@ -18,9 +16,8 @@ class Reception(LoginRequiredMixin, Base):
         if not self.competition.use_reception:
             return redirect("competition_detail", self.competition.name_id)
 
-        encoded = f"{str(self.competition.id) + self.competition.name_id}".encode()
-        competition_serial = hashlib.md5(encoded).hexdigest()
-        now = dt.now(tz=timezone.utc)
+        competition_serial = self.competition.get_serial()
+        now = localtime(datetime.datetime.now(tz=datetime.timezone.utc))
 
         if kwargs.get("serial", "") != competition_serial:
             self.request.session["notification"] = Notification.INVALID_RECEPTION_PAGE
@@ -38,12 +35,11 @@ class Reception(LoginRequiredMixin, Base):
         if self.competitor.reception_status != ReceptionStatus.NOT_YET_RECEPTION.value:
             return redirect("competition_detail", self.competition.name_id)
 
-        # if self.competition.open_at > now:
-        #     self.request.session["notification"] = Notification.NOT_YET_RECEPTION
-        #     return redirect("competition_detail", self.competition.name_id)
+        if self.competition.open_at > now:
+            self.request.session["notification"] = Notification.NOT_OPEN_COMPETITION
+            return redirect("competition_detail", self.competition.name_id)
 
         competitor_dict = self.competitor.__dict__
-        competitor_dict["actual_guest_count"] = self.competitor.guest_count
         competitor_dict["full_name"] = self.competitor.person.get_full_name()
         form = ReceptionForm(initial=competitor_dict)
         return render(request, self.template_name, self.get_context(form))
@@ -57,7 +53,7 @@ class Reception(LoginRequiredMixin, Base):
         return self.form_valid(request.POST, request, **kwargs)
 
     def form_valid(self, form, request, **kwargs):
-        if form["actual_guest_count"] == "0" and form["visitor_count"] == "0":
+        if form["guest_count"] == "0":
             if self.competitor.is_diffrence_event_and_price:
                 self.competitor.reception_status = ReceptionStatus.SELF_RECEPTION.value
             else:
@@ -69,4 +65,4 @@ class Reception(LoginRequiredMixin, Base):
             return render(request, self.template_name, self.get_context(save_form))
         save_form.save()
 
-        return redirect("competition_reception_completion", self.competition.name_id)
+        return redirect("competition_reception_complete", self.competition.name_id)

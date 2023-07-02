@@ -3,6 +3,7 @@ from django_mysql.models import JSONField
 from .person import Person
 from app.defines.competitor import Status as CompetitorStatus, ReceptionStatus
 from app.defines.competition import Type as CompetitionType
+from app.defines.session import Notification
 
 
 class Competitor(models.Model):
@@ -10,12 +11,10 @@ class Competitor(models.Model):
     status = models.SmallIntegerField("状態", choices=CompetitorStatus.choices())
     event_ids = JSONField("申し込み種目ID")
     guest_count = models.SmallIntegerField("同伴者数")
-    actual_guest_count = models.SmallIntegerField("当日同伴者数", default=0)
-    visitor_count = models.SmallIntegerField("見学者数", default=0)
     comment = models.TextField("コメント")
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     reception_status = models.SmallIntegerField(
-        "受付状態", choices=ReceptionStatus.choices(), default=1
+        "受付状態", choices=ReceptionStatus.choices(), default=0
     )
     created_at = models.DateTimeField("作成日時", auto_now_add=True)
     updated_at = models.DateTimeField("更新日時", auto_now=True)
@@ -89,7 +88,6 @@ class Competitor(models.Model):
         self.status = status
         self.event_ids = event_ids
         self.guest_count = guest_count
-        self.actual_guest_count = guest_count
         self.comment = comment
         self.person = person
         self.save()
@@ -122,13 +120,13 @@ class Competitor(models.Model):
         self.status = status
         self.save(update_fields=["status", "updated_at"])
 
-    def update_actual_guest_count(self, actual_guest_count):
-        self.actual_guest_count = actual_guest_count
-        self.save(update_fields=["actual_guest_count", "updated_at"])
+    def update_guest_count(self, guest_count):
+        self.guest_count = guest_count
+        self.save(update_fields=["guest_count", "updated_at"])
 
-    def update_visitor_count(self, visitor_count):
-        self.visitor_count = visitor_count
-        self.save(update_fields=["visitor_count", "updated_at"])
+    def update_reception_status(self, reception_status):
+        self.reception_status = reception_status
+        self.save(update_fields=["reception_status", "updated_at"])
 
     def update_admin_competitor(
         self,
@@ -166,6 +164,26 @@ class Competitor(models.Model):
         )
         self.person.update_prefecture_id(prefecture_id)
         self.person.update_birth_at(birth_at, wca_birth_at)
+
+    def get_notification(self, competition):
+        if self.status == CompetitorStatus.CANCEL.value:
+            return Notification.COMPETITOR_CANCEL
+        elif self.status == CompetitorStatus.PENDING.value:
+            return Notification.COMPETITOR_PENGING
+        elif competition.use_reception and competition.is_open():
+            if self.reception_status == ReceptionStatus.ALL_RECEPTION.value:
+                return Notification.RECEPTION_FINISHED
+            elif self.reception_status == ReceptionStatus.SELF_RECEPTION.value:
+                if self.is_diffrence_event_and_price:
+                    return Notification.SELF_RECEPTION_DIFFERENCE_PRICE
+                else:
+                    return Notification.SELF_RECEPTION_FINISHED
+            elif self.reception_status == ReceptionStatus.NOT_YET_RECEPTION.value:
+                return Notification.NOT_YET_RECEPTION
+        elif self.status == CompetitorStatus.REGISTRATION.value:
+            return Notification.COMPETITOR_REGISTRATION
+        else:
+            return ""
 
     def __str__(self):
         return self.competition_id + " [" + self.person.get_full_name() + "]"

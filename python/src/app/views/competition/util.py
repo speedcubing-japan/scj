@@ -3,14 +3,14 @@ from django.conf import settings
 from django.core.mail import send_mass_mail as email_mass
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
-from app.models import Competition, Person, FeePerEvent, FeePerEventCount
+from app.models import Competition, Person, StripeProgress
 from app.defines.competition import Type as CompetitionType
 from app.defines.prefecture import Prefecture
 from app.defines.fee import PayType as FeePayType
 from app.defines.fee import CalcType as FeeCalcType
-from app.defines.fee import CalcTypeEn as FeeCalcTypeEn
 from app.defines.event import Event, Format
 from app.defines.competition import RoundType, RoundLimitType
+from .calc_fee import calc_fee
 
 
 def send_mail(request, user, competition, subject_path, message_path, **kwargs):
@@ -50,42 +50,6 @@ def send_mass_mail(request, users, competition, subject_path, message_path, **kw
         emails.append((subject, message, settings.EMAIL_HOST_USER, [user.email]))
 
     email_mass(emails)
-
-
-def calc_fee(competition, competitor):
-
-    fees = {}
-    prepaid_fees = {}
-    price = 0
-
-    if competition.fee_calc_type == FeeCalcTypeEn.EVENT.value:
-        results = FeePerEvent.objects.filter(competition_id=competition.id)
-        for result in results:
-            fees[result.event_id] = result.price
-            prepaid_fees[result.event_id] = result.prepaid_price
-
-        if competitor:
-            for result in results:
-                if result.event_id == 0:
-                    price += result.prepaid_price
-                if result.event_id in competitor.event_ids:
-                    price += result.prepaid_price
-
-    elif competition.fee_calc_type == FeeCalcTypeEn.EVENT_COUNT.value:
-        results = FeePerEventCount.objects.filter(competition_id=competition.id)
-        for result in results:
-            fees[result.event_count] = result.price
-            prepaid_fees[result.event_count] = result.prepaid_price
-
-        if competitor:
-            event_count = len(competitor.event_ids)
-            for result in results:
-                if result.event_count == 0:
-                    price += result.prepaid_price
-                if result.event_count == event_count:
-                    price += result.prepaid_price
-
-    return {"fees": fees, "prepaid_fees": prepaid_fees, "price": price}
 
 
 # 大会参加費が同じ値かチェックする。ただし0は基本料金なので一旦ないと見直して対応する。
@@ -210,3 +174,15 @@ def check_feeperevent(line, data, event_ids):
 
 def check_feepereventcount(line, data):
     return []
+
+
+def set_is_diffrence_event_and_price(competition, competitors):
+    stripe_progresses = StripeProgress.objects.filter(competition_id=competition.id)
+    for _, competitor in enumerate(competitors):
+        amount = calc_fee(competition, competitor)
+        stripe_progress = stripe_progresses.filter(competitor_id=competitor.id).first()
+        if stripe_progress is None:
+            return
+        competitor.set_stripe_progress(stripe_progress)
+        if amount["price"] != stripe_progress.pay_price:
+            competitor.set_is_diffrence_event_and_price()

@@ -1,16 +1,12 @@
 import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from app.models import Competitor, StripeProgress
+from app.models import Competitor
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.competition import Type as CompetitionType
 from app.views.competition.base import Base
+from app.views.competition.util import set_is_diffrence_event_and_price
 from app.defines.session import Notification
-from app.views.competition.util import calc_fee
-import qrcode
-import base64
-from io import BytesIO
-import hashlib
 
 
 class Index(LoginRequiredMixin, Base):
@@ -20,9 +16,7 @@ class Index(LoginRequiredMixin, Base):
         if not self.competition.is_superuser(request.user):
             return redirect("competition_index")
 
-        self.competitors = Competitor.objects.filter(
-            competition_id=self.competition.id
-        ).order_by("created_at")
+        self.competitors = self.competition.get_competitors()
 
         return render(request, self.get_template_name(), self.get_context(request))
 
@@ -35,9 +29,7 @@ class Index(LoginRequiredMixin, Base):
 
         type = request.POST.get("type")
 
-        self.competitors = Competitor.objects.filter(
-            competition_id=self.competition.id
-        ).order_by("created_at")
+        self.competitors = self.competition.get_competitors()
 
         registration_count = 0
         for competitor in self.competitors:
@@ -60,7 +52,7 @@ class Index(LoginRequiredMixin, Base):
 
         if registration_count > self.competition.limit:
             self.notification = Notification.COMPETITION_LIMIT
-            return render(request, self.get_template_name(), self.get_context())
+            return render(request, self.get_template_name(), self.get_context(request))
 
         is_updated = False
         users = []
@@ -119,18 +111,11 @@ class Index(LoginRequiredMixin, Base):
         registration_competitors = []
         cancel_competitors = []
 
-        stripe_progresses = StripeProgress.objects.filter(
-            competition_id=self.competition.id
-        )
+        # 支払額チェック
+        set_is_diffrence_event_and_price(self.competition, self.competitors)
+
         for number, competitor in enumerate(self.competitors):
             competitor.set_registration_number(number + 1)
-
-            amount = calc_fee(self.competition, competitor)
-            for stripe_progress in stripe_progresses:
-                if competitor.id == stripe_progress.competitor_id:
-                    competitor.set_stripe_progress(stripe_progress)
-                    if amount["price"] != stripe_progress.pay_price:
-                        competitor.set_is_diffrence_event_and_price()
 
             if competitor.person.id in series_competition_competitor_person_ids:
                 competitor.set_is_duplicated_series_competitions()
@@ -141,14 +126,9 @@ class Index(LoginRequiredMixin, Base):
                 registration_competitors.append(competitor)
             if competitor.status == CompetitorStatus.CANCEL.value:
                 cancel_competitors.append(competitor)
-        encoded = f"{str(self.competition.id) + self.competition.name_id}".encode()
-        competition_serial = hashlib.md5(encoded).hexdigest()
-        img = qrcode.make(
-            f"https://{request.get_host()}/competition/{self.competition.name_id}/reception/{competition_serial}"
-        )
-        buffer = BytesIO()
-        img.save(buffer, format="PNG")
-        qr = base64.b64encode(buffer.getvalue()).decode().replace("'", "")
+
+        reception_page_url = self.competition.get_reception_url(request.get_host())
+        qr = self.competition.get_qr_image(reception_page_url)
         context["pending_competitors"] = pending_competitors
         context["registration_competitors"] = registration_competitors
         context["cancel_competitors"] = cancel_competitors

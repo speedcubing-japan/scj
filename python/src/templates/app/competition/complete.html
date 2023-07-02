@@ -7,21 +7,21 @@
 
 {% block content %}
 {% include "app/common/competition_title.html" %}
-{% if competitor.reception_status == 1 %}
+{% if competitor.reception_status == 0 %}
 {% include "app/common/title.html" with title="参加受付失敗" %}
 {% else %}
 {% include "app/common/title.html" with title="参加受付完了" %}
 {% endif %}
 <div class="row mt-5">
   <div class="col-md">
-    {% if competitor.reception_status == 2 %}
+    {% if competitor.reception_status == 1 %}
       <div><i class="fas fa-check mr-2 text-success"></i>参加者受付が完了しました。</div>
       {% if competitor.is_diffrence_event_and_price %}
         <div>参加費と支払額に差があるため会場受付までお越しください。</div>
       {% else %}
         <div>同伴者受付のため、会場受付までお越しください。</div>
       {% endif %}
-    {% elif competitor.reception_status == 3 %}
+    {% elif competitor.reception_status == 2 %}
       <div><i class="fas fa-check mr-2 text-success"></i>参加者受付が完了しました。</div>
     {% else %}
       <div><i class="fas fa-exclamation mr-2 text-danger"></i>参加者受付が正常に完了しませんでした。</div>

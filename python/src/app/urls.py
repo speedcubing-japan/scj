@@ -73,7 +73,7 @@ from .views.competition.event import Event as CompetitionEvent
 from .views.competition.fee import Fee as CompetitionFee
 from .views.competition.cancel import Cancel as CompetitionCancel
 from .views.competition.reception import Reception as CompetitionReception
-from .views.competition.completion import Completion as CompetitionReceptionCompletion
+from .views.competition.complete import Complete as CompetitionReceptionComplete
 from .views.competition.admin.index import Index as CompetitionAdminIndex
 from .views.competition.admin.refund import Refund as CompetitionAdminRefund
 from .views.competition.admin.competitor import Competitor as CompetitionAdminCompetitor
@@ -85,9 +85,6 @@ from .views.competition.admin.publish import Publish as CompetitionAdminPublish
 from .views.competition.admin.reception import Reception as CompetitionAdminReception
 from .views.competition.admin.guest_reception import (
     GuestReception as CompetitionAdminGuestReception,
-)
-from .views.competition.admin.visitor_reception import (
-    VisitorReception as CompetitionAdminVisitorReception,
 )
 from .views.competition.admin.qrcode import (
     QRCode as CompetitionAdminQRCode,
@@ -244,9 +241,9 @@ urlpatterns = [
         name="competition_reception",
     ),
     path(
-        "competition/<str:name_id>/completion/",
-        CompetitionReceptionCompletion.as_view(),
-        name="competition_reception_completion",
+        "competition/<str:name_id>/complete/",
+        CompetitionReceptionComplete.as_view(),
+        name="competition_reception_complete",
     ),
     path(
         "competition/<str:name_id>/admin/",
@@ -297,11 +294,6 @@ urlpatterns = [
         "competition/<str:name_id>/admin/guest_reception/<int:competitor_id>/",
         CompetitionAdminGuestReception.as_view(),
         name="competition_admin_guest_reception",
-    ),
-    path(
-        "competition/<str:name_id>/admin/visitor_reception/",
-        CompetitionAdminVisitorReception.as_view(),
-        name="competition_admin_visitor_reception",
     ),
     path(
         "competition/<str:name_id>/admin/qrcode/",

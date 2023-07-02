@@ -12,7 +12,6 @@ from .base import Base
 
 
 class Competitor(Base):
-
     template_name = "app/competition/competitor.html"
     event_id_name = ""
 
@@ -35,9 +34,7 @@ class Competitor(Base):
                 competition_id=self.competition.id, event_ids__contains=event_id
             )
         else:
-            competitors = app.models.Competitor.objects.filter(
-                competition_id=self.competition.id
-            )
+            competitors = self.competition.get_competitors()
 
         if self.competition.is_display_pending_competitor:
             competitors = competitors.exclude(
@@ -251,9 +248,7 @@ class Competitor(Base):
         returners = []
         if self.competition.type == CompetitionType.SCJ.value:
             person_ids = []
-            competitors = app.models.Competitor.objects.filter(
-                competition_id=self.competition.id
-            )
+            competitors = self.competition.get_competitors()
             for competitor in competitors:
                 person_ids.append(competitor.person.id)
             # 大会経験者か確認するために全BestRank引く
