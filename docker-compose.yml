@@ -23,8 +23,8 @@ services:
     build: ./mysql
     container_name: scj_db_1
     restart: always
-    expose:
-      - "3306"
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       TZ: 'Asia/Tokyo'
@@ -42,6 +42,8 @@ services:
   python:
     build: ./python
     container_name: scj_python_1
+    ports:
+      - "8001:8001"
     command: uwsgi --socket :8001 --module scj.wsgi --wsgi-file code/scj/wsgi.py
     volumes:
       - ./python/src:/code
@@ -53,8 +55,6 @@ services:
         max-file: "3"
     sysctls:
       net.core.somaxconn: 40960
-    expose:
-      - "8001"
     depends_on:
       - db
 
