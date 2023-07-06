@@ -17,9 +17,6 @@ services:
 
   python:
     build: ./python
-    container_name: scj_python_1
-    ports:
-      - "8001:8001"
     command: uwsgi --ini /code/uwsgi.ini
     volumes:
       - ./python/uwsgi.ini:/code/uwsgi.ini
@@ -32,5 +29,7 @@ services:
         max-file: "3"
     sysctls:
       net.core.somaxconn: 40960
+    expose:
+      - "8001"
     depends_on:
       - db
