@@ -15,8 +15,29 @@ services:
       STAGE: 'production' # Don't use production until staging works
       # FORCE_RENEW: 'true'
 
+  nginx:
+    image: nginx:1.17
+    container_name: scj_nginx_1
+    expose:
+      - "8000"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - ./static:/static
+    depends_on:
+      - python
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   python:
     build: ./python
+    container_name: scj_python_1
+    expose:
+      - "8001"
     command: uwsgi --ini /code/uwsgi.ini
     volumes:
       - ./python/uwsgi.ini:/code/uwsgi.ini
@@ -29,7 +50,5 @@ services:
         max-file: "3"
     sysctls:
       net.core.somaxconn: 40960
-    expose:
-      - "8001"
     depends_on:
       - db
