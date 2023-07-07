@@ -72,6 +72,9 @@ class Competitor(LoginRequiredMixin, Base):
                 wca_birth_at = self.target_competitor.person.wca_birth_at
             else:
                 wca_birth_at = self.get_date(wca_birth_at, True)
+        elif self.is_scj_competition():
+            wca_name = self.target_competitor.person.wca_name
+            wca_birth_at = self.target_competitor.person.wca_birth_at
 
         birth_at = request.POST.get("birth_at", "")
         birth_at = self.get_date(birth_at, False)
