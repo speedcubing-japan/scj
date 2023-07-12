@@ -4,6 +4,7 @@
 {% load event_name %}
 {% load event_id_name %}
 {% load static %}
+{% load sum_attribute_param %}
 
 {% block content %}
 {% include "app/common/competition_title.html" %}
@@ -31,7 +32,7 @@
                   <th scope="col"><i class="fas fa-sort mr-2"></i>WCA ID</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ 氏名</th>
-                  <th scope="col"><i class="fas fa-sort mr-2"></i>同伴数</th>
+                  <th data-toggle="tooltip" data-placement="auto" title="{{ pending_competitors | sum_attribute_param:'guest_count' }}名" scope="col"><i class="fas fa-sort mr-2"></i>同伴数</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払額</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>申込日時</th>
                 </tr>
@@ -77,7 +78,7 @@
                   <th scope="col"><i class="fas fa-sort mr-2"></i>WCA ID</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ 氏名</th>
-                  <th scope="col"><i class="fas fa-sort mr-2"></i>同伴数</th>
+                  <th data-toggle="tooltip" data-placement="auto" title="{{ registration_competitors | sum_attribute_param:'guest_count' }}名" scope="col"><i class="fas fa-sort mr-2"></i>同伴数</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払額</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>申込日時</th>
                 </tr>
@@ -123,7 +124,7 @@
                   <th scope="col"><i class="fas fa-sort mr-2"></i>WCA ID</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>氏名</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ 氏名</th>
-                  <th scope="col"><i class="fas fa-sort mr-2"></i>同伴数</th>
+                  <th data-toggle="tooltip" data-placement="auto" title="{{ cancel_competitors | sum_attribute_param:'guest_count' }}名" scope="col"><i class="fas fa-sort mr-2"></i>同伴数</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>支払額</th>
                   <th scope="col"><i class="fas fa-sort mr-2"></i>申込日時</th>
                 </tr>
