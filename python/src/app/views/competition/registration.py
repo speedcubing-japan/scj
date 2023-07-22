@@ -197,12 +197,11 @@ class Registration(Base):
         return context
 
     def create_form(self):
-        if self.competition.guest_limit:
-            guests = []
-            for guest_count in range(self.competition.guest_limit + 1):
-                guests.append((int(guest_count), str(guest_count) + "人"))
-                self.form.fields["guest_count"].choices = guests
-        else:
+        guests = []
+        for guest_count in range(self.competition.guest_limit + 1):
+            guests.append((int(guest_count), str(guest_count) + "人"))
+            self.form.fields["guest_count"].choices = guests
+        if not self.competition.guest_limit:
             self.form.fields["guest_count"].widget = forms.HiddenInput()
 
         events = []
