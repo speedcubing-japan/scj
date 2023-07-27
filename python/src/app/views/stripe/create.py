@@ -11,7 +11,7 @@ from app.defines.competition import Type as CompetitionType
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.fee import PayTypeEn as FeePayType
 from app.models import Competition, Competitor, Person
-from app.views.competition.util import calc_fee
+from app.views.competition.calc_fee import calc_fee
 
 
 class Create(View):
@@ -48,7 +48,6 @@ class Create(View):
 
         competitor_id = 0
         if competition.fee_pay_type == FeePayType.REMOTE_ONLY.value:
-
             if Competitor.exist(self, datas["competition_id"], request.user.person.id):
                 return JsonResponse({"error": "参加申込み済みです。"})
 

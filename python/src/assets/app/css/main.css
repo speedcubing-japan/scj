@@ -133,3 +133,8 @@ table.table-bordered>tbody>tr>td {
 .bootstrap4-multi-input + .invalid-feedback {
     display: block;
 }
+
+.right-divider {
+    border-right: 1px solid rgba(0, 0, 0, .125);
+}
+

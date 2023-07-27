@@ -31,9 +31,7 @@ class WcaCsv(LoginRequiredMixin, View):
         if not competition.is_superuser(request.user):
             return redirect("competition_index")
 
-        competitors = Competitor.objects.filter(competition_id=competition.id).order_by(
-            "created_at"
-        )
+        competitors = competition.get_competitors()
 
         now = datetime.datetime.now(tz=datetime.timezone.utc)
         now_str = localtime(now).strftime("%Y%m%d%H%M%S")
@@ -75,7 +73,6 @@ class WcaCsv(LoginRequiredMixin, View):
         country = Country()
         for competitor in competitors:
             if request.POST.get("competitor_id_" + str(competitor.id)):
-
                 status = "null"
                 if competitor.status == CompetitorStatus.REGISTRATION.value:
                     status = "a"

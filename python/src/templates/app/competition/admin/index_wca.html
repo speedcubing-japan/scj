@@ -182,6 +182,9 @@
         {% endwith %}
         <button type="button" class="btn btn-info submit_change_action btn-sm" value="{% url 'competition_admin_csv' competition.name_id %}"><i class="fas fa-check fa-file-csv mr-2"></i>CSV</button>
         <button type="button" class="btn btn-warning competition_admin_email btn-sm" href="mailto:?bcc="><i class="fas fa-check fa-envelope mr-2"></i>メール送信</button>
+        {% if competition.use_reception %}
+        <button type="button" class="btn btn-secondary competition_admin_qrcode btn-sm" value="{% url 'competition_admin_qrcode' competition.name_id %}"><i class="fas fa-check fa-envelope mr-2"></i>QRコード</button>
+        {% endif %}
       </div>
     {% endif %}
   </div>

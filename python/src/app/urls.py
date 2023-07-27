@@ -72,6 +72,8 @@ from .views.competition.result import Result as CompetitionResult
 from .views.competition.event import Event as CompetitionEvent
 from .views.competition.fee import Fee as CompetitionFee
 from .views.competition.cancel import Cancel as CompetitionCancel
+from .views.competition.reception import Reception as CompetitionReception
+from .views.competition.complete import Complete as CompetitionReceptionComplete
 from .views.competition.admin.index import Index as CompetitionAdminIndex
 from .views.competition.admin.refund import Refund as CompetitionAdminRefund
 from .views.competition.admin.competitor import Competitor as CompetitionAdminCompetitor
@@ -80,6 +82,13 @@ from .views.competition.admin.wca_csv import WcaCsv as CompetitionAdminWcaCsv
 from .views.competition.admin.delete import Delete as CompetitionAdminDelete
 from .views.competition.admin.hidden import Hidden as CompetitionAdminHidden
 from .views.competition.admin.publish import Publish as CompetitionAdminPublish
+from .views.competition.admin.reception import Reception as CompetitionAdminReception
+from .views.competition.admin.guest_reception import (
+    GuestReception as CompetitionAdminGuestReception,
+)
+from .views.competition.admin.qrcode import (
+    QRCode as CompetitionAdminQRCode,
+)
 
 from .views.ranking.index import Index as RankingIndex
 
@@ -227,6 +236,16 @@ urlpatterns = [
         name="competition_cancel",
     ),
     path(
+        "competition/<str:name_id>/reception/<str:serial>/",
+        CompetitionReception.as_view(),
+        name="competition_reception",
+    ),
+    path(
+        "competition/<str:name_id>/complete/",
+        CompetitionReceptionComplete.as_view(),
+        name="competition_reception_complete",
+    ),
+    path(
         "competition/<str:name_id>/admin/",
         CompetitionAdminIndex.as_view(),
         name="competition_admin_index",
@@ -265,6 +284,21 @@ urlpatterns = [
         "competition/<str:name_id>/admin/publish/",
         CompetitionAdminPublish.as_view(),
         name="competition_admin_publish",
+    ),
+    path(
+        "competition/<str:name_id>/admin/reception/",
+        CompetitionAdminReception.as_view(),
+        name="competition_admin_reception",
+    ),
+    path(
+        "competition/<str:name_id>/admin/guest_reception/<int:competitor_id>/",
+        CompetitionAdminGuestReception.as_view(),
+        name="competition_admin_guest_reception",
+    ),
+    path(
+        "competition/<str:name_id>/admin/qrcode/",
+        CompetitionAdminQRCode.as_view(),
+        name="competition_admin_qrcode",
     ),
     path("ranking/", RankingIndex.as_view(), name="ranking_index"),
     path("admin/person", AdminPerson.as_view(), name="admin_person"),

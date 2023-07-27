@@ -8,7 +8,6 @@ from .base import Base
 
 
 class Result(Base):
-
     template_name = "app/competition/result.html"
 
     OUTLIERS = 99999999999
@@ -19,7 +18,7 @@ class Result(Base):
     def get_context(self):
         context = super().get_context()
 
-        competitors = Competitor.objects.filter(competition_id=self.competition.id)
+        competitors = self.competition.get_competitors()
         results = app.models.Result.objects.filter(competition_id=self.competition.id)
         rounds = Round.objects.filter(competition_id=self.competition.id)
 

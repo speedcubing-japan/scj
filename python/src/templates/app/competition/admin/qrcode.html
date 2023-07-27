@@ -1,0 +1,98 @@
+{% load i18n static %}
+
+<!DOCTYPE html>{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="author" content="一般社団法人スピードキュービングジャパン" />
+<meta name="description" content="SCJの目的は、スピードキュービングの健全な普及と発展です。" />
+<meta name="keywords" content="ルービックキューブ,スピードキュービング,大会,ランキング" />
+<meta name="googlebot" />
+<meta name="google" content="nopagereadaloud" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@scj_speedcubing" />
+<meta property="og:url" content="{{ request.build_absolute_uri }}" />
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'app/image/scj_logo_s.png' %}" />
+{% if title %}
+  <meta property="og:title" content="{{ title }}" />
+{% else %}
+  <meta property="og:title" content="一般社団法人スピードキュービングジャパン" />
+{% endif %}
+{% if is_noindex_nofollow %}
+  <meta name="robots" content="noindex, nofollow" />
+{% endif %}
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HSWMPP8V93"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HSWMPP8V93');
+</script>
+<script src="{% static 'app/js/jquery-3.5.1.min.js' %}"></script>
+<script src="{% static 'app/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'app/js/jquery.datatables.min.js' %}"></script>
+<script src="{% static 'app/js/datatables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'app/js/avantui.js' %}"></script>
+<script src="{% static 'app/js/dropify.min.js' %}"></script>
+<script src="https://kit.fontawesome.com/4e31109a85.js" crossorigin="anonymous"></script>
+<script src="https://www.google.com/recaptcha/api.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/js/jquery.tablesorter.min.js"></script>
+<script src="{% static 'app/js/main.js' %}"></script>
+{% if is_load_stripe_lib %}
+  <script src="https://js.stripe.com/v3/"></script>
+{% endif %}
+
+<link rel="shortcut icon" href="{% static 'app/image/favicon.ico' %}" type="image/vnd.microsoft.icon">
+<link rel="icon" href="{% static 'app/image/favicon.ico' %}" type="image/vnd.microsoft.icon">
+<link rel="apple-touch-icon" sizes="180x180" href="{% static 'app/image/scj_logo_s.png' %}">
+<link rel="stylesheet" href="{% static 'app/css/bootstrap.min.css' %}">
+
+
+{% load bootstrap4 %}
+{% load static %}
+
+<div class="container p-5 page" style="width: 100vw; height: 100vh;">
+  <div class="row noprint justify-content-center">
+    <div class="col-md-auto" style="text-align: center;">
+      <button type="button" class="btn btn-primary" onclick="window.print()">印刷</button>
+    </div>
+    <div class="col-md-auto" style="text-align: center;">
+      <a href="{% url 'competition_admin_index' competition.name_id %}"><button type="button" class="btn btn btn-outline-secondary">戻る</button></a>
+    </div>
+  </div>
+
+  <hr class="noprint mb-5">
+
+  <div class="row mb-5">
+    <div class="col-md" style="text-align: center;">
+      <div style="font-size: 3.5rem;">{{ competition.name }}</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md" style="text-align: center;">
+      <div style="font-size: 3rem;">受付QR</div>
+    </div>
+  </div>
+  <div class="row" style="margin: 150px 0px;">
+    <div class="offset-md-2 col-md-8" style="text-align: center;">
+      <img src="data:image/png;base64,{{ qr }}" style="object-fit: contain;" width="100%"/>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col-md" style="text-align: center;">
+      <div style="font-size: 1.5rem;">{{ competition.organizer_name }}<span class="ml-3">{{ date }}</span></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @media print{
+	.noprint {
+		display: none;
+	}
+}
+</style>

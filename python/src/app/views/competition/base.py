@@ -1,13 +1,13 @@
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 from app.views.competition.util import send_mail, send_mass_mail
-from app.models import Competition, Competitor, Result
+from app.models import Competition, Competitor, Result, StripeProgress
 from app.defines.competitor import Status as CompetitorStatus
 from app.defines.competition import Type as CompetitionType
+from app.views.competition.calc_fee import calc_fee
 
 
 class Base(TemplateView):
-
     request = None
     user = None
     name_id = ""
@@ -35,6 +35,8 @@ class Base(TemplateView):
             return redirect("competition_index")
 
         self.set_competitor()
+        if self.competitor:
+            self.set_is_diffrence_event_and_price()
         self.set_has_results()
         self.set_pending_competitor_count()
         self.set_notification()
@@ -76,6 +78,17 @@ class Base(TemplateView):
             self.competitor = Competitor.get_competitor(
                 self, self.competition.id, self.user.person.id
             )
+
+    def set_is_diffrence_event_and_price(self):
+        stripe_progress = StripeProgress.objects.filter(
+            competition_id=self.competition.id, competitor_id=self.competitor.id
+        ).first()
+        if stripe_progress is None:
+            return
+        amount = calc_fee(self.competition, self.competitor)
+        self.competitor.set_stripe_progress(stripe_progress)
+        if amount["price"] != stripe_progress.pay_price:
+            self.competitor.set_is_diffrence_event_and_price()
 
     def set_has_results(self):
         self.has_results = Result.objects.filter(
