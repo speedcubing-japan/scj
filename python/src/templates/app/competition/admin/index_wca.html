@@ -49,7 +49,7 @@
                       <a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>
                       {% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}
                       {% if competitor.is_duplicated_series_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}
-                      {% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}
+                      {% if competitor.is_mismatched_payment %}<i class="fas fa-money-check ml-1"></i>{% endif %}
                       {% if not competitor.person.wca_birth_at %}<i class="fas fa-birthday-cake ml-1"></i>{% endif %}
                     </td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>
@@ -95,12 +95,12 @@
                       <a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>
                       {% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}
                       {% if competitor.is_duplicated_series_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}
-                      {% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}
+                      {% if competitor.is_mismatched_payment %}<i class="fas fa-money-check ml-1"></i>{% endif %}
                       {% if not competitor.person.wca_birth_at %}<i class="fas fa-birthday-cake ml-1"></i>{% endif %}
                     </td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>
                     <td>{{ competitor.guest_count }}</td>
-                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% endif %}</td>
+                    <td>{% if competitor.stripe_progress %}{{ competitor.stripe_progress.pay_price }}円{% if competitor.stripe_progress.refund_price > 0 %}&nbsp;<i class="fas fa-undo fa-fw"></i>{{ competitor.stripe_progress.refund_price }}円{% endif %}{% endif %}</td>
                     <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
                   </tr>
                 {% endfor %}
@@ -141,7 +141,7 @@
                       <a href="mailto:{{ competitor.person.wca_email }}">{{ competitor.person.wca_name }}</a>
                       {% if competitor.comment %}<i class="far fa-comment"></i>{% endif %}
                       {% if competitor.is_duplicated_series_competitions %}<i class="fas fa-bomb ml-1"></i>{% endif %}
-                      {% if competitor.is_diffrence_event_and_price %}<i class="fas fa-money-check ml-1"></i>{% endif %}
+                      {% if competitor.is_mismatched_payment %}<i class="fas fa-money-check ml-1"></i>{% endif %}
                       {% if not competitor.person.wca_birth_at %}<i class="fas fa-birthday-cake ml-1"></i>{% endif %}
                     </td>
                     <td><a href="mailto:{{ competitor.person.user.email }}">{{ competitor.person.get_full_name }}</a>

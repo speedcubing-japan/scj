@@ -12,17 +12,17 @@
     {% include "app/common/notification.html" %}
     <form action="" method="POST">
       {% csrf_token %}
-      {% if competitors %}
+      {% if non_registration_competitiors %}
         <div class="card mb-3">
-          <div class="card-header bg-danger text-white lead">
-            返金
+          <div class="card-header bg-warning text-white lead">
+            未参加返金
           </div>
           <div class="text-nowrap table-responsive">
             <table class="table table-striped small">
                 <thead>
                   <tr>
                     <th scope="col"></th>
-                    <th scope="col"></i>返金額</th>
+                    <th scope="col"></i>返金額 / 支払額</th>
                     {% if competition.type == competition_type.WCA.value %}
                       <th scope="col"></i>WCA ID</th>
                     {% elif competition.type == competition_type.SCJ.value %}
@@ -34,7 +34,7 @@
                   </tr>
               </thead>
               <tbody>
-                {% for competitor in competitors %}
+                {% for competitor in non_registration_competitiors %}
                   <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}" class="competition_admin_refund_competitor">
                     <td><input type="checkbox" name="competitor_id_{{ competitor.id }}" class="competition_admin_refund_checkbox"></td>
                     <td><input type="number" name="competitor_refund_{{ competitor.id }}" class="competition_admin_refund_price" value="{{ competitor.stripe_progress.pay_price }}">&nbsp;/&nbsp;{{ competitor.stripe_progress.pay_price }}円</td>
@@ -56,6 +56,53 @@
             </table>
           </div>
         </div>
+      {% endif %}
+      {% if over_payment_competitiors %}
+        <div class="card mb-3">
+          <div class="card-header bg-danger text-white lead">
+            過払い返金
+          </div>
+          <div class="text-nowrap table-responsive">
+            <table class="table table-striped small">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></i>返金額 / 支払額</th>
+                    {% if competition.type == competition_type.WCA.value %}
+                      <th scope="col"></i>WCA ID</th>
+                    {% elif competition.type == competition_type.SCJ.value %}
+                      <th scope="col"></i>SCJ ID</th>
+                    {% endif %}
+                    <th scope="col">氏名</th>
+                    <th scope="col">支払日時</th>
+                    <th scope="col">申込日時</th>
+                  </tr>
+              </thead>
+              <tbody>
+                {% for competitor in over_payment_competitiors %}
+                  <tr data-toggle="tooltip" data-placement="bottom" title="{{ competitor.comment }}" class="competition_admin_refund_competitor">
+                    <td><input type="checkbox" name="competitor_id_{{ competitor.id }}" class="competition_admin_refund_checkbox"></td>
+                    <td><input type="number" name="competitor_refund_{{ competitor.id }}" class="competition_admin_refund_price" value="{{ competitor.is_over_payment_price }}">&nbsp;/&nbsp;{{ competitor.stripe_progress.pay_price }}円</td>
+                    {% if competition.type == competition_type.WCA.value %}
+                      <td class="competition_admin_refund_specific_id" data-value="{{ competitor.person.wca_id }}"><a href="https://www.worldcubeassociation.org/persons/{{ competitor.person.wca_id }}" target="_blank">{{ competitor.person.wca_id }}</a></td>
+                    {% elif competition.type == competition_type.SCJ.value %}
+                      <td class="competition_admin_refund_specific_id" data-value="{{ competitor.person.id }}" >{{ competitor.person.id }}</td>
+                    {% endif %}
+                    {% if competition.type == competition_type.WCA.value %}
+                      <td><span class="flag-icon flag-icon-{{ competitor.person.wca_country_iso2 | lower }} mr-2"></span><a href="mailto:{{ competitor.person.wca_email }}" class="competition_admin_refund_name" data-value="{{ competitor.person.wca_name }}">{{ competitor.person.wca_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                    {% elif competition.type == competition_type.SCJ.value %}
+                      <td><a href="mailto:{{ competitor.person.email }}" class="competition_admin_refund_name" data-value="{{ competitor.person.get_full_name }}">{{ competitor.person.get_full_name }}</a>{% if competitor.comment %}<i class="far fa-comment ml-1"></i>{% endif %}</td>
+                    {% endif %}
+                    <td>{{ competitor.stripe_progress.pay_at | date:"Y年m月d日 H:i:s" }}</td>
+                    <td>{{ competitor.created_at | date:"Y年m月d日 H:i:s" }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% endif %}
+      {% if non_registration_competitiors or over_payment_competitiors %}
         <div class="alert alert-light" role="alert">
           <div>返金は<strong>申込締切後</strong>より可能です。</div>
           <div>チェックを入れた参加者の支払いを返金できます。返金額に金額を設定した場合、一部返金が可能です。</div>
@@ -63,7 +110,7 @@
         </div>
       {% endif %}
       <input type="hidden" name="name_id" value="{{ competition.name_id }}">
-      {% if competitors %}
+      {% if non_registration_competitiors or over_payment_competitiors %}
       <div class="float-right">
         <button type="button" class="mt-2 btn btn-danger competition_admin_refund_confirm" data-toggle="modal" data-target="#refund"><i class="fas fa-undo-alt fa-fw mr-2"></i>返金</button>
       </div>

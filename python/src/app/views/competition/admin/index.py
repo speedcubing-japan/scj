@@ -127,7 +127,7 @@ class Index(LoginRequiredMixin, Base):
                 if competitor.id == stripe_progress.competitor_id:
                     competitor.set_stripe_progress(stripe_progress)
                     if amount["price"] != stripe_progress.pay_price:
-                        competitor.set_is_diffrence_event_and_price()
+                        competitor.set_is_mismatched_payment()
 
             if competitor.person.id in series_competition_competitor_person_ids:
                 competitor.set_is_duplicated_series_competitions()

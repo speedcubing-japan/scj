@@ -19,7 +19,10 @@ class Competitor(models.Model):
     registration_number = 0
     stripe_progress = None
     is_duplicated_series_competitions = False
-    is_diffrence_event_and_price = False
+    # 種目数と課金額が異なる状態
+    is_mismatched_payment = False
+    # 種目数より多く課金している場合の差額
+    is_over_payment_price = 0
 
     class Meta:
         indexes = [
@@ -68,8 +71,11 @@ class Competitor(models.Model):
     def set_is_duplicated_series_competitions(self):
         self.is_duplicated_series_competitions = True
 
-    def set_is_diffrence_event_and_price(self):
-        self.is_diffrence_event_and_price = True
+    def set_is_mismatched_payment(self):
+        self.is_mismatched_payment = True
+
+    def set_is_over_payment_price(self, price):
+        self.is_over_payment_price = price
 
     def init(self, competition_id, status, event_ids, guest_count, comment, person):
         self.competition_id = competition_id
