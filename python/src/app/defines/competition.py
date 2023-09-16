@@ -16,7 +16,7 @@ class Type(Define):
 class RoundType(Define):
     一回戦 = (1, _("一回戦"))
     二回戦 = (2, _("二回戦"))
-    三回戦 = (3, _("三回戦"))
+    準決勝 = (3, _("準決勝"))
     決勝 = (4, _("決勝"))
 
     @classmethod
