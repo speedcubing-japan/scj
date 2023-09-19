@@ -68,17 +68,7 @@ class Complete(LoginRequiredMixin, View):
                 )
 
                 request.session["notification"] = Notification.POST_OFFER
-            elif request.user.is_superuser:
-                information = Information(
-                    type=type,
-                    title=form.cleaned_data["title"],
-                    text=text,
-                    person=request.user.person,
-                    is_public=form.cleaned_data["is_public"],
-                )
-                information.save()
-                request.session["notification"] = Notification.POST
-            elif request.user.is_staff:
+            elif request.user.is_staff or request.user.is_superuser:
                 information = Information(
                     type=type,
                     title=form.cleaned_data["title"],
