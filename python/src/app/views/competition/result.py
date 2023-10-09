@@ -5,6 +5,7 @@ from app.defines.event import Event, WinFormat
 from app.defines.competition import RoundType
 from app.views.util.record import format_values
 from .base import Base
+import pprint
 
 
 class Result(Base):
@@ -29,6 +30,10 @@ class Result(Base):
             results_by_event_id_dict.setdefault(result.event_id, []).append(result)
 
         for event_id in self.competition.event_ids:
+
+            if event_id not in results_by_event_id_dict:
+                continue
+
             if Event.get_win_format(event_id) == WinFormat.AVERAGE:
                 sorted_event_results = sorted(
                     results_by_event_id_dict[event_id],
@@ -55,34 +60,45 @@ class Result(Base):
                     order_dict[result.event_id] = {}
                     ordered_dict[result.event_id] = {}
 
-                item = (result.average, result.best)
-                if item in order_dict[result.event_id]:
-                    order = order_dict[result.event_id][item]
-                else:
-                    order = len(order_dict[result.event_id])
-                    order_dict[result.event_id][item] = order
+                if result.round_type not in order_dict[result.event_id]:
+                    order_dict[result.event_id][result.round_type] = {}
+                    ordered_dict[result.event_id][result.round_type] = {}
 
-                ordered_dict[result.event_id][item] = order
+                item = (result.average, result.best)
+                if item in order_dict[result.event_id][result.round_type]:
+                    order = order_dict[result.event_id][result.round_type][item]
+                else:
+                    order = len(order_dict[result.event_id][result.round_type])
+                    order_dict[result.event_id][result.round_type][item] = order
+
+                ordered_dict[result.event_id][result.round_type][item] = order
+
+                for round in rounds:
+                    if (
+                        round.event_id == result.event_id
+                        and round.type == result.round_type
+                    ):
+                        round.set_is_hold(True)
 
             for result in sorted_event_results:
                 item = (result.average, result.best)
-                result.rank = ordered_dict[result.event_id][item] + 1
+                result.rank = ordered_dict[result.event_id][result.round_type][item] + 1
 
             sorted_results.extend(sorted_event_results)
 
         rounds = sorted(rounds, key=lambda x: x.type, reverse=True)
 
-        competition_rounds = {}
-        for round in rounds:
-            if round.event_id in competition_rounds:
-                competition_rounds[round.event_id].append(round.get_type_display())
-            else:
-                competition_rounds[round.event_id] = [round.get_type_display()]
-
         events = list(
             {"event_id": k, "event_name": v}
             for k, v in Event.get_events(self.competition.event_ids).items()
         )
+
+        competition_rounds = {}
+        for round in rounds:
+            if round.event_id in competition_rounds:
+                competition_rounds[round.event_id].append(round)
+            else:
+                competition_rounds[round.event_id] = [round]
 
         competitor_names = {}
         for competitor in competitors:
@@ -101,8 +117,8 @@ class Result(Base):
         context["competitor_names"] = competitor_names
         context["competitor_wca_names"] = competitor_wca_names
         context["competitor_prefectures"] = competitor_prefectures
+        context["competition_rounds"] = competition_rounds
         context["events"] = events
-        context["rounds"] = competition_rounds
         context["results"] = sorted_results
         context["best_only_event_ids"] = Event.get_best_only_values()
 

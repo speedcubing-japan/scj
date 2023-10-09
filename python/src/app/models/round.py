@@ -28,3 +28,11 @@ class Round(models.Model):
     room_name = models.CharField("会場名", max_length=64, default="")
     begin_at = models.DateTimeField("開始時刻", default=timezone.now)
     end_at = models.DateTimeField("終了時刻", default=timezone.now)
+
+    is_hold = False
+
+    def is_hold(self):
+        return self.is_hold
+
+    def set_is_hold(self, is_hold):
+        self.is_hold = is_hold

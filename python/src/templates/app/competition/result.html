@@ -13,54 +13,60 @@
   </div>
   <div class="col-lg-10 mb-3">
     {% for event in events %}
-      {% for event_id, round_names in rounds.items %}
+      {% for event_id, rounds in competition_rounds.items %}
         {% if event_id == event.event_id %}
-          {% for round_name in round_names %}
+          {% for round in rounds %}
             <div class="card mb-3">
               <div class="card-header lead">
-                <span class="cubing-icon event-{{ event_id | event_id_name }} mr-2 md-2 h5"></span>{{ event.event_name }}&nbsp;{{ round_name }}
+                <span class="cubing-icon event-{{ event_id | event_id_name }} mr-2 md-2 h5"></span>{{ event.event_name }}&nbsp;{{ round.get_type_display }}
               </div>
               <div class="text-nowrap table-responsive">
-                <table class="table table-hover table-striped table-sm">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">氏名</th>
-                      {% if competition.type == competition_type.SCJ.value %}
-                        <th scope="col">都道府県</th>
-                      {% endif %}
-                      <th scope="col">ベスト</th>
-                      {% if not event_id in best_only_event_ids %}
-                        <th scope="col">平均</th>
-                        <th scope="col" colspan="5" style="width:25%;">内訳</th>
-                      {% endif %}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for result in results %}
-                      {% if result.event_id == event.event_id and result.round_name == round_name %}
-                        <tr>
-                          <th scope="row">{{ result.rank }}</th>
-                          {% if competition.type == competition_type.SCJ.value %}
-                            <td>{{ competitor_names | key:result.person_id }}</td>
-                          {% elif competition.type == competition_type.WCA.value %}
-                            <td>{{ competitor_wca_names | key:result.person_id }}</td>
-                          {% endif %}
-                          {% if competition.type == competition_type.SCJ.value %}
-                            <td>{{ competitor_prefectures | key:result.person_id }}</td>
-                          {% endif %}
-                            <td>{{ result.best | result_convert:result.event_id }}</td>
-                          {% if not event_id in best_only_event_ids %}
-                            <td>{{ result.average | result_convert:result.event_id }}</td>
-                            {% for value in result.format_values %}
-                              <td>{{ value }}</td>
-                            {% endfor %}
-                          {% endif %}
-                        </tr>
-                      {% endif %}
-                    {% endfor%}
-                  </tbody>
-                </table>
+                {% if round.is_hold == True %}
+                  <table class="table table-hover table-striped table-sm">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">氏名</th>
+                        {% if competition.type == competition_type.SCJ.value %}
+                          <th scope="col">都道府県</th>
+                        {% endif %}
+                        <th scope="col">ベスト</th>
+                        {% if not event_id in best_only_event_ids %}
+                          <th scope="col">平均</th>
+                          <th scope="col" colspan="5" style="width:25%;">内訳</th>
+                        {% endif %}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for result in results %}
+                        {% if result.event_id == event.event_id and result.round_type == round.type %}
+                          <tr>
+                            <th scope="row">{{ result.rank }}</th>
+                            {% if competition.type == competition_type.SCJ.value %}
+                              <td>{{ competitor_names | key:result.person_id }}</td>
+                            {% elif competition.type == competition_type.WCA.value %}
+                              <td>{{ competitor_wca_names | key:result.person_id }}</td>
+                            {% endif %}
+                            {% if competition.type == competition_type.SCJ.value %}
+                              <td>{{ competitor_prefectures | key:result.person_id }}</td>
+                            {% endif %}
+                              <td>{{ result.best | result_convert:result.event_id }}</td>
+                            {% if not event_id in best_only_event_ids %}
+                              <td>{{ result.average | result_convert:result.event_id }}</td>
+                              {% for value in result.format_values %}
+                                <td>{{ value }}</td>
+                              {% endfor %}
+                            {% endif %}
+                          </tr>
+                        {% endif %}
+                      {% endfor%}
+                    </tbody>
+                  </table>
+                {% else %}
+                  <table class="table">
+                    <tr><td><span class="ml-2">開催されていません。</span></td></tr>
+                  </table>
+                {% endif %}
               </div>
             </div>
           {% endfor %}
