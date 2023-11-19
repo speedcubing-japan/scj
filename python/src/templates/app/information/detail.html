@@ -14,7 +14,7 @@
     </div>
   </div>
   <div class="card-footer small text-right">
-    {{ information.updated_at | date:"Y年m月d日" }}&nbsp;投稿者:&nbsp{{ information.person.get_full_name }}
+    作成日時:&nbsp;{{ information.created_at | date:"Y年m月d日" }}&nbsp;更新日時:&nbsp;{{ information.updated_at | date:"Y年m月d日" }}&nbsp;投稿者:&nbsp{{ information.person.get_full_name }}
   </div>
 </div>
 {% endblock content %}
