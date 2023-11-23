@@ -53,19 +53,21 @@
         </div>
       </div>
     {% endif %}
-    <div class="card mb-3">
-      <div class="card-header lead">
-        {% trans "スケジュール" %}
+    {% if event_round_count_dict %}
+      <div class="card mb-3">
+        <div class="card-header lead">
+          {% trans "スケジュール" %}
+        </div>
+        <div class="row card-body ml-3 mb-3">
+          {% for event_id, round_count in event_round_count_dict.items %}
+            <div class="col-lg-3 col-md-5 col-xs-6">
+              <input class="pt-3 competition_schedule_event" type="checkbox" value="{{ event_id }}">
+              <span class="cubing-icon event-{{ event_id | event_id_name }} h1"></span>&nbsp;{{ round_count}}&nbsp;{% trans "ラウンド" %}
+            </div>
+          {% endfor %}
+        </div>
       </div>
-      <div class="row card-body ml-3 mb-3">
-        {% for event_id, round_count in event_round_count_dict.items %}
-          <div class="col-lg-3 col-md-5 col-xs-6">
-            <input class="pt-3 competition_schedule_event" type="checkbox" value="{{ event_id }}">
-            <span class="cubing-icon event-{{ event_id | event_id_name }} h1"></span>&nbsp;{{ round_count}}&nbsp;{% trans "ラウンド" %}
-          </div>
-        {% endfor %}
-      </div>
-    </div>
+    {% endif %}
     {% for date, room in round_dict.items %}
       <div class="card mb-3">
         <div class="card-header lead">
