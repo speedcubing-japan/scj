@@ -90,6 +90,9 @@ def calc_fee(competition, competitor):
 
 # 大会参加費が同じ値かチェックする。ただし0は基本料金なので一旦ないと見直して対応する。
 def check_same_fee_and_get_value(dict):
+    if not dict:
+        return 0
+
     values = list(dict.values())
     if all(value == values[1] for value in values[1:]):
         return values[1]
