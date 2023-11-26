@@ -113,31 +113,33 @@
             {% endfor %}
           </div>
         </li>
-        <li class="list-group-item">
-          <h6>{% trans "定員" %}</h6>
-          {% if not competition.event_limits %}
-            <div>{{ competition.limit }}</div>
-          {% else %}
-            <div class="text-nowrap table-responsive">
-              <table id="competitor" class="table table-hover table-bordered table-sm">
-                <thead>
-                  <tr>
-                    <th>{% trans "種目" %}</th>
-                    <th>{% trans "定員" %}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for event_id in competition.event_ids %}
+        {% if not competition.is_registration_at_other %}
+          <li class="list-group-item">
+            <h6>{% trans "定員" %}</h6>
+            {% if not competition.event_limits %}
+              <div>{{ competition.limit }}</div>
+            {% else %}
+              <div class="text-nowrap table-responsive">
+                <table id="competitor" class="table table-hover table-bordered table-sm">
+                  <thead>
                     <tr>
-                      <td><span class="cubing-icon event-{{ event_id | event_id_name }} mr-2 md-2 h5"></span>{{ event_id | event_name }}</td>
-                      <td>{{ competition.event_limits | index:forloop.counter0 }}</td>
-                    <tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          {% endif %}
-        </li>
+                      <th>{% trans "種目" %}</th>
+                      <th>{% trans "定員" %}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for event_id in competition.event_ids %}
+                      <tr>
+                        <td><span class="cubing-icon event-{{ event_id | event_id_name }} mr-2 md-2 h5"></span>{{ event_id | event_name }}</td>
+                        <td>{{ competition.event_limits | index:forloop.counter0 }}</td>
+                      <tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% endif %}
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>
