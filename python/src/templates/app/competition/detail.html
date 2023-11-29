@@ -58,7 +58,13 @@
             {% endif %}
             <a href="https://www.worldcubeassociation.org/competitions/{{ competition.name_id }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
           {% elif competition.type == competition_type.SCJ.value %}
-            {% trans "SCJ大会" %}
+            {% if not competition.is_registration_at_other %}
+              {% trans "SCJ大会" %}
+            {% else %}
+              <span class="mr-1">{% trans "SCJ大会" %}</span>
+              <a href="{{ competition.registration_url }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+              <div>詳細は「詳細外部サイト」をご覧ください。</div>
+            {% endif %}
           {% endif %}
         </li>
         {% if series_competitions %}
