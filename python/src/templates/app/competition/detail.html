@@ -63,7 +63,7 @@
             {% else %}
               <span class="mr-1">{% trans "SCJ大会" %}</span>
               <a href="{{ competition.registration_url }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
-              <div>詳細は「詳細外部サイト」をご覧ください。</div>
+              <div>詳細は「<a href="{{ competition.registration_url }}" target="_blank">詳細外部サイト</a>」をご覧ください。</div>
             {% endif %}
           {% endif %}
         </li>
