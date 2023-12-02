@@ -96,7 +96,7 @@ class Detail(Base):
 
         # 部屋を取得
         rounds = Round.objects.filter(competition_id=self.competition.id)
-        room_names = set(map(lambda x: x.room_name, rounds))
+        room_names = set(sorted(list(map(lambda x: x.room_name, rounds))))
         room_name = " ".join(room_names)
 
         # google calendar date params
