@@ -2,7 +2,6 @@ from django.utils.timezone import localtime
 from django.shortcuts import render
 from app.models import Round
 from .base import Base
-from pprint import pprint
 
 
 class Event(Base):
