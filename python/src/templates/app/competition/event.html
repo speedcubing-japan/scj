@@ -68,76 +68,75 @@
         </div>
       </div>
     {% endif %}
-    {% for date, room in round_dict.items %}
+    {% for date, rounds in round_dict.items %}
       <div class="card mb-3">
         <div class="card-header lead">
           {{ date }}
         </div>
         <div class="card-body">
-          {% for room_name, rounds in room.items %}
-            <h5>{{ room_name }}</h5>
-            <div class="text-nowrap table-responsive">
-              <table class="table table-hover table-bordered competition-schedule">
-                  <thead>
-                    <tr class="bg-dark text-white">
-                      <th scope="col">{% trans "開始" %}</th>
-                      <th scope="col">{% trans "終了" %}</th>
-                      <th scope="col">{% trans "種目" %}</th>
-                      <th scope="col">{% trans "ラウンド" %}</th>
-                      <th scope="col">{% trans "形式" %}</th>
-                      <th scope="col">{% trans "カットオフ" %}</th>
-                      <th scope="col">{% trans "制限時間" %}</th>
-                      <th scope="col">{% trans "進出人数" %}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for round in rounds %}
-                      <tr round_type="{{ round.type }}" id="{{ round.event_id }}_round">
-                        <td>{{ round.begin_at | date:"H:i" }}</td>
-                        <td>{{ round.end_at | date:"H:i" }}</td>
-                        <td>
-                          {% if round.event_id == 0 %}
-                            {{ round.event_name }}
-                          {% else %}
-                            <span class="cubing-icon event-{{ round.event_id | event_id_name }} mr-2 md-2 h5"></span>{{ round.event_id | event_name }}
-                          {% endif %}
-                        </td>
-                        <td>{% if round.type > 0 %}{{ round.get_type_display }}{% endif %}</td>
-                        <td>{% if round.cutoff_attempt_count > 0 %}Best of {{ round.cutoff_attempt_count }}&nbsp;/&nbsp;{% endif %}{% if round.format_id > 0 %}{{ round.get_format_id_display }}{% endif %}{% if round.attempt_count > 0 %}&nbsp;({{ round.attempt_count }}{% trans "試技目" %}){% endif %}</td>
-                        <td>{% if round.cutoff_time > 0 %}{{ round.cutoff_time | time_convert }}{% endif %}</td>
-                        <td>
-                          {% if round.limit_time > 0 %}
-                            {% if round.limit_type == round_limit_type.CUMULATIVE.value %}{% trans "累積" %}&nbsp;{% endif %}{{ round.limit_time | time_convert }}
-                            {% if round.limit_event_ids %}
-                              (
-                                {% if request.LANGUAGE_CODE == 'en' %}
-                                  Cumulative of
-                                  {% for limit_event_id in round.limit_event_ids %}
-                                    {{ limit_event_id | event_name }}
-                                  {% endfor %}
-                                {% else %}
-                                  {% for limit_event_id in round.limit_event_ids %}
-                                    {{ limit_event_id | event_name }}
-                                  {% endfor %}
-                                  の累積
-                                {% endif %}
-                              )
+          <div class="text-nowrap table-responsive">
+            <table class="table table-hover table-bordered competition-schedule">
+              <thead>
+                <tr class="bg-dark text-white">
+                  <th scope="col">{% trans "開始" %}</th>
+                  <th scope="col">{% trans "終了" %}</th>
+                  <th scope="col">{% trans "会場名" %}</th>
+                  <th scope="col">{% trans "種目" %}</th>
+                  <th scope="col">{% trans "ラウンド" %}</th>
+                  <th scope="col">{% trans "形式" %}</th>
+                  <th scope="col">{% trans "カットオフ" %}</th>
+                  <th scope="col">{% trans "制限時間" %}</th>
+                  <th scope="col">{% trans "進出人数" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for round in rounds %}
+                  <tr round_type="{{ round.type }}" id="{{ round.event_id }}_round">
+                    <td>{{ round.begin_at | date:"H:i" }}</td>
+                    <td>{{ round.end_at | date:"H:i" }}</td>
+                    <td>{{ round.room_name }}</td>
+                    <td>
+                      {% if round.event_id == 0 %}
+                        {{ round.event_name }}
+                      {% else %}
+                        <span class="cubing-icon event-{{ round.event_id | event_id_name }} mr-2 md-2 h5"></span>{{ round.event_id | event_name }}
+                      {% endif %}
+                    </td>
+                    <td>{% if round.type > 0 %}{{ round.get_type_display }}{% endif %}</td>
+                    <td>{% if round.cutoff_attempt_count > 0 %}Best of {{ round.cutoff_attempt_count }}&nbsp;/&nbsp;{% endif %}{% if round.format_id > 0 %}{{ round.get_format_id_display }}{% endif %}{% if round.attempt_count > 0 %}&nbsp;({{ round.attempt_count }}{% trans "試技目" %}){% endif %}</td>
+                    <td>{% if round.cutoff_time > 0 %}{{ round.cutoff_time | time_convert }}{% endif %}</td>
+                    <td>
+                      {% if round.limit_time > 0 %}
+                        {% if round.limit_type == round_limit_type.CUMULATIVE.value %}{% trans "累積" %}&nbsp;{% endif %}{{ round.limit_time | time_convert }}
+                        {% if round.limit_event_ids %}
+                          (
+                            {% if request.LANGUAGE_CODE == 'en' %}
+                              Cumulative of
+                              {% for limit_event_id in round.limit_event_ids %}
+                                {{ limit_event_id | event_name }}
+                              {% endfor %}
+                            {% else %}
+                              {% for limit_event_id in round.limit_event_ids %}
+                                {{ limit_event_id | event_name }}
+                              {% endfor %}
+                              の累積
                             {% endif %}
-                          {% endif %}
-                        </td>
-                        <td>
-                          {% if round.proceed_type == proceed_type.COUNT.value %}
-                            {% if round.proceed_count > 0 %}{% blocktrans with proceed_count=round.proceed_count %}{{ proceed_count }}人{% endblocktrans %}{% endif %}
-                          {% elif round.proceed_type == proceed_type.RATE.value %}
-                            {% if round.proceed_rate > 0 %}{% blocktrans with proceed_rate=round.proceed_rate %}{{ proceed_rate }}%{% endblocktrans %}{% endif %}
-                          {% endif %}
-                        </td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-              </table>
-            </div>
-          {% endfor %}
+                          )
+                        {% endif %}
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% if round.proceed_type == proceed_type.COUNT.value %}
+                        {% if round.proceed_count > 0 %}{% blocktrans with proceed_count=round.proceed_count %}{{ proceed_count }}人{% endblocktrans %}{% endif %}
+                      {% elif round.proceed_type == proceed_type.RATE.value %}
+                        {% if round.proceed_rate > 0 %}{% blocktrans with proceed_rate=round.proceed_rate %}{{ proceed_rate }}%{% endblocktrans %}{% endif %}
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     {% endfor %}
