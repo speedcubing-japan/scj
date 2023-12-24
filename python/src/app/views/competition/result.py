@@ -5,7 +5,6 @@ from app.defines.event import Event, WinFormat
 from app.defines.competition import RoundType
 from app.views.util.record import format_values
 from .base import Base
-import pprint
 
 
 class Result(Base):
