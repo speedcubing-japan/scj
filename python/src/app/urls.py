@@ -15,6 +15,7 @@ from .views.scj.stripe_connect import StripeConnect
 from .views.scj.admin.person import AdminPerson
 from .views.scj.admin.person_edit import AdminPersonEdit
 from .views.scj.admin.statistics import AdminStatistics
+from .views.scj.admin.statistics_csv import AdminStatisticsCsv
 
 from .views.information.list import List as InformationList
 from .views.information.detail import Detail as InformationDetail
@@ -275,8 +276,13 @@ urlpatterns = [
         name="admin_person_edit",
     ),
     path(
-        "admin/statistics/<str:type>/",
+        "admin/statistics/",
         AdminStatistics.as_view(),
         name="admin_statistics",
+    ),
+    path(
+        "admin/statistics/csv/<str:type>/",
+        AdminStatisticsCsv.as_view(),
+        name="admin_statistics_csv",
     ),
 ]

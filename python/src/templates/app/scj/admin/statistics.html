@@ -1,0 +1,29 @@
+{% extends "app/common/base.html" %} {% block content %}
+{% include "app/common/notification.html" %}
+{% include "app/common/title.html" with title="管理画面" %}
+<div class="row">
+  <div class="col-lg-2 mb-3">
+    {% include "app/scj/admin/menu.html" %}
+  </div>
+  <div class="col-lg-10 mb-3">
+    <div class="card mb-3">
+      <div class="card-header lead">
+        統計情報
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <a href="{% url 'admin_statistics_csv' 'persons' %}"><button type="button" class="btn btn-dark"><i class="fas fa-link mr-2"></i>SCJ Persons</button></a>
+        </div>
+        <div class="mb-3">
+          <a href="{% url 'admin_statistics_csv' 'competitions' %}"><button type="button" class="btn btn-dark"><i class="fas fa-link mr-2"></i>SCJ Competitions</button></a>
+        </div>
+        <div class="mb-3">
+          <a href="{% url 'admin_statistics_csv' 'results' %}"><button type="button" class="btn btn-dark"><i class="fas fa-link mr-2"></i>SCJ Results</button></a>
+        </div>
+        <div>
+          <a href="{% url 'admin_statistics_csv' 'prefectures' %}"><button type="button" class="btn btn-dark"><i class="fas fa-link mr-2"></i>SCJ Prefectures</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
