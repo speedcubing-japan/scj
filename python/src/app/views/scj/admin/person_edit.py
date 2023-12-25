@@ -1,11 +1,12 @@
 from app.forms import PersonEditForm
 from app.models import Person, User
+from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from app.defines.session import Notification
 from .admin_base import AdminBase
 
 
-class AdminPersonEdit(AdminBase):
+class AdminPersonEdit(AdminBase, TemplateView):
     template_name = "app/scj/admin/person_edit.html"
     form_class = PersonEditForm
 

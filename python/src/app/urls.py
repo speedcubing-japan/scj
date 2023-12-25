@@ -14,6 +14,7 @@ from .views.scj.stripe_connect import StripeConnect
 
 from .views.scj.admin.person import AdminPerson
 from .views.scj.admin.person_edit import AdminPersonEdit
+from .views.scj.admin.statistics import AdminStatistics
 
 from .views.information.list import List as InformationList
 from .views.information.detail import Detail as InformationDetail
@@ -272,5 +273,10 @@ urlpatterns = [
         "admin/person/<int:user_id>/",
         AdminPersonEdit.as_view(),
         name="admin_person_edit",
+    ),
+    path(
+        "admin/statistics/<str:type>/",
+        AdminStatistics.as_view(),
+        name="admin_statistics",
     ),
 ]

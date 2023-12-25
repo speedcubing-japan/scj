@@ -1,11 +1,12 @@
 from app.models import Person
 from copy import deepcopy
+from django.views.generic import TemplateView
 from app.defines.prefecture import PrefectureAndOversea
 from app.defines.gender import Gender
 from .admin_base import AdminBase
 
 
-class AdminPerson(AdminBase):
+class AdminPerson(AdminBase, TemplateView):
     template_name = "app/scj/admin/person.html"
 
     def get_context_data(self, **kwargs):
