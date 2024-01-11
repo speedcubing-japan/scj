@@ -3,7 +3,7 @@ from django.shortcuts import render
 from app.models import Competitor, Round
 from app.defines.event import Event, WinFormat
 from app.defines.competition import RoundType
-from app.views.util.record import format_values
+from app.views.util.record import Record
 from .base import Base
 
 
@@ -52,7 +52,15 @@ class Result(Base):
             order_dict = {}
             ordered_dict = {}
             for result in sorted_event_results:
-                result.format_values = format_values(result)
+                record = Record(
+                    result.value1,
+                    result.value2,
+                    result.value3,
+                    result.value4,
+                    result.value5,
+                    result.event_id
+                )
+                result.format_values = record.format_values()
                 result.set_round_name(RoundType.get_name(result.round_type))
 
                 if result.event_id not in order_dict:
