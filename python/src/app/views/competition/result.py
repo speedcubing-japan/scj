@@ -52,8 +52,15 @@ class Result(Base):
             order_dict = {}
             ordered_dict = {}
             for result in sorted_event_results:
-                record = Record(**result.__dict__)
-                result.format_values = record.format_values(result.event_id)
+                record = Record(
+                    result.value1,
+                    result.value2,
+                    result.value3,
+                    result.value4,
+                    result.value5,
+                    result.event_id
+                )
+                result.format_values = record.format_values()
                 result.set_round_name(RoundType.get_name(result.round_type))
 
                 if result.event_id not in order_dict:

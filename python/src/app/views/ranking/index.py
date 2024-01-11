@@ -75,8 +75,15 @@ class Index(TemplateView):
 
             if type == "average":
                 # 個々の結果表示を修正
-                record = Record(**rank.__dict__)
-                rank.format_values = record.format_values(rank.event_id)
+                record = Record(
+                    rank.value1,
+                    rank.value2,
+                    rank.value3,
+                    rank.value4,
+                    rank.value5,
+                    rank.event_id
+                )
+                rank.format_values = record.format_values()
 
         context = {
             "ranks": ranks,

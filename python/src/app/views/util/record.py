@@ -11,15 +11,16 @@ NA = "n/a"
 
 class Record:
 
-    def __init__(self, value1, value2, value3, value4, value5, **_kwargs):
+    def __init__(self, value1, value2, value3, value4, value5, event_id):
         self.value1 = value1
         self.value2 = value2
         self.value3 = value3
         self.value4 = value4
         self.value5 = value5
+        self.event_id = event_id
         self.best = self._calc_best()
 
-    def format_values(self, event_id):
+    def format_values(self):
         values = []
         values.append(self.value1)
         if self.value2 != 0:
@@ -30,7 +31,6 @@ class Record:
             values.append(self.value4)
         if self.value5 != 0:
             values.append(self.value5)
-        event_id = event_id
         modify_list = []
         include_dnf_dns = RESULT_DNF in values or RESULT_DNS in values
         max_flag = False
@@ -41,7 +41,7 @@ class Record:
             for value in values:
                 # bestがDNF or DNSなら全部記録なし
                 if self.best == RESULT_DNF or self.best == RESULT_DNS:
-                    modify_list.append(self._add_brackets(convert(value, event_id)))
+                    modify_list.append(self._add_brackets(convert(value, self.event_id)))
                     continue
                 # DNF判定
                 if value == RESULT_DNF:
@@ -63,18 +63,18 @@ class Record:
                     continue
                 # min判定
                 if self.best == value and not min_flag:
-                    modify_list.append(self._add_brackets(convert(value, event_id)))
+                    modify_list.append(self._add_brackets(convert(value, self.event_id)))
                     min_flag = True
                 # max判定
                 elif max(values) == value and not max_flag:
                     # 一つでもDNF or DNSがあれば()つけない
                     if include_dnf_dns:
-                        modify_list.append(convert(value, event_id))
+                        modify_list.append(convert(value, self.event_id))
                     else:
-                        modify_list.append(self._add_brackets(convert(value, event_id)))
+                        modify_list.append(self._add_brackets(convert(value, self.event_id)))
                         max_flag = True
                 else:
-                    modify_list.append(convert(value, event_id))
+                    modify_list.append(convert(value, self.event_id))
         else:
             for value in values:
                 # DNF判定
@@ -84,7 +84,7 @@ class Record:
                 elif value == RESULT_DNS:
                     modify_list.append(DNS)
                 else:
-                    modify_list.append(convert(value, event_id))
+                    modify_list.append(convert(value, self.event_id))
         return modify_list
 
     def _add_brackets(self, result):
