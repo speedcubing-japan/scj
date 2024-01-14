@@ -20,11 +20,8 @@ class AdminStatisticsCsv(AdminBase, View):
 
         type = kwargs.get("type")
 
-        now = datetime.datetime.now(tz=datetime.timezone.utc)
-        now_str = localtime(now).strftime("%Y%m%d%H%M%S")
-
         response = HttpResponse(content_type="text/csv; charset=UTF-8")
-        filename = urllib.parse.quote((type + "_" + now_str + ".csv").encode("utf8"))
+        filename = urllib.parse.quote((type + ".csv").encode("utf8"))
         response["Content-Disposition"] = "attachment; filename*=UTF-8''{}".format(
             filename
         )
