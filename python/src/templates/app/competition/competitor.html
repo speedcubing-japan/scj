@@ -31,16 +31,12 @@
                 <th scope="col" style="width: 10%;"><i class="fas fa-sort mr-2"></i>{% trans "都道府県" %}</th>
               {% endif %}
               {% if event_id_name != 'list' %}
-                <th scope="col" style="width:5%;"><i class="fas fa-sort mr-2"></i>{% trans "平均" %}</th>
-                {% if competition.type == competition_type.WCA.value %}
-                  <th scope="col" style="width:5%;"><i class="fas fa-sort mr-2"></i>WR</th>
-                {% elif competition.type == competition_type.SCJ.value %}
+                {% if competition.type == competition_type.SCJ.value %}
+                  <th scope="col" style="width:5%;"><i class="fas fa-sort mr-2"></i>{% trans "平均" %}</th>
                   <th scope="col" style="width:5%;"><i class="fas fa-sort mr-2"></i>NR</th>
                 {% endif %}
-                <th scope="col" style="width:5%;"><i class="fas fa-sort mr-2"></i>{% trans "ベスト" %}</th>
-                {% if competition.type == competition_type.WCA.value %}
-                  <th scope="col" style="width:5%;"><i class="fas fa-sort mr-2"></i>WR</th>
-                {% elif competition.type == competition_type.SCJ.value %}
+                {% if competition.type == competition_type.SCJ.value %}
+                  <th scope="col" style="width:5%;"><i class="fas fa-sort mr-2"></i>{% trans "ベスト" %}</th>
                   <th scope="col" style="width:5%;"><i class="fas fa-sort mr-2"></i>NR</th>
                 {% endif %}
               {% endif %}
@@ -64,7 +60,7 @@
                     <td>{{ competitor.en_country }}</td>
                   {% endif %}
                 {% endif %}
-                {% if event_id_name != 'list' %}
+                {% if event_id_name != 'list' and competition.type == competition_type.SCJ.value %}
                   <td>{{ competitor.average | result_convert:event_id }}</td>
                   <td>{{ competitor.average_rank }}</td>
                   <td>{{ competitor.best | result_convert:event_id }}</td>

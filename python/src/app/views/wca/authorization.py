@@ -5,7 +5,6 @@ from django.shortcuts import redirect
 from django.views.generic import View
 from app.models import Person
 from app.defines.session import Notification
-from app.utils.wca_scraping import WcaScraping
 
 
 class Authorization(View):
@@ -101,13 +100,6 @@ class Authorization(View):
                             "updated_at",
                         ]
                     )
-
-                    # WCAレコードを取得
-                    try:
-                        wca_scraping = WcaScraping(wca_id)
-                        wca_scraping.save()
-                    except Exception:
-                        pass
 
                     request.session["is_wca_authenticated"] = True
                     request.session[

@@ -204,7 +204,7 @@ urlpatterns = [
         name="competition_registration",
     ),
     path(
-        "competition/<str:name_id>/competitior/<str:event_id_name>/",
+        "competition/<str:name_id>/competitor/<str:event_id_name>/",
         CompetitionCompetitor.as_view(),
         name="competition_competitor",
     ),

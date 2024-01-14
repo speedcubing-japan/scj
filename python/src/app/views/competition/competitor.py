@@ -1,6 +1,6 @@
 import app.models
 from django.shortcuts import render, redirect
-from app.models import BestRank, AverageRank, WcaRank
+from app.models import BestRank, AverageRank
 from app.defines.event import Event, WinFormat
 from app.defines.record import Type as RecordType
 from app.defines.define import OUTLIERS
@@ -76,20 +76,13 @@ class Competitor(Base):
                         "best": average_rank.best,
                     }
 
-            elif self.competition.type == CompetitionType.WCA.value:
-                wca_ids = [competitor.person.wca_id for competitor in competitors]
-                wca_ranks = WcaRank.get_by_wca_ids_and_event_id(wca_ids, event_id)
-                for wca_rank in wca_ranks:
-                    if wca_rank.type == RecordType.SINGLE.value:
-                        bests[wca_rank.wca_id] = wca_rank
-                    elif wca_rank.type == RecordType.AVERAGE.value:
-                        averages[wca_rank.wca_id] = wca_rank
-
         competitor_list = []
         name = ""
         country = ""
         en_country = ""
         prefecture = ""
+        best = ""
+        average = ""
         best_rank = ""
         average_rank = ""
         is_first_timer = False
@@ -135,29 +128,6 @@ class Competitor(Base):
                     code=competitor.person.wca_country_iso2
                 )
                 prefecture = competitor.person.get_prefecture_id_display()
-                best = (
-                    bests[competitor.person.wca_id].best
-                    if competitor.person.wca_id in bests
-                    else OUTLIERS
-                )
-                average = (
-                    averages[competitor.person.wca_id].best
-                    if competitor.person.wca_id in averages
-                    and averages[competitor.person.wca_id].best > 0
-                    else OUTLIERS
-                )
-                best_rank = (
-                    bests[competitor.person.wca_id].world_rank
-                    if competitor.person.wca_id in bests
-                    else NA
-                )
-                average_rank = (
-                    averages[competitor.person.wca_id].world_rank
-                    if competitor.person.wca_id in averages
-                    and averages[competitor.person.wca_id].best > 0
-                    else NA
-                )
-
                 is_first_timer = competitor.person.wca_id == ""
             competitor_list.append(
                 {

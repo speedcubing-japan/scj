@@ -12,4 +12,3 @@ from .scramble import Scramble
 from .fee_per_event import FeePerEvent
 from .fee_per_event_count import FeePerEventCount
 from .stripe_progress import StripeProgress
-from .wca_rank import WcaRank
