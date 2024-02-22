@@ -59,7 +59,8 @@
             <thead>
               <tr>
                 <th scope="col"></th>
-                <th scope="col"><i class="fas fa-sort mr-2"></i>ID</th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>USER ID</th>
+                <th scope="col"><i class="fas fa-sort mr-2"></i>SCJ ID</th>
                 <th scope="col"><i class="fas fa-sort mr-2"></i>姓</th>
                 <th scope="col"><i class="fas fa-sort mr-2"></i>名</th>
                 <th scope="col"><i class="fas fa-sort mr-2"></i>姓(カナ)</th>
@@ -80,6 +81,7 @@
                   <a href="{% url 'admin_person_edit' person.user_id %}">編集</a>
                 </td>
                 <td>{{ person.user_id }}</td>
+                <td>{{ person.id }}</td>
                 <td>{{ person.last_name }}</td>
                 <td>{{ person.first_name }}</td>
                 <td>{{ person.last_name_kana }}</td>
