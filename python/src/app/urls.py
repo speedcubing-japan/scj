@@ -271,7 +271,7 @@ urlpatterns = [
     path("ranking/", RankingIndex.as_view(), name="ranking_index"),
     path("admin/person", AdminPerson.as_view(), name="admin_person"),
     path(
-        "admin/person/<int:user_id>/",
+        "admin/person/<int:scj_id>/",
         AdminPersonEdit.as_view(),
         name="admin_person_edit",
     ),
