@@ -77,7 +77,7 @@
               {% for person in modified %}
               <tr data-toggle="tooltip" data-placement="auto">
                 <td>
-                  <a href="{% url 'admin_person_edit' person.user_id %}">編集</a>
+                  <a href="{% url 'admin_person_edit' person.id %}">編集</a>
                 </td>
                 <td>{{ person.id }}</td>
                 <td>{{ person.last_name }}</td>
