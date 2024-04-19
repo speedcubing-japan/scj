@@ -1,0 +1,19 @@
+{% extends "app/common/base.html" %}
+{% load static %}
+
+{% block content %}
+{% include "app/common/title.html" with title="SCJ記録認定会 実施要項と記録認定員規定" %}
+
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="mb-3">
+      <div>SCJ記録認定会の実施要項、および記録認定員規定を公開しました。</div>
+      <div class="mb-3">下記リンクよりご覧ください。</div>
+      <ul>
+        <li><a href="https://speedcubing.or.jp/static/app/pdf/scj_certificate_regulation_v1.pdf" target="_blank">SCJ記録認定会 実施要項</a></li>
+        <li><a href="https://speedcubing.or.jp/static/app/pdf/scj_certificate_judge_v1.pdf" target="_blank">SCJ記録認定会 記録認定員規定</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock content %}

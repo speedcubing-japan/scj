@@ -1,0 +1,21 @@
+{% extends "app/common/base.html" %}
+{% load static %}
+
+{% block content %}
+{% include "app/common/title.html" with title="スピードキュービング 段級位基準" %}
+
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="mb-3">
+      <div><a href="https://speedcubing.or.jp/static/app/pdf/dan_kyu_standard2.pdf" target="_blank">スピードキュービング 段級位基準 ver 2.0</a> を2024年2月1日より施行します。</div>
+      <div class="mb-3">以降に発行するSCJ記録認定証には、このver2.0基準で認定した段級位が記載されます。</div>
+      <div class="mb-3">主な変更点</div>
+      <ul>
+        <li>段位の基準を漢数字の一般的な表記に統一しました。</li>
+        <li>級位の基準に 3x3x3キューブ 1面完成のタイムを採用し、基準となるタイムを段位での6面完成と対応させました。</li>
+      </ul>
+      <div>ver1.0を採用してこれまでに発行した記録認定証の有効期限は、発行時に紙面に記載した通りです。</div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -41,9 +41,18 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="{% url 'competition_about' %}"><i class="fas fa-info-circle fa-fw mr-2"></i>SCJ大会について</a>
-          <a class="dropdown-item" href="{% url 'competition_regulation' %}"><i class="fas fa-book fa-fw mr-2"></i>SCJ大会規定</a>
-          <a class="dropdown-item" href="{% url 'competition_index' %}?type=1"><i class="fas fa-trophy fa-fw mr-2"></i>すべての大会</a>
           <a class="dropdown-item" href="{% url 'ranking_index' %}"><i class="fas fa-th-list fa-fw mr-2"></i>ランキング</a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          SCJ記録認定会
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="{% url 'certificate_rank' %}"><i class="fas fa-info-circle fa-fw mr-2"></i>段級位基準</a>
+          <a class="dropdown-item" href="{% url 'certificate_regulation' %}"><i class="fas fa-book fa-fw mr-2"></i>実施要項及び規定</a>
+          <a class="dropdown-item" href="{% url 'certificate_challenge_tour' %}"><i class="fas fa-trophy fa-fw mr-2"></i>ルービックキューブチャレンジツアー2024</a>
         </div>
       </li>
 
