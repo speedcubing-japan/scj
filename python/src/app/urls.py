@@ -11,6 +11,7 @@ from .views.scj.terms_of_sale import TermsOfSale
 from .views.scj.contact import Contact
 from .views.scj.profile import Profile
 from .views.scj.stripe_connect import StripeConnect
+from .views.scj.competition_history import CompetitionHistory
 
 from .views.scj.admin.person import AdminPerson
 from .views.scj.admin.person_edit import AdminPersonEdit
@@ -110,6 +111,7 @@ urlpatterns = [
         InformationList.as_view(),
         name="information_list",
     ),
+    path("competition_history/", CompetitionHistory.as_view(), name="competition_history"),
     path("information/<int:id>/", InformationDetail.as_view(), name="information"),
     path(
         "information/edit/<int:id>/", InformationEdit.as_view(), name="information_edit"
