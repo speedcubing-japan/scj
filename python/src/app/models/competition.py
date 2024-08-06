@@ -65,6 +65,7 @@ class Competition(models.Model):
     assignment_description_en = models.TextField("表彰(英文)", default="")
     visitor_description = models.TextField("見学事項", default="")
     visitor_description_en = models.TextField("見学事項(英文)", default="")
+    result_pdf_url = models.CharField("結果PDFURL", default="", max_length=512)
     is_cancel = models.BooleanField("キャンセル可否", default=False)
     is_payment = models.BooleanField("課金可否", default=False)
     is_display = models.BooleanField("表示可否", default=False)
@@ -120,6 +121,7 @@ class Competition(models.Model):
         self.awards_description_en = competition["awards_description_en"]
         self.assignment_description = competition["assignment_description"]
         self.assignment_description_en = competition["assignment_description_en"]
+        self.result_pdf_url = competition["result_pdf_url"]
         self.is_cancel = False
         self.is_payment = True
         self.is_display = False
@@ -169,6 +171,7 @@ class Competition(models.Model):
         self.awards_description_en = competition["awards_description_en"]
         self.assignment_description = competition["assignment_description"]
         self.assignment_description_en = competition["assignment_description_en"]
+        self.result_pdf_url = competition["result_pdf_url"]
         self.save()
 
     def delete(self):

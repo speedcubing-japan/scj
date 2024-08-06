@@ -217,6 +217,7 @@ class Command(BaseCommand):
                     ],
                     visitor_description=record["fields"]["visitor_description"],
                     visitor_description_en=record["fields"]["visitor_description_en"],
+                    result_pdf_url=record["fields"]["result_pdf_url"],
                     is_cancel=record["fields"]["is_cancel"],
                     is_payment=record["fields"]["is_payment"],
                     is_display=record["fields"]["is_display"],
