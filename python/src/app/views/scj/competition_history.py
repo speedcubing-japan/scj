@@ -16,8 +16,15 @@ class CompetitionHistory(TemplateView):
             .reverse()
         )
 
+        new_competitions = (
+            Competition.objects.filter(type=CompetitionType.SCJ.value, open_at__gte=self.limit_date, is_display=True, is_private=False, is_cancel=False)
+            .order_by("open_at")
+            .reverse()
+        )
+
         context = {
             "competitions": competitions,
+            "new_competitions": new_competitions,
         }
 
         return context
