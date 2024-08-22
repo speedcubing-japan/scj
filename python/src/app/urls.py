@@ -84,8 +84,6 @@ from .views.competition.admin.delete import Delete as CompetitionAdminDelete
 from .views.competition.admin.hidden import Hidden as CompetitionAdminHidden
 from .views.competition.admin.publish import Publish as CompetitionAdminPublish
 
-from .views.ranking.index import Index as RankingIndex
-
 from .views.certificate.rank import Rank as CertificateRank
 from .views.certificate.regulation import Regulation as CertificateRegulation
 from .views.certificate.challenge_tour import ChallengeTour as CertificateChallengeTour
@@ -275,7 +273,6 @@ urlpatterns = [
         CompetitionAdminPublish.as_view(),
         name="competition_admin_publish",
     ),
-    path("ranking/", RankingIndex.as_view(), name="ranking_index"),
 
     path("certificate/rank/", CertificateRank.as_view(), name="certificate_rank"),
     path("certificate/regulation/", CertificateRegulation.as_view(), name="certificate_regulation"),
