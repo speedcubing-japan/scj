@@ -6,12 +6,19 @@
 
 <div class="card mb-3">
   <div class="card-body">
-    <div>
+    <div class="mb-5">
       <h5>本事業年度の方針</h5>
       <hr>
       <div class="mb-3"><a target="_blank" href="{% static 'app/pdf/wca_competition_operation_policy_20240825.pdf' %}"><button type="button" class="btn btn-dark"><i class="fas fa-link mr-2"></i>WCA大会 運用方針</button></a></div>
       <div>ご相談などは<a target="_blank" href="{% url 'contact' %}">お問い合わせフォーム</a>よりお寄せください。</div>
     </div>
+    <div>
+      <h5>現在募集中のWCA大会</h5>
+      <hr>
+      <div>募集仕様書の詳細はこちらからダウンロードをお願いします。</div>
+      <div class="mt-3 mb-3"><a target="_blank" href="{% static 'app/word/wca_competition_specification_20240825.docx' %}"><button type="button" class="btn btn-dark"><i class="fas fa-link mr-2"></i>WCA大会 募集仕様書</button></a></div>
+      <div>開催時期: 2024年11月下旬から12月中旬頃</div>
+      <div>募集締め切り: 2024年9月14日(土) 12:00</div>
   </div>
 </div>
 {% endblock content %}
