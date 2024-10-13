@@ -48,11 +48,6 @@ from .views.post.detail import Detail as PostDetail
 from .views.post.edit import Edit as PostEdit
 from .views.post.approve import Approve as PostApprove
 
-from .views.registration.input import Input as RegistrationInput
-from .views.registration.confirm import Confirm as RegistrationConfirm
-from .views.registration.execute import Execute as RegistrationExecute
-from .views.registration.complete import Complete as RegistrationComplete
-
 from .views.entrance.login import Login
 from .views.entrance.logout import Logout
 
@@ -64,7 +59,6 @@ from .views.password.reset_complete import ResetComplete as PasswordResetComplet
 from .views.mail.change import Change as MailChange
 from .views.mail.change_complete import ChangeComplete as MailChangeComplete
 
-from .views.competition.mine import Mine as CompetitionMine
 from .views.competition.about import About as CompetitionAbout
 from .views.competition.regulation import Regulation as CompetitionRegulation
 from .views.competition.index import Index as CompetitionIndex
@@ -154,22 +148,7 @@ urlpatterns = [
     path("post/detail/<int:id>/", PostDetail.as_view(), name="post_detail"),
     path("post/edit/<int:id>/", PostEdit.as_view(), name="post_edit"),
     path("post/approve/<int:id>/", PostApprove.as_view(), name="post_approve"),
-    path("registration/input/", RegistrationInput.as_view(), name="registration_input"),
-    path(
-        "registration/confirm/",
-        RegistrationConfirm.as_view(),
-        name="registration_confirm",
-    ),
-    path(
-        "registration/execute/",
-        RegistrationExecute.as_view(),
-        name="registration_execute",
-    ),
-    path(
-        "registration/complete/<token>/",
-        RegistrationComplete.as_view(),
-        name="registration_complete",
-    ),
+
     path("login/", Login.as_view(), name="login"),
     path("logout/", Logout.as_view(), name="logout"),
     path("password/change/", PasswordChange.as_view(), name="password_change"),
@@ -190,7 +169,6 @@ urlpatterns = [
         MailChangeComplete.as_view(),
         name="mail_change_complete",
     ),
-    path("competition_mine/", CompetitionMine.as_view(), name="competition_mine"),
     path("competition_about/", CompetitionAbout.as_view(), name="competition_about"),
     path(
         "competition_regulation/",
