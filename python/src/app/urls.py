@@ -25,7 +25,6 @@ from .views.information.delete import Delete as InformationDelete
 from .views.wca.about import About as WcaAbout
 from .views.wca.holding_policy import HoldingPolicy as WcaHoldingPolicy
 from .views.wca.regulation import Regulation as WcaRegulation
-from .views.wca.ranking import Ranking as WcaRanking
 from .views.wca.authorization import Authorization as WcaAuthorization
 
 from .views.stripe.authorization import Authorization as StripeAuthorization
@@ -114,7 +113,6 @@ urlpatterns = [
     path("wca/about/", WcaAbout.as_view(), name="wca_about"),
     path("wca/holding_policy/", WcaHoldingPolicy.as_view(), name="wca_holding_policy"),
     path("wca/regulation/", WcaRegulation.as_view(), name="wca_regulation"),
-    path("wca/ranking/", WcaRanking.as_view(), name="wca_ranking"),
     path("wca/authorization/", WcaAuthorization.as_view(), name="wca_authorization"),
     path(
         "stripe/authorization/",
