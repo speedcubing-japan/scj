@@ -32,10 +32,6 @@ from .views.stripe.create import Create as StripeCreate
 from .views.stripe.webhook import Webhook as StripeWebhook
 from .views.stripe.webhook_connect import WebhookConnect as StripeWebhookConnect
 
-from .views.community.posting_request import PostingRequest as CommunityPostingRequest
-from .views.community.question_and_answer import (
-    QuestionAndAnswer as CommunityQuestionAndAnswer,
-)
 from .views.community.advise import Advise as CommunityAdvise
 
 from .views.post.input import Input as PostInput
@@ -125,16 +121,6 @@ urlpatterns = [
         "stripe/webhook/connect/",
         StripeWebhookConnect.as_view(),
         name="stripe_webhook_connect",
-    ),
-    path(
-        "community/posting_request/",
-        CommunityPostingRequest.as_view(),
-        name="community_posting_request",
-    ),
-    path(
-        "community/question_and_answer/",
-        CommunityQuestionAndAnswer.as_view(),
-        name="community_question_and_answer",
     ),
     path("community/advise/", CommunityAdvise.as_view(), name="community_advise"),
     path("post/input/<str:format>/", PostInput.as_view(), name="post_input"),
