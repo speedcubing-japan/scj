@@ -7,7 +7,6 @@ from .views.scj.organization import Organization
 from .views.scj.public_announcement import PublicAnnouncement
 from .views.scj.privacy_policy import PrivacyPolicy
 from .views.scj.terms import Terms
-from .views.scj.terms_of_sale import TermsOfSale
 from .views.scj.contact import Contact
 from .views.scj.profile import Profile
 from .views.scj.stripe_connect import StripeConnect
@@ -94,7 +93,6 @@ urlpatterns = [
     ),
     path("privacy_policy/", PrivacyPolicy.as_view(), name="privacy_policy"),
     path("terms/", Terms.as_view(), name="terms"),
-    path("terms_of_sale/", TermsOfSale.as_view(), name="terms_of_sale"),
     path("contact/", Contact.as_view(), name="contact"),
     path("profile/", Profile.as_view(), name="profile"),
     path("stripe_connect/", StripeConnect.as_view(), name="stripe_connect"),
