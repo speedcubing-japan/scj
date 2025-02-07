@@ -3,16 +3,7 @@
 
 {% block content %}
 {% include "app/common/title.html" with title="WCA Delegateからのお知らせ" %}
-<div class="mb-3">このページでは、日本地域を担当するWCA Delegateからのお知らせを掲載しています。</div>
-
-<div class="card mb-3">
-  <div class="card-body">
-    <div class="mb-3">
-      <h5>運用方針</h5>
-      <hr>
-    </div>
-    <div class="mb-3">
-      WCA大会運営にご興味のある方(特に地域での開催に興味のある方)は<a href="{% url 'contact' %}">お問い合わせ</a>からご連絡ください。
-    </div>
+<div class="mb-3">
+  WCA大会運営にご興味のある方(特に地域での開催に興味のある方)は<a href="{% url 'contact' %}">お問い合わせ</a>からご連絡ください。
 </div>
 {% endblock content %}
