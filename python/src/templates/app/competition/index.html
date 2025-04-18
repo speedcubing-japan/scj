@@ -11,10 +11,6 @@
     {{ form.non_field_errors }}
     <form action="" method="GET">
       <div class="row">
-        <label for="{{ form.type.id_for_label }}" class="col-form-label ml-2">種別</label>
-        <div class="col-md">
-          {{ form.type | add_class:'form-control competition_search' }}
-        </div>
         <label for="{{ form.event_id.id_for_label }}" class="col-form-label ml-2">種目</label>
         <div class="col-md">
           {{ form.event_id | add_class:'form-control competition_search' }}
@@ -70,4 +66,3 @@
   </ul>
 {% endif %}
 {% endblock %}
-
